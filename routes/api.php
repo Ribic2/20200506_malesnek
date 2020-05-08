@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Resources\itemResource;
+use App\Http\Resources\itemReviewResource;
+use App\itemReview;
+use App\Items;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +17,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Api path for items
+Route::get('/items/{page}', function($page){
+    return itemResource::collection(Items::paginate(1, ['*'], 'page', $page));
+});
+
+
+
+//Get data for 1 item only
+Route::get('/item/{id}', function($id){
+    return itemResource::collection(Items::where('itemId', $id)->get());
+});
+
+//Reviews for 1 item only
+Route::get('/item/{id}/reviews', function($id){
+    return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
