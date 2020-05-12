@@ -20,16 +20,15 @@ use Illuminate\Support\Facades\Route;
 //Api path for items
 Route::get('/items/{page}', function($page){
     return itemResource::collection(Items::paginate(1, ['*'], 'page', $page));
-});
+})->middleware('auth:api');
 
 
 
 //Get data for 1 item only
 Route::get('/item/{id}', function($id){
     return itemResource::collection(Items::where('itemId', $id)->get());
-});
-
+})->middleware('auth:api');
 //Reviews for 1 item only
 Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
-});
+})->middleware('auth:api');

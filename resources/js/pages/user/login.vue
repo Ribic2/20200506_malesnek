@@ -57,8 +57,15 @@ export default {
   },
   methods:{
     login(){
-        axios.post('http://127.0.0.1:8000/user/login', {email: this.email, password: this.password}, (req)=>{
-            console.log(res);
+        axios.post('http://127.0.0.1:8000/user/login', {email: this.email, password: this.password})
+        .then((results)=>{
+            if(results){
+                console.log(results)
+            }
+            else{
+                console.log(results)
+            }
+
         })
     }
   },

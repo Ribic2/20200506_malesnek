@@ -2332,8 +2332,12 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('http://127.0.0.1:8000/user/login', {
         email: this.email,
         password: this.password
-      }, function (req) {
-        console.log(res);
+      }).then(function (results) {
+        if (results) {
+          console.log(results);
+        } else {
+          console.log(results);
+        }
       });
     }
   },

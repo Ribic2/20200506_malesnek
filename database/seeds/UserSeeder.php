@@ -18,8 +18,8 @@ class UserSeeder extends Seeder
             [
                 'Name' => 'Vid',
                 'Surname' => 'Bukovec',
-                'Email' => 'vid.bukovec8361@gmail.com',
-                'Password' => hash::make('test123'),
+                'email' => 'vid.bukovec8361@gmail.com',
+                'password' => hash::make('test123'),
                 'Telephone' => '040831124',
                 'Country' => 'Slovenija',
                 'Region' => 'Dolenjska',
@@ -34,8 +34,8 @@ class UserSeeder extends Seeder
             [
                 'Name' => 'Maks',
                 'Surname' => 'Malenšek',
-                'Email' => 'maks.malensek@gmail.com',
-                'Password' => hash::make('belilo123'),
+                'email' => 'maks.malensek@gmail.com',
+                'password' => hash::make('belilo123'),
                 'Telephone' => '040212999',
                 'Country' => 'Slovenija',
                 'Region' => 'Dolenjska',
