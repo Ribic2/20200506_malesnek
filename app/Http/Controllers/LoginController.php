@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class LoginController extends Controller
@@ -23,7 +25,8 @@ class LoginController extends Controller
     public function login(Request $request){
 
 
-        $this->validate($request, [
+
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
@@ -33,12 +36,20 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        $credentials = $request->only('email', 'password');
+
 
 
         if(Auth::attempt($credentials)){
             $this->clearLoginAttempts($request);
-            return response()->json(['authentication' => true]);
+            //return response()->json(['authentication' => true]);
+
+            $user = User::find(1);
+
+            $accessToken = $user->createToken('accessToken')->accessToken;
+
+            return response(['user'=>Auth::user(), 'access_token'=> $accessToken, 'authentication' => true]);
+
+
         }
         else{
             $this->incrementLoginAttempts($request);

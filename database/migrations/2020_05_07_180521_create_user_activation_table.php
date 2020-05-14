@@ -16,7 +16,7 @@ class CreateUserActivationTable extends Migration
         Schema::create('user_activation', function (Blueprint $table) {
             $table->id('idUserActivation');
             $table->unsignedBigInteger('userId');
-            $table->foreign('userId')->references('userId')->on('users');
+            $table->foreign('userId')->references('user_id')->on('users');
             $table->boolean('activationStatus');
         });
     }

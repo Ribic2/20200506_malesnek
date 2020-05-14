@@ -32,15 +32,21 @@
             @click:append="showPassword = !showPassword"
             prepend-icon="mdi-lock"
             ></v-text-field>
-
           <v-card-actions>
             <v-btn
             width="100%"
             type="button"
             @click="login"
             >Prijavi se</v-btn>
+
           </v-card-actions>
         </v-form>
+
+
+        <v-alert type="error" v-if="response != ''">
+            {{response}}
+        </v-alert>
+
       </v-card-text>
     </v-card>
   </v-container>
@@ -52,21 +58,27 @@ export default {
     return{
       showPassword: false,
       email: '',
-      password: ''
+      password: '',
+      response: ''
     }
   },
   methods:{
     login(){
-        axios.post('http://127.0.0.1:8000/user/login', {email: this.email, password: this.password})
+        axios.post('http://127.0.0.1:8000/user/login', {email: this.email, password: this.password},)
         .then((results)=>{
-            if(results){
-                console.log(results)
+            if(!results.data.authentication){
+                this.response = "Napačno geslo ali uporabniško ime!"
             }
-            else{
-                console.log(results)
+            else if(results.data.authentication){
+                axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
+                localStorage.setItem('authToken', results.data.access_token)
+                this.$router.push({name: 'index'})
             }
-
         })
+        .catch(response =>{
+            console.log(response)
+        })
+
     }
   },
   computed:{

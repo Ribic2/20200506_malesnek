@@ -1,5 +1,8 @@
 <?php
 
+use Laravel\Passport\Passport;
+
+
 return [
 
     /*
@@ -42,7 +45,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
             'hash' => false,
         ],
