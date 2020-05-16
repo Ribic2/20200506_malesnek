@@ -22,6 +22,10 @@ const router = new VueRouter({
                 {
                     path: '/user/login',
                     component: ()=> import('../pages/user/login.vue'),
+                },
+                {
+                    path: '/user/register',
+                    component: ()=> import('../pages/user/register.vue')
                 }
             ]
         },
@@ -39,6 +43,10 @@ const router = new VueRouter({
                     component: ()=> import('../pages/kosarica/paymentMethod.vue')
                 }
             ]
+        },
+        {
+            path: '/*',
+            meta: {layout: "error"}
         }
     ]
 })

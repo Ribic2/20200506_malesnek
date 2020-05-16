@@ -6,6 +6,7 @@ import Vuetify from '../plugins/vuetify.js'
 
 import store from '../js/store/index.js'
 import Default from './layouts/default.vue'
+import error from './layouts/error.vue'
 
 
 Vue.component(
@@ -24,6 +25,7 @@ Vue.component(
 );
 
 Vue.component('default-layout', Default)
+Vue.component('error-layout', error)
 
 const app = new Vue({
     el: '#app',
