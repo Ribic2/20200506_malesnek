@@ -24,6 +24,21 @@ const router = new VueRouter({
                     component: ()=> import('../pages/user/login.vue'),
                 }
             ]
+        },
+        {
+            path: '/kosarica',
+            name: 'cart',
+            component: ()=> import('../pages/kosarica/index.vue'),
+            children:[
+                {
+                    path: '/kosarica/1',
+                    component: ()=> import('../pages/kosarica/credentials.vue'),
+                },
+                {
+                    path: '/kosarica/2',
+                    component: ()=> import('../pages/kosarica/paymentMethod.vue')
+                }
+            ]
         }
     ]
 })

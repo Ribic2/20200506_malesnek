@@ -62,7 +62,7 @@
     </v-btn>
 
     <v-btn
-    nuxt to="/kosarica"
+    to="/kosarica"
     class="mr-1"
     icon>
       <v-badge
