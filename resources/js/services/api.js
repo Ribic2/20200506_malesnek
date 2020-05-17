@@ -11,5 +11,6 @@ export default{
      */
     getItems(id){
         return instace.get('/api/items/'+id)
-    }
+    },
+
 }

@@ -1,5 +1,39 @@
 <template>
     <v-container>
+        <v-card
+        color="#6C3FB8"
+        dark
+        >
+            <v-card-actions>
+                <v-card-title>Trgovina</v-card-title>
+                <v-btn
+                icon
+                @click="show = !show"
+                >
+                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+                <div v-show="show" id = "filter">
+                <v-divider></v-divider>
+                <div id = "filterButtonHolder">
+                    <v-btn-toggle>
+                    <v-btn
+                    color="#6C3FB8"
+                    >
+                    Redni artikli
+                    </v-btn>
+                    <v-btn
+                    color="#6C3FB8"
+                    >
+                    Unikati artikli
+                    </v-btn>
+                    </v-btn-toggle>
+                </div>
+                </div>
+            </v-expand-transition>
+        </v-card
+        >
         <v-row>
             <v-col
             v-for="product in getData"
@@ -27,25 +61,31 @@ import store from '../store/index'
 export default {
     data(){
         return{
-
+            show: false
         }
     },
     methods:{
         addToCart(e){
-            console.log(e)
             return this.$store.dispatch('addProduct', e)
         },
         addData(){
             return this.$store.dispatch('getDataPerPage', 1)
         },
+        authUser(){
+            return this.$store.dispatch('storeUserData')
+        }
+
+
     },
     computed:{
         getData(){
             return this.$store.state.products.products
         },
+
     },
     mounted(){
-        this.addData()
+        this.addData(),
+        this.authUser()
     }
 }
 </script>

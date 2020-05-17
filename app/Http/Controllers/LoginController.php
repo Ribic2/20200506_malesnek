@@ -41,13 +41,14 @@ class LoginController extends Controller
 
         if(Auth::attempt($credentials)){
             $this->clearLoginAttempts($request);
-            //return response()->json(['authentication' => true]);
+
 
             $user = User::find(1);
 
             $accessToken = $user->createToken('accessToken')->accessToken;
 
-            return response(['user'=>Auth::user(), 'access_token'=> $accessToken, 'authentication' => true]);
+            $returnCredentials = ["Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
+            return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
 
 
         }

@@ -53,7 +53,7 @@
             <v-btn
             width="100%"
             type="button"
-            @click="login"
+            @click="registerAction"
             >Prijavi se</v-btn>
 
           </v-card-actions>
@@ -80,6 +80,22 @@ export default {
             surname: '',
             response: ''
         }
+    },
+    methods:{
+        registerAction(){
+
+            var credentials = {
+                password: this.password,
+                email: this.email,
+                phone: this.phone,
+                name: this.name,
+                surname: this.surname,
+            }
+
+
+
+        }
     }
+
 }
 </script>

@@ -45,6 +45,14 @@ const router = new VueRouter({
             ]
         },
         {
+            path: '/kontakt',
+            component: ()=> import('../pages/kontakt.vue')
+        },
+        {
+            path: '/priljubljeno',
+            component: ()=> import('../pages/favourites.vue')
+        },
+        {
             path: '/*',
             meta: {layout: "error"}
         }

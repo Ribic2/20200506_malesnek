@@ -18,6 +18,7 @@
       <v-list
         dense
         nav
+        v-if="!this.$store.state.user.LoginStatus"
       >
         <v-list-item
           v-for="link in userLinks" :key="link.label"
@@ -32,6 +33,14 @@
             <v-list-item-title :to='link.url'>{{ link.label }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+      </v-list>
+
+      <v-list
+        dense
+        nav
+        v-else
+      >
+      <h1>{{ this.$store.state.user.Name}}</h1>
       </v-list>
     </v-navigation-drawer>
 
@@ -90,8 +99,9 @@
 
 <script>
 
-export default {
+import store from '../store/index'
 
+export default {
     props: ['routeName'],
     data(){
         return{
@@ -108,6 +118,15 @@ export default {
             drawer: false,
             token: $('meta[name="csrf-token"]').attr('content')
         }
+    },
+    methods:{
+
+    },
+    computed:{
+
+    },
+    mounted(){
+
     }
 }
 </script>

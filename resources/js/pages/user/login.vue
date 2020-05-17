@@ -75,10 +75,6 @@ export default {
                 this.$router.push({name: 'index'})
             }
         })
-        .catch(response =>{
-            console.log(response)
-        })
-
     }
   },
   computed:{

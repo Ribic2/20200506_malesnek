@@ -7,7 +7,6 @@ export default{
     mutations:{
         ADD_DATA(state, payload){
             state.products = payload;
-            console.log(state.products)
         }
     },
     actions:{
