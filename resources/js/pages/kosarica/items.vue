@@ -8,5 +8,13 @@
 import store from '../../store/index'
 export default {
 
+  methods:{
+    getLocalStorageData(){
+        this.$store.dispatch('checkLocalStorageCart')
+    }
+  },
+  mounted(){
+    this.getLocalStorageData()
+  }
 }
 </script>

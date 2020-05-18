@@ -23,7 +23,6 @@ Route::get('/items/{page}', function($page){
 });
 
 
-
 //Get data for 1 item only
 Route::get('/item/{id}', function($id){
     return itemResource::collection(Items::where('itemId', $id)->get());
@@ -32,5 +31,8 @@ Route::get('/item/{id}', function($id){
 Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
+
+//Adds item to cart TABLE
+Route::post('/cart/add', 'CartController@addToCart');
 
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');

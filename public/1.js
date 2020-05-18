@@ -67,23 +67,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      show: false
+      show: false,
+      currentlySelectedItemId: null
     };
   },
   methods: {
+    /**
+     * Calls function in vuex that adds item to cart
+     * @param {Object} e selected product
+     */
     addToCart: function addToCart(e) {
       return this.$store.dispatch('addProduct', e);
     },
+
+    /**
+     * Calls function in Vuex storage that adds
+     * new products to products array
+     * ONLY ADDS products of 1st page!
+     */
     addData: function addData() {
       return this.$store.dispatch('getDataPerPage', 1);
     },
+
+    /**
+     * Authenticates user when page is loaded
+     */
     authUser: function authUser() {
       return this.$store.dispatch('storeUserData');
+    },
+
+    /**
+     *There are two ways how this functions works:
+     *First - if item is already selected and it's clicked again it sets currentlySelectedItemId to null
+     *Secound - if item is not selected, it gets it's id and and sets currentlySelectedItemId to newly obtained id
+     */
+    selectItem: function selectItem(e) {
+      this.currentlySelectedItemId = e;
     }
   },
   computed: {
@@ -204,32 +234,73 @@ var render = function() {
             "v-col",
             { key: product.itemName, attrs: { cols: "12", xl: "3" } },
             [
-              _c(
-                "v-card",
-                [
-                  _c(
-                    "v-responsive",
-                    { attrs: { "aspect-ratio": 4 / 5 } },
+              _vm.currentlySelectedItemId == product.itemId
+                ? _c(
+                    "v-card",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.selectItem(null)
+                        }
+                      }
+                    },
                     [
-                      _c("v-card-title", [_vm._v(_vm._s(product))]),
-                      _vm._v(" "),
                       _c(
-                        "v-btn",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.addToCart(product)
-                            }
-                          }
-                        },
-                        [_vm._v("Dodaj")]
+                        "v-responsive",
+                        { attrs: { "aspect-ratio": 4 / 5 } },
+                        [
+                          _c("v-card-title", [_vm._v("Selected")]),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(product)
+                                }
+                              }
+                            },
+                            [_vm._v("Dodaj")]
+                          )
+                        ],
+                        1
                       )
                     ],
                     1
                   )
-                ],
-                1
-              )
+                : _c(
+                    "v-card",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.selectItem(product.itemId)
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "v-responsive",
+                        { attrs: { "aspect-ratio": 4 / 5 } },
+                        [
+                          _c("v-card-title", [_vm._v(_vm._s(product))]),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(product)
+                                }
+                              }
+                            },
+                            [_vm._v("Dodaj")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
             ],
             1
           )

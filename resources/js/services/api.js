@@ -12,5 +12,12 @@ export default{
     getItems(id){
         return instace.get('/api/items/'+id)
     },
+    /**
+     *
+     * @param {*} product
+     */
+    addItemToCart(product){
+        return instace.post('/api/cart/add', product)
+    }
 
 }

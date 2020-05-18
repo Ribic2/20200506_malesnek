@@ -117,6 +117,8 @@
 
 <script>
 
+import store from '../../store/index'
+
 import items from '../kosarica/items.vue'
 import credentials from '../kosarica/credentials.vue'
 import paymentMethod from '../kosarica/paymentMethod.vue'

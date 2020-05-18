@@ -22,7 +22,6 @@
       >
         <v-list-item
           v-for="link in userLinks" :key="link.label"
-          link
           :to='link.url'
         >
           <v-list-item-icon>
@@ -40,7 +39,13 @@
         nav
         v-else
       >
-      <h1>{{ this.$store.state.user.Name}}</h1>
+      <h5>Dobrodošel uporabnik {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
+      <v-btn
+      rounded
+      @click="logout()"
+      >
+      <v-icon>mdi-logout</v-icon>
+      Odjava</v-btn>
       </v-list>
     </v-navigation-drawer>
 
@@ -120,7 +125,9 @@ export default {
         }
     },
     methods:{
-
+        logout(){
+            return this.$store.dispatch('logoutUser')
+        }
     },
     computed:{
 

@@ -10,15 +10,6 @@ class AuthController extends Controller
     /**
      * Function that check if user is authenticated
      */
-    function getUser(Request $request){
-
-        if(Auth::user() != null){
-            if ($request->user()) {
-                return Auth::user();
-            }
-        }
-        //return json_encode($request->user());
-    }
     function getUserData(){
         if(Auth::check()){
             $user = Auth::user();

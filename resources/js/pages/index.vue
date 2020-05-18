@@ -41,12 +41,18 @@
             cols="12"
             xl="3"
             >
-                <v-card>
+                <v-card @click="selectItem(null)" v-if="currentlySelectedItemId==product.itemId">
+                    <v-responsive :aspect-ratio="4/5">
+                        <v-card-title>Selected</v-card-title>
+                        <v-btn @click="addToCart(product)">Dodaj</v-btn>
+                    </v-responsive>
+                </v-card>
+
+                <v-card @click="selectItem(product.itemId)" v-else>
                     <v-responsive :aspect-ratio="4/5">
                         <v-card-title>{{ product }}</v-card-title>
                         <v-btn @click="addToCart(product)">Dodaj</v-btn>
                     </v-responsive>
-
                 </v-card>
             </v-col>
         </v-row>
@@ -61,21 +67,42 @@ import store from '../store/index'
 export default {
     data(){
         return{
-            show: false
+            show: false,
+            currentlySelectedItemId: null
         }
     },
     methods:{
+        /**
+         * Calls function in vuex that adds item to cart
+         * @param {Object} e selected product
+         */
         addToCart(e){
             return this.$store.dispatch('addProduct', e)
         },
+
+        /**
+         * Calls function in Vuex storage that adds
+         * new products to products array
+         * ONLY ADDS products of 1st page!
+         */
         addData(){
             return this.$store.dispatch('getDataPerPage', 1)
         },
+        /**
+         * Authenticates user when page is loaded
+         */
         authUser(){
             return this.$store.dispatch('storeUserData')
+        },
+
+        /**
+         *There are two ways how this functions works:
+         *First - if item is already selected and it's clicked again it sets currentlySelectedItemId to null
+         *Secound - if item is not selected, it gets it's id and and sets currentlySelectedItemId to newly obtained id
+         */
+        selectItem(e){
+           this.currentlySelectedItemId = e
         }
-
-
     },
     computed:{
         getData(){

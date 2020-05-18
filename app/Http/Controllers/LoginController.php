@@ -43,7 +43,7 @@ class LoginController extends Controller
             $this->clearLoginAttempts($request);
 
 
-            $user = User::find(1);
+            $user = Auth::user();
 
             $accessToken = $user->createToken('accessToken')->accessToken;
 

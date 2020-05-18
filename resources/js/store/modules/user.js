@@ -14,12 +14,14 @@ export default{
             state.Surname = payload.Surname
             state.Email = payload.Email
             state.Phone = payload.Phone
-            state.LoginStatus = true;
-
-            console.log(payload)
-
-
-
+            state.LoginStatus = true
+        },
+        LOGOUT_USER(state){
+            state.Name = null
+            state.Surname = null
+            state.Email = null
+            state.Phone = null
+            state.LoginStatus = false
         }
     },
     actions:{
@@ -35,6 +37,10 @@ export default{
                 console.log("Not logged in")
             }
         },
+        logoutUser({commit}){
+            localStorage.removeItem('authToken');
+            commit('LOGOUT_USER')
+        }
     },
     getters:{
 

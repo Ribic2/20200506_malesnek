@@ -9,9 +9,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../kosarica/items.vue */ "./resources/js/pages/kosarica/items.vue");
-/* harmony import */ var _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../kosarica/credentials.vue */ "./resources/js/pages/kosarica/credentials.vue");
-/* harmony import */ var _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../kosarica/paymentMethod.vue */ "./resources/js/pages/kosarica/paymentMethod.vue");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+/* harmony import */ var _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../kosarica/items.vue */ "./resources/js/pages/kosarica/items.vue");
+/* harmony import */ var _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../kosarica/credentials.vue */ "./resources/js/pages/kosarica/credentials.vue");
+/* harmony import */ var _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../kosarica/paymentMethod.vue */ "./resources/js/pages/kosarica/paymentMethod.vue");
 //
 //
 //
@@ -129,14 +130,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    items: _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    credentials: _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    paymentMethod: _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    items: _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    credentials: _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    paymentMethod: _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
@@ -165,7 +167,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    getLocalStorageData: function getLocalStorageData() {
+      this.$store.dispatch('checkLocalStorageCart');
+    }
+  },
+  mounted: function mounted() {
+    this.getLocalStorageData();
+  }
+});
 
 /***/ }),
 
