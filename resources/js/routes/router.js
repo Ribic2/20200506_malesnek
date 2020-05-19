@@ -53,6 +53,33 @@ const router = new VueRouter({
             component: ()=> import('../pages/favourites.vue')
         },
         {
+            path: '/admin',
+            component: ()=> import('../pages/admin/index.vue'),
+            meta: {layout: "admin"},
+            children:[
+                {
+                    path: '/admin/items',
+                    meta: {layout: "admin"},
+                    component: ()=> import('../pages/admin/items.vue')
+                },
+                {
+                    path: '/admin/orders',
+                    meta: {layout: "admin"},
+                    component: ()=> import('../pages/admin/orders.vue')
+                },
+                {
+                    path: '/admin/contacts',
+                    meta: {layout: "admin"},
+                    component: ()=> import('../pages/admin/contacts.vue')
+                },
+                {
+                    path: '/admin/users',
+                    meta: {layout: "admin"},
+                    component: ()=> import('../pages/admin/items.vue')
+                }
+            ]
+        },
+        {
             path: '/*',
             meta: {layout: "error"}
         }

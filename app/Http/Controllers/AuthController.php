@@ -17,5 +17,11 @@ class AuthController extends Controller
             return response(['user'=>$returnCredentials]);
         }
     }
+    /**
+     * Check if user is admin
+     */
+    function checkIfUserIsAdmin(){
+
+    }
 
 }
