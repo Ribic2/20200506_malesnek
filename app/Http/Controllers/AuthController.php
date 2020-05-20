@@ -13,7 +13,7 @@ class AuthController extends Controller
     function getUserData(){
         if(Auth::check()){
             $user = Auth::user();
-            $returnCredentials = ["Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
+            $returnCredentials = ["id"=>$user->user_id, "Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
             return response(['user'=>$returnCredentials]);
         }
     }

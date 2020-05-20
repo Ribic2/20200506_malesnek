@@ -32,7 +32,4 @@ Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
 
-//Adds item to cart TABLE
-Route::post('/cart/add', 'CartController@addToCart');
-
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');

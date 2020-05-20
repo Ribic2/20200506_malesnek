@@ -7,13 +7,16 @@ export default{
     }),
     mutations:{
         ADD_DATA_TO_CART(state, payload){
-            state.cart.push(payload)
-            console.log(payload)
-            localStorage.setItem('cartStorage', state.cart)
+           state.cart.push(payload)
+           localStorage.setItem('cartStorage', JSON.stringify(state.cart))
         },
         //Mutation that resets cart array with locastorage array
         REFRESH_CART_DATA(state){
-            state.cart = localStorage.getItem('cartStorage')
+            state.cart = JSON.parse(localStorage.getItem('cartStorage'))
+        },
+        DELETE_CART(state){
+            state.cart = []
+            localStorage.removeItem('cartStorage')
         }
     },
     actions:{
@@ -21,18 +24,14 @@ export default{
          * Action that recives payload and sends it to mutation that stores it inside cart array
          */
         addProduct({commit}, payload){
-            if(localStorage.getItem('authToken')){
-                api.addItemToCart(payload)
-            }
-            else{
-                commit('ADD_DATA_TO_CART', payload)
-            }
+            commit('ADD_DATA_TO_CART', payload)
         },
-        //Applys new data to cart array
+        //Check if non register user already have it cart data stored and reapply it
         checkLocalStorageCart({commit}){
-            if(localStorage.getItem('authToken') == null){
-                commit('REFRESH_CART_DATA')
-            }
+            commit('REFRESH_CART_DATA')
+        },
+        deleteCart({commit}){
+            commit('DELETE_CART')
         }
     },
     getters:{

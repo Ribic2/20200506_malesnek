@@ -6,15 +6,17 @@
 
 <script>
 import store from '../../store/index'
+import Axios from 'axios'
 export default {
 
-  methods:{
-    getLocalStorageData(){
-        this.$store.dispatch('checkLocalStorageCart')
+    methods:{
+
+        refreshCart(){
+            return this.$store.dispatch('checkLocalStorageCart')
+        }
+    },
+    mounted(){
+        this.refreshCart()
     }
-  },
-  mounted(){
-    this.getLocalStorageData()
-  }
 }
 </script>

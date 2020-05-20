@@ -13,11 +13,19 @@ export default{
         return instace.get('/api/items/'+id)
     },
     /**
-     *
+     *Adds item to database if user is registerd
      * @param {*} product
      */
-    addItemToCart(product){
-        return instace.post('/api/cart/add', product)
+    addItemToCart(payload){
+        return instace.post('/api/cart/add', payload)
+    },
+
+    /**
+     *Gets user id and displays users cart that is stored in database
+     * @param {INTEGER} id user id
+     */
+    getCartData(id){
+        return instace.post('/api/cart/get', id)
     }
 
 }

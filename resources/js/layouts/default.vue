@@ -126,14 +126,21 @@ export default {
     },
     methods:{
         logout(){
-            return this.$store.dispatch('logoutUser')
+            Promise.all([
+                this.$store.dispatch('logoutUser'),
+                this.$store.dispatch('deleteCart')
+            ])
+
+        },
+        authUser(){
+            return this.$store.dispatch('storeUserData')
         }
     },
     computed:{
 
     },
     mounted(){
-
+        this.authUser()
     }
 }
 </script>

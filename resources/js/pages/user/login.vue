@@ -72,7 +72,8 @@ export default {
             else if(results.data.authentication){
                 axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
                 localStorage.setItem('authToken', results.data.access_token)
-                this.$router.push({name: 'index'})
+                this.$store.dispatch('checkLocalStorageCart')
+                window.location.href = "http://127.0.0.1:8000/"
             }
         })
     }

@@ -6,14 +6,18 @@ export default{
         Surname: '',
         Email: '',
         Phone: '',
+        userId: '',
         LoginStatus: false
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
+
+            console.log(payload)
             state.Name = payload.Name
             state.Surname = payload.Surname
             state.Email = payload.Email
             state.Phone = payload.Phone
+            state.userId = payload.id
             state.LoginStatus = true
         },
         LOGOUT_USER(state){
@@ -21,6 +25,7 @@ export default{
             state.Surname = null
             state.Email = null
             state.Phone = null
+            state.userId = null
             state.LoginStatus = false
         }
     },

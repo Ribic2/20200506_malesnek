@@ -89,13 +89,6 @@ export default {
             return this.$store.dispatch('getDataPerPage', 1)
         },
         /**
-         * Authenticates user when page is loaded
-         */
-        authUser(){
-            return this.$store.dispatch('storeUserData')
-        },
-
-        /**
          *There are two ways how this functions works:
          *First - if item is already selected and it's clicked again it sets currentlySelectedItemId to null
          *Secound - if item is not selected, it gets it's id and and sets currentlySelectedItemId to newly obtained id
@@ -111,8 +104,7 @@ export default {
 
     },
     mounted(){
-        this.addData(),
-        this.authUser()
+        this.addData()
     }
 }
 </script>
