@@ -13,13 +13,10 @@ export default{
         return instace.get('/api/items/'+id)
     },
 
-    /**
-     * POST data to backend
-     * @param {OBJECT} order
-     */
-    placeOrderApi(order){
-        return instace.post('/api/order/add', order)
+    getItemsForAdmin(){
+        return instace.get('/api/items/')
     }
+
 
 
 }

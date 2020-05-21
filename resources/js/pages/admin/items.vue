@@ -12,17 +12,34 @@
         <v-divider></v-divider>
         <v-expansion-panels>
             <v-expansion-panel
-            v-for="(item,i) in 5"
-            :key="i"
+            v-for="i in this.$store.state.admin.items"
+            v-bind:key="i.itemId"
             >
-            <v-expansion-panel-header
-            expand-icon="mdi-account-circle"
-            disable-icon-rotate
-            >item</v-expansion-panel-header>
+
+            <v-expansion-panel-header>
+            {{ i.itemName }}
+            </v-expansion-panel-header>
+
             <v-expansion-panel-content>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+               {{ i.itemDescription}}
             </v-expansion-panel-content>
+
             </v-expansion-panel>
-    </v-expansion-panels>
+        </v-expansion-panels>
     </v-container>
 </template>
+
+<script>
+import store from '../../store/index'
+
+export default {
+    methods:{
+        getItemsForAdmin(){
+            return this.$store.dispatch('getItemsForAdmin')
+        }
+    },
+    mounted(){
+        this.getItemsForAdmin();
+    }
+}
+</script>

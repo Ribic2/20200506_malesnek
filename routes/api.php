@@ -32,5 +32,13 @@ Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
 
+//ADMIN ROUTES
+
+//Used to call all items
+Route::get('/items', function(){
+    return itemResource::collection(Items::all());
+});
+
+
 Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
