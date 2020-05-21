@@ -73,6 +73,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -88,7 +90,29 @@ __webpack_require__.r(__webpack_exports__);
      * @param {Object} e selected product
      */
     addToCart: function addToCart(e) {
-      return this.$store.dispatch('addProduct', e);
+      //If cart is empty adds item
+      if (this.$store.state.cart.cart.length < 1) {
+        return this.$store.dispatch('addProduct', {
+          product: e,
+          quantity: 1
+        });
+      } //If not then it checks cart products and check if newly added product is already in cart
+      //If it's not it addes it
+      //Else it returns false
+      else {
+          for (var i = 0; i < this.$store.state.cart.cart.length; i++) {
+            if (e.itemId == this.$store.state.cart.cart[i].product.itemId) {
+              return false;
+            }
+          } //Turns item button to green and changes text
+          //TODO
+
+
+          return this.$store.dispatch('addProduct', {
+            product: e,
+            quantity: 1
+          });
+        }
     },
 
     /**
@@ -230,19 +254,24 @@ var render = function() {
               _vm.currentlySelectedItemId == product.itemId
                 ? _c(
                     "v-card",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.selectItem(null)
-                        }
-                      }
-                    },
                     [
                       _c(
                         "v-responsive",
                         { attrs: { "aspect-ratio": 4 / 5 } },
                         [
                           _c("v-card-title", [_vm._v("Selected")]),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.selectItem(null)
+                                }
+                              }
+                            },
+                            [_vm._v("Izvej več")]
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-btn",
@@ -263,19 +292,24 @@ var render = function() {
                   )
                 : _c(
                     "v-card",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.selectItem(product.itemId)
-                        }
-                      }
-                    },
                     [
                       _c(
                         "v-responsive",
                         { attrs: { "aspect-ratio": 4 / 5 } },
                         [
                           _c("v-card-title", [_vm._v(_vm._s(product))]),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.selectItem(product.itemId)
+                                }
+                              }
+                            },
+                            [_vm._v("Izvej več")]
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-btn",

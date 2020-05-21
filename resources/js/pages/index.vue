@@ -41,16 +41,18 @@
             cols="12"
             xl="3"
             >
-                <v-card @click="selectItem(null)" v-if="currentlySelectedItemId==product.itemId">
+                <v-card v-if="currentlySelectedItemId==product.itemId">
                     <v-responsive :aspect-ratio="4/5">
                         <v-card-title>Selected</v-card-title>
+                        <v-btn @click="selectItem(null)">Izvej več</v-btn>
                         <v-btn @click="addToCart(product)">Dodaj</v-btn>
                     </v-responsive>
                 </v-card>
 
-                <v-card @click="selectItem(product.itemId)" v-else>
+                <v-card v-else>
                     <v-responsive :aspect-ratio="4/5">
                         <v-card-title>{{ product }}</v-card-title>
+                        <v-btn @click="selectItem(product.itemId)">Izvej več</v-btn>
                         <v-btn @click="addToCart(product)">Dodaj</v-btn>
                     </v-responsive>
                 </v-card>
@@ -77,7 +79,24 @@ export default {
          * @param {Object} e selected product
          */
         addToCart(e){
-            return this.$store.dispatch('addProduct', e)
+            //If cart is empty adds item
+            if(this.$store.state.cart.cart.length < 1){
+                return this.$store.dispatch('addProduct', {product: e, quantity: 1})
+            }
+            //If not then it checks cart products and check if newly added product is already in cart
+            //If it's not it addes it
+            //Else it returns false
+            else{
+                for(var i = 0; i < this.$store.state.cart.cart.length;i++){
+                    if(e.itemId == this.$store.state.cart.cart[i].product.itemId){
+                       return false
+                    }
+                }
+                //Turns item button to green and changes text
+                //TODO
+                return this.$store.dispatch('addProduct', {product: e, quantity: 1})
+            }
+
         },
 
         /**

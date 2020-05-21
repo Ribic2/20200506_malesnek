@@ -7,7 +7,7 @@ export default{
     }),
     mutations:{
         ADD_DATA_TO_CART(state, payload){
-           state.cart.push(payload)
+           state.cart.push({product: payload.product, quantity: payload.quantity})
            localStorage.setItem('cartStorage', JSON.stringify(state.cart))
         },
         //Mutation that resets cart array with locastorage array
@@ -15,8 +15,35 @@ export default{
             state.cart = JSON.parse(localStorage.getItem('cartStorage'))
         },
         DELETE_CART(state){
-            state.cart = []
+            state.cart = new Array;
             localStorage.removeItem('cartStorage')
+        },
+        DELETE_PRODUCT(state, payload){
+            var foundItemIndex = null
+            for(var i = 0; i < state.cart.length; i++){
+
+                if(state.cart[i].itemId == payload){
+                    foundItemIndex = i
+                }
+            }
+           state.cart.splice(foundItemIndex, 1)
+           console.log(state.cart)
+           localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+        },
+        CHANGE_QUANTITY(state, payload){
+           for(let i = 0; i < state.cart.length; i++){
+                if(state.cart[i].product.itemId == payload.product.itemId){
+                    if(payload.status == "minus" && payload.quantity - 1 > 0){
+                        state.cart[i].quantity--
+                        localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                    }
+                    else if(payload.status == "plus"){
+
+                        state.cart[i].quantity++
+                        localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                    }
+                }
+           }
         }
     },
     actions:{
@@ -30,8 +57,18 @@ export default{
         checkLocalStorageCart({commit}){
             commit('REFRESH_CART_DATA')
         },
+        //Deletes whole cart array upon logout
         deleteCart({commit}){
             commit('DELETE_CART')
+        },
+        //Deletes selected item from cart
+        deleteProductFromCart({commit}, payload){
+            commit('DELETE_PRODUCT', payload)
+        },
+
+        //Changes quantity of an item in cart
+        changeQuantity({commit}, payload){
+            commit('CHANGE_QUANTITY', payload)
         }
     },
     getters:{

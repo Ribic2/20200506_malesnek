@@ -20,7 +20,7 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            height="200px"
+            min-height="300"
           >
           <items></items>
           </v-card>
