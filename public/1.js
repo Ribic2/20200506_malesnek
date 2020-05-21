@@ -10,9 +10,12 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
-/* harmony import */ var _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../kosarica/items.vue */ "./resources/js/pages/kosarica/items.vue");
-/* harmony import */ var _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../kosarica/credentials.vue */ "./resources/js/pages/kosarica/credentials.vue");
-/* harmony import */ var _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../kosarica/paymentMethod.vue */ "./resources/js/pages/kosarica/paymentMethod.vue");
+/* harmony import */ var _services_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/api.js */ "./resources/js/services/api.js");
+/* harmony import */ var _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../kosarica/items.vue */ "./resources/js/pages/kosarica/items.vue");
+/* harmony import */ var _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../kosarica/credentials.vue */ "./resources/js/pages/kosarica/credentials.vue");
+/* harmony import */ var _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../kosarica/paymentMethod.vue */ "./resources/js/pages/kosarica/paymentMethod.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
 //
 //
 //
@@ -130,21 +133,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    items: _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    credentials: _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    paymentMethod: _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    items: _kosarica_items_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    credentials: _kosarica_credentials_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    paymentMethod: _kosarica_paymentMethod_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
       counter: 1,
       dialog: false
     };
+  },
+  methods: {
+    placeAnOrder: function placeAnOrder() {
+      var _this = this;
+
+      var itemIds = [];
+      var quantity = [];
+      var data = JSON.parse(localStorage.getItem('cartStorage'));
+
+      for (var i = 0; i < data.length; i++) {
+        itemIds.push(data[i].product.itemId);
+        quantity.push(data[i].quantity);
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.post('/api/order/add', {
+        products: itemIds,
+        userId: this.$store.state.user.userId,
+        quantity: quantity
+      }).then(function (results) {
+        if (results.data) {
+          _this.dialog = true;
+        }
+      });
+    }
   }
 });
 
@@ -591,7 +621,7 @@ var render = function() {
                       attrs: { color: "primary" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = true
+                          return _vm.placeAnOrder()
                         }
                       }
                     },

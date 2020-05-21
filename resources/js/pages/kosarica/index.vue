@@ -83,7 +83,8 @@
         <v-btn
           color="primary"
           class="float-right"
-          @click="dialog = true"
+          @click="placeAnOrder()"
+
         >
         Oddaj
         </v-btn>
@@ -118,23 +119,46 @@
 <script>
 
 import store from '../../store/index'
+import api from '../../services/api.js'
 
 import items from '../kosarica/items.vue'
 import credentials from '../kosarica/credentials.vue'
 import paymentMethod from '../kosarica/paymentMethod.vue'
+import Axios from 'axios'
 
 export default {
-  components:{
-    items,
-    credentials,
-    paymentMethod,
-  },
-  data(){
-    return{
-      counter: 1,
-      dialog: false,
+    components:{
+        items,
+        credentials,
+        paymentMethod,
+    },
+    data(){
+        return{
+            counter: 1,
+            dialog: false,
+        }
+     },
+    methods:{
+        placeAnOrder(){
+            var itemIds = []
+            var quantity = []
+            var data = JSON.parse(localStorage.getItem('cartStorage'));
+            for(let i = 0; i < data.length; i++){
+                itemIds.push(data[i].product.itemId)
+                quantity.push(data[i].quantity)
+            }
+
+            Axios.post('/api/order/add', {products: itemIds, userId: this.$store.state.user.userId, quantity: quantity })
+            .then((results)=>{
+
+                if(results.data){
+                   this.dialog = true
+                }
+            })
+
+
+        }
     }
-  }
 }
 </script>
 

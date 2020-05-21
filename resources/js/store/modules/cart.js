@@ -69,6 +69,17 @@ export default{
         //Changes quantity of an item in cart
         changeQuantity({commit}, payload){
             commit('CHANGE_QUANTITY', payload)
+        },
+
+        //Place order
+        placeOrder({commit}, payload){
+            api.placeOrderApi({payload: payload})
+            .then((results)=>{
+
+                if(results.data){
+                    return true;
+                }
+            })
         }
     },
     getters:{

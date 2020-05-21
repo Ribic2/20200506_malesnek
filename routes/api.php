@@ -32,4 +32,5 @@ Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
 
+Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
