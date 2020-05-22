@@ -7,7 +7,6 @@
         >
             <v-row id = "informationDisplay">
                 <v-col
-                class="test"
                 cols="6"
                 md="2"
                 lg="2"
@@ -15,14 +14,13 @@
                 xl="2"
                 >
                     <v-img
-                    aspect-ratio="2/1"
+                    aspect-ratio="1/1"
                     class="productImg"
                     >
                     </v-img>
                 </v-col>
 
                 <v-col
-                class="test"
                 cols="6"
                 xl="2"
                 >
@@ -30,21 +28,18 @@
                 </v-col>
 
                 <v-col
-                class="test"
                 cols="2"
                 >
                     {{ cartItem.quantity}}
                 </v-col>
 
                 <v-col
-                class="test"
                 cols="2"
                 >
                     <p>{{ cartItem.product.itemPrice }}</p>
                 </v-col>
 
                 <v-col
-                class="test"
                 cols="2"
                 >
                 {{ cartItem.quantity *  cartItem.product.itemPrice}} &euro;
@@ -53,10 +48,12 @@
                 <v-col>
                     <v-btn
                     color="error"
+                    class="mb-1"
                     @click="deleteCartProduct(cartItem.itemId)"
                     >
                         izbriši
                     </v-btn>
+                    <br>
                     <v-btn-toggle
                     class = "quantityChangerHolder"
                     rounded>
@@ -123,11 +120,10 @@ export default {
         border: solid 1px black;
     }
     .productImg{
-        border: solid 1px black;
         height: 100%;
+        border: solid 1px black;
     }
     #informationDisplay{
-        border: solid 1px red;
         width: 100%;
         height: 100%;
         margin: 0 auto;

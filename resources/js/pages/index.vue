@@ -15,19 +15,19 @@
             </v-card-actions>
             <v-expand-transition>
                 <div v-show="show" id = "filter">
-                <v-divider></v-divider>
+
                 <div id = "filterButtonHolder">
-                    <v-btn-toggle>
-                    <v-btn
-                    color="#6C3FB8"
-                    >
-                    Redni artikli
-                    </v-btn>
-                    <v-btn
-                    color="#6C3FB8"
-                    >
-                    Unikati artikli
-                    </v-btn>
+                    <v-btn-toggle class="ma-2">
+                        <v-btn
+                        color="#6C3FB8"
+                        >
+                        Redni artikli
+                        </v-btn>
+                        <v-btn
+                        color="#6C3FB8"
+                        >
+                        Unikati artikli
+                        </v-btn>
                     </v-btn-toggle>
                 </div>
                 </div>
@@ -41,19 +41,50 @@
             cols="12"
             xl="3"
             >
-                <v-card v-if="currentlySelectedItemId==product.itemId">
+                <v-card v-if="currentlySelectedItemId==product.itemId"
+
+                >
                     <v-responsive :aspect-ratio="4/5">
-                        <v-card-title>Selected</v-card-title>
-                        <v-btn @click="selectItem(null)">Izvej več</v-btn>
-                        <v-btn @click="addToCart(product)">Dodaj</v-btn>
+                        <v-card-title>{{ product.itemName }}</v-card-title>
+                        <p class="text-justify mr-3 ml-3">{{ product.itemDescription }}</p>
+                        <p class="text-justify mr-3 ml-3">Cena {{ product.itemPrice }} &euro;</p>
+                        <v-card-actions class="card-actions">
+                            <v-btn @click="selectItem(null)">Podrobnosti</v-btn>
+                            <v-btn @click="addToCart(product)">V košarico</v-btn>
+                            <v-btn
+                            icon
+                            color="indigo"
+                            @click="addToFavourites(product)">
+                                <v-icon>mdi-star</v-icon>
+                            </v-btn>
+                        </v-card-actions>
                     </v-responsive>
                 </v-card>
 
-                <v-card v-else>
+                <v-card
+
+                v-else
+                >
                     <v-responsive :aspect-ratio="4/5">
-                        <v-card-title>{{ product }}</v-card-title>
-                        <v-btn @click="selectItem(product.itemId)">Izvej več</v-btn>
-                        <v-btn @click="addToCart(product)">Dodaj</v-btn>
+                        <v-card-title>{{ product.itemName }}</v-card-title>
+                        <v-img
+                        class = "productImage ma-2"
+                        :aspect-ratio="1/1"
+                        >
+
+                        </v-img>
+
+                        <v-card-actions class="card-actions">
+                            <v-btn @click="selectItem(product.itemId)">Podrobnosti</v-btn>
+                            <v-btn @click="addToCart(product)">V košarico</v-btn>
+                            <v-btn
+                            @click="addToFavourites(product)"
+                            icon
+                            color="indigo"
+                            >
+                                <v-icon>mdi-star</v-icon>
+                            </v-btn>
+                        </v-card-actions>
                     </v-responsive>
                 </v-card>
             </v-col>
@@ -114,6 +145,14 @@ export default {
          */
         selectItem(e){
            this.currentlySelectedItemId = e
+        },
+
+        /**
+         * Sends request to Vuex that will store newly added favourite item
+         * @param {OBJECT} e
+         */
+        addToFavourites(e){
+            this.$store.dispatch('addToFavourites', e)
         }
     },
     computed:{
@@ -129,6 +168,15 @@ export default {
 </script>
 
 <style scoped>
-
+    .card-actions {
+        position: absolute;
+        padding-top: 10px;
+        bottom: 0;
+    }
+    .productImage{
+        border: Solid 1px black;
+        position: relative;
+        bottom: 15px;
+    }
 </style>
 

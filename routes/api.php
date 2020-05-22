@@ -4,6 +4,7 @@ use App\Http\Resources\itemResource;
 use App\Http\Resources\itemReviewResource;
 use App\itemReview;
 use App\Items;
+use App\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,9 @@ Route::get('/items', function(){
     return itemResource::collection(Items::all());
 });
 
+Route::get('/orders', function(){
+    return Order::all();
+});
 
 Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');

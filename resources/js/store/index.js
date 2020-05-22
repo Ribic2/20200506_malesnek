@@ -5,6 +5,8 @@ import products from './modules/products.js'
 import cart from './modules/cart.js'
 import user from './modules/user.js'
 import admin from './modules/admin.js'
+import favourites from './modules/favourites.js'
+
 
 Vue.use(Vuex)
 
@@ -13,7 +15,8 @@ export default new Vuex.Store({
         products: products,
         cart: cart,
         user: user,
-        admin: admin
+        admin: admin,
+        favourites: favourites
     },
     state:{
 

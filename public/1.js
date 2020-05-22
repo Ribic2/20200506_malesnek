@@ -172,6 +172,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (results) {
         if (results.data) {
           _this.dialog = true;
+          localStorage.removeItem('cartStorage');
+          _this.$store.state.cart.cart = new Array();
         }
       });
     }
@@ -192,9 +194,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
 //
 //
 //
@@ -346,7 +345,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.test[data-v-747f77e1]{\n    border: solid 1px black;\n}\n.productImg[data-v-747f77e1]{\n    border: solid 1px black;\n    height: 100%;\n}\n#informationDisplay[data-v-747f77e1]{\n    border: solid 1px red;\n    width: 100%;\n    height: 100%;\n    margin: 0 auto;\n}\n.quantityField[data-v-747f77e1]{\n    width: 50px;\n    height: 100%;\n}\n.quantityChangerHolder[data-v-747f77e1]{\n    height: 57px;\n}\n", ""]);
+exports.push([module.i, "\n.test[data-v-747f77e1]{\n    border: solid 1px black;\n}\n.productImg[data-v-747f77e1]{\n    height: 100%;\n    border: solid 1px black;\n}\n#informationDisplay[data-v-747f77e1]{\n    width: 100%;\n    height: 100%;\n    margin: 0 auto;\n}\n.quantityField[data-v-747f77e1]{\n    width: 50px;\n    height: 100%;\n}\n.quantityChangerHolder[data-v-747f77e1]{\n    height: 57px;\n}\n", ""]);
 
 // exports
 
@@ -714,26 +713,21 @@ var render = function() {
             [
               _c(
                 "v-col",
-                {
-                  staticClass: "test",
-                  attrs: { cols: "6", md: "2", lg: "2", sm: "2", xl: "2" }
-                },
+                { attrs: { cols: "6", md: "2", lg: "2", sm: "2", xl: "2" } },
                 [
                   _c("v-img", {
                     staticClass: "productImg",
-                    attrs: { "aspect-ratio": "2/1" }
+                    attrs: { "aspect-ratio": "1/1" }
                   })
                 ],
                 1
               ),
               _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "test", attrs: { cols: "6", xl: "2" } },
-                [_c("p", [_vm._v(_vm._s(cartItem.product.itemName))])]
-              ),
+              _c("v-col", { attrs: { cols: "6", xl: "2" } }, [
+                _c("p", [_vm._v(_vm._s(cartItem.product.itemName))])
+              ]),
               _vm._v(" "),
-              _c("v-col", { staticClass: "test", attrs: { cols: "2" } }, [
+              _c("v-col", { attrs: { cols: "2" } }, [
                 _vm._v(
                   "\n                " +
                     _vm._s(cartItem.quantity) +
@@ -741,11 +735,11 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("v-col", { staticClass: "test", attrs: { cols: "2" } }, [
+              _c("v-col", { attrs: { cols: "2" } }, [
                 _c("p", [_vm._v(_vm._s(cartItem.product.itemPrice))])
               ]),
               _vm._v(" "),
-              _c("v-col", { staticClass: "test", attrs: { cols: "2" } }, [
+              _c("v-col", { attrs: { cols: "2" } }, [
                 _vm._v(
                   "\n            " +
                     _vm._s(cartItem.quantity * cartItem.product.itemPrice) +
@@ -759,6 +753,7 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
+                      staticClass: "mb-1",
                       attrs: { color: "error" },
                       on: {
                         click: function($event) {
@@ -768,6 +763,8 @@ var render = function() {
                     },
                     [_vm._v("\n                    izbriši\n                ")]
                   ),
+                  _vm._v(" "),
+                  _c("br"),
                   _vm._v(" "),
                   _c(
                     "v-btn-toggle",

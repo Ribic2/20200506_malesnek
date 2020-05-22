@@ -10,7 +10,7 @@
 
             <v-btn-toggle
             class="float-right"
-            borderless="true"
+            borderless
             group
             >
                     <v-btn

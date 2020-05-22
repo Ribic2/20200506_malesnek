@@ -80,7 +80,9 @@
     class="mr-1"
     icon>
       <v-badge
-        content="5"
+        :content="this.$store.state.cart.cart.length"
+        :value="this.$store.state.cart.cart.length"
+        overlap
       >
         <v-icon>mdi-cart</v-icon>
       </v-badge>

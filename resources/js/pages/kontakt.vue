@@ -1,19 +1,29 @@
 <template>
     <v-container>
         <v-row>
-            <v-col>
-                <h1>test</h1>
+            <v-col
+            xl="6"
+            cols="12">
+                <contactus></contactus>
             </v-col>
-            <v-col>
-                <h1>test2</h1>
+            <v-col
+            xl="6"
+            cols="12">
+                <description></description>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
-export default {
+import contactus from '../components/contactUs.vue'
+import description from '../components/description.vue'
 
+export default {
+    components:{
+        contactus,
+        description
+    }
 }
 </script>
 

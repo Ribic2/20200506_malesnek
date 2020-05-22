@@ -153,6 +153,8 @@ export default {
 
                 if(results.data){
                    this.dialog = true
+                   localStorage.removeItem('cartStorage')
+                   this.$store.state.cart.cart = new Array
                 }
             })
 
