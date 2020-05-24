@@ -1,6 +1,27 @@
 <template>
     <v-container>
-        {{ this.$store.state.favourites.favouriteItem}}
+        <v-row>
+            <v-col
+            v-for="item in this.$store.state.favourites.favouriteItem" v-bind:key="item.id"
+            cols="12"
+            >
+                <v-card
+                height="200"
+                >
+                    <v-row>
+                        <v-col>
+                            {{ item.itemName }}
+                        </v-col>
+                        <v-col>
+                            {{ item.itemPrice}}
+                        </v-col>
+                        <v-col>
+                            {{ item.OverAllrating}}
+                        </v-col>
+                    </v-row>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 

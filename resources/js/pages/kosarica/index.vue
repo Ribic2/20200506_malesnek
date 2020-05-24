@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-stepper v-model="counter">
+    <v-stepper v-model="counter"  v-if="this.$store.state.cart.cart.length > 0">
       <!--Header -->
       <v-stepper-header>
         <v-stepper-step :complete="counter > 1" step="1">Košarica</v-stepper-step>
@@ -93,6 +93,14 @@
       </v-stepper-items>
     </v-stepper>
 
+    <v-stepper v-else>
+        <v-card height="800">
+            <v-card-title>
+                Košarica je prazna
+            </v-card-title>
+        </v-card>
+    </v-stepper>
+
     <!--Dialog that will be shown if action was succesfully completed-->
       <v-dialog
         width="400"
@@ -146,11 +154,12 @@ export default {
             for(let i = 0; i < data.length; i++){
                 itemIds.push(data[i].product.itemId)
                 quantity.push(data[i].quantity)
+                console.log(data[i])
+                console.log(data[i].quantity * data[i].product.itemPrice)
             }
 
             Axios.post('/api/order/add', {products: itemIds, userId: this.$store.state.user.userId, quantity: quantity })
             .then((results)=>{
-
                 if(results.data){
                    this.dialog = true
                    localStorage.removeItem('cartStorage')

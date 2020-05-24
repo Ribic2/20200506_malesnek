@@ -13,10 +13,25 @@ export default{
         return instace.get('/api/items/'+id)
     },
 
+    /**
+     * Get all items for admin
+     */
     getItemsForAdmin(){
         return instace.get('/api/items/')
+    },
+    getAllOrders(){
+        return instace.get('/api/orders')
+    },
+    filterFinished(){
+        return instace.get('/api/orders/finished')
+    },
+    filterComplete(){
+        return instace.get('/api/orders/complete')
+    },
+    filterOldest(){
+        return instace.get('/api/orders/oldest')
+    },
+    filterLatest(){
+        return instace.get('/api/orders/latest')
     }
-
-
-
 }

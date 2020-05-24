@@ -49,11 +49,20 @@
                         <p class="text-justify mr-3 ml-3">{{ product.itemDescription }}</p>
                         <p class="text-justify mr-3 ml-3">Cena {{ product.itemPrice }} &euro;</p>
                         <v-card-actions class="card-actions">
-                            <v-btn @click="selectItem(null)">Podrobnosti</v-btn>
-                            <v-btn @click="addToCart(product)">V košarico</v-btn>
+
+                            <v-btn
+                            @click="selectItem(null)"
+                            rounded
+                            >Podrobnosti</v-btn>
+
+                            <v-btn
+                            @click="addToCart(product)"
+                            rounded
+                            color="error"
+                            >V košarico</v-btn>
+
                             <v-btn
                             icon
-                            color="indigo"
                             @click="addToFavourites(product)">
                                 <v-icon>mdi-star</v-icon>
                             </v-btn>
@@ -71,16 +80,23 @@
                         class = "productImage ma-2"
                         :aspect-ratio="1/1"
                         >
-
                         </v-img>
 
                         <v-card-actions class="card-actions">
-                            <v-btn @click="selectItem(product.itemId)">Podrobnosti</v-btn>
-                            <v-btn @click="addToCart(product)">V košarico</v-btn>
+                            <v-btn
+                            @click="selectItem(product.itemId)"
+                            rounded
+                            >Podrobnosti</v-btn>
+
+                            <v-btn
+                            @click="addToCart(product)"
+                            rounded
+                            color="error"
+                            >V košarico</v-btn>
+
                             <v-btn
                             @click="addToFavourites(product)"
                             icon
-                            color="indigo"
                             >
                                 <v-icon>mdi-star</v-icon>
                             </v-btn>

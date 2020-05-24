@@ -134,6 +134,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -163,6 +171,8 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < data.length; i++) {
         itemIds.push(data[i].product.itemId);
         quantity.push(data[i].quantity);
+        console.log(data[i]);
+        console.log(data[i].quantity * data[i].product.itemPrice);
       }
 
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.post('/api/order/add', {
@@ -454,177 +464,184 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _c(
-        "v-stepper",
-        {
-          model: {
-            value: _vm.counter,
-            callback: function($$v) {
-              _vm.counter = $$v
+      this.$store.state.cart.cart.length > 0
+        ? _c(
+            "v-stepper",
+            {
+              model: {
+                value: _vm.counter,
+                callback: function($$v) {
+                  _vm.counter = $$v
+                },
+                expression: "counter"
+              }
             },
-            expression: "counter"
-          }
-        },
-        [
-          _c(
-            "v-stepper-header",
             [
               _c(
-                "v-stepper-step",
-                { attrs: { complete: _vm.counter > 1, step: "1" } },
-                [_vm._v("Košarica")]
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-stepper-step",
-                { attrs: { complete: _vm.counter > 2, step: "2" } },
-                [_vm._v("Podatki o dostavi")]
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c("v-stepper-step", { attrs: { step: "3" } }, [
-                _vm._v("Način dostave in plačila")
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-stepper-items",
-            [
-              _c(
-                "v-stepper-content",
-                { attrs: { step: "1" } },
+                "v-stepper-header",
                 [
                   _c(
-                    "v-card",
-                    {
-                      staticClass: "mb-12",
-                      attrs: { color: "grey lighten-1", "min-height": "300" }
-                    },
-                    [_c("items")],
-                    1
+                    "v-stepper-step",
+                    { attrs: { complete: _vm.counter > 1, step: "1" } },
+                    [_vm._v("Košarica")]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { staticClass: "float-right", attrs: { text: "" } },
-                    [_vm._v("Prekini")]
-                  ),
+                  _c("v-divider"),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      staticClass: "float-right",
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          _vm.counter = 2
-                        }
-                      }
-                    },
-                    [_vm._v("\n          Nadaljuj\n        ")]
-                  )
+                    "v-stepper-step",
+                    { attrs: { complete: _vm.counter > 2, step: "2" } },
+                    [_vm._v("Podatki o dostavi")]
+                  ),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c("v-stepper-step", { attrs: { step: "3" } }, [
+                    _vm._v("Način dostave in plačila")
+                  ])
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
-                "v-stepper-content",
-                { attrs: { step: "2" } },
+                "v-stepper-items",
                 [
                   _c(
-                    "v-card",
-                    {
-                      staticClass: "mb-12",
-                      attrs: { color: "grey lighten-1", height: "200px" }
-                    },
-                    [_c("credentials")],
+                    "v-stepper-content",
+                    { attrs: { step: "1" } },
+                    [
+                      _c(
+                        "v-card",
+                        {
+                          staticClass: "mb-12",
+                          attrs: {
+                            color: "grey lighten-1",
+                            "min-height": "300"
+                          }
+                        },
+                        [_c("items")],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        { staticClass: "float-right", attrs: { text: "" } },
+                        [_vm._v("Prekini")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "float-right",
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.counter = 2
+                            }
+                          }
+                        },
+                        [_vm._v("\n          Nadaljuj\n        ")]
+                      )
+                    ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.counter = 1
-                        }
-                      }
-                    },
-                    [_vm._v("Nazaj")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { staticClass: "float-right", attrs: { text: "" } },
-                    [_vm._v("Prekini")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "float-right",
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          _vm.counter = 3
-                        }
-                      }
-                    },
-                    [_vm._v("\n        Nadaljuj\n        ")]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-stepper-content",
-                { attrs: { step: "3" } },
-                [
-                  _c(
-                    "v-card",
-                    {
-                      staticClass: "mb-12",
-                      attrs: { color: "grey lighten-1", height: "200px" }
-                    },
-                    [_c("paymentMethod")],
+                    "v-stepper-content",
+                    { attrs: { step: "2" } },
+                    [
+                      _c(
+                        "v-card",
+                        {
+                          staticClass: "mb-12",
+                          attrs: { color: "grey lighten-1", height: "200px" }
+                        },
+                        [_c("credentials")],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.counter = 1
+                            }
+                          }
+                        },
+                        [_vm._v("Nazaj")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        { staticClass: "float-right", attrs: { text: "" } },
+                        [_vm._v("Prekini")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "float-right",
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.counter = 3
+                            }
+                          }
+                        },
+                        [_vm._v("\n        Nadaljuj\n        ")]
+                      )
+                    ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.counter = 2
-                        }
-                      }
-                    },
-                    [_vm._v("Nazaj")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { staticClass: "float-right", attrs: { text: "" } },
-                    [_vm._v("Prekini")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "float-right",
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          return _vm.placeAnOrder()
-                        }
-                      }
-                    },
-                    [_vm._v("\n      Oddaj\n      ")]
+                    "v-stepper-content",
+                    { attrs: { step: "3" } },
+                    [
+                      _c(
+                        "v-card",
+                        {
+                          staticClass: "mb-12",
+                          attrs: { color: "grey lighten-1", height: "200px" }
+                        },
+                        [_c("paymentMethod")],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.counter = 2
+                            }
+                          }
+                        },
+                        [_vm._v("Nazaj")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        { staticClass: "float-right", attrs: { text: "" } },
+                        [_vm._v("Prekini")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "float-right",
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.placeAnOrder()
+                            }
+                          }
+                        },
+                        [_vm._v("\n      Oddaj\n      ")]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -632,9 +649,22 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      ),
+        : _c(
+            "v-stepper",
+            [
+              _c(
+                "v-card",
+                { attrs: { height: "800" } },
+                [
+                  _c("v-card-title", [
+                    _vm._v("\n              Košarica je prazna\n          ")
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          ),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -977,7 +1007,8 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardText"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["VIcon"],VStepper: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepper"],VStepperContent: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperContent"],VStepperHeader: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperHeader"],VStepperItems: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperItems"],VStepperStep: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperStep"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardTitle"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["VIcon"],VStepper: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepper"],VStepperContent: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperContent"],VStepperHeader: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperHeader"],VStepperItems: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperItems"],VStepperStep: vuetify_lib_components_VStepper__WEBPACK_IMPORTED_MODULE_11__["VStepperStep"]})
 
 
 /* hot reload */

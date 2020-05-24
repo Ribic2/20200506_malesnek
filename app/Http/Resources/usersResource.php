@@ -15,7 +15,7 @@ class usersResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'idUser' => $this->idUser,
+
             'Telephone' => $this->Telephone,
             'Country' => $this->Country,
             'Region' => $this->Region,

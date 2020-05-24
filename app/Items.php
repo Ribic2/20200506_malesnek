@@ -10,7 +10,11 @@ class Items extends Model
     protected $primaryKey = 'itemId';
     protected $perPage = 10;
 
+
+    //Reviews relationship
     public function Review(){
         return $this->hasMany('App\itemReview', 'itemId');
     }
+
+
 }

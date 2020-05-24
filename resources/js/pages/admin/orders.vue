@@ -5,19 +5,29 @@
             <v-toolbar-title>Naročila</v-toolbar-title>
             <v-spacer></v-spacer>
                 <v-btn-toggle>
-                    <v-btn>
+                    <v-btn
+                    @click="filterLatest()"
+                    >
                         <v-icon>mdi-filter-variant-plus</v-icon>
                     </v-btn>
-                    <v-btn>
+                    <v-btn
+                    @click="filterOldest()"
+                    >
                         <v-icon>mdi-filter-variant-minus</v-icon>
                     </v-btn>
-                     <v-btn>
+                    <v-btn
+                    @click="filterCompleted()"
+                    >
                         <v-icon>mdi-check</v-icon>
                     </v-btn>
-                     <v-btn>
+                    <v-btn
+                    @click="filterFinished()"
+                    >
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                     <v-btn>
+                    <v-btn
+                    @click="getAllItems()"
+                    >
                         <v-icon>mdi-all-inclusive</v-icon>
                     </v-btn>
                 </v-btn-toggle>
@@ -25,78 +35,82 @@
 
         <v-row>
             <v-col
-            cols="12"
-            xs="12"
-            xl="4"
-            lg="4"
-            md="6"
-            sm="12"
+            cols="4"
+            v-for="order in getData()"
+            v-bind:key="order.idOrders"
             >
                 <v-card>
                     <v-responsive :aspect-ratio="4/3">
+                        <v-card-title
+                        class="title"
+                        >
+                        {{ order.OrderId}}
+                        </v-card-title>
                         <v-card-text>
-                            Narocilo
+                            <p>Datum narocila: {{ order.Created_at }}</p>
+                            Ime in priimek: {{ order.User[0].Name }} {{ order.User[0].Surname}}
                         </v-card-text>
+
+                        <v-simple-table>
+                            <thead>
+                                <tr>
+                                    <th>Ime izdelka</th>
+                                    <th>Količina</th>
+                                    <th>Vsota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in order.Items" :key="item.itemId">
+                                    <td>
+                                        {{ item.item[0].itemName}}
+                                    </td>
+                                    <td>
+                                        {{ item.quantity }}
+                                    </td>
+                                    <td>
+                                        {{ item.item[0].itemPrice * item.quantity}} &euro;
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </v-simple-table>
+
+                        <v-card-actions>
+                            <v-btn>Potrditev</v-btn>
+                            <v-btn>Potrditev</v-btn>
+                        </v-card-actions>
                     </v-responsive>
                 </v-card>
-
-            </v-col>
-
-            <v-col
-            cols="12"
-            xs="12"
-            xl="4"
-            lg="4"
-            md="6"
-            sm="12"
-            >
-                <v-card>
-                    <v-responsive :aspect-ratio="4/3">
-                        <v-card-text>
-                        Narocilo
-                        </v-card-text>
-                    </v-responsive>
-                </v-card>
-
-            </v-col>
-
-
-            <v-col
-            cols="12"
-            xs="12"
-            xl="4"
-            lg="4"
-            md="6"
-            sm="12"
-            >
-                <v-card>
-                    <v-responsive :aspect-ratio="4/3">
-                        <v-card-text>
-                        Narocilo
-                        </v-card-text>
-                    </v-responsive>
-                </v-card>
-
-            </v-col>
-
-
-            <v-col
-            cols="12"
-            xs="12"
-            xl="4"
-            lg="4"
-            md="6"
-            sm="12"
-            >
-                <v-card>
-                    <v-responsive :aspect-ratio="4/3">
-                        <v-card-text>
-                        Narocilo
-                        </v-card-text>
-                    </v-responsive>
-                </v-card>
-
             </v-col>
         </v-row>
     </v-container>
 </template>
+
+<script>
+import api from '../../services/api'
+export default {
+    methods:{
+        getAllItems(){
+           return this.$store.dispatch('getOrders')
+        },
+        getData(){
+            return this.$store.state.admin.orders;
+        },
+        filterFinished(){
+            return this.$store.dispatch('filterFinished')
+        },
+        filterCompleted(){
+            return this.$store.dispatch('filterComplete')
+        },
+        filterOldest(){
+            return this.$store.dispatch('filterOldest')
+        },
+        filterLatest(){
+            return this.$store.dispatch('filterLatest')
+        }
+
+    },
+    mounted(){
+        this.getAllItems()
+    }
+}
+</script>
