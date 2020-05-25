@@ -17,14 +17,33 @@
         <v-divider></v-divider>
         <v-expansion-panels>
             <v-expansion-panel
-            v-for="(item,i) in 5"
-            :key="i"
+            v-for="contact in getAllConctacts"
+            :key="contact.id"
             >
-            <v-expansion-panel-header>Item</v-expansion-panel-header>
+            <v-expansion-panel-header>{{ contact.name }}<v-spacer></v-spacer> {{ contact.email }}</v-expansion-panel-header>
             <v-expansion-panel-content>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                {{ contact.message }}
             </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
     </v-container>
 </template>
+
+<script>
+import store from '../../store/index'
+export default {
+    methods:{
+        getContacts(){
+            return this.$store.dispatch('getContact')
+        },
+    },
+    computed:{
+        getAllConctacts(){
+            return this.$store.state.contact.contacts
+        }
+    },
+    mounted(){
+        this.getContacts()
+    }
+}
+</script>

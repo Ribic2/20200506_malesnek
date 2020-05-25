@@ -1,5 +1,6 @@
 <?php
 
+use App\Contacts;
 use App\Http\Resources\itemResource;
 use App\Http\Resources\itemReviewResource;
 use App\Http\Resources\orderResource;
@@ -24,8 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/items/{page}', function($page){
     return itemResource::collection(Items::paginate(10, ['*'], 'page', $page));
 });
-
-
 //Get data for 1 item only
 Route::get('/item/{id}', function($id){
     return itemResource::collection(Items::where('itemId', $id)->get());
@@ -34,6 +33,12 @@ Route::get('/item/{id}', function($id){
 Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
+
+//CONTACTS
+Route::get('/contact', function(){
+    return Contacts::all();
+});
+Route::post('/contact/add', 'ContactController@getContact');
 
 //ADMIN ROUTES
 

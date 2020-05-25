@@ -37,8 +37,22 @@ export default{
 
     /**
      * Get items by search bar
+     * @param {OBJECT} data data that will be send to database
      */
     searchItem(data){
         return instace.post('/api/items/search', {data: data})
+    },
+    /**
+     * Sends contact data to database
+     * @param {OBJECT} data data that will be send to database
+     */
+    sendContact(data){
+        return instace.post('/api/contact/add', data)
+    },
+    /**
+     * Get all contact
+     */
+    getContact(){
+        return instace.get('/api/contact')
     }
 }

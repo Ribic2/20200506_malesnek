@@ -23,7 +23,8 @@ export default {
     components:{
         contactus,
         description
-    }
+    },
+
 }
 </script>
 
