@@ -38,14 +38,16 @@ Route::get('/item/{id}/reviews', function($id){
 //ADMIN ROUTES
 
 //Used to call all items
+
 Route::get('/items', function(){
     return itemResource::collection(Items::all());
 });
+Route::post('/items/search', 'itemController@searchForItems');
 
 Route::get('/orders', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'));
 });
-//Filter for admin page
+//Filter for admin page - ORDERS
 Route::get('/orders/finished', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 0);
 });
@@ -58,6 +60,7 @@ Route::get('/orders/oldest', function(){
 Route::get('/orders/latest', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->sortDesc();
 });
+
 
 Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');

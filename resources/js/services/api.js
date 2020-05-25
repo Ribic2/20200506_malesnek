@@ -33,5 +33,12 @@ export default{
     },
     filterLatest(){
         return instace.get('/api/orders/latest')
+    },
+
+    /**
+     * Get items by search bar
+     */
+    searchItem(data){
+        return instace.post('/api/items/search', {data: data})
     }
 }

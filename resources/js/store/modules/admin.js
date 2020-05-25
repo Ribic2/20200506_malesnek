@@ -60,6 +60,13 @@ export default{
                 console.log(results.data)
                 commit('GET_ORDERS', results.data)
             })
+        },
+        //Search for items
+        searchItems({commit}, payload){
+            api.searchItem(payload)
+            .then((results)=>{
+                commit('GET_ITEMS', results.data)
+            })
         }
     },
     getters:{

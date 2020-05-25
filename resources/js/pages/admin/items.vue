@@ -6,6 +6,9 @@
             <v-text-field
             class="mt-7"
             label="Išči izdelke"
+            type="text"
+            v-on:keyup="searchForItems()"
+            v-model="Search"
             solo
             ></v-text-field>
         </v-app-bar>
@@ -33,9 +36,17 @@
 import store from '../../store/index'
 
 export default {
+    data(){
+        return{
+            Search: ''
+        }
+    },
     methods:{
         getItemsForAdmin(){
             return this.$store.dispatch('getItemsForAdmin')
+        },
+        searchForItems(){
+            return this.$store.dispatch('searchItems', this.Search)
         }
     },
     mounted(){

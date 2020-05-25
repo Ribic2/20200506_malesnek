@@ -41,11 +41,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      Search: ''
+    };
+  },
   methods: {
     getItemsForAdmin: function getItemsForAdmin() {
       return this.$store.dispatch('getItemsForAdmin');
+    },
+    searchForItems: function searchForItems() {
+      return this.$store.dispatch('searchItems', this.Search);
     }
   },
   mounted: function mounted() {
@@ -82,7 +93,19 @@ var render = function() {
           _vm._v(" "),
           _c("v-text-field", {
             staticClass: "mt-7",
-            attrs: { label: "Išči izdelke", solo: "" }
+            attrs: { label: "Išči izdelke", type: "text", solo: "" },
+            on: {
+              keyup: function($event) {
+                return _vm.searchForItems()
+              }
+            },
+            model: {
+              value: _vm.Search,
+              callback: function($$v) {
+                _vm.Search = $$v
+              },
+              expression: "Search"
+            }
           })
         ],
         1
