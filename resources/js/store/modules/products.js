@@ -16,7 +16,7 @@ export default{
             .then((results)=>{
                 commit('ADD_DATA', results.data.data)
             })
-        }
+        },
     },
     getters:{
 

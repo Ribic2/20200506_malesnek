@@ -10,6 +10,96 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -180,15 +270,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
+      //Add new item data
+      newItemName: '',
+      newItemPrice: '',
+      newQuantity: '',
+      newDimension: '',
+      newCategory: '',
+      newColor: '',
+      newItemDescription: '',
+      //Change item data
+      itemName: '',
+      quantity: '',
+      itemPrice: '',
+      description: '',
+      discount: '',
+      //Other variables
+      selectedItemId: '',
       Search: '',
       change: false,
-      deleteItem: false,
-      discount: false,
-      addItem: false
-    };
+      deleteItem: false
+    }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "categories", ["Voščilnica"]), _defineProperty(_ref, "subCategorie", ["Unikat artikel", "Redni artikel"]), _defineProperty(_ref, "colors", ["Red", "Blue", "Purple"]), _ref;
   },
   methods: {
     getItemsForAdmin: function getItemsForAdmin() {
@@ -196,6 +303,75 @@ __webpack_require__.r(__webpack_exports__);
     },
     searchForItems: function searchForItems() {
       return this.$store.dispatch('searchItems', this.Search);
+    },
+    changeItemData: function changeItemData(e) {
+      return this.$store.dispatch('changeItemData', e);
+    },
+    changeData: function changeData() {
+      var _this = this;
+
+      var ChangedData = {
+        "itemId": this.selectedItemId,
+        "itemName": this.itemName,
+        "količina": this.quantity,
+        "cena": this.itemPrice,
+        "Description": this.description
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/change', ChangedData).then(function (results) {
+        if (results.data = 1) {
+          _this.getItemsForAdmin();
+
+          _this.success = true;
+        }
+      });
+      this.selectedItemId = null;
+      this.change = false;
+    },
+    deleteItemFunction: function deleteItemFunction() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/delete', {
+        itemId: this.selectedItemId
+      }).then(function (results) {
+        if (results.data = 1) {
+          _this2.getItemsForAdmin();
+        }
+      });
+      this.selectedItemId = null;
+      this.deleteItem = false;
+    },
+    getIdToDelete: function getIdToDelete(e) {
+      this.deleteItem = true;
+      this.selectedItemId = e.itemId;
+    },
+    getIdToChange: function getIdToChange(e) {
+      this.change = true;
+      this.selectedItemId = e.itemId;
+      this.itemName = e.itemName;
+      this.quantity = e.Quantity;
+      this.itemPrice = e.itemPrice;
+      this.description = e.itemDescription;
+    },
+    addNewItem: function addNewItem() {
+      var _this3 = this;
+
+      var newItemData = {
+        "itemName": this.newItemName,
+        "cena": this.newItemPrice,
+        "kolicina": this.newQuantity,
+        "Dimensions": this.newDimension,
+        "Categorie": this.newCategory,
+        "Color": this.newColor,
+        "Description": this.newItemDescription
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/add', newItemData).then(function (results) {
+        if (results.data == 1) {
+          _this3.getItemsForAdmin();
+
+          _this3.addItem = false;
+          _this3.successAdd = true;
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -279,7 +455,7 @@ var render = function() {
                         {
                           on: {
                             click: function($event) {
-                              _vm.change = !_vm.change
+                              return _vm.getIdToChange(i)
                             }
                           }
                         },
@@ -291,7 +467,7 @@ var render = function() {
                         {
                           on: {
                             click: function($event) {
-                              _vm.deleteItem = !_vm.deleteItem
+                              return _vm.getIdToDelete(i)
                             }
                           }
                         },
@@ -341,17 +517,47 @@ var render = function() {
                         { staticClass: "ma-auto", attrs: { width: "500" } },
                         [
                           _c("v-text-field", {
-                            attrs: { label: "Ime izdelka" }
+                            attrs: { label: "Ime izdelka" },
+                            model: {
+                              value: _vm.itemName,
+                              callback: function($$v) {
+                                _vm.itemName = $$v
+                              },
+                              expression: "itemName"
+                            }
                           }),
                           _vm._v(" "),
-                          _c("v-text-field", { attrs: { label: "Količina" } }),
+                          _c("v-text-field", {
+                            attrs: { label: "Količina" },
+                            model: {
+                              value: _vm.quantity,
+                              callback: function($$v) {
+                                _vm.quantity = $$v
+                              },
+                              expression: "quantity"
+                            }
+                          }),
                           _vm._v(" "),
                           _c("v-text-field", {
-                            attrs: { label: "Cena izdelka" }
+                            attrs: { label: "Cena izdelka" },
+                            model: {
+                              value: _vm.itemPrice,
+                              callback: function($$v) {
+                                _vm.itemPrice = $$v
+                              },
+                              expression: "itemPrice"
+                            }
                           }),
                           _vm._v(" "),
                           _c("v-textarea", {
-                            attrs: { label: "Opis", "no-resize": "" }
+                            attrs: { label: "Opis", "no-resize": "" },
+                            model: {
+                              value: _vm.description,
+                              callback: function($$v) {
+                                _vm.description = $$v
+                              },
+                              expression: "description"
+                            }
                           }),
                           _vm._v(" "),
                           _c("v-checkbox", {
@@ -369,8 +575,6 @@ var render = function() {
                             ? _c(
                                 "div",
                                 [
-                                  _c("v-divider"),
-                                  _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: { label: "Znižanje v odstotkih" }
                                   })
@@ -399,7 +603,7 @@ var render = function() {
                       attrs: { color: "green darken-1", text: "" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = false
+                          return _vm.changeData()
                         }
                       }
                     },
@@ -412,7 +616,7 @@ var render = function() {
                       attrs: { color: "green darken-1", text: "" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = false
+                          _vm.change = false
                         }
                       }
                     },
@@ -465,11 +669,11 @@ var render = function() {
                       attrs: { color: "green darken-1", text: "" },
                       on: {
                         click: function($event) {
-                          _vm.deleteItem = false
+                          return _vm.deleteItemFunction()
                         }
                       }
                     },
-                    [_vm._v("\n            Izrbriši\n            ")]
+                    [_vm._v("\n            Izbriši\n            ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -497,7 +701,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { "max-width": "290" },
+          attrs: { width: "500", height: "600" },
           model: {
             value: _vm.addItem,
             callback: function($$v) {
@@ -511,16 +715,160 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Izbriši izdelek?")
+                _vm._v("Dodajanje izdelka")
               ]),
               _vm._v(" "),
-              _c("v-card-text", [
-                _vm._v(
-                  "\n                Ali ste prepričani da želite izbrisati izdelek? Enkrat ko je izdelek izbrisan ga ni mogoče dobiti nazaj.\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("v-card-actions")
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-container",
+                    [
+                      _c(
+                        "v-form",
+                        { staticClass: "ma-auto", attrs: { width: "500" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: { label: "Ime izdelka" },
+                            model: {
+                              value: _vm.newItemName,
+                              callback: function($$v) {
+                                _vm.newItemName = $$v
+                              },
+                              expression: "newItemName"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-text-field", {
+                            attrs: { label: "Cena izdelka" },
+                            model: {
+                              value: _vm.newItemPrice,
+                              callback: function($$v) {
+                                _vm.newItemPrice = $$v
+                              },
+                              expression: "newItemPrice"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-text-field", {
+                            attrs: { label: "Količina" },
+                            model: {
+                              value: _vm.newQuantity,
+                              callback: function($$v) {
+                                _vm.newQuantity = $$v
+                              },
+                              expression: "newQuantity"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-text-field", {
+                            attrs: { label: "Dimenzija" },
+                            model: {
+                              value: _vm.newDimension,
+                              callback: function($$v) {
+                                _vm.newDimension = $$v
+                              },
+                              expression: "newDimension"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-file-input", {
+                            attrs: { multiple: "", label: "File input" }
+                          }),
+                          _vm._v(" "),
+                          _c("v-select", {
+                            attrs: {
+                              items: _vm.subCategorie,
+                              label: "Kategorija",
+                              dense: "",
+                              solo: ""
+                            },
+                            model: {
+                              value: _vm.newCategory,
+                              callback: function($$v) {
+                                _vm.newCategory = $$v
+                              },
+                              expression: "newCategory"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-select", {
+                            attrs: {
+                              items: _vm.colors,
+                              label: "Barva",
+                              dense: "",
+                              solo: ""
+                            },
+                            model: {
+                              value: _vm.newColor,
+                              callback: function($$v) {
+                                _vm.newColor = $$v
+                              },
+                              expression: "newColor"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-textarea", {
+                            attrs: { label: "Opis", "no-resize": "" },
+                            model: {
+                              value: _vm.newItemDescription,
+                              callback: function($$v) {
+                                _vm.newItemDescription = $$v
+                              },
+                              expression: "newItemDescription"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "green darken-1", text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.addNewItem()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    Dodaj\n                                    "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "green darken-1", text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addItem = false
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                    Preklic\n                                    "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
             ],
             1
           )
@@ -547,6 +895,56 @@ var render = function() {
               _c("v-icon", [_vm._v("mdi-plus")])
             ],
             1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          model: {
+            value: _vm.success,
+            callback: function($$v) {
+              _vm.success = $$v
+            },
+            expression: "success"
+          }
+        },
+        [
+          _c(
+            "v-sheet",
+            { staticClass: "text-center", attrs: { height: "200px" } },
+            [
+              _c("div", { staticClass: "py-3" }, [
+                _vm._v("Izdelek uspešno spremenjen!")
+              ])
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-bottom-sheet",
+        {
+          model: {
+            value: _vm.successAdd,
+            callback: function($$v) {
+              _vm.successAdd = $$v
+            },
+            expression: "successAdd"
+          }
+        },
+        [
+          _c(
+            "v-sheet",
+            { staticClass: "text-center", attrs: { height: "200px" } },
+            [
+              _c("div", { staticClass: "py-3" }, [
+                _vm._v("Izdelek uspešno dodan!")
+              ])
+            ]
           )
         ],
         1
@@ -578,19 +976,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VAppBar */ "./node_modules/vuetify/lib/components/VAppBar/index.js");
 /* harmony import */ var vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBottomNavigation */ "./node_modules/vuetify/lib/components/VBottomNavigation/index.js");
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
-/* harmony import */ var vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VBtnToggle */ "./node_modules/vuetify/lib/components/VBtnToggle/index.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/index.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
-/* harmony import */ var vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VExpansionPanel */ "./node_modules/vuetify/lib/components/VExpansionPanel/index.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/index.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
-/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
+/* harmony import */ var vuetify_lib_components_VBottomSheet__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBottomSheet */ "./node_modules/vuetify/lib/components/VBottomSheet/index.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
+/* harmony import */ var vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VBtnToggle */ "./node_modules/vuetify/lib/components/VBtnToggle/index.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/index.js");
+/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
+/* harmony import */ var vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VExpansionPanel */ "./node_modules/vuetify/lib/components/VExpansionPanel/index.js");
+/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/index.js");
+/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/index.js");
+/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
+/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
+/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
 
 
 
@@ -633,7 +1035,11 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_4__["VAppBar"],VBottomNavigation: vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_5__["VBottomNavigation"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["VBtn"],VBtnToggle: vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_7__["VBtnToggle"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_8__["VCardTitle"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_9__["VCheckbox"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_11__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_12__["VDivider"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_13__["VExpansionPanels"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_14__["VForm"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_15__["VIcon"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_16__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_17__["VTextarea"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_18__["VToolbarTitle"]})
+
+
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_4__["VAppBar"],VBottomNavigation: vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_5__["VBottomNavigation"],VBottomSheet: vuetify_lib_components_VBottomSheet__WEBPACK_IMPORTED_MODULE_6__["VBottomSheet"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VBtnToggle: vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_8__["VBtnToggle"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardTitle"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_10__["VCheckbox"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_13__["VDivider"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanels"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_15__["VFileInput"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_16__["VForm"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_17__["VIcon"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_18__["VSelect"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_19__["VSheet"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_20__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_21__["VTextarea"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__["VToolbarTitle"]})
 
 
 /* hot reload */

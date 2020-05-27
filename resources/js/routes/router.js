@@ -80,6 +80,10 @@ const router = new VueRouter({
             ]
         },
         {
+            path: '/izdelek/:id',
+            component: ()=> import('../pages/item.vue')
+        },
+        {
             path: '/*',
             meta: {layout: "error"}
         }

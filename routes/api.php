@@ -47,8 +47,14 @@ Route::post('/contact/add', 'ContactController@getContact');
 Route::get('/items', function(){
     return itemResource::collection(Items::all());
 });
-Route::post('/items/search', 'itemController@searchForItems');
 
+Route::post('/items/change', 'itemController@changeItem');
+Route::post('/items/delete', 'itemController@deleteItem');
+Route::post('/items/search', 'itemController@searchForItems');
+Route::post('/items/add', 'itemController@addItem');
+
+
+Route::post('/Order/confirm', 'OrderController@confirmOrder');
 Route::get('/orders', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'));
 });

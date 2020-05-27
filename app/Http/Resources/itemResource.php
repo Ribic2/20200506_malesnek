@@ -21,6 +21,7 @@ class itemResource extends JsonResource
             'itemPrice' => $this->itemPrice,
             'dimensions' => $this->dimensions,
             'colors' => $this->colors,
+            'Quantity' => $this->availableQuantity,
             'OverAllrating' => $this->OverAllrating
         ];
     }

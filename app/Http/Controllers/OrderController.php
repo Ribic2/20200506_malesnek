@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    /**
+     * Save recived order
+     */
     function reciveOrder(Request $request){
         $userId = $request->input('userId');
         $quantity = $request->input('quantity');
@@ -39,5 +42,19 @@ class OrderController extends Controller
 
 
         return true;
+    }
+    /**
+     * Confirm order status
+     */
+    public function confirmOrder(Request $request){
+        $id =  $request->input('confirmation');
+
+        $changeOrderStatus = OrderIdStore::where('OrderId', $id)
+        ->update(['deliveryStatus' => 1]);
+
+        if($changeOrderStatus){
+            return 1;
+        }
+        return 0;
     }
 }

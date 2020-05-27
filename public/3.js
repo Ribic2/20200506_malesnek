@@ -11,6 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/index */ "./resources/js/store/index.js");
+/* harmony import */ var _routes_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../routes/router */ "./resources/js/routes/router.js");
 //
 //
 //
@@ -122,6 +123,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -186,6 +194,16 @@ __webpack_require__.r(__webpack_exports__);
      */
     addToFavourites: function addToFavourites(e) {
       this.$store.dispatch('addToFavourites', e);
+    },
+
+    /**
+     * When item is clicked it gets reditected to /izdelek/:id.
+     * On that page it displays all the item information.
+     */
+    redirectToItemPage: function redirectToItemPage(e) {
+      this.$router.push({
+        path: "/izdelek/".concat(e.itemId)
+      });
     }
   },
   computed: {
@@ -361,17 +379,43 @@ var render = function() {
                         "v-responsive",
                         { attrs: { "aspect-ratio": 4 / 5 } },
                         [
-                          _c("v-card-title", [
-                            _vm._v(_vm._s(product.itemName))
-                          ]),
+                          _c(
+                            "v-card-title",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.redirectToItemPage(product)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(product.itemName))]
+                          ),
                           _vm._v(" "),
-                          _c("p", { staticClass: "text-justify mr-3 ml-3" }, [
-                            _vm._v(_vm._s(product.itemDescription))
-                          ]),
+                          _c(
+                            "p",
+                            {
+                              staticClass: "text-justify mr-3 ml-3",
+                              on: {
+                                click: function($event) {
+                                  return _vm.redirectToItemPage(product)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(product.itemDescription))]
+                          ),
                           _vm._v(" "),
-                          _c("p", { staticClass: "text-justify mr-3 ml-3" }, [
-                            _vm._v("Cena " + _vm._s(product.itemPrice) + " €")
-                          ]),
+                          _c(
+                            "p",
+                            {
+                              staticClass: "text-justify mr-3 ml-3",
+                              on: {
+                                click: function($event) {
+                                  return _vm.redirectToItemPage(product)
+                                }
+                              }
+                            },
+                            [_vm._v("Cena " + _vm._s(product.itemPrice) + " €")]
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-card-actions",
@@ -432,13 +476,26 @@ var render = function() {
                         "v-responsive",
                         { attrs: { "aspect-ratio": 4 / 5 } },
                         [
-                          _c("v-card-title", [
-                            _vm._v(_vm._s(product.itemName))
-                          ]),
+                          _c(
+                            "v-card-title",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.redirectToItemPage(product)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(product.itemName))]
+                          ),
                           _vm._v(" "),
                           _c("v-img", {
                             staticClass: "productImage ma-2",
-                            attrs: { "aspect-ratio": 1 / 1 }
+                            attrs: { "aspect-ratio": 1 / 1 },
+                            on: {
+                              click: function($event) {
+                                return _vm.redirectToItemPage(product)
+                              }
+                            }
                           }),
                           _vm._v(" "),
                           _c(

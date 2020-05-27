@@ -54,5 +54,12 @@ export default{
      */
     getContact(){
         return instace.get('/api/contact')
+    },
+
+    /**
+     * Get information about item
+     */
+    getProductData(e){
+        return instace.get('/api/item/'+e)
     }
 }

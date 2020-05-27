@@ -41,13 +41,17 @@
             cols="12"
             xl="3"
             >
-                <v-card v-if="currentlySelectedItemId==product.itemId"
-
-                >
+                <v-card v-if="currentlySelectedItemId==product.itemId">
                     <v-responsive :aspect-ratio="4/5">
-                        <v-card-title>{{ product.itemName }}</v-card-title>
-                        <p class="text-justify mr-3 ml-3">{{ product.itemDescription }}</p>
-                        <p class="text-justify mr-3 ml-3">Cena {{ product.itemPrice }} &euro;</p>
+                        <v-card-title
+                        @click="redirectToItemPage(product)"
+                        >{{ product.itemName }}</v-card-title>
+                        <p class="text-justify mr-3 ml-3"
+                        @click="redirectToItemPage(product)"
+                        >{{ product.itemDescription }}</p>
+                        <p class="text-justify mr-3 ml-3"
+                        @click="redirectToItemPage(product)"
+                        >Cena {{ product.itemPrice }} &euro;</p>
                         <v-card-actions class="card-actions">
 
                             <v-btn
@@ -71,12 +75,14 @@
                 </v-card>
 
                 <v-card
-
                 v-else
                 >
                     <v-responsive :aspect-ratio="4/5">
-                        <v-card-title>{{ product.itemName }}</v-card-title>
+                        <v-card-title
+                        @click="redirectToItemPage(product)"
+                        >{{ product.itemName }}</v-card-title>
                         <v-img
+                        @click="redirectToItemPage(product)"
                         class = "productImage ma-2"
                         :aspect-ratio="1/1"
                         >
@@ -112,6 +118,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import store from '../store/index'
+import router from '../routes/router'
 
 export default {
     data(){
@@ -169,6 +176,13 @@ export default {
          */
         addToFavourites(e){
             this.$store.dispatch('addToFavourites', e)
+        },
+        /**
+         * When item is clicked it gets reditected to /izdelek/:id.
+         * On that page it displays all the item information.
+         */
+        redirectToItemPage(e){
+            this.$router.push({path: `/izdelek/${e.itemId}`})
         }
     },
     computed:{

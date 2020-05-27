@@ -67,7 +67,8 @@ export default{
             .then((results)=>{
                 commit('GET_ITEMS', results.data)
             })
-        }
+        },
+
     },
     getters:{
 

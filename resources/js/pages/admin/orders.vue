@@ -35,11 +35,16 @@
 
         <v-row>
             <v-col
-            cols="4"
+            cols="12"
+            lg="4"
+            md="6"
+            sm="12"
             v-for="order in getData()"
             v-bind:key="order.idOrders"
             >
-                <v-card>
+                <v-card
+                height="400"
+                >
                     <v-responsive :aspect-ratio="4/3">
                         <v-card-title
                         class="title"
@@ -75,8 +80,9 @@
                         </v-simple-table>
 
                         <v-card-actions>
-                            <v-btn>Potrditev</v-btn>
-                            <v-btn>Potrditev</v-btn>
+                            <v-btn
+                            @click="confirmOrder(order.OrderId)"
+                            >Potrditev</v-btn>
                         </v-card-actions>
                     </v-responsive>
                 </v-card>
@@ -87,6 +93,8 @@
 
 <script>
 import api from '../../services/api'
+import Axios from 'axios'
+
 export default {
     methods:{
         getAllItems(){
@@ -106,6 +114,12 @@ export default {
         },
         filterLatest(){
             return this.$store.dispatch('filterLatest')
+        },
+        confirmOrder(e){
+            Axios.post('/api/Order/confirm', {confirmation: e})
+            .then((results)=>{
+
+            })
         }
 
     },

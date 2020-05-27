@@ -17,14 +17,14 @@ class CreateItemTable extends Migration
             $table->id('itemId');
             $table->string('itemName');
             $table->double('itemPrice', 100, 2);
-            $table->string('itemImg');
+            $table->string('itemImg')->nullable($value=true);
             $table->integer('discount')->nullable($value=true);
-            $table->boolean('isOnSale');
+            $table->boolean('isOnSale')->nullable($value=true);
             $table->double('discountPrice', 100, 2)->nullable($value=true);
             $table->mediumText('itemDescription');
-            $table->boolean('isEditable');
+            $table->boolean('isEditable')->nullable($value=true);
             $table->integer('availableQuantity');
-            $table->boolean('isAvailable');
+            $table->boolean('isAvailable')->nullable($value=true);
             $table->string('categorie');
             $table->string('subCategorie')->nullable($value=true);
             $table->enum('colors', ['Red', 'Blue', 'Purple']);
