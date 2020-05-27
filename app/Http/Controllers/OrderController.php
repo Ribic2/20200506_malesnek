@@ -6,6 +6,8 @@ use App\Order;
 use App\OrderIdStore;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\mail\orderConfirmed;
 
 class OrderController extends Controller
 {
@@ -53,6 +55,8 @@ class OrderController extends Controller
         ->update(['deliveryStatus' => 1]);
 
         if($changeOrderStatus){
+            //Sends mail to client
+            Mail::to('vid.bukovec8361@gmail.com')->send(new orderConfirmed());
             return 1;
         }
         return 0;
