@@ -46,6 +46,9 @@
       >
       <v-icon>mdi-logout</v-icon>
       Odjava</v-btn>
+
+      <v-btn>Spremeni geslo</v-btn>
+      <v-btn>Ogled prejšnih naročil</v-btn>
       </v-list>
     </v-navigation-drawer>
 

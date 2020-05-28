@@ -30,7 +30,7 @@ class orderConfirmed extends Mailable
     {
         return $this->from('mail@example.com', 'Mailtrap')
             ->subject('Mailtrap Confirmation')
-            ->markdown('mails.exmpl')
+            ->markdown('mails.authenticateUser.blade')
             ->with([
                 'name' => 'New Mailtrap User',
                 'link' => 'https://mailtrap.io/inboxes'

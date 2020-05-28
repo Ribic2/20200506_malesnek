@@ -64,7 +64,7 @@ export default {
   },
   methods:{
     login(){
-        axios.post('http://127.0.0.1:8000/user/login', {email: this.email, password: this.password},)
+        axios.post('/api/user/login', {email: this.email, password: this.password},)
         .then((results)=>{
             if(!results.data.authentication){
                 this.response = "Napačno geslo ali uporabniško ime!"

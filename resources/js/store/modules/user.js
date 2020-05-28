@@ -7,17 +7,17 @@ export default{
         Email: '',
         Phone: '',
         userId: '',
+        isEmployee: '',
         LoginStatus: false
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
-
-            console.log(payload)
             state.Name = payload.Name
             state.Surname = payload.Surname
             state.Email = payload.Email
             state.Phone = payload.Phone
             state.userId = payload.id
+            state.isEmployee = payload.isEmployee
             state.LoginStatus = true
         },
         LOGOUT_USER(state){
@@ -45,7 +45,7 @@ export default{
         logoutUser({commit}){
             localStorage.removeItem('authToken');
             commit('LOGOUT_USER')
-        }
+        },
     },
     getters:{
 

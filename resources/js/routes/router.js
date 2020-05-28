@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 //Import layout
 import login from '../pages/user/login.vue'
+import Axios from 'axios'
 
 Vue.use(VueRouter)
 
@@ -56,6 +57,24 @@ const router = new VueRouter({
             path: '/admin',
             component: ()=> import('../pages/admin/index.vue'),
             meta: {layout: "admin"},
+            //Checks if user is admin or not
+            beforeEnter: (to, from, next) =>{
+                if(localStorage.getItem('authToken')){
+                    axios.defaults.headers.common["Authorization"] = `Bearer `+localStorage.getItem('authToken')
+
+                    axios.get('/api/profile/admin').then((results)=>{
+                        if(!results.data){
+                           next({name: 'index'})
+                        }
+                        else{
+                            next();
+                        }
+                    })
+                }
+                else{
+                    next({name: 'index'})
+                }
+            },
             children:[
                 {
                     path: '/admin/items',

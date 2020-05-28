@@ -70,15 +70,19 @@
 </template>
 
 <script>
+import Axios from 'axios'
 export default {
     data(){
         return{
+            //Credentials
             password: '',
             email: '',
             phone: '',
             name: '',
             surname: '',
-            response: ''
+            response: '',
+            //Other variables
+            showPassword: false
         }
     },
     methods:{
@@ -91,6 +95,11 @@ export default {
                 name: this.name,
                 surname: this.surname,
             }
+
+            Axios.post('/api/user/register', credentials)
+            .then((response)=>{
+                console.log(response.data)
+            })
 
 
 

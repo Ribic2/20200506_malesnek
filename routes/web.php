@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::post('/user/login', 'LoginController@login');
+
 
 Route::get('/{any}', 'appController@index')->where('any', '.*');

@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//User authentication login and register
+Route::post('/user/login', 'LoginController@login');
+Route::post('/user/register', 'RegisterController@register');
 //Api path for items
 Route::get('/items/{page}', function($page){
     return itemResource::collection(Items::paginate(10, ['*'], 'page', $page));
@@ -75,3 +77,4 @@ Route::get('/orders/latest', function(){
 
 Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
+Route::middleware('auth:api')->get('/profile/admin','AuthController@checkIfAdmin');
