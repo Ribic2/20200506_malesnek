@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <v-stepper v-model="counter"  v-if="this.$store.state.cart.cart.length > 0">
+    <v-stepper v-model="counter">
       <!--Header -->
       <v-stepper-header>
         <v-stepper-step :complete="counter > 1" step="1">Košarica</v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step :complete="counter > 2" step="2">Podatki o dostavi</v-stepper-step>
+        <v-stepper-step :complete="counter > 2" step="2" v-if="check == true">Podatki o dostavi</v-stepper-step>
 
         <v-divider></v-divider>
 
@@ -32,13 +32,14 @@
           <v-btn
             class="float-right"
             color="primary"
-            @click="counter = 2"
+            v-on:click="check ? counter = 2: counter = 3"
+            v-if="this.$store.state.cart.cart.length > 0"
           >
             Nadaljuj
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="2">
+        <v-stepper-content step="2" v-if="check == true">
           <v-card
             class="mb-12"
             color="grey lighten-1"
@@ -74,7 +75,7 @@
         <paymentMethod></paymentMethod>
         </v-card>
         <v-btn
-        @click="counter=2"
+        v-on:click="check ? counter = 2: counter = 1"
         >Nazaj</v-btn>
         <v-btn
         text
@@ -84,7 +85,6 @@
           color="primary"
           class="float-right"
           @click="placeAnOrder()"
-
         >
         Oddaj
         </v-btn>
@@ -93,13 +93,6 @@
       </v-stepper-items>
     </v-stepper>
 
-    <v-stepper v-else>
-        <v-card height="800">
-            <v-card-title>
-                Košarica je prazna
-            </v-card-title>
-        </v-card>
-    </v-stepper>
 
     <!--Dialog that will be shown if action was succesfully completed-->
       <v-dialog
@@ -143,6 +136,7 @@ export default {
     data(){
         return{
             counter: 1,
+            check: '',
             dialog: false,
         }
      },
@@ -154,8 +148,6 @@ export default {
             for(let i = 0; i < data.length; i++){
                 itemIds.push(data[i].product.itemId)
                 quantity.push(data[i].quantity)
-                console.log(data[i])
-                console.log(data[i].quantity * data[i].product.itemPrice)
             }
 
             Axios.post('/api/order/add', {products: itemIds, userId: this.$store.state.user.userId, quantity: quantity })
@@ -163,12 +155,21 @@ export default {
                 if(results.data){
                    this.dialog = true
                    localStorage.removeItem('cartStorage')
-                   this.$store.state.cart.cart = new Array
+                   this.$store.state.cart.cart = new Array();
                 }
             })
-
-
+        },
+        checkIfUserIsLoggedIn(){
+            if(localStorage.getItem('authToken')){
+                this.check = false
+            }
+            else{
+                this.check = true;
+            }
         }
+    },
+    beforeMount(){
+        this.checkIfUserIsLoggedIn()
     }
 }
 </script>

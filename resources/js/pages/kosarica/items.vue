@@ -1,82 +1,88 @@
 <template>
     <v-container>
 
-        <v-card v-for="cartItem in this.$store.state.cart.cart" v-bind:key="cartItem.itemId"
-        height="200"
-        class="mt-3"
-        >
-            <v-row id = "informationDisplay">
-                <v-col
-                cols="6"
-                md="2"
-                lg="2"
-                sm="2"
-                xl="2"
-                >
-                    <v-img
-                    aspect-ratio="1/1"
-                    class="productImg"
+        <div v-if="this.$store.state.cart.cart.length == 0">
+            <h1>Prazno</h1>
+        </div>
+        <div v-else>
+            <v-card v-for="cartItem in this.$store.state.cart.cart" v-bind:key="cartItem.itemId"
+            height="200"
+            class="mt-3"
+            >
+                <v-row id = "informationDisplay">
+                    <v-col
+                    cols="6"
+                    md="2"
+                    lg="2"
+                    sm="2"
+                    xl="2"
                     >
-                    </v-img>
-                </v-col>
+                        <v-img
+                        aspect-ratio="1/1"
+                        class="productImg"
+                        >
+                        </v-img>
+                    </v-col>
 
-                <v-col
-                cols="6"
-                xl="2"
-                >
-                    <p>{{ cartItem.product.itemName}}</p>
-                </v-col>
-
-                <v-col
-                cols="2"
-                >
-                    {{ cartItem.quantity}}
-                </v-col>
-
-                <v-col
-                cols="2"
-                >
-                    <p>{{ cartItem.product.itemPrice }}</p>
-                </v-col>
-
-                <v-col
-                cols="2"
-                >
-                {{ cartItem.quantity *  cartItem.product.itemPrice}} &euro;
-                </v-col>
-
-                <v-col>
-                    <v-btn
-                    color="error"
-                    class="mb-1"
-                    @click="deleteCartProduct(cartItem.itemId)"
+                    <v-col
+                    cols="6"
+                    xl="2"
                     >
-                        izbriši
-                    </v-btn>
-                    <br>
-                    <v-btn-toggle
-                    class = "quantityChangerHolder"
-                    rounded>
-                        <v-btn height="56"
-                        @click="changeQuantity(cartItem.product, cartItem.quantity, 'plus')"
-                        ><v-icon>mdi-plus</v-icon></v-btn>
+                        <p>{{ cartItem.product.itemName}}</p>
+                    </v-col>
 
-                        <v-text-field
-                        flat
-                        outlined
-                        v-bind:value="cartItem.quantity"
-                        class="quantityField"
-                        >{{ cartItem.quantity }}</v-text-field>
+                    <v-col
+                    cols="2"
+                    >
+                        {{ cartItem.quantity}}
+                    </v-col>
 
-                        <v-btn height="56"
-                        @click="changeQuantity(cartItem.product, cartItem.quantity, 'minus')"
-                        ><v-icon>mdi-minus</v-icon></v-btn>
-                    </v-btn-toggle>
+                    <v-col
+                    cols="2"
+                    >
+                        <p>{{ cartItem.product.itemPrice }}</p>
+                    </v-col>
 
-                </v-col>
-            </v-row>
+                    <v-col
+                    cols="2"
+                    >
+                    {{ cartItem.quantity *  cartItem.product.itemPrice}} &euro;
+                    </v-col>
 
-        </v-card>
+                    <v-col>
+                        <v-btn
+                        color="error"
+                        class="mb-1"
+                        @click="deleteCartProduct(cartItem.itemId)"
+                        >
+                            izbriši
+                        </v-btn>
+                        <br>
+                        <v-btn-toggle
+                        class = "quantityChangerHolder"
+                        rounded>
+                            <v-btn height="56"
+                            @click="changeQuantity(cartItem.product, cartItem.quantity, 'plus')"
+                            ><v-icon>mdi-plus</v-icon></v-btn>
+
+                            <v-text-field
+                            flat
+                            outlined
+                            v-bind:value="cartItem.quantity"
+                            class="quantityField"
+                            >{{ cartItem.quantity }}</v-text-field>
+
+                            <v-btn height="56"
+                            @click="changeQuantity(cartItem.product, cartItem.quantity, 'minus')"
+                            ><v-icon>mdi-minus</v-icon></v-btn>
+                        </v-btn-toggle>
+
+                    </v-col>
+                </v-row>
+
+            </v-card>
+        </div>
+
 
     </v-container>
 </template>

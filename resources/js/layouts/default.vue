@@ -33,22 +33,35 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-
+      <!--If user is registerd-->
       <v-list
         dense
         nav
         v-else
       >
-      <h5>Dobrodošel uporabnik {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
-      <v-btn
-      rounded
-      @click="logout()"
-      >
-      <v-icon>mdi-logout</v-icon>
-      Odjava</v-btn>
+       <h5 class = "text-center">Dobrodošel uporabnik {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
+        <v-list-item>
+            <v-btn
+            width="100%"
+            rounded
+            @click="logout()"
+            >
+            <v-icon>mdi-logout</v-icon>
+            Odjava</v-btn>
+         </v-list-item>
+        <v-list-item>
+            <v-btn
+            rounded
+            width="100%"
+            >Spremeni geslo</v-btn>
+        </v-list-item>
 
-      <v-btn>Spremeni geslo</v-btn>
-      <v-btn>Ogled prejšnih naročil</v-btn>
+        <v-list-item>
+            <v-btn
+            rounded
+            width="100%"
+            >Ogled prejšnih naročil</v-btn>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -83,8 +96,8 @@
     class="mr-1"
     icon>
       <v-badge
-        :content="this.$store.state.cart.cart.length"
-        :value="this.$store.state.cart.cart.length"
+        :content="this.$store.state.cart.cart == null ? '' : this.$store.state.cart.cart.length"
+        :value="this.$store.state.cart.cart == null ? '' : this.$store.state.cart.cart.length"
         overlap
       >
         <v-icon>mdi-cart</v-icon>
