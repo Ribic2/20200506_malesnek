@@ -47,6 +47,7 @@
                         <v-form
                         class="ma-auto"
                         width="500"
+                        method="post" enctype="multipart/form-data">
                         >
                                 <v-text-field
                                 label="Ime izdelka"
@@ -139,7 +140,7 @@
         <!-- Dialog for adding item-->
         <v-dialog
         v-model="addItem"
-        width="500"
+        width="800"
         height="600"
         >
             <v-card>
@@ -150,52 +151,82 @@
                             class="ma-auto"
                             width="500"
                             >
-                                    <v-text-field
-                                    label="Ime izdelka"
-                                    v-model="newItemName"
-                                    ></v-text-field>
+                                <v-row>
+                                    <v-col>
+                                        <v-text-field
+                                        label="Ime izdelka"
+                                        v-model="newItemName"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col>
+                                        <v-text-field
+                                        label="Cena izdelka"
+                                        v-model="newItemPrice"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
 
-                                    <v-text-field
-                                    label="Cena izdelka"
-                                    v-model="newItemPrice"
-                                    ></v-text-field>
+                                <v-row>
+                                    <v-col>
+                                        <v-text-field
+                                        v-model="newQuantity"
+                                        label="Količina"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col>
+                                        <v-text-field
+                                        v-model="newDimension"
+                                        label="Dimenzija"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
 
-                                    <v-text-field
-                                    v-model="newQuantity"
-                                    label="Količina"
-                                    ></v-text-field>
+                                <v-row>
+                                    <v-col>
+                                         <v-select
+                                        :items="colors"
+                                        label="Barva"
+                                        v-model="newColor"
+                                        dense
+                                        solo
+                                        >
+                                        </v-select>
+                                    </v-col>
+                                    <v-col>
+                                        <v-select
+                                        :items="subCategorie"
+                                        :model="addNewCategorie ? '' : newCategory"
+                                        label="Kategorija"
+                                        :disabled="addNewCategorie ? true : false"
+                                        dense
+                                        solo
+                                        >
+                                        </v-select>
+                                    </v-col>
+                                </v-row>
 
-                                    <v-text-field
-                                    v-model="newDimension"
-                                    label="Dimenzija"
-                                    ></v-text-field>
+                                <v-checkbox
+                                v-model="addNewCategorie"
+                                label="Dodaj novo kategorijo"
+                                ></v-checkbox>
 
-                                    <v-file-input multiple label="File input"></v-file-input>
+                                <v-text-field
+                                label="Dodaj novo kategorijo"
+                                v-if="addNewCategorie"
+                                v-model="customCategory"
+                                >
+                                </v-text-field>
 
-                                    <v-select
-                                    :items="subCategorie"
-                                    v-model="newCategory"
-                                    label="Kategorija"
-                                    dense
-                                    solo
-                                    >
-                                    </v-select>
+                                <v-file-input
+                                label="File input"
+                                ></v-file-input>
 
-                                    <v-select
-                                    :items="colors"
-                                    label="Barva"
-                                    v-model="newColor"
-                                    dense
-                                    solo
-                                    >
-                                    </v-select>
-
-                                    <v-textarea
-                                    label="Opis"
-                                    v-model="newItemDescription"
-                                    no-resize
-                                    >
-                                    </v-textarea>
+                                <v-textarea
+                                label="Opis"
+                                v-model="newItemDescription"
+                                no-resize
+                                >
+                                </v-textarea>
 
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
@@ -267,6 +298,8 @@ export default {
             newDimension: '',
             newCategory: '',
             newColor: '',
+            newImage: '',
+            customCategory: '',
             newItemDescription: '',
             //Change item data
             itemName: '',
@@ -278,6 +311,7 @@ export default {
             selectedItemId: '',
             Search: '',
             change: false,
+            addNewCategorie: false,
             deleteItem: false,
             discount: false,
             success: false,
@@ -308,6 +342,8 @@ export default {
             return this.$store.dispatch('changeItemData', e)
         },
         changeData(){
+
+
             let ChangedData = {
                 "itemId": this.selectedItemId,
                 "itemName": this.itemName,
@@ -351,15 +387,20 @@ export default {
             this.description = e.itemDescription
         },
         addNewItem(){
+
+            console.log(this.customCategory)
+
             let newItemData = {
                 "itemName": this.newItemName,
                 "cena": this.newItemPrice,
                 "kolicina": this.newQuantity,
                 "Dimensions": this.newDimension,
-                "Categorie": this.newCategory,
+                "Categorie": this.addNewCategorie ?  this.customCategory : this.newCategory,
+                "Image": this.newImage,
                 "Color": this.newColor,
                 "Description": this.newItemDescription
             }
+
 
             Axios.post('/api/items/add', newItemData)
             .then((results)=>{

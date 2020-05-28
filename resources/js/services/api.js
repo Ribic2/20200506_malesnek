@@ -61,5 +61,19 @@ export default{
      */
     getProductData(e){
         return instace.get('/api/item/'+e)
+    },
+
+    /**
+     * Get all categories there are
+     */
+    getCategories(){
+        return instace.get('/api/categories')
+    },
+
+    /**
+     * Get items from specific category
+     */
+    getProductsSpecificCategory(category){
+        return instace.get('/api/items/category/'+category)
     }
 }

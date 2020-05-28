@@ -19,14 +19,11 @@
                 <div id = "filterButtonHolder">
                     <v-btn-toggle class="ma-2">
                         <v-btn
+                        v-for="category in getCategories" v-bind:key="category.Categorie"
                         color="#6C3FB8"
+                        @click="getCategorySpecificItems(category.Categorie)"
                         >
-                        Redni artikli
-                        </v-btn>
-                        <v-btn
-                        color="#6C3FB8"
-                        >
-                        Unikati artikli
+                        {{ category.Categorie }}
                         </v-btn>
                     </v-btn-toggle>
                 </div>
@@ -183,16 +180,27 @@ export default {
          */
         redirectToItemPage(e){
             this.$router.push({path: `/izdelek/${e.itemId}`})
+        },
+
+        getCategoriesApi(){
+            this.$store.dispatch('getCategories')
+        },
+        getCategorySpecificItems(e){
+            return this.$store.dispatch('filterItemsByCategory', e)
         }
     },
     computed:{
         getData(){
             return this.$store.state.products.products
         },
+        getCategories(){
+            return this.$store.state.products.categories
+        }
 
     },
     mounted(){
-        this.addData()
+        this.addData(),
+        this.getCategoriesApi()
     }
 }
 </script>

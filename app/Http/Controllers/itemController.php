@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\itemReview;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Items;
 use App\Order;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Validation\Validator;
 
 class itemController extends Controller
@@ -77,6 +78,7 @@ class itemController extends Controller
         $Dimension = $request->input('Dimensions');
         $Categorie = $request->input('Categorie');
         $Color = $request->input('Color');
+        $image = $request->file('Image');
         $Description = $request->input('Description');
 
         //Validation

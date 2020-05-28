@@ -126,9 +126,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -204,15 +201,24 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push({
         path: "/izdelek/".concat(e.itemId)
       });
+    },
+    getCategoriesApi: function getCategoriesApi() {
+      this.$store.dispatch('getCategories');
+    },
+    getCategorySpecificItems: function getCategorySpecificItems(e) {
+      return this.$store.dispatch('filterItemsByCategory', e);
     }
   },
   computed: {
     getData: function getData() {
       return this.$store.state.products.products;
+    },
+    getCategories: function getCategories() {
+      return this.$store.state.products.categories;
     }
   },
   mounted: function mounted() {
-    this.addData();
+    this.addData(), this.getCategoriesApi();
   }
 });
 
@@ -339,19 +345,29 @@ var render = function() {
                     _c(
                       "v-btn-toggle",
                       { staticClass: "ma-2" },
-                      [
-                        _c("v-btn", { attrs: { color: "#6C3FB8" } }, [
-                          _vm._v(
-                            "\n                    Redni artikli\n                    "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("v-btn", { attrs: { color: "#6C3FB8" } }, [
-                          _vm._v(
-                            "\n                    Unikati artikli\n                    "
-                          )
-                        ])
-                      ],
+                      _vm._l(_vm.getCategories, function(category) {
+                        return _c(
+                          "v-btn",
+                          {
+                            key: category.Categorie,
+                            attrs: { color: "#6C3FB8" },
+                            on: {
+                              click: function($event) {
+                                return _vm.getCategorySpecificItems(
+                                  category.Categorie
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(category.Categorie) +
+                                "\n                    "
+                            )
+                          ]
+                        )
+                      }),
                       1
                     )
                   ],

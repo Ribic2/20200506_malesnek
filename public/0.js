@@ -269,6 +269,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -283,6 +314,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       newDimension: '',
       newCategory: '',
       newColor: '',
+      newImage: '',
+      customCategory: '',
       newItemDescription: '',
       //Change item data
       itemName: '',
@@ -294,6 +327,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selectedItemId: '',
       Search: '',
       change: false,
+      addNewCategorie: false,
       deleteItem: false
     }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "categories", ["Voščilnica"]), _defineProperty(_ref, "subCategorie", ["Unikat artikel", "Redni artikel"]), _defineProperty(_ref, "colors", ["Red", "Blue", "Purple"]), _ref;
   },
@@ -355,12 +389,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     addNewItem: function addNewItem() {
       var _this3 = this;
 
+      console.log(this.customCategory);
       var newItemData = {
         "itemName": this.newItemName,
         "cena": this.newItemPrice,
         "kolicina": this.newQuantity,
         "Dimensions": this.newDimension,
-        "Categorie": this.newCategory,
+        "Categorie": this.addNewCategorie ? this.customCategory : this.newCategory,
+        "Image": this.newImage,
         "Color": this.newColor,
         "Description": this.newItemDescription
       };
@@ -514,8 +550,18 @@ var render = function() {
                     [
                       _c(
                         "v-form",
-                        { staticClass: "ma-auto", attrs: { width: "500" } },
+                        {
+                          staticClass: "ma-auto",
+                          attrs: {
+                            width: "500",
+                            method: "post",
+                            enctype: "multipart/form-data"
+                          }
+                        },
                         [
+                          _vm._v(
+                            "\n                    >\n                            "
+                          ),
                           _c("v-text-field", {
                             attrs: { label: "Ime izdelka" },
                             model: {
@@ -701,7 +747,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "500", height: "600" },
+          attrs: { width: "800", height: "600" },
           model: {
             value: _vm.addItem,
             callback: function($$v) {
@@ -728,84 +774,161 @@ var render = function() {
                         "v-form",
                         { staticClass: "ma-auto", attrs: { width: "500" } },
                         [
-                          _c("v-text-field", {
-                            attrs: { label: "Ime izdelka" },
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Ime izdelka" },
+                                    model: {
+                                      value: _vm.newItemName,
+                                      callback: function($$v) {
+                                        _vm.newItemName = $$v
+                                      },
+                                      expression: "newItemName"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Cena izdelka" },
+                                    model: {
+                                      value: _vm.newItemPrice,
+                                      callback: function($$v) {
+                                        _vm.newItemPrice = $$v
+                                      },
+                                      expression: "newItemPrice"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Količina" },
+                                    model: {
+                                      value: _vm.newQuantity,
+                                      callback: function($$v) {
+                                        _vm.newQuantity = $$v
+                                      },
+                                      expression: "newQuantity"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-text-field", {
+                                    attrs: { label: "Dimenzija" },
+                                    model: {
+                                      value: _vm.newDimension,
+                                      callback: function($$v) {
+                                        _vm.newDimension = $$v
+                                      },
+                                      expression: "newDimension"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm.colors,
+                                      label: "Barva",
+                                      dense: "",
+                                      solo: ""
+                                    },
+                                    model: {
+                                      value: _vm.newColor,
+                                      callback: function($$v) {
+                                        _vm.newColor = $$v
+                                      },
+                                      expression: "newColor"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm.subCategorie,
+                                      model: _vm.addNewCategorie
+                                        ? ""
+                                        : _vm.newCategory,
+                                      label: "Kategorija",
+                                      disabled: _vm.addNewCategorie
+                                        ? true
+                                        : false,
+                                      dense: "",
+                                      solo: ""
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-checkbox", {
+                            attrs: { label: "Dodaj novo kategorijo" },
                             model: {
-                              value: _vm.newItemName,
+                              value: _vm.addNewCategorie,
                               callback: function($$v) {
-                                _vm.newItemName = $$v
+                                _vm.addNewCategorie = $$v
                               },
-                              expression: "newItemName"
+                              expression: "addNewCategorie"
                             }
                           }),
                           _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: { label: "Cena izdelka" },
-                            model: {
-                              value: _vm.newItemPrice,
-                              callback: function($$v) {
-                                _vm.newItemPrice = $$v
-                              },
-                              expression: "newItemPrice"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: { label: "Količina" },
-                            model: {
-                              value: _vm.newQuantity,
-                              callback: function($$v) {
-                                _vm.newQuantity = $$v
-                              },
-                              expression: "newQuantity"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: { label: "Dimenzija" },
-                            model: {
-                              value: _vm.newDimension,
-                              callback: function($$v) {
-                                _vm.newDimension = $$v
-                              },
-                              expression: "newDimension"
-                            }
-                          }),
+                          _vm.addNewCategorie
+                            ? _c("v-text-field", {
+                                attrs: { label: "Dodaj novo kategorijo" },
+                                model: {
+                                  value: _vm.customCategory,
+                                  callback: function($$v) {
+                                    _vm.customCategory = $$v
+                                  },
+                                  expression: "customCategory"
+                                }
+                              })
+                            : _vm._e(),
                           _vm._v(" "),
                           _c("v-file-input", {
-                            attrs: { multiple: "", label: "File input" }
-                          }),
-                          _vm._v(" "),
-                          _c("v-select", {
-                            attrs: {
-                              items: _vm.subCategorie,
-                              label: "Kategorija",
-                              dense: "",
-                              solo: ""
-                            },
-                            model: {
-                              value: _vm.newCategory,
-                              callback: function($$v) {
-                                _vm.newCategory = $$v
-                              },
-                              expression: "newCategory"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-select", {
-                            attrs: {
-                              items: _vm.colors,
-                              label: "Barva",
-                              dense: "",
-                              solo: ""
-                            },
-                            model: {
-                              value: _vm.newColor,
-                              callback: function($$v) {
-                                _vm.newColor = $$v
-                              },
-                              expression: "newColor"
-                            }
+                            attrs: { label: "File input" }
                           }),
                           _vm._v(" "),
                           _c("v-textarea", {
@@ -1039,7 +1162,9 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_4__["VAppBar"],VBottomNavigation: vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_5__["VBottomNavigation"],VBottomSheet: vuetify_lib_components_VBottomSheet__WEBPACK_IMPORTED_MODULE_6__["VBottomSheet"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VBtnToggle: vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_8__["VBtnToggle"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardTitle"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_10__["VCheckbox"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_13__["VDivider"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanels"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_15__["VFileInput"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_16__["VForm"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_17__["VIcon"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_18__["VSelect"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_19__["VSheet"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_20__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_21__["VTextarea"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__["VToolbarTitle"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_4__["VAppBar"],VBottomNavigation: vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_5__["VBottomNavigation"],VBottomSheet: vuetify_lib_components_VBottomSheet__WEBPACK_IMPORTED_MODULE_6__["VBottomSheet"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_7__["VBtn"],VBtnToggle: vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_8__["VBtnToggle"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_9__["VCardTitle"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_10__["VCheckbox"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_12__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_13__["VDivider"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_14__["VExpansionPanels"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_15__["VFileInput"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_16__["VForm"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_17__["VIcon"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VRow"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_18__["VSelect"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_19__["VSheet"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_11__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_20__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_21__["VTextarea"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_22__["VToolbarTitle"]})
 
 
 /* hot reload */

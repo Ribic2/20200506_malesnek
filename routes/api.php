@@ -23,9 +23,23 @@ use Illuminate\Support\Facades\Route;
 //User authentication login and register
 Route::post('/user/login', 'LoginController@login');
 Route::post('/user/register', 'RegisterController@register');
+
+//Item categories
+Route::get('/categories', function(){
+    return Items::select('Categorie')->distinct()->get();
+});
+
 //Api path for items
 Route::get('/items/{page}', function($page){
     return itemResource::collection(Items::paginate(10, ['*'], 'page', $page));
+});
+
+Route::get('/items/category/{category}', function($category){
+    return itemResource::collection(Items::where('categorie', $category)->get());
+});
+
+Route::get('/items/category/{category}/{page}', function($category, $page){
+    return itemResource::collection(Items::where('categorie', $category)->paginate(10, ['*'], 'page', $page));
 });
 //Get data for 1 item only
 Route::get('/item/{id}', function($id){

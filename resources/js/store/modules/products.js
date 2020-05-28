@@ -2,11 +2,18 @@ import api from '../../services/api.js'
 
 export default{
     state: ()=>({
-        products: ''
+        products: '',
+        categories: ''
     }),
     mutations:{
         ADD_DATA(state, payload){
             state.products = payload;
+        },
+        SAVE_CATEGORIES(state, payload){
+            state.categories = payload
+        },
+        FILTER_PRODUCTS(state, payload){
+            state.products = payload
         }
     },
     actions:{
@@ -17,6 +24,18 @@ export default{
                 commit('ADD_DATA', results.data.data)
             })
         },
+        getCategories({commit}){
+            api.getCategories()
+            .then((results)=>{
+                commit('SAVE_CATEGORIES', results.data)
+            })
+        },
+        filterItemsByCategory({commit}, payload){
+            api.getProductsSpecificCategory(payload)
+            .then((results)=>{
+                commit('FILTER_PRODUCTS', results.data.data)
+            })
+        }
     },
     getters:{
 
