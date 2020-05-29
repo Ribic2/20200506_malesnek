@@ -31,9 +31,31 @@
                     >
                         <img class="product_img"
                         height="200"
+                        v-if="selectedImage"
+                        :src='"http://127.0.0.1:8000/storage/"+selectedImage'
+                        >
+
+                        <img class="product_img"
+                        height="200"
+                        v-else
                         :src='"http://127.0.0.1:8000/storage/products/"+product.dir+"/"+product.primaryImg'
                         >
                     </v-responsive>
+
+                    <v-row>
+                        <v-col
+                        v-for="image in images"
+                        :key="image"
+                        cols="2"
+                        >
+                            <img
+                            height="100"
+                            width="100"
+                            @click="selectImage(image)"
+                            :src='"http://127.0.0.1:8000/storage/"+image'
+                            >
+                        </v-col>
+                    </v-row>
                 </v-responsive>
             </v-col>
 
@@ -111,7 +133,9 @@ export default {
     data(){
         return{
             product: '',
-            allReviews: ''
+            allReviews: '',
+            images: '',
+            selectedImage: ''
         }
     },
     methods:{
@@ -155,11 +179,23 @@ export default {
             .then((results)=>{
                 this.allReviews = results.data.data
             })
+        },
+
+        getImages(){
+            let id = this.$route.params.id
+            Axios.get('/api/item/'+id+"/images")
+            .then((results)=>{
+                this.images = results.data
+            })
+        },
+        selectImage(e){
+            this.selectedImage = e
         }
     },
     mounted(){
         this.getItemData(),
-        this.getReviews()
+        this.getReviews(),
+        this.getImages()
     }
 }
 </script>

@@ -80,6 +80,14 @@ class itemController extends Controller
         return 0;
     }
 
+    public function getImages($id){
+        $name = Items::select('itemName')->where('itemId', $id)->get();
+        $dirName = $name[0]->itemName;
+        $files = Storage::disk('public')->files('products/'.$dirName);
+
+        return $files;
+    }
+
     public function addItem(Request $request){
         $itemName = $request->input('itemName');
         $itemPrice = $request->input('cena');

@@ -45,6 +45,8 @@ Route::get('/items/category/{category}/{page}', function($category, $page){
 Route::get('/item/{id}', function($id){
     return itemResource::collection(Items::where('itemId', $id)->get());
 });
+
+Route::get('/item/{id}/images', 'itemController@getImages');
 //Reviews for 1 item only
 Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());

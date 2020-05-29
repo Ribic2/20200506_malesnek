@@ -117,6 +117,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -125,7 +147,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       product: '',
-      allReviews: ''
+      allReviews: '',
+      images: '',
+      selectedImage: ''
     };
   },
   methods: {
@@ -178,10 +202,21 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/item/' + id + '/reviews').then(function (results) {
         _this2.allReviews = results.data.data;
       });
+    },
+    getImages: function getImages() {
+      var _this3 = this;
+
+      var id = this.$route.params.id;
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/item/' + id + "/images").then(function (results) {
+        _this3.images = results.data;
+      });
+    },
+    selectImage: function selectImage(e) {
+      this.selectedImage = e;
     }
   },
   mounted: function mounted() {
-    this.getItemData(), this.getReviews();
+    this.getItemData(), this.getReviews(), this.getImages();
   }
 });
 
@@ -308,18 +343,49 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c("v-responsive", { attrs: { "aspect-ratio": 1 / 1 } }, [
-                    _c("img", {
-                      staticClass: "product_img",
-                      attrs: {
-                        height: "200",
-                        src:
-                          "http://127.0.0.1:8000/storage/products/" +
-                          _vm.product.dir +
-                          "/" +
-                          _vm.product.primaryImg
-                      }
-                    })
-                  ])
+                    _vm.selectedImage
+                      ? _c("img", {
+                          staticClass: "product_img",
+                          attrs: {
+                            height: "200",
+                            src:
+                              "http://127.0.0.1:8000/storage/" +
+                              _vm.selectedImage
+                          }
+                        })
+                      : _c("img", {
+                          staticClass: "product_img",
+                          attrs: {
+                            height: "200",
+                            src:
+                              "http://127.0.0.1:8000/storage/products/" +
+                              _vm.product.dir +
+                              "/" +
+                              _vm.product.primaryImg
+                          }
+                        })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    _vm._l(_vm.images, function(image) {
+                      return _c("v-col", { key: image, attrs: { cols: "2" } }, [
+                        _c("img", {
+                          attrs: {
+                            height: "100",
+                            width: "100",
+                            src: "http://127.0.0.1:8000/storage/" + image
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.selectImage(image)
+                            }
+                          }
+                        })
+                      ])
+                    }),
+                    1
+                  )
                 ],
                 1
               )
