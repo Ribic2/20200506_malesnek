@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../routes/router.js */ "./resources/js/routes/router.js");
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/index */ "./resources/js/store/index.js");
 /* harmony import */ var _services_api_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/api.js */ "./resources/js/services/api.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 //
 //
 //
@@ -73,13 +75,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      product: ''
+      product: '',
+      allReviews: ''
     };
   },
   methods: {
@@ -88,7 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var id = this.$route.params.id;
       _services_api_js__WEBPACK_IMPORTED_MODULE_2__["default"].getProductData(id).then(function (results) {
-        _this.product = results.data.data;
+        _this.product = results.data.data[0];
       });
     },
 
@@ -97,8 +143,7 @@ __webpack_require__.r(__webpack_exports__);
      * @param {Object} e selected product
      */
     addToCart: function addToCart(e) {
-      console.log(e); //If cart is empty adds item
-
+      //If cart is empty adds item
       if (this.$store.state.cart.cart.length < 1) {
         return this.$store.dispatch('addProduct', {
           product: e[0],
@@ -121,10 +166,22 @@ __webpack_require__.r(__webpack_exports__);
             quantity: 1
           });
         }
+    },
+
+    /**
+     * Get all review for this item
+     */
+    getReviews: function getReviews() {
+      var _this2 = this;
+
+      var id = this.$route.params.id;
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/item/' + id + '/reviews').then(function (results) {
+        _this2.allReviews = results.data.data;
+      });
     }
   },
   mounted: function mounted() {
-    this.getItemData();
+    this.getItemData(), this.getReviews();
   }
 });
 
@@ -142,7 +199,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.test{\n    border: solid 1px black;\n}\n#container{\n    width: 80%;\n}\n.product_img{\n    border: solid 1px black;\n    height: 100%;\n    width: 100%;\n}\n#itemDescription{\n    height: 500px;\n}\n", ""]);
+exports.push([module.i, "\n#container{\n    width: 80%;\n}\n.product_img{\n    border: solid 1px black;\n    height: 100%;\n    width: 100%;\n}\n#itemDescription{\n    height: 500px;\n}\n", ""]);
 
 // exports
 
@@ -208,9 +265,64 @@ var render = function() {
               attrs: { cols: "12", xs: "12", sm: "12", md: "6", lg: "6" }
             },
             [
-              _c("v-responsive", { attrs: { "aspect-ratio": 3 / 2 } }, [
-                _c("img", { staticClass: "product_img" })
-              ])
+              _c(
+                "v-responsive",
+                { attrs: { "aspect-ratio": 3 / 2, "min-height": "500" } },
+                [
+                  _c("h1", { staticClass: "font-weight-bold ma-2 display-1" }, [
+                    _vm._v(_vm._s(_vm.product.itemName))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    {
+                      staticClass: "d-inline-flex ml-2",
+                      attrs: { id: "test" }
+                    },
+                    [
+                      _c("v-rating", {
+                        model: {
+                          value: _vm.product.OverAllrating,
+                          callback: function($$v) {
+                            _vm.$set(_vm.product, "OverAllrating", $$v)
+                          },
+                          expression: "product.OverAllrating"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.allReviews.length == 1
+                        ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
+                            _vm._v(_vm._s(_vm.allReviews.length) + " ocena")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.allReviews.length == 2
+                        ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
+                            _vm._v(_vm._s(_vm.allReviews.length) + " oceni")
+                          ])
+                        : _c("p", { staticClass: "overline mt-3 ml-2" }, [
+                            _vm._v(_vm._s(_vm.allReviews.length) + " ocen")
+                          ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-responsive", { attrs: { "aspect-ratio": 1 / 1 } }, [
+                    _c("img", {
+                      staticClass: "product_img",
+                      attrs: {
+                        height: "200",
+                        src:
+                          "http://127.0.0.1:8000/storage/products/" +
+                          _vm.product.dir +
+                          "/" +
+                          _vm.product.primaryImg
+                      }
+                    })
+                  ])
+                ],
+                1
+              )
             ],
             1
           ),
@@ -221,10 +333,10 @@ var render = function() {
             [
               _c(
                 "v-card",
-                { attrs: { height: "100%" } },
+                { attrs: { "min-height": "400", height: "100%" } },
                 [
-                  _c("h2", { staticClass: "headline" }, [
-                    _vm._v(_vm._s(_vm.product[0].itemName))
+                  _c("h2", { staticClass: "headline font-weight-bold" }, [
+                    _vm._v(_vm._s(_vm.product.itemName))
                   ]),
                   _vm._v(" "),
                   _c(
@@ -249,6 +361,8 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
       _c(
         "v-row",
         [
@@ -269,9 +383,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-list-item", [
                         _vm._v(
-                          "\n                Opis: " +
-                            _vm._s(_vm.product[0].itemDescription) +
-                            "\n                "
+                          "\n                    Opis: " +
+                            _vm._s(_vm.product.itemDescription) +
+                            "\n                    "
                         )
                       ]),
                       _vm._v(" "),
@@ -279,9 +393,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-list-item", [
                         _vm._v(
-                          "\n                Cena: " +
-                            _vm._s(_vm.product[0].itemPrice) +
-                            "\n                "
+                          "\n                    Cena: " +
+                            _vm._s(_vm.product.itemPrice) +
+                            "\n                    "
                         )
                       ]),
                       _vm._v(" "),
@@ -289,9 +403,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-list-item", [
                         _vm._v(
-                          "\n                Dimenzija: " +
-                            _vm._s(_vm.product[0].dimensions) +
-                            "\n                "
+                          "\n                    Dimenzija: " +
+                            _vm._s(_vm.product.dimensions) +
+                            "\n                    "
                         )
                       ])
                     ],
@@ -304,6 +418,26 @@ var render = function() {
             1
           )
         ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        { staticClass: "test" },
+        _vm._l(_vm.allReviews, function(review) {
+          return _c(
+            "v-col",
+            { key: review.id, attrs: { cols: "12" } },
+            [
+              _c("v-card", { attrs: { height: "100" } }, [
+                _vm._v("\n                " + _vm._s(review) + "\n            ")
+              ])
+            ],
+            1
+          )
+        }),
         1
       )
     ],
@@ -337,7 +471,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
 /* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
 /* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
+/* harmony import */ var vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VRating */ "./node_modules/vuetify/lib/components/VRating/index.js");
+/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
 
 
 
@@ -368,7 +503,8 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__["VDivider"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_10__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__["VDivider"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_10__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_11__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"]})
 
 
 /* hot reload */

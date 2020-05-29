@@ -82,8 +82,10 @@
                         @click="redirectToItemPage(product)"
                         class = "productImage ma-2"
                         :aspect-ratio="1/1"
-                        >
-                        </v-img>
+
+                        :src='"http://127.0.0.1:8000/storage/products/"+product.dir+"/"+product.primaryImg'
+                        ></v-img>
+
 
                         <v-card-actions class="card-actions">
                             <v-btn

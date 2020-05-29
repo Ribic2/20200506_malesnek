@@ -11,18 +11,41 @@
             md="6"
             lg="6"
             >
-                <v-responsive :aspect-ratio="3/2">
-                    <img class="product_img">
+                <v-responsive :aspect-ratio="3/2"
+                min-height="500"
+                >
+                    <h1 class="font-weight-bold ma-2 display-1">{{ product.itemName }}</h1>
+
+                    <!--Rating and number of reviews -->
+                    <v-row class = "d-inline-flex ml-2" id ="test">
+                        <v-rating v-model="product.OverAllrating"></v-rating>
+                        <p class = "overline mt-3 ml-2" v-if="allReviews.length == 1">{{ allReviews.length }} ocena</p>
+
+                        <p class = "overline mt-3 ml-2" v-if="allReviews.length == 2">{{ allReviews.length }} oceni</p>
+
+                        <p class = "overline mt-3 ml-2" v-else>{{ allReviews.length }} ocen</p>
+                    </v-row>
+
+                    <v-responsive
+                    :aspect-ratio="1/1"
+                    >
+                        <img class="product_img"
+                        height="200"
+                        :src='"http://127.0.0.1:8000/storage/products/"+product.dir+"/"+product.primaryImg'
+                        >
+                    </v-responsive>
                 </v-responsive>
             </v-col>
+
+            <!--Add to cart part-->
             <v-col
             class = "test"
             >
                <v-card
+               min-height="400"
                height="100%"
                >
-                <h2 class="headline">{{ product[0].itemName }}</h2>
-
+                <h2 class="headline font-weight-bold">{{ product.itemName }}</h2>
                 <v-btn
                 @click="addToCart(product)"
                 rounded
@@ -31,6 +54,9 @@
                </v-card>
             </v-col>
         </v-row>
+
+        <v-divider></v-divider>
+        <!--Item description -->
         <v-row>
             <v-col
             id="itemDescription"
@@ -38,21 +64,37 @@
                 <v-card
                 height="100%"
                 >
-                <h1>Opis izdelka</h1>
-                <v-list>
-                    <v-divider></v-divider>
-                    <v-list-item>
-                    Opis: {{ product[0].itemDescription }}
-                    </v-list-item>
-                      <v-divider></v-divider>
-                    <v-list-item>
-                    Cena: {{ product[0].itemPrice}}
-                    </v-list-item>
-                      <v-divider></v-divider>
-                    <v-list-item>
-                    Dimenzija: {{ product[0].dimensions }}
-                    </v-list-item>
-                </v-list>
+                    <h1>Opis izdelka</h1>
+                    <v-list>
+                        <v-divider></v-divider>
+                        <v-list-item>
+                        Opis: {{ product.itemDescription }}
+                        </v-list-item>
+                        <v-divider></v-divider>
+                        <v-list-item>
+                        Cena: {{ product.itemPrice}}
+                        </v-list-item>
+                        <v-divider></v-divider>
+                        <v-list-item>
+                        Dimenzija: {{ product.dimensions }}
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+            </v-col>
+        </v-row>
+
+        <v-divider></v-divider>
+        <!--Reviews-->
+        <v-row class = "test">
+            <v-col
+            v-for="review in allReviews"
+            :key="review.id"
+            cols="12"
+            >
+                <v-card
+                height="100"
+                >
+                    {{ review }}
                 </v-card>
             </v-col>
         </v-row>
@@ -63,11 +105,13 @@
 import route from '../routes/router.js'
 import store from '../store/index'
 import api from '../services/api.js'
+import Axios from 'axios'
 
 export default {
     data(){
         return{
-            product: ''
+            product: '',
+            allReviews: ''
         }
     },
     methods:{
@@ -75,7 +119,7 @@ export default {
             let id = this.$route.params.id
             api.getProductData(id)
             .then((results)=>{
-                this.product = results.data.data
+                this.product = results.data.data[0]
             })
         },
         /**
@@ -83,7 +127,7 @@ export default {
          * @param {Object} e selected product
          */
         addToCart(e){
-            console.log(e)
+
             //If cart is empty adds item
             if(this.$store.state.cart.cart.length < 1){
                 return this.$store.dispatch('addProduct', {product: e[0], quantity: 1})
@@ -102,17 +146,26 @@ export default {
                 return this.$store.dispatch('addProduct', {product: e[0], quantity: 1})
             }
         },
+        /**
+         * Get all review for this item
+         */
+        getReviews(){
+            let id = this.$route.params.id
+            Axios.get('/api/item/'+id+'/reviews')
+            .then((results)=>{
+                this.allReviews = results.data.data
+            })
+        }
     },
     mounted(){
-        this.getItemData()
+        this.getItemData(),
+        this.getReviews()
     }
 }
 </script>
 
 <style>
-    .test{
-        border: solid 1px black;
-    }
+
     #container{
         width: 80%;
     }

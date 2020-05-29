@@ -126,6 +126,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -506,7 +508,14 @@ var render = function() {
                           _vm._v(" "),
                           _c("v-img", {
                             staticClass: "productImage ma-2",
-                            attrs: { "aspect-ratio": 1 / 1 },
+                            attrs: {
+                              "aspect-ratio": 1 / 1,
+                              src:
+                                "http://127.0.0.1:8000/storage/products/" +
+                                product.dir +
+                                "/" +
+                                product.primaryImg
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.redirectToItemPage(product)

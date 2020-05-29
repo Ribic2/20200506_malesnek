@@ -59,7 +59,16 @@ class itemController extends Controller
 
     public function deleteItem(Request $request){
         $id = $request->input('itemId');
+        $name = Items::select('itemName')->where('itemId', $id)->get();
+
+        //TODO
+        $files =  Storage::allFiles(public_path('storage/products/'.$name[0]->itemName));
+        Storage::delete($files);
+        return $files;
         $delete = Items::destroy($id);
+
+        //Delte directory with images
+
 
         //Delete all orders and item reviews where selected item is present
         Order::where('itemId', $id)->delete();
@@ -78,9 +87,30 @@ class itemController extends Controller
         $Dimension = $request->input('Dimensions');
         $Categorie = $request->input('Categorie');
         $Color = $request->input('Color');
-        $image = $request->file('Image');
+        $primaryImg = $request->input('itemImg');
+        $images = $request->file('images');
         $Description = $request->input('Description');
 
+        if(Items::where('itemName', $itemName)->count() == 1){
+            return "Izdelek že obstaja!";
+        }
+        else{
+            $path = public_path('storage\products/'.$itemName);
+
+            mkdir($path, 0777, true);
+
+
+            foreach($images as $image){
+                if($image->getClientOriginalName() == $primaryImg){
+                    $image->storeAs('public/products/'.$itemName, $primaryImg);
+                }else{
+                    $image->store('public/products/'.$itemName);
+                }
+            }
+
+
+        }
+     ;
         //Validation
         $rules = [
             'cena' => 'required|numeric',
@@ -100,6 +130,8 @@ class itemController extends Controller
         $item->itemName = $itemName;
         $item->itemPrice = $itemPrice;
         $item->availableQuantity = $Quantity;
+        $item->itemImg = $primaryImg;
+        $item->itemImgDir = $itemName;
         $item->dimensions = $Dimension;
         $item->categorie =  $Categorie;
         $item->colors = $Color;

@@ -25,7 +25,6 @@ class ItemSeeder extends Seeder
                 'subCategorie' => 'Unikat',
                 'colors' => 'Red',
                 'itemImg'=> 'item1.png',
-                'discountPrice' => 0,
                 'dimensions' => '300x100',
                 'OverAllrating' => 4.9,
                 'discount' => 0
@@ -43,7 +42,6 @@ class ItemSeeder extends Seeder
                 'colors' => 'Red',
                 'discount' => 30,
                 'itemImg'=> 'item1.png',
-                'discountPrice' => 2.20,
                 'dimensions' => '300x100',
                 'OverAllrating' => 4.1
             ]

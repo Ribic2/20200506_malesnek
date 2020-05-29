@@ -22,7 +22,9 @@ class itemResource extends JsonResource
             'dimensions' => $this->dimensions,
             'colors' => $this->colors,
             'Quantity' => $this->availableQuantity,
-            'OverAllrating' => $this->OverAllrating
+            'OverAllrating' => $this->OverAllrating,
+            'dir' => $this->itemImgDir,
+            'primaryImg' => $this->itemImg
         ];
     }
 }

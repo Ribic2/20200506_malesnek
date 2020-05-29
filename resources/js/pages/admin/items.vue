@@ -183,7 +183,7 @@
 
                                 <v-row>
                                     <v-col>
-                                         <v-select
+                                        <v-select
                                         :items="colors"
                                         label="Barva"
                                         v-model="newColor"
@@ -195,7 +195,7 @@
                                     <v-col>
                                         <v-select
                                         :items="subCategorie"
-                                        :model="addNewCategorie ? '' : newCategory"
+                                        v-model="newCategory"
                                         label="Kategorija"
                                         :disabled="addNewCategorie ? true : false"
                                         dense
@@ -219,7 +219,31 @@
 
                                 <v-file-input
                                 label="File input"
+                                v-model="newImage"
+                                multiple
+                                @change="previewImages()"
+                                accept="image/*"
                                 ></v-file-input>
+
+                                <v-row v-if="showImages">
+                                    <v-col
+                                    v-for="image in showImages"
+                                    cols="3"
+                                    :key="image.id">
+                                        <v-img
+                                        v-if="primaryPicture == image.imgName"
+                                        class="primaryImg"
+                                        height="100"
+                                        :src="image.url"/>
+
+
+                                        <v-img
+                                        v-else
+                                        @click="selectPrimaryImage(image.imgName)"
+                                        height="100"
+                                        :src="image.url"/>
+                                    </v-col>
+                                </v-row>
 
                                 <v-textarea
                                 label="Opis"
@@ -301,6 +325,7 @@ export default {
             newImage: '',
             customCategory: '',
             newItemDescription: '',
+            primaryPicture: '',
             //Change item data
             itemName: '',
             quantity: '',
@@ -312,6 +337,7 @@ export default {
             Search: '',
             change: false,
             addNewCategorie: false,
+            showImages: [],
             deleteItem: false,
             discount: false,
             success: false,
@@ -388,33 +414,58 @@ export default {
         },
         addNewItem(){
 
-            console.log(this.customCategory)
+                Axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
-            let newItemData = {
-                "itemName": this.newItemName,
-                "cena": this.newItemPrice,
-                "kolicina": this.newQuantity,
-                "Dimensions": this.newDimension,
-                "Categorie": this.addNewCategorie ?  this.customCategory : this.newCategory,
-                "Image": this.newImage,
-                "Color": this.newColor,
-                "Description": this.newItemDescription
-            }
+                let data = new FormData()
+                let categoriesChoose = this.addNewCategorie ?  this.customCategory : this.newCategory
 
-
-            Axios.post('/api/items/add', newItemData)
-            .then((results)=>{
-                if(results.data == 1){
-                    this.getItemsForAdmin();
-                    this.addItem = false
-                    this.successAdd = true
+                for(let i = 0; i < this.newImage.length; i++){
+                    data.append("images[]", this.newImage[i])
                 }
 
-            })
-        }
+
+
+                data.append('itemName', this.newItemName)
+                data.append('cena', this.newItemPrice)
+                data.append('kolicina', this.newQuantity)
+                data.append('Dimensions', this.newDimension)
+                data.append('Categorie', categoriesChoose)
+                data.append('Color', this.newColor)
+                data.append('Description', this.newItemDescription)
+                data.append('itemImg', this.primaryPicture)
+
+
+                Axios.post('/api/items/add', data)
+                .then((results)=>{
+                    if(results.data == 1){
+                        this.getItemsForAdmin();
+                        this.addItem = false
+                        this.successAdd = true
+                    }
+
+                    console.log(results.data)
+
+                })
+            },
+
+            previewImages(){
+                for(let i = 0; i < this.newImage.length; i++){
+                    this.showImages.push({url: URL.createObjectURL(this.newImage[i]), imgName: this.newImage[i].name, id:i})
+                }
+            },
+
+            selectPrimaryImage(e){
+                this.primaryPicture = e
+            }
     },
     mounted(){
         this.getItemsForAdmin();
     }
 }
 </script>
+
+<style>
+    .primaryImg{
+        border: solid 3px red;
+    }
+</style>

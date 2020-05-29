@@ -17,10 +17,10 @@ class CreateItemTable extends Migration
             $table->id('itemId');
             $table->string('itemName');
             $table->double('itemPrice', 100, 2);
-            $table->string('itemImg')->nullable($value=true);
+            $table->string('itemImg');
+            $table->string('itemImgDir');
             $table->integer('discount')->nullable($value=true);
             $table->boolean('isOnSale')->nullable($value=true);
-            $table->double('discountPrice', 100, 2)->nullable($value=true);
             $table->mediumText('itemDescription');
             $table->boolean('isEditable')->nullable($value=true);
             $table->integer('availableQuantity');
