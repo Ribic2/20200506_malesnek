@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 //Import layout
 import login from '../pages/user/login.vue'
 import Axios from 'axios'
+import api from '../services/api'
 
 Vue.use(VueRouter)
 
@@ -100,11 +101,31 @@ const router = new VueRouter({
         },
         {
             path: '/izdelek/:id',
-            component: ()=> import('../pages/item.vue')
+            component: ()=> import('../pages/item.vue'),
+            //Checks if item even exits
+            beforeEnter: (to, from, next)=>{
+                let id = to.params.id
+
+                api.getProductData(id)
+                .then((results)=>{
+                    if(results.data.data[0] == null){
+                       next({name: '404'})
+                    }
+                    else{
+                       next()
+                    }
+                })
+            }
+        },
+        {
+            path: '/stran-ni-bila-najdena',
+            name: '404error',
+            component: ()=>import('../pages/errors/404.vue')
         },
         {
             path: '/*',
-            meta: {layout: "error"}
+            name: '404',
+            redirect: {name: '404error'},
         }
     ]
 })

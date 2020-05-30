@@ -29,7 +29,7 @@ class CreateItemTable extends Migration
             $table->string('subCategorie')->nullable($value=true);
             $table->enum('colors', ['Red', 'Blue', 'Purple']);
             $table->string('dimensions');
-            $table->decimal('OverAllrating')->default(0);
+            $table->integer('OverAllrating')->default(0);
         });
     }
 

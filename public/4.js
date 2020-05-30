@@ -164,7 +164,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       product: '',
       allReviews: '',
-      images: '',
+      images: [],
       currentIndex: ''
     };
   },
@@ -219,17 +219,24 @@ __webpack_require__.r(__webpack_exports__);
         _this2.allReviews = results.data.data;
       });
     },
+    //Removes first primary image and re-adds it to first place of the array
     getImages: function getImages() {
       var _this3 = this;
 
       var id = this.$route.params.id;
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/item/' + id + "/images").then(function (results) {
         _this3.images = results.data;
+
+        var primaryImageIndex = _this3.images.indexOf("products/" + _this3.product.dir + "/" + _this3.product.primaryImg);
+
+        _this3.images.splice(primaryImageIndex);
+
+        _this3.images.unshift("products/" + _this3.product.dir + "/" + _this3.product.primaryImg);
       });
     },
+    //Selects the image
     selectImage: function selectImage(e) {
       this.currentIndex = e;
-      console.log(e);
     }
   },
   mounted: function mounted() {
@@ -323,13 +330,13 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "d-inline-flex ml-2", attrs: { id: "test" } },
+                { staticClass: "d-inline-flex ml-2" },
                 [
                   _c("v-rating", {
                     model: {
                       value: _vm.product.OverAllrating,
                       callback: function($$v) {
-                        _vm.$set(_vm.product, "OverAllrating", $$v)
+                        _vm.$set(_vm.product, "OverAllrating", _vm._n($$v))
                       },
                       expression: "product.OverAllrating"
                     }

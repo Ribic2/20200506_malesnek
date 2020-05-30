@@ -15,8 +15,8 @@
                     <h1 class="font-weight-bold ma-2 display-1">{{ product.itemName }}</h1>
 
                     <!--Rating and number of reviews -->
-                    <v-row class = "d-inline-flex ml-2" id ="test">
-                        <v-rating v-model="product.OverAllrating"></v-rating>
+                    <v-row class = "d-inline-flex ml-2">
+                        <v-rating v-model.number='product.OverAllrating'></v-rating>
                         <p class = "overline mt-3 ml-2" v-if="allReviews.length == 1">{{ allReviews.length }} ocena</p>
 
                         <p class = "overline mt-3 ml-2" v-if="allReviews.length == 2">{{ allReviews.length }} oceni</p>
@@ -150,7 +150,7 @@ export default {
         return{
             product: '',
             allReviews: '',
-            images: '',
+            images: [],
             currentIndex: ''
         }
     },
@@ -197,16 +197,21 @@ export default {
             })
         },
 
+        //Removes first primary image and re-adds it to first place of the array
         getImages(){
             let id = this.$route.params.id
             Axios.get('/api/item/'+id+"/images")
             .then((results)=>{
                 this.images = results.data
+                let primaryImageIndex = this.images.indexOf("products/"+this.product.dir+"/"+this.product.primaryImg)
+                this.images.splice(primaryImageIndex)
+                this.images.unshift("products/"+this.product.dir+"/"+this.product.primaryImg)
+
             })
         },
+        //Selects the image
         selectImage(e){
             this.currentIndex = e
-            console.log(e)
         },
     },
     mounted(){
