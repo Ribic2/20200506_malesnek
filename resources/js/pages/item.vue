@@ -11,9 +11,7 @@
             md="6"
             lg="6"
             >
-                <v-responsive :aspect-ratio="3/2"
-                min-height="500"
-                >
+
                     <h1 class="font-weight-bold ma-2 display-1">{{ product.itemName }}</h1>
 
                     <!--Rating and number of reviews -->
@@ -26,37 +24,55 @@
                         <p class = "overline mt-3 ml-2" v-else>{{ allReviews.length }} ocen</p>
                     </v-row>
 
-                    <v-responsive
-                    :aspect-ratio="1/1"
-                    >
-                        <img class="product_img"
-                        height="200"
-                        v-if="selectedImage"
-                        :src='"http://127.0.0.1:8000/storage/"+selectedImage'
-                        >
-
-                        <img class="product_img"
-                        height="200"
-                        v-else
-                        :src='"http://127.0.0.1:8000/storage/products/"+product.dir+"/"+product.primaryImg'
-                        >
-                    </v-responsive>
 
                     <v-row>
+                        <v-col>
+                            <v-responsive
+                            :aspect-ratio="16/9"
+                            >
+                                <v-carousel
+                                v-model="currentIndex"
+                                hide-delimiter-background
+                                >
+                                    <v-carousel-item
+                                    v-for="(image, i) in images"
+                                    :key="i"
+                                    :src='"http://127.0.0.1:8000/storage/"+image'
+                                    ></v-carousel-item>
+
+
+
+                                </v-carousel>
+
+                            </v-responsive>
+                        </v-col>
+                    </v-row>
+
+                    <!--images-->
+                    <v-row>
                         <v-col
-                        v-for="image in images"
-                        :key="image"
+                        v-for="(image, i) in images"
+                        :key="i"
                         cols="2"
                         >
                             <img
+                            v-if="currentIndex == i"
                             height="100"
                             width="100"
-                            @click="selectImage(image)"
+                            class="selected_image_in_carousel"
+                            :src='"http://127.0.0.1:8000/storage/"+image'
+                            >
+
+                            <img
+                            v-else
+                            height="100"
+                            width="100"
+                            @click="selectImage(i)"
                             :src='"http://127.0.0.1:8000/storage/"+image'
                             >
                         </v-col>
                     </v-row>
-                </v-responsive>
+
             </v-col>
 
             <!--Add to cart part-->
@@ -135,7 +151,7 @@ export default {
             product: '',
             allReviews: '',
             images: '',
-            selectedImage: ''
+            currentIndex: ''
         }
     },
     methods:{
@@ -189,8 +205,9 @@ export default {
             })
         },
         selectImage(e){
-            this.selectedImage = e
-        }
+            this.currentIndex = e
+            console.log(e)
+        },
     },
     mounted(){
         this.getItemData(),
@@ -205,12 +222,17 @@ export default {
     #container{
         width: 80%;
     }
-    .product_img{
-        border: solid 1px black;
+    .product_image{
         height: 100%;
-        width: 100%;
+        width: 100px;
     }
     #itemDescription{
         height: 500px;
+    }
+    .selected_image_in_carousel{
+        transition: 0.1s;
+        -webkit-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
     }
 </style>

@@ -139,6 +139,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -149,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
       product: '',
       allReviews: '',
       images: '',
-      selectedImage: ''
+      currentIndex: ''
     };
   },
   methods: {
@@ -212,7 +228,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     selectImage: function selectImage(e) {
-      this.selectedImage = e;
+      this.currentIndex = e;
+      console.log(e);
     }
   },
   mounted: function mounted() {
@@ -234,7 +251,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#container{\n    width: 80%;\n}\n.product_img{\n    border: solid 1px black;\n    height: 100%;\n    width: 100%;\n}\n#itemDescription{\n    height: 500px;\n}\n", ""]);
+exports.push([module.i, "\n#container{\n    width: 80%;\n}\n.product_image{\n    height: 100%;\n    width: 100px;\n}\n#itemDescription{\n    height: 500px;\n}\n.selected_image_in_carousel{\n    transition: 0.1s;\n    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);\n}\n", ""]);
 
 // exports
 
@@ -300,77 +317,97 @@ var render = function() {
               attrs: { cols: "12", xs: "12", sm: "12", md: "6", lg: "6" }
             },
             [
+              _c("h1", { staticClass: "font-weight-bold ma-2 display-1" }, [
+                _vm._v(_vm._s(_vm.product.itemName))
+              ]),
+              _vm._v(" "),
               _c(
-                "v-responsive",
-                { attrs: { "aspect-ratio": 3 / 2, "min-height": "500" } },
+                "v-row",
+                { staticClass: "d-inline-flex ml-2", attrs: { id: "test" } },
                 [
-                  _c("h1", { staticClass: "font-weight-bold ma-2 display-1" }, [
-                    _vm._v(_vm._s(_vm.product.itemName))
-                  ]),
+                  _c("v-rating", {
+                    model: {
+                      value: _vm.product.OverAllrating,
+                      callback: function($$v) {
+                        _vm.$set(_vm.product, "OverAllrating", $$v)
+                      },
+                      expression: "product.OverAllrating"
+                    }
+                  }),
                   _vm._v(" "),
+                  _vm.allReviews.length == 1
+                    ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
+                        _vm._v(_vm._s(_vm.allReviews.length) + " ocena")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.allReviews.length == 2
+                    ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
+                        _vm._v(_vm._s(_vm.allReviews.length) + " oceni")
+                      ])
+                    : _c("p", { staticClass: "overline mt-3 ml-2" }, [
+                        _vm._v(_vm._s(_vm.allReviews.length) + " ocen")
+                      ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
                   _c(
-                    "v-row",
-                    {
-                      staticClass: "d-inline-flex ml-2",
-                      attrs: { id: "test" }
-                    },
+                    "v-col",
                     [
-                      _c("v-rating", {
-                        model: {
-                          value: _vm.product.OverAllrating,
-                          callback: function($$v) {
-                            _vm.$set(_vm.product, "OverAllrating", $$v)
-                          },
-                          expression: "product.OverAllrating"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm.allReviews.length == 1
-                        ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
-                            _vm._v(_vm._s(_vm.allReviews.length) + " ocena")
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.allReviews.length == 2
-                        ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
-                            _vm._v(_vm._s(_vm.allReviews.length) + " oceni")
-                          ])
-                        : _c("p", { staticClass: "overline mt-3 ml-2" }, [
-                            _vm._v(_vm._s(_vm.allReviews.length) + " ocen")
-                          ])
+                      _c(
+                        "v-responsive",
+                        { attrs: { "aspect-ratio": 16 / 9 } },
+                        [
+                          _c(
+                            "v-carousel",
+                            {
+                              attrs: { "hide-delimiter-background": "" },
+                              model: {
+                                value: _vm.currentIndex,
+                                callback: function($$v) {
+                                  _vm.currentIndex = $$v
+                                },
+                                expression: "currentIndex"
+                              }
+                            },
+                            _vm._l(_vm.images, function(image, i) {
+                              return _c("v-carousel-item", {
+                                key: i,
+                                attrs: {
+                                  src: "http://127.0.0.1:8000/storage/" + image
+                                }
+                              })
+                            }),
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c("v-responsive", { attrs: { "aspect-ratio": 1 / 1 } }, [
-                    _vm.selectedImage
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                _vm._l(_vm.images, function(image, i) {
+                  return _c("v-col", { key: i, attrs: { cols: "2" } }, [
+                    _vm.currentIndex == i
                       ? _c("img", {
-                          staticClass: "product_img",
+                          staticClass: "selected_image_in_carousel",
                           attrs: {
-                            height: "200",
-                            src:
-                              "http://127.0.0.1:8000/storage/" +
-                              _vm.selectedImage
+                            height: "100",
+                            width: "100",
+                            src: "http://127.0.0.1:8000/storage/" + image
                           }
                         })
                       : _c("img", {
-                          staticClass: "product_img",
-                          attrs: {
-                            height: "200",
-                            src:
-                              "http://127.0.0.1:8000/storage/products/" +
-                              _vm.product.dir +
-                              "/" +
-                              _vm.product.primaryImg
-                          }
-                        })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-row",
-                    _vm._l(_vm.images, function(image) {
-                      return _c("v-col", { key: image, attrs: { cols: "2" } }, [
-                        _c("img", {
                           attrs: {
                             height: "100",
                             width: "100",
@@ -378,15 +415,12 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              return _vm.selectImage(image)
+                              return _vm.selectImage(i)
                             }
                           }
                         })
-                      ])
-                    }),
-                    1
-                  )
-                ],
+                  ])
+                }),
                 1
               )
             ],
@@ -534,11 +568,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VRating */ "./node_modules/vuetify/lib/components/VRating/index.js");
-/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
+/* harmony import */ var vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VCarousel */ "./node_modules/vuetify/lib/components/VCarousel/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VRating */ "./node_modules/vuetify/lib/components/VRating/index.js");
+/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
 
 
 
@@ -570,7 +605,9 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_8__["VDivider"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_9__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_10__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_11__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_11__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_12__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"]})
 
 
 /* hot reload */
