@@ -32,6 +32,7 @@
         </v-card
         >
         <v-row>
+
             <v-col
             v-for="product in getData"
             :key="product.itemName"
@@ -66,7 +67,9 @@
                             icon
                             @click="addToFavourites(product)">
                                 <v-icon>mdi-star</v-icon>
+
                             </v-btn>
+
                         </v-card-actions>
                     </v-responsive>
                 </v-card>
@@ -102,12 +105,33 @@
                             <v-btn
                             @click="addToFavourites(product)"
                             icon
+                            v-if="$store.state.favourites.favouriteItem == null"
+                            >
+                            not inside
+                                <v-icon>mdi-star</v-icon>
+                            </v-btn>
+
+                            <v-btn
+                            icon
+                            @click="addToFavourites(product)"
+                            color="blue"
+                            v-else-if="$store.state.favourites.favouriteItem.find(o=> o.itemId === product.itemId)"
                             >
                                 <v-icon>mdi-star</v-icon>
                             </v-btn>
+
+                            <v-btn
+                            @click="addToFavourites(product)"
+                            icon
+                            v-else
+                            >
+                                <v-icon>mdi-star</v-icon>
+                            </v-btn>
+
                         </v-card-actions>
                     </v-responsive>
                 </v-card>
+
             </v-col>
         </v-row>
 
@@ -189,6 +213,9 @@ export default {
         },
         getCategorySpecificItems(e){
             return this.$store.dispatch('filterItemsByCategory', e)
+        },
+        resetFavourites(){
+            return this.$store.dispatch('resetFavouritesArray')
         }
     },
     computed:{
@@ -202,7 +229,8 @@ export default {
     },
     mounted(){
         this.addData(),
-        this.getCategoriesApi()
+        this.getCategoriesApi(),
+        this.resetFavourites()
     }
 }
 </script>
@@ -214,7 +242,6 @@ export default {
         bottom: 0;
     }
     .productImage{
-        border: Solid 1px black;
         position: relative;
         bottom: 15px;
     }

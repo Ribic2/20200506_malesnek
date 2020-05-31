@@ -76,6 +76,11 @@ export default {
                 window.location.href = "http://127.0.0.1:8000/"
             }
         })
+        .catch(error =>{
+            if (error.response) {
+                this.response = error.response.data.errors.email[0]
+            }
+        })
     }
   },
   computed:{

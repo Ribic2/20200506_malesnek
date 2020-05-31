@@ -6,16 +6,27 @@
             cols="12"
             >
                 <v-card
-                height="200"
+                min-height="250"
                 >
-                    <v-row>
-                        <v-col>
+                    <v-row
+                    class="row"
+                    >
+                        <v-col
+                        class = "test"
+                        cols="2"
+                        >
+                            <v-img
+                            aspect-ratio="1"
+                            :src='"http://127.0.0.1:8000/storage/products/"+item.dir+"/"+item.primaryImg'
+                            ></v-img>
+                        </v-col>
+                        <v-col  class = "test">
                             {{ item.itemName }}
                         </v-col>
-                        <v-col>
+                        <v-col  class = "test">
                             {{ item.itemPrice}}
                         </v-col>
-                        <v-col>
+                        <v-col  class = "test">
                             {{ item.OverAllrating}}
                         </v-col>
                     </v-row>
@@ -39,3 +50,14 @@ export default {
 
 }
 </script>
+
+<style>
+    .test{
+        border: solid 1px black;
+    }
+    .row{
+        width: 100%;
+        margin: 0 auto;
+        height: 100%;
+    }
+</style>

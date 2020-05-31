@@ -148,20 +148,30 @@
                     <v-card-actions>
                         <v-container>
                             <v-form
+                            :lazy-validation="true"
                             class="ma-auto"
+                            ref="form"
                             width="500"
                             >
+                            {{ error }}
                                 <v-row>
                                     <v-col>
                                         <v-text-field
                                         label="Ime izdelka"
                                         v-model="newItemName"
+                                        :rules="requiredInput"
+                                        type="text"
+                                        required
                                         ></v-text-field>
+
                                     </v-col>
                                     <v-col>
                                         <v-text-field
                                         label="Cena izdelka"
-                                        v-model="newItemPrice"
+                                        v-model.number="newItemPrice"
+                                        required
+                                        :value="newItemPrice"
+                                        :rules="requiredInput"
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -169,7 +179,10 @@
                                 <v-row>
                                     <v-col>
                                         <v-text-field
-                                        v-model="newQuantity"
+                                        v-model.number="newQuantity"
+                                        required
+                                        :rules="requiredInput"
+                                        :value="newQuantity"
                                         label="Količina"
                                         ></v-text-field>
                                     </v-col>
@@ -177,6 +190,7 @@
                                         <v-text-field
                                         v-model="newDimension"
                                         label="Dimenzija"
+                                        required
                                         ></v-text-field>
                                     </v-col>
                                 </v-row>
@@ -189,6 +203,8 @@
                                         v-model="newColor"
                                         dense
                                         solo
+                                        required
+                                        :rules="requiredInput"
                                         >
                                         </v-select>
                                     </v-col>
@@ -199,6 +215,8 @@
                                         label="Kategorija"
                                         :disabled="addNewCategorie ? true : false"
                                         dense
+                                        required
+                                        :rules="requiredInput"
                                         solo
                                         >
                                         </v-select>
@@ -221,6 +239,8 @@
                                 label="File input"
                                 v-model="newImage"
                                 multiple
+                                required
+                                :rules="requiredInput"
                                 @change="previewImages()"
                                 accept="image/*"
                                 ></v-file-input>
@@ -248,6 +268,8 @@
                                 <v-textarea
                                 label="Opis"
                                 v-model="newItemDescription"
+                                required
+                                :rules="requiredInput"
                                 no-resize
                                 >
                                 </v-textarea>
@@ -309,6 +331,7 @@
 </template>
 
 <script>
+
 import store from '../../store/index'
 import Axios from 'axios'
 
@@ -322,7 +345,7 @@ export default {
             newDimension: '',
             newCategory: '',
             newColor: '',
-            newImage: '',
+            newImage: [],
             customCategory: '',
             newItemDescription: '',
             primaryPicture: '',
@@ -354,7 +377,13 @@ export default {
                 "Red",
                 "Blue",
                 "Purple"
-            ]
+            ],
+            //Rules and validation
+            requiredInput:[
+                v => !!v || 'Pozabili ste vnesti vrednost v to polje!'
+            ],
+            error: ''
+
         }
     },
     methods:{
@@ -414,6 +443,7 @@ export default {
         },
         addNewItem(){
 
+
                 Axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
 
                 let data = new FormData()
@@ -423,6 +453,12 @@ export default {
                     data.append("images[]", this.newImage[i])
                 }
 
+
+
+                if(!this.checkModels()){
+                    this.error = "Nekatera polja manjkajo!"
+                    return false
+                }
 
 
                 data.append('itemName', this.newItemName)
@@ -443,8 +479,13 @@ export default {
                         this.successAdd = true
                     }
 
-                    console.log(results.data)
 
+
+                })
+                .catch(error =>{
+                    if (error.response) {
+                        console.log(error.response.data.errors.cena);
+                    }
                 })
             },
 
@@ -456,8 +497,16 @@ export default {
 
             selectPrimaryImage(e){
                 this.primaryPicture = e
+            },
+            checkModels(){
+                let categoriesChoose = this.addNewCategorie ?  this.customCategory : this.newCategory
+                if(this.newItemName == "" || this.newItemPrice == "" || this.newQuantity == "" || this.newDimension == "" || this.newColor == "" || categoriesChoose == "" || this.newImage == "" || this.newItemDescription == "" || this.primaryPicture == ""){
+                   return false;
+                }
+                return true
             }
     },
+
     mounted(){
         this.getItemsForAdmin();
     }

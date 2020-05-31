@@ -31,6 +31,8 @@
                             :aspect-ratio="16/9"
                             >
                                 <v-carousel
+                                hide-delimiters
+                                show-arrows-on-hover
                                 v-model="currentIndex"
                                 hide-delimiter-background
                                 >

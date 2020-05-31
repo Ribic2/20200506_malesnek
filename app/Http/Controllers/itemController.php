@@ -99,6 +99,19 @@ class itemController extends Controller
         $images = $request->file('images');
         $Description = $request->input('Description');
 
+        //Validation
+        $rules = [
+            'cena' => 'required|numeric',
+            'kolicina' => 'required|numeric'
+        ];
+
+        $customMessage = [
+            'numeric' => "Napačna vrednsot pri :attribute"
+        ];
+
+        //Validates if provided items are correct type
+        $this->validate($request, $rules, $customMessage);
+
         if(Items::where('itemName', $itemName)->count() == 1){
             return "Izdelek že obstaja!";
         }
@@ -117,20 +130,7 @@ class itemController extends Controller
             }
 
 
-        }
-     ;
-        //Validation
-        $rules = [
-            'cena' => 'required|numeric',
-            'kolicina' => 'required|numeric'
-        ];
-
-        $customMessage = [
-            'numeric' => "Napačna vrednsot pri :attribute"
-        ];
-
-        //Validates if provided items are correct type
-        $this->validate($request, $rules, $customMessage);
+        };
 
 
         $item = new Items;

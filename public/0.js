@@ -324,6 +324,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -338,7 +360,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       newDimension: '',
       newCategory: '',
       newColor: '',
-      newImage: '',
+      newImage: [],
       customCategory: '',
       newItemDescription: '',
       primaryPicture: '',
@@ -355,7 +377,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       addNewCategorie: false,
       showImages: [],
       deleteItem: false
-    }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "categories", ["Voščilnica"]), _defineProperty(_ref, "subCategorie", ["Unikat artikel", "Redni artikel"]), _defineProperty(_ref, "colors", ["Red", "Blue", "Purple"]), _ref;
+    }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "categories", ["Voščilnica"]), _defineProperty(_ref, "subCategorie", ["Unikat artikel", "Redni artikel"]), _defineProperty(_ref, "colors", ["Red", "Blue", "Purple"]), _defineProperty(_ref, "requiredInput", [function (v) {
+      return !!v || 'Pozabili ste vnesti vrednost v to polje!';
+    }]), _defineProperty(_ref, "error", ''), _ref;
   },
   methods: {
     getItemsForAdmin: function getItemsForAdmin() {
@@ -423,6 +447,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         data.append("images[]", this.newImage[i]);
       }
 
+      if (!this.checkModels()) {
+        this.error = "Nekatera polja manjkajo!";
+        return false;
+      }
+
       data.append('itemName', this.newItemName);
       data.append('cena', this.newItemPrice);
       data.append('kolicina', this.newQuantity);
@@ -438,8 +467,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this3.addItem = false;
           _this3.successAdd = true;
         }
-
-        console.log(results.data);
+      })["catch"](function (error) {
+        if (error.response) {
+          console.log(error.response.data.errors.cena);
+        }
       });
     },
     previewImages: function previewImages() {
@@ -453,6 +484,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     selectPrimaryImage: function selectPrimaryImage(e) {
       this.primaryPicture = e;
+    },
+    checkModels: function checkModels() {
+      var categoriesChoose = this.addNewCategorie ? this.customCategory : this.newCategory;
+
+      if (this.newItemName == "" || this.newItemPrice == "" || this.newQuantity == "" || this.newDimension == "" || this.newColor == "" || categoriesChoose == "" || this.newImage == "" || this.newItemDescription == "" || this.primaryPicture == "") {
+        return false;
+      }
+
+      return true;
     }
   },
   mounted: function mounted() {
@@ -866,8 +906,17 @@ var render = function() {
                     [
                       _c(
                         "v-form",
-                        { staticClass: "ma-auto", attrs: { width: "500" } },
+                        {
+                          ref: "form",
+                          staticClass: "ma-auto",
+                          attrs: { "lazy-validation": true, width: "500" }
+                        },
                         [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.error) +
+                              "\n                            "
+                          ),
                           _c(
                             "v-row",
                             [
@@ -875,7 +924,12 @@ var render = function() {
                                 "v-col",
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Ime izdelka" },
+                                    attrs: {
+                                      label: "Ime izdelka",
+                                      rules: _vm.requiredInput,
+                                      type: "text",
+                                      required: ""
+                                    },
                                     model: {
                                       value: _vm.newItemName,
                                       callback: function($$v) {
@@ -892,11 +946,16 @@ var render = function() {
                                 "v-col",
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Cena izdelka" },
+                                    attrs: {
+                                      label: "Cena izdelka",
+                                      required: "",
+                                      value: _vm.newItemPrice,
+                                      rules: _vm.requiredInput
+                                    },
                                     model: {
                                       value: _vm.newItemPrice,
                                       callback: function($$v) {
-                                        _vm.newItemPrice = $$v
+                                        _vm.newItemPrice = _vm._n($$v)
                                       },
                                       expression: "newItemPrice"
                                     }
@@ -915,11 +974,16 @@ var render = function() {
                                 "v-col",
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Količina" },
+                                    attrs: {
+                                      required: "",
+                                      rules: _vm.requiredInput,
+                                      value: _vm.newQuantity,
+                                      label: "Količina"
+                                    },
                                     model: {
                                       value: _vm.newQuantity,
                                       callback: function($$v) {
-                                        _vm.newQuantity = $$v
+                                        _vm.newQuantity = _vm._n($$v)
                                       },
                                       expression: "newQuantity"
                                     }
@@ -932,7 +996,7 @@ var render = function() {
                                 "v-col",
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Dimenzija" },
+                                    attrs: { label: "Dimenzija", required: "" },
                                     model: {
                                       value: _vm.newDimension,
                                       callback: function($$v) {
@@ -959,7 +1023,9 @@ var render = function() {
                                       items: _vm.colors,
                                       label: "Barva",
                                       dense: "",
-                                      solo: ""
+                                      solo: "",
+                                      required: "",
+                                      rules: _vm.requiredInput
                                     },
                                     model: {
                                       value: _vm.newColor,
@@ -984,6 +1050,8 @@ var render = function() {
                                         ? true
                                         : false,
                                       dense: "",
+                                      required: "",
+                                      rules: _vm.requiredInput,
                                       solo: ""
                                     },
                                     model: {
@@ -1029,6 +1097,8 @@ var render = function() {
                             attrs: {
                               label: "File input",
                               multiple: "",
+                              required: "",
+                              rules: _vm.requiredInput,
                               accept: "image/*"
                             },
                             on: {
@@ -1083,7 +1153,12 @@ var render = function() {
                             : _vm._e(),
                           _vm._v(" "),
                           _c("v-textarea", {
-                            attrs: { label: "Opis", "no-resize": "" },
+                            attrs: {
+                              label: "Opis",
+                              required: "",
+                              rules: _vm.requiredInput,
+                              "no-resize": ""
+                            },
                             model: {
                               value: _vm.newItemDescription,
                               callback: function($$v) {

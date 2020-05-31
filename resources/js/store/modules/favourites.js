@@ -15,7 +15,9 @@ export default{
             else{
                 for(let i = 0; i < state.favouriteItem.length; i++){
                     if(state.favouriteItem[i].itemId == payload.itemId){
-                        return false
+                        state.favouriteItem.splice(i, 1)
+                        localStorage.setItem('favouritesStorage', JSON.stringify(state.favouriteItem))
+                        return false;
                     }
                 }
                 state.favouriteItem.push(payload)
@@ -24,7 +26,12 @@ export default{
             }
         },
         RESET_FAVOURITES(state){
-            state.favouriteItem = JSON.parse(localStorage.getItem('favouritesStorage'))
+            if(state.favouriteItem == null){
+                state.favouriteItem = new Array
+            }
+            else{
+                state.favouriteItem = JSON.parse(localStorage.getItem('favouritesStorage'))
+            }
         }
     },
     actions:{

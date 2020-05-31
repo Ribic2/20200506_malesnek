@@ -12,7 +12,12 @@ export default{
         },
         //Mutation that resets cart array with locastorage array
         REFRESH_CART_DATA(state){
-            state.cart = JSON.parse(localStorage.getItem('cartStorage'))
+            if(JSON.parse(localStorage.getItem('cartStorage')) == null){
+                state.cart = new Array
+            }
+            else{
+                state.cart = JSON.parse(localStorage.getItem('cartStorage'))
+            }
         },
         DELETE_CART(state){
             state.cart = new Array;
@@ -51,6 +56,7 @@ export default{
          * Action that recives payload and sends it to mutation that stores it inside cart array
          */
         addProduct({commit}, payload){
+            console.log(payload)
             commit('ADD_DATA_TO_CART', payload)
         },
         //Check if non register user already have it cart data stored and reapply it

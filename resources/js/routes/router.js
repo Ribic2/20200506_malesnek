@@ -58,6 +58,7 @@ const router = new VueRouter({
             path: '/admin',
             component: ()=> import('../pages/admin/index.vue'),
             meta: {layout: "admin"},
+            redirect: {name: 'orders'},
             //Checks if user is admin or not
             beforeEnter: (to, from, next) =>{
                 if(localStorage.getItem('authToken')){
@@ -84,6 +85,7 @@ const router = new VueRouter({
                 },
                 {
                     path: '/admin/orders',
+                    name: 'orders',
                     meta: {layout: "admin"},
                     component: ()=> import('../pages/admin/orders.vue')
                 },

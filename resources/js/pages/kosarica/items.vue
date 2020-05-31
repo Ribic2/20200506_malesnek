@@ -1,6 +1,5 @@
 <template>
     <v-container>
-
         <div v-if="this.$store.state.cart.cart.length == 0">
             <h1>Prazno</h1>
         </div>
