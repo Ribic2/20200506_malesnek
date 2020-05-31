@@ -32,7 +32,6 @@ export default{
                 }
             }
            state.cart.splice(foundItemIndex, 1)
-           console.log(state.cart)
            localStorage.setItem('cartStorage', JSON.stringify(state.cart))
         },
         CHANGE_QUANTITY(state, payload){

@@ -346,6 +346,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -417,7 +418,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/delete', {
         itemId: this.selectedItemId
       }).then(function (results) {
-        if (results.data = 1) {
+        if (results.data == 1) {
           _this2.getItemsForAdmin();
         }
       });
@@ -612,11 +613,8 @@ var render = function() {
               _c(
                 "v-expansion-panel-content",
                 [
-                  _vm._v(
-                    "\n           " +
-                      _vm._s(i.itemDescription) +
-                      "\n            "
-                  ),
+                  _c("p", [_vm._v(_vm._s(i.itemDescription))]),
+                  _vm._v(" "),
                   _c(
                     "v-btn-toggle",
                     [
@@ -693,9 +691,6 @@ var render = function() {
                           }
                         },
                         [
-                          _vm._v(
-                            "\n                    >\n                            "
-                          ),
                           _c("v-text-field", {
                             attrs: { label: "Ime izdelka" },
                             model: {

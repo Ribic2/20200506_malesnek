@@ -24,6 +24,14 @@ const router = new VueRouter({
                 {
                     path: '/user/login',
                     component: ()=> import('../pages/user/login.vue'),
+                    beforeEnter: (to, from, next)=>{
+                        if(localStorage.getItem('authToken')){
+                            next({name: 'index'})
+                        }
+                        else{
+                            next()
+                        }
+                    }
                 },
                 {
                     path: '/user/register',

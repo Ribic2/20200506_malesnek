@@ -24,7 +24,7 @@
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
-               {{ i.itemDescription}}
+                <p>{{ i.itemDescription}}</p>
                 <v-btn-toggle>
                     <v-btn @click="getIdToChange(i)">Spremeni</v-btn>
                     <v-btn @click="getIdToDelete(i)">Izrbriši</v-btn>
@@ -48,7 +48,7 @@
                         class="ma-auto"
                         width="500"
                         method="post" enctype="multipart/form-data">
-                        >
+
                                 <v-text-field
                                 label="Ime izdelka"
                                 v-model="itemName"
@@ -300,7 +300,8 @@
             </v-card>
         </v-dialog>
 
-        <!--If change of item was succesfull it displays this bottom navigation -->
+
+       <!--Add new item-->
         <v-bottom-navigation
         fixed
         >
@@ -313,7 +314,7 @@
             </v-btn>
         </v-bottom-navigation>
 
-
+         <!--If change of item was succesfull it displays this bottom navigation -->
         <v-bottom-sheet v-model="success">
             <v-sheet class="text-center" height="200px">
                 <div class="py-3">Izdelek uspešno spremenjen!</div>
@@ -421,7 +422,7 @@ export default {
         deleteItemFunction(){
             Axios.post('/api/items/delete',  {itemId: this.selectedItemId})
             .then((results)=>{
-                if(results.data = 1){
+                if(results.data == 1){
                     this.getItemsForAdmin()
                 }
             })

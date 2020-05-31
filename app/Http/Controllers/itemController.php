@@ -30,15 +30,20 @@ class itemController extends Controller
         $itemPrice = $request->input('cena');
         $Description = $request->input('Description');
 
+
         //Validation
         $rules = [
             'cena' => 'required|numeric',
-            'kolicina' => 'required|numeric'
+            'količina' => 'required|numeric'
         ];
 
         $customMessage = [
             'numeric' => "Napačna vrednsot pri :attribute"
         ];
+
+
+        //Validates if provided items are correct type
+        $this->validate($request, $rules, $customMessage);
 
         $change = Items::where('itemId', $itemId)
         ->update([
@@ -47,9 +52,6 @@ class itemController extends Controller
             'itemPrice' => $itemPrice,
             'itemDescription' => $Description
         ]);
-
-        //Validates if provided items are correct type
-        $this->validate($request, $rules, $customMessage);
 
         if($change){
             return 1;
@@ -62,9 +64,9 @@ class itemController extends Controller
         $name = Items::select('itemName')->where('itemId', $id)->get();
 
         //TODO
-        $files =  Storage::allFiles(public_path('storage/products/'.$name[0]->itemName));
+        /*$files =  Storage::allFiles(public_path('storage/products/'.$name[0]->itemName));
         Storage::delete($files);
-        return $files;
+        return $files;*/
         $delete = Items::destroy($id);
 
         //Delte directory with images

@@ -1,5 +1,6 @@
 <template>
-    <v-container>
+    <v-container
+    v-scroll="onScroll">
         <v-card
         color="#6C3FB8"
         dark
@@ -107,7 +108,6 @@
                             icon
                             v-if="$store.state.favourites.favouriteItem == null"
                             >
-                            not inside
                                 <v-icon>mdi-star</v-icon>
                             </v-btn>
 
@@ -157,7 +157,7 @@ export default {
          */
         addToCart(e){
             //If cart is empty adds item
-            if(this.$store.state.cart.cart.length < 1){
+            if(this.$store.state.cart.cart.length == 0){
                 return this.$store.dispatch('addProduct', {product: e, quantity: 1})
             }
             //If not then it checks cart products and check if newly added product is already in cart
@@ -199,6 +199,15 @@ export default {
          */
         addToFavourites(e){
             this.$store.dispatch('addToFavourites', e)
+        },
+        //When user scrolls to the bottom of the page api is called
+        onScroll (e) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+
+                if(this.$store.state.products.stopApiCalls == false){
+                    return this.$store.dispatch('getDataPerPage', this.$store.state.products.counter)
+                }
+            }
         },
         /**
          * When item is clicked it gets reditected to /izdelek/:id.

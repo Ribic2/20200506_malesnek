@@ -169,7 +169,7 @@ __webpack_require__.r(__webpack_exports__);
      */
     addToCart: function addToCart(e) {
       //If cart is empty adds item
-      if (this.$store.state.cart.cart.length < 1) {
+      if (this.$store.state.cart.cart.length == 0) {
         return this.$store.dispatch('addProduct', {
           product: e,
           quantity: 1
@@ -217,6 +217,14 @@ __webpack_require__.r(__webpack_exports__);
      */
     addToFavourites: function addToFavourites(e) {
       this.$store.dispatch('addToFavourites', e);
+    },
+    //When user scrolls to the bottom of the page api is called
+    onScroll: function onScroll(e) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        if (this.$store.state.products.stopApiCalls == false) {
+          return this.$store.dispatch('getDataPerPage', this.$store.state.products.counter);
+        }
+      }
     },
 
     /**
@@ -319,6 +327,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    {
+      directives: [
+        {
+          name: "scroll",
+          rawName: "v-scroll",
+          value: _vm.onScroll,
+          expression: "onScroll"
+        }
+      ]
+    },
     [
       _c(
         "v-card",
@@ -591,12 +609,7 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [
-                                      _vm._v(
-                                        "\n                        not inside\n                            "
-                                      ),
-                                      _c("v-icon", [_vm._v("mdi-star")])
-                                    ],
+                                    [_c("v-icon", [_vm._v("mdi-star")])],
                                     1
                                   )
                                 : _vm.$store.state.favourites.favouriteItem.find(
@@ -656,6 +669,36 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vuetify-loader/lib/runtime/installDirectives.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/vuetify-loader/lib/runtime/installDirectives.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function installDirectives (component, directives) {
+  var options = typeof component.exports === 'function'
+    ? component.exports.extendOptions
+    : component.options
+
+  if (typeof component.exports === 'function') {
+    options.directives = component.exports.options.directives
+  }
+
+  options.directives = options.directives || {}
+
+  for (var i in directives) {
+    options.directives[i] = options.directives[i] || directives[i]
+  }
+}
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/index.vue":
 /*!**************************************!*\
   !*** ./resources/js/pages/index.vue ***!
@@ -679,6 +722,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
 /* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/index.js");
 /* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installDirectives_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../node_modules/vuetify-loader/lib/runtime/installDirectives.js */ "./node_modules/vuetify-loader/lib/runtime/installDirectives.js");
+/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installDirectives_js__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installDirectives_js__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var vuetify_lib_directives_scroll__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/directives/scroll */ "./node_modules/vuetify/lib/directives/scroll/index.js");
 
 
 
@@ -713,6 +759,12 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VBtnToggle: vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_6__["VBtnToggle"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["VCardActions"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_7__["VCardTitle"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VExpandTransition: vuetify_lib_components_transitions__WEBPACK_IMPORTED_MODULE_9__["VExpandTransition"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["VIcon"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_11__["VImg"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_12__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"]})
+
+
+/* vuetify-loader */
+
+
+_node_modules_vuetify_loader_lib_runtime_installDirectives_js__WEBPACK_IMPORTED_MODULE_13___default()(component, {Scroll: vuetify_lib_directives_scroll__WEBPACK_IMPORTED_MODULE_14__["default"]})
 
 
 /* hot reload */

@@ -38,9 +38,6 @@ export default{
                     commit('ADD_USER_DATA', results.data.user)
                 })
             }
-            else{
-                console.log("Not logged in")
-            }
         },
         logoutUser({commit}){
             localStorage.removeItem('authToken');

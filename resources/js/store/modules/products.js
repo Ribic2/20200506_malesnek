@@ -3,11 +3,27 @@ import api from '../../services/api.js'
 export default{
     state: ()=>({
         products: '',
+        counter: 1,
+        stopApiCalls: false,
         categories: ''
     }),
     mutations:{
         ADD_DATA(state, payload){
-            state.products = payload;
+
+            if(payload.length <= 0 || state.stopApiCalls){
+                state.stopApiCalls = true
+            }
+            else{
+                if(state.products.length == 0){
+                    state.products = payload
+                }
+                else{
+                    for(let i = 0; i < payload.length; i++){
+                        state.products.push(payload[i])
+                    }
+                }
+                state.counter++
+            }
         },
         SAVE_CATEGORIES(state, payload){
             state.categories = payload
