@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <div v-if="this.$store.state.user.isAuth">
+        <div v-if="this.$store.state.user.isAuth == true">
             <h1>User compfirmed his/her mail</h1>
         </div>
         <div v-else>

@@ -7,7 +7,7 @@
 
         <v-divider></v-divider>
 
-        <v-stepper-step :complete="counter > 2" step="2" v-if="check == true">Podatki o dostavi</v-stepper-step>
+        <v-stepper-step :complete="counter > 2" step="2" v-if="this.$store.state.user.check == false">Podatki o dostavi</v-stepper-step>
 
         <v-divider></v-divider>
 
@@ -32,14 +32,14 @@
           <v-btn
             class="float-right"
             color="primary"
-            v-on:click="check ? counter = 2: counter = 3"
+            v-on:click="$store.state.user.check ? counter = 3: counter = 2"
             v-if="this.$store.state.cart.cart.length > 0"
           >
             Nadaljuj
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="2" v-if="check == true">
+        <v-stepper-content step="2" v-if="this.$store.state.user.check == false">
           <v-card
             class="mb-12"
             color="grey lighten-1"
@@ -75,7 +75,7 @@
         <paymentMethod></paymentMethod>
         </v-card>
         <v-btn
-        v-on:click="check ? counter = 2: counter = 1"
+        @click="$store.state.user.check ? counter = 1 : counter = 2"
         >Nazaj</v-btn>
         <v-btn
         text
@@ -159,18 +159,7 @@ export default {
                 }
             })
         },
-        checkIfUserIsLoggedIn(){
-            if(localStorage.getItem('authToken')){
-                this.check = false
-            }
-            else{
-                this.check = true;
-            }
-        }
     },
-    beforeMount(){
-        this.checkIfUserIsLoggedIn()
-    }
 }
 </script>
 

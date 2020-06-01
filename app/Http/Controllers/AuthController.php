@@ -21,7 +21,8 @@ class AuthController extends Controller
             "Email"=>$user->email,
             "Phone"=>$user->Telephone,
             "isAuth"=>$user->isAuth,
-            "isEmployee"=>$user->isEmployee
+            "isEmployee"=>$user->isEmployee,
+            "isNewCustomer" => $user->isNewCustomer
             ];
             return response(['user'=>$returnCredentials]);
 

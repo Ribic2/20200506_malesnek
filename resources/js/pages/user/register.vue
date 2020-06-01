@@ -97,8 +97,19 @@ export default {
             }
 
             Axios.post('/api/user/register', credentials)
-            .then((response)=>{
-                console.log(response.data)
+            .then((results)=>{
+                if(results.data.authentication){
+                    axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
+                    localStorage.setItem('authToken', results.data.access_token)
+                    this.$store.dispatch('checkLocalStorageCart')
+
+                    if(this.$router.currentRoute.path != "/kosarica"){
+                        window.location.href = "http://127.0.0.1:8000/"
+                    }
+                    else{
+                        window.location.href = "http://127.0.0.1:8000/kosarica"
+                    }
+                }
             })
 
 

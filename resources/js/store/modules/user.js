@@ -9,7 +9,9 @@ export default{
         userId: '',
         isEmployee: '',
         LoginStatus: false,
-        isAuth: ''
+        isAuth: '',
+        check: false,
+        isNewCustomer: ''
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
@@ -21,6 +23,13 @@ export default{
             state.isEmployee = payload.isEmployee
             state.LoginStatus = true
             state.isAuth = payload.isAuth
+            state.isNewCustomer = payload.isNewCustomer
+
+            //Checks if user is authentiacted (activated his/her mail)
+            //and if user ever purchased any items
+            if(state.isAuth == 1 && state.isNewCustomer == 1){
+                state.check=true
+            }
         },
         LOGOUT_USER(state){
             state.Name = null
@@ -29,6 +38,9 @@ export default{
             state.Phone = null
             state.userId = null
             state.LoginStatus = false
+            state.isAuth = false
+            state.isNewCustomer = false
+            state.check = false
 
             window.location.href="http://127.0.0.1:8000/"
         }

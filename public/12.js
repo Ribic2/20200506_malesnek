@@ -42,7 +42,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("v-container", [
-    this.$store.state.user.isAuth
+    this.$store.state.user.isAuth == true
       ? _c("div", [_c("h1", [_vm._v("User compfirmed his/her mail")])])
       : _c("div", [_c("h1", [_vm._v("You need to comfirm your mail first")])])
   ])

@@ -99,6 +99,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     registerAction: function registerAction() {
+      var _this = this;
+
       var credentials = {
         password: this.password,
         email: this.email,
@@ -106,8 +108,19 @@ __webpack_require__.r(__webpack_exports__);
         name: this.name,
         surname: this.surname
       };
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user/register', credentials).then(function (response) {
-        console.log(response.data);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user/register', credentials).then(function (results) {
+        if (results.data.authentication) {
+          axios.defaults.headers.common["Authorization"] = "Bearer " + results.data.access_token;
+          localStorage.setItem('authToken', results.data.access_token);
+
+          _this.$store.dispatch('checkLocalStorageCart');
+
+          if (_this.$router.currentRoute.path != "/kosarica") {
+            window.location.href = "http://127.0.0.1:8000/";
+          } else {
+            window.location.href = "http://127.0.0.1:8000/kosarica";
+          }
+        }
       });
     }
   }

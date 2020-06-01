@@ -98,14 +98,25 @@ class RegisterController extends Controller
 
 
 
-                $user = Auth::user();
+                if($newUser->save()){
 
-                return $user;
+                    $credentials = $request->validate([
+                        'email' => 'required|email',
+                        'password' => 'required'
+                    ]);
 
-                $accessToken = $user->createToken('accessToken')->accessToken;
+                    if(Auth::attempt($credentials)){
+                        $user = Auth::user();
 
-                $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
-                return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
+                        $accessToken = $user->createToken('accessToken')->accessToken;
+
+                        $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
+                        return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
+                    }
+                }
+                else{
+                    return response(['error'=>"Napaka pri registraciji"]);
+                }
 
             }
             return "error";

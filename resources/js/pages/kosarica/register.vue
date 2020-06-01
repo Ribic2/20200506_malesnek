@@ -8,15 +8,18 @@
                     <v-col>
                         <v-text-field
                         label="Ime"
-                        v-model="name"
+                        :value="this.$store.state.user.Name ? this.$store.state.user.Name : ''"
+                        :model="this.$store.state.user.Name ? '' : name"
+                        :disabled="this.$store.state.user.Name ? true : false"
                         >
-
                         </v-text-field>
                     </v-col>
                     <v-col>
                         <v-text-field
                         label="Priimek"
-                        v-model="surname"
+                        :value="this.$store.state.user.Surname ? this.$store.state.user.Surname : ''"
+                        :model="this.$store.state.user.Surname ? '' : surname"
+                        :disabled="this.$store.state.user.Surname ? true : false"
                         >
 
                         </v-text-field>
@@ -28,7 +31,9 @@
                     <v-col>
                         <v-text-field
                         label="email"
-                        v-model="email"
+                        :value="this.$store.state.user.Email ? this.$store.state.user.Email : ''"
+                        :model="this.$store.state.user.Email ? '' : email"
+                        :disabled="this.$store.state.user.Surname ? true : false"
                         >
 
                         </v-text-field>
@@ -86,6 +91,7 @@
 
 <script>
 import Axios from 'axios'
+import store from '../../store/index'
 export default {
     data(){
         return{

@@ -178,17 +178,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.$store.state.cart.cart = new Array();
         }
       });
-    },
-    checkIfUserIsLoggedIn: function checkIfUserIsLoggedIn() {
-      if (localStorage.getItem('authToken')) {
-        this.check = false;
-      } else {
-        this.check = true;
-      }
     }
-  },
-  beforeMount: function beforeMount() {
-    this.checkIfUserIsLoggedIn();
   }
 });
 
@@ -496,7 +486,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-divider"),
               _vm._v(" "),
-              _vm.check == true
+              this.$store.state.user.check == false
                 ? _c(
                     "v-stepper-step",
                     { attrs: { complete: _vm.counter > 2, step: "2" } },
@@ -544,7 +534,9 @@ var render = function() {
                           attrs: { color: "primary" },
                           on: {
                             click: function($event) {
-                              _vm.check ? (_vm.counter = 2) : (_vm.counter = 3)
+                              _vm.$store.state.user.check
+                                ? (_vm.counter = 3)
+                                : (_vm.counter = 2)
                             }
                           }
                         },
@@ -555,7 +547,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm.check == true
+              this.$store.state.user.check == false
                 ? _c(
                     "v-stepper-content",
                     { attrs: { step: "2" } },
@@ -628,7 +620,9 @@ var render = function() {
                     {
                       on: {
                         click: function($event) {
-                          _vm.check ? (_vm.counter = 2) : (_vm.counter = 1)
+                          _vm.$store.state.user.check
+                            ? (_vm.counter = 1)
+                            : (_vm.counter = 2)
                         }
                       }
                     },
@@ -904,7 +898,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("v-container", [
-    this.$store.state.user.isAuth
+    this.$store.state.user.isAuth == true
       ? _c("div", [_c("h1", [_vm._v("User compfirmed his/her mail")])])
       : _c("div", [_c("h1", [_vm._v("You need to comfirm your mail first")])])
   ])
