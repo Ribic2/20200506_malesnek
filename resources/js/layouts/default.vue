@@ -152,13 +152,18 @@ export default {
         },
         authUser(){
             return this.$store.dispatch('storeUserData')
-        }
+        },
+
+        refreshCart(){
+            return this.$store.dispatch('checkLocalStorageCart')
+        },
     },
     computed:{
 
     },
     mounted(){
-        this.authUser()
+        this.authUser(),
+        this.refreshCart()
     }
 }
 </script>

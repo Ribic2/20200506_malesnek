@@ -63,14 +63,19 @@ class itemController extends Controller
         $id = $request->input('itemId');
         $name = Items::select('itemName')->where('itemId', $id)->get();
 
-        //TODO
-        /*$files =  Storage::allFiles(public_path('storage/products/'.$name[0]->itemName));
-        Storage::delete($files);
-        return $files;*/
+        //Get all files that are stored in that directory
+        $files = Storage::disk('public')->allFiles('products/'.$name[0]->itemName);
+
+        //Delete every one of them
+        for($i = 0; $i < count($files); $i++){
+            Storage::disk('public')->delete($files[$i]);
+        }
+
+        //After that delete folder
+        Storage::disk('public')->deleteDirectory('products/'.$name[0]->itemName);
+
+        //After folder was deleted delte item
         $delete = Items::destroy($id);
-
-        //Delte directory with images
-
 
         //Delete all orders and item reviews where selected item is present
         Order::where('itemId', $id)->delete();
