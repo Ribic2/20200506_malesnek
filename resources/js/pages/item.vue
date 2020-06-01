@@ -205,9 +205,11 @@ export default {
             Axios.get('/api/item/'+id+"/images")
             .then((results)=>{
                 this.images = results.data
-                let primaryImageIndex = this.images.indexOf("products/"+this.product.dir+"/"+this.product.primaryImg)
-                this.images.splice(primaryImageIndex)
-                this.images.unshift("products/"+this.product.dir+"/"+this.product.primaryImg)
+                if(!this.images.length < 2){
+                    let primaryImageIndex = this.images.indexOf("products/"+this.product.dir+"/"+this.product.primaryImg)
+                    this.images.splice(primaryImageIndex)
+                    this.images.unshift("products/"+this.product.dir+"/"+this.product.primaryImg)
+                }
 
             })
         },

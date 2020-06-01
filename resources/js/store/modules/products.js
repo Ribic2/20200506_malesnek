@@ -29,6 +29,7 @@ export default{
             state.categories = payload
         },
         FILTER_PRODUCTS(state, payload){
+            state.products = null;
             state.products = payload
         }
     },

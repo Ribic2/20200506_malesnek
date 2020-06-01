@@ -14,7 +14,7 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'index',
-            component: ()=>import('../pages/index.vue'),
+            component: ()=>import('../pages/index/index.vue'),
         },
         {
             path: '/user',
