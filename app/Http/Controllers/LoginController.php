@@ -47,7 +47,7 @@ class LoginController extends Controller
 
             $accessToken = $user->createToken('accessToken')->accessToken;
 
-            $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
+            $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone, "isAuthenticated"=>$user->isAuth];
             return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
 
 

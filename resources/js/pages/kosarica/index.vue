@@ -43,7 +43,7 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            height="200px"
+            min-height="200px"
           >
           <credentials></credentials>
           </v-card>

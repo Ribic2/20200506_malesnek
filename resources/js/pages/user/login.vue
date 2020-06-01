@@ -53,6 +53,8 @@
 </template>
 
 <script>
+
+import route from '../../routes/router'
 export default {
   data(){
     return{
@@ -66,6 +68,7 @@ export default {
     login(){
         axios.post('/api/user/login', {email: this.email, password: this.password},)
         .then((results)=>{
+            console.log(results.data)
             if(!results.data.authentication){
                 this.response = "Napačno geslo ali uporabniško ime!"
             }
@@ -73,7 +76,14 @@ export default {
                 axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
                 localStorage.setItem('authToken', results.data.access_token)
                 this.$store.dispatch('checkLocalStorageCart')
-                window.location.href = "http://127.0.0.1:8000/"
+
+                if(this.$router.currentRoute.path != "/kosarica"){
+                    window.location.href = "http://127.0.0.1:8000/"
+                }
+                else{
+                    window.location.href = "http://127.0.0.1:8000/kosarica"
+                }
+
             }
         })
         .catch(error =>{

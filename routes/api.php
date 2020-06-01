@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 //User authentication login and register
 Route::post('/user/login', 'LoginController@login');
 Route::post('/user/register', 'RegisterController@register');
+Route::post('/user/register/cart', 'RegisterController@registerInCart');
 
 //Item categories
 Route::get('/categories', function(){

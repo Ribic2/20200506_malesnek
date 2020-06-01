@@ -8,7 +8,8 @@ export default{
         Phone: '',
         userId: '',
         isEmployee: '',
-        LoginStatus: false
+        LoginStatus: false,
+        isAuth: ''
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
@@ -19,6 +20,7 @@ export default{
             state.userId = payload.id
             state.isEmployee = payload.isEmployee
             state.LoginStatus = true
+            state.isAuth = payload.isAuth
         },
         LOGOUT_USER(state){
             state.Name = null
@@ -27,6 +29,8 @@ export default{
             state.Phone = null
             state.userId = null
             state.LoginStatus = false
+
+            window.location.href="http://127.0.0.1:8000/"
         }
     },
     actions:{
