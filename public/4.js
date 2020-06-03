@@ -200,6 +200,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
@@ -214,29 +251,7 @@ __webpack_require__.r(__webpack_exports__);
     * @param {Object} e selected product
     */
     addToCart: function addToCart(e) {
-      //If cart is empty adds item
-      if (this.$store.state.cart.cart.length == 0) {
-        return this.$store.dispatch('addProduct', {
-          product: e,
-          quantity: 1
-        });
-      } //If not then it checks cart products and check if newly added product is already in cart
-      //If it's not it addes it
-      //Else it returns false
-      else {
-          for (var i = 0; i < this.$store.state.cart.cart.length; i++) {
-            if (e.itemId == this.$store.state.cart.cart[i].product.itemId) {
-              return false;
-            }
-          } //Turns item button to green and changes text
-          //TODO
-
-
-          return this.$store.dispatch('addProduct', {
-            product: e,
-            quantity: 1
-          });
-        }
+      return this.$store.dispatch('addProduct', e);
     },
 
     /**
@@ -602,19 +617,51 @@ var render = function() {
                         [_vm._v("V košarico")]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { icon: "" },
-                          on: {
-                            click: function($event) {
-                              return _vm.addToFavourites(_vm.product)
+                      _vm.$store.state.favourites.favouriteItem == null
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToFavourites(_vm.product)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-star")])],
+                            1
+                          )
+                        : _vm.$store.state.favourites.favouriteItem.find(
+                            function(o) {
+                              return o.itemId === _vm.product.itemId
                             }
-                          }
-                        },
-                        [_c("v-icon", [_vm._v("mdi-star")])],
-                        1
-                      )
+                          )
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "", color: "blue" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToFavourites(_vm.product)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-star")])],
+                            1
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToFavourites(_vm.product)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-star")])],
+                            1
+                          )
                     ],
                     1
                   )
@@ -677,18 +724,46 @@ var render = function() {
                         [_vm._v("Podrobnosti")]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { rounded: "", color: "error" },
-                          on: {
-                            click: function($event) {
-                              return _vm.addToCart(_vm.product)
-                            }
-                          }
-                        },
-                        [_vm._v("V košarico")]
-                      ),
+                      _vm.$store.state.cart.cart == null
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { rounded: "", color: "error" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("V košarico")]
+                          )
+                        : _vm.$store.state.cart.cart.find(function(o) {
+                            return o.product.itemId === _vm.product.itemId
+                          })
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { rounded: "", color: "success" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("Dodano")]
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              attrs: { rounded: "", color: "error" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("V košarico")]
+                          ),
                       _vm._v(" "),
                       _vm.$store.state.favourites.favouriteItem == null
                         ? _c(

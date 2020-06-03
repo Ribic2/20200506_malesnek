@@ -18,7 +18,25 @@
 
         <v-btn @click="addToCart(product)" rounded color="error">V košarico</v-btn>
 
-        <v-btn icon @click="addToFavourites(product)">
+        <!-- Add to favourits button logic -->
+        <v-btn
+        @click="addToFavourites(product)"
+        icon
+        v-if="$store.state.favourites.favouriteItem == null"
+        >
+        <v-icon>mdi-star</v-icon>
+        </v-btn>
+
+        <v-btn
+        icon
+        @click="addToFavourites(product)"
+        color="blue"
+        v-else-if="$store.state.favourites.favouriteItem.find(o=> o.itemId === product.itemId)"
+        >
+          <v-icon>mdi-star</v-icon>
+        </v-btn>
+
+        <v-btn @click="addToFavourites(product)" icon v-else>
           <v-icon>mdi-star</v-icon>
         </v-btn>
       </v-card-actions>
@@ -38,14 +56,33 @@
       <v-card-actions class="card-actions">
         <v-btn @click="selectItem(product.itemId)" rounded>Podrobnosti</v-btn>
 
-        <v-btn @click="addToCart(product)" rounded color="error">V košarico</v-btn>
+        <v-btn
+        @click="addToCart(product)"
+        rounded color="error"
+        v-if="$store.state.cart.cart == null"
+        >V košarico</v-btn>
 
         <v-btn
-          @click="addToFavourites(product)"
-          icon
-          v-if="$store.state.favourites.favouriteItem == null"
+        @click="addToCart(product)"
+        rounded
+        color="success"
+        v-else-if="$store.state.cart.cart.find(o=> o.product.itemId === product.itemId)"
+        >Dodano</v-btn>
+
+        <v-btn
+        @click="addToCart(product)"
+        rounded
+        color="error"
+        v-else
+        >V košarico</v-btn>
+
+        <!-- Add to favourits button logic -->
+        <v-btn
+        @click="addToFavourites(product)"
+        icon
+        v-if="$store.state.favourites.favouriteItem == null"
         >
-          <v-icon>mdi-star</v-icon>
+        <v-icon>mdi-star</v-icon>
         </v-btn>
 
         <v-btn
@@ -85,24 +122,7 @@ export default {
         * @param {Object} e selected product
         */
         addToCart(e){
-            //If cart is empty adds item
-            if(this.$store.state.cart.cart.length == 0){
-                return this.$store.dispatch('addProduct', {product: e, quantity: 1})
-            }
-            //If not then it checks cart products and check if newly added product is already in cart
-            //If it's not it addes it
-            //Else it returns false
-            else{
-                for(var i = 0; i < this.$store.state.cart.cart.length;i++){
-                    if(e.itemId == this.$store.state.cart.cart[i].product.itemId){
-                       return false
-                    }
-                }
-                //Turns item button to green and changes text
-                //TODO
-                return this.$store.dispatch('addProduct', {product: e, quantity: 1})
-            }
-
+            return this.$store.dispatch('addProduct', e)
         },
         /**
          * When item is clicked it gets reditected to /izdelek/:id.

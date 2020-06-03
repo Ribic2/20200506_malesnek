@@ -303,6 +303,7 @@
 
        <!--Add new item-->
         <v-bottom-navigation
+        app
         fixed
         >
             <v-btn

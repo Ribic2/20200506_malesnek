@@ -1,13 +1,11 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row  v-for="item in this.$store.state.favourites.favouriteItem" v-bind:key="item.id">
             <v-col
-            v-for="item in this.$store.state.favourites.favouriteItem" v-bind:key="item.id"
+            class="itemHolder"
             cols="12"
             >
-                <v-card
-                min-height="250"
-                >
+                <v-card>
                     <v-row
                     class="row"
                     >
@@ -54,10 +52,12 @@ export default {
 <style>
     .test{
         border: solid 1px black;
+        height: 100%;
     }
+
     .row{
         width: 100%;
         margin: 0 auto;
-        height: 100%;
     }
+
 </style>

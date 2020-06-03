@@ -5,6 +5,9 @@
     v-model="drawer"
     width="300"
     app
+    temporary
+    disable-resize-watcher
+    disable-route-watcher
     >
       <v-list-item>
         <v-list-item-content>

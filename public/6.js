@@ -46,8 +46,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
@@ -74,7 +72,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.test{\n    border: solid 1px black;\n}\n.row{\n    width: 100%;\n    margin: 0 auto;\n    height: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.test{\n    border: solid 1px black;\n    height: 100%;\n}\n.row{\n    width: 100%;\n    margin: 0 auto;\n}\n\n", ""]);
 
 // exports
 
@@ -128,17 +126,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    [
-      _c(
+    _vm._l(this.$store.state.favourites.favouriteItem, function(item) {
+      return _c(
         "v-row",
-        _vm._l(this.$store.state.favourites.favouriteItem, function(item) {
-          return _c(
+        { key: item.id },
+        [
+          _c(
             "v-col",
-            { key: item.id, attrs: { cols: "12" } },
+            { staticClass: "itemHolder", attrs: { cols: "12" } },
             [
               _c(
                 "v-card",
-                { attrs: { "min-height": "250" } },
                 [
                   _c(
                     "v-row",
@@ -194,10 +192,10 @@ var render = function() {
             ],
             1
           )
-        }),
+        ],
         1
       )
-    ],
+    }),
     1
   )
 }

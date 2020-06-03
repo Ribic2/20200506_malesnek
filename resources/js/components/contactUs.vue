@@ -34,6 +34,7 @@
             rounded
             width="300"
             height="50"
+            id="submitButton"
             color="#5635A5"
             dark
             @click="addContact()"
@@ -59,3 +60,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    @media only screen and (max-width: 575px){
+        #submitButton{
+            width: 100% !important;
+        }
+    }
+</style>

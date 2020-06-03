@@ -7,8 +7,32 @@ export default{
     }),
     mutations:{
         ADD_DATA_TO_CART(state, payload){
-           state.cart.push({product: payload.product, quantity: payload.quantity})
-           localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+
+
+            //If cart is empty adds item
+            if(state.cart.length == 0){
+                state.cart.push({product: payload, quantity: 1})
+
+            }
+             //If not then it checks cart products and check if newly added product is already in cart
+            //If it's not it addes it
+            //Else it returns false
+            else{
+                 for(var i = 0; i < state.cart.length; i++){
+
+                    if(payload.itemId == state.cart[i].product.itemId){
+
+                        state.cart.splice(i, 1)
+                        localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                        return false
+                    }
+                }
+                //Turns item button to green and changes text
+                //TODO
+                state.cart.push({product: payload, quantity: 1})
+                localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+            }
+
         },
         //Mutation that resets cart array with locastorage array
         REFRESH_CART_DATA(state){
