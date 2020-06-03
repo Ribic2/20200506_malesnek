@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Laravel\Cashier\Cashier;
 
 class LoginController extends Controller
 {
@@ -46,6 +47,7 @@ class LoginController extends Controller
             $user = Auth::user();
 
             $accessToken = $user->createToken('accessToken')->accessToken;
+
 
             $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone, "isAuthenticated"=>$user->isAuth, 'isNewCustomer'=>$user->isNewCustomer];
             return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);

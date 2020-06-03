@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[8],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[15],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/kosarica/paymentMethod.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
@@ -11,8 +11,6 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-stripe-elements-plus */ "./node_modules/vue-stripe-elements-plus/dist/index.js");
 /* harmony import */ var vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -35,16 +33,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -53,41 +41,19 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       complete: false,
-      dialog: false,
-      stripeOptions: {
-        hidePostalCode: true
+      stripeOptions: {// see https://stripe.com/docs/stripe.js#element-options for details
       }
     };
   },
   methods: {
     pay: function pay() {
-      var _this = this;
-
-      Object(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_0__["createToken"])().then(function (respond) {
-        var itemIds = [];
-        var quantity = [];
-        var fullPrice = 0;
-        var data = JSON.parse(localStorage.getItem('cartStorage'));
-
-        for (var i = 0; i < data.length; i++) {
-          itemIds.push(data[i].product.itemId);
-          quantity.push(data[i].quantity);
-          fullPrice += data[i].quantity * data[i].product.itemPrice;
-        }
-
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/order/add', {
-          products: itemIds,
-          userId: _this.$store.state.user.userId,
-          quantity: quantity,
-          fullPrice: fullPrice,
-          stripeToken: respond.token.id
-        }).then(function (results) {
-          if (results.data) {
-            _this.dialog = true;
-            localStorage.removeItem('cartStorage');
-            _this.$store.state.cart.cart = new Array();
-          }
-        });
+      // createToken returns a Promise which resolves in a result object with
+      // either a token or an error key.
+      // See https://stripe.com/docs/api#tokens for the token object.
+      // See https://stripe.com/docs/api#errors for the error object.
+      // More general https://stripe.com/docs/stripe.js#stripe-create-token.
+      Object(vue_stripe_elements_plus__WEBPACK_IMPORTED_MODULE_0__["createToken"])().then(function (data) {
+        return console.log(data.token);
       });
     }
   }
@@ -107,7 +73,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#app[data-v-007be3b0]{\n    height: 500px;\n    background-color: #f6f9fc;\n    max-width: 400px;\n    width: auto;\n}\n.pay-with-stripe[data-v-007be3b0]{\n    display: block;\n    width: 90%;\n    height: 40px;\n    background-color: #fcd669;\n    border-radius: 20px;\n    color: #525f7f;\n    font-weight: 600;\n    margin: 0 auto;\n    margin-top: 10px;\n    text-transform: uppercase;\n    cursor: pointer;\n}\n.pay-with-stripe[data-v-007be3b0]:active{\n    background-color: #f5be58;\n}\n.stripe-card[data-v-007be3b0] {\n    width: 90%;\n    height: 25px;\n    background-color: #7488aa;\n    color: white;\n    border-radius: 20px;\n    margin: 0 auto;\n}\n.stripe-card.complete[data-v-007be3b0] {\n  border-color: green;\n}\n", ""]);
+exports.push([module.i, "\n.stripe-card[data-v-007be3b0] {\n  width: 300px;\n  border: 1px solid grey;\n}\n.stripe-card.complete[data-v-007be3b0] {\n  border-color: green;\n}\n", ""]);
 
 // exports
 
@@ -161,62 +127,40 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("v-container", [
     this.$store.state.user.isAuth == true
-      ? _c(
-          "div",
-          [
-            _c(
-              "div",
-              { attrs: { id: "app" } },
-              [
-                _c("h1", [_vm._v("Please give us your payment details:")]),
-                _vm._v(" "),
-                _c("card", {
-                  staticClass: "stripe-card",
-                  class: { complete: _vm.complete },
-                  attrs: {
-                    stripe: "pk_test_6GetaNtlFSAZ94wdJEcGR4vN0066MegJBC",
-                    options: _vm.stripeOptions
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.complete = $event.complete
-                    }
+      ? _c("div", [
+          _c(
+            "div",
+            { attrs: { id: "app" } },
+            [
+              _c("h1", [_vm._v("Please give us your payment details:")]),
+              _vm._v(" "),
+              _c("card", {
+                staticClass: "stripe-card",
+                class: { complete: _vm.complete },
+                attrs: {
+                  stripe: "pk_test_6GetaNtlFSAZ94wdJEcGR4vN0066MegJBC",
+                  options: _vm.stripeOptions
+                },
+                on: {
+                  change: function($event) {
+                    _vm.complete = $event.complete
                   }
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "pay-with-stripe",
-                    attrs: { disabled: !_vm.complete },
-                    on: { click: _vm.pay }
-                  },
-                  [_vm._v("Plačaj")]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.dialog == true
-              ? _c(
-                  "v-alert",
-                  {
-                    attrs: {
-                      type: "success",
-                      width: "400",
-                      transition: "fade-transition"
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n            Naročilo je bilo uspešno oddano!\n        "
-                    )
-                  ]
-                )
-              : _vm._e()
-          ],
-          1
-        )
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "pay-with-stripe",
+                  attrs: { disabled: !_vm.complete },
+                  on: { click: _vm.pay }
+                },
+                [_vm._v("Pay with credit card")]
+              )
+            ],
+            1
+          )
+        ])
       : _c("div", [_c("h1", [_vm._v("You need to comfirm your mail first")])])
   ])
 }
@@ -242,8 +186,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VAlert */ "./node_modules/vuetify/lib/components/VAlert/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
 
 
 
@@ -266,8 +209,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 /* vuetify-loader */
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_5__["VAlert"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VContainer"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VContainer"]})
 
 
 /* hot reload */

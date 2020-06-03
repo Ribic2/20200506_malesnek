@@ -26,7 +26,7 @@ export default{
             state.isNewCustomer = payload.isNewCustomer
 
             //Checks if user is authentiacted (activated his/her mail)
-            //and if user ever purchased any items
+            //and if user ever purchased
             if(state.isAuth == 1 && state.isNewCustomer == 1){
                 state.check=true
             }

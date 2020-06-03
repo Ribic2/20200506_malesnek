@@ -55,7 +55,6 @@ export default{
          * Action that recives payload and sends it to mutation that stores it inside cart array
          */
         addProduct({commit}, payload){
-            console.log(payload)
             commit('ADD_DATA_TO_CART', payload)
         },
         //Check if non register user already have it cart data stored and reapply it

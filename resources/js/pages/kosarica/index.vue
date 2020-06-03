@@ -69,8 +69,7 @@
         <v-stepper-content step="3">
         <v-card
           class="mb-12"
-          color="grey lighten-1"
-          height="200px"
+          min-height="200px"
         >
         <paymentMethod></paymentMethod>
         </v-card>
@@ -81,13 +80,6 @@
         text
         class="float-right"
         >Prekini</v-btn>
-        <v-btn
-          color="primary"
-          class="float-right"
-          @click="placeAnOrder()"
-        >
-        Oddaj
-        </v-btn>
       </v-stepper-content>
 
       </v-stepper-items>
@@ -141,24 +133,8 @@ export default {
         }
      },
     methods:{
-        placeAnOrder(){
-            var itemIds = []
-            var quantity = []
-            var data = JSON.parse(localStorage.getItem('cartStorage'));
-            for(let i = 0; i < data.length; i++){
-                itemIds.push(data[i].product.itemId)
-                quantity.push(data[i].quantity)
-            }
 
-            Axios.post('/api/order/add', {products: itemIds, userId: this.$store.state.user.userId, quantity: quantity })
-            .then((results)=>{
-                if(results.data){
-                   this.dialog = true
-                   localStorage.removeItem('cartStorage')
-                   this.$store.state.cart.cart = new Array();
-                }
-            })
-        },
+
     },
 }
 </script>

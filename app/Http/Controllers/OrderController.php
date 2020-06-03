@@ -9,14 +9,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\mail\orderConfirmed;
 
+use Stripe\Exception\CardException;
+Use Cartalyst\Stripe\Stripe;
+use Cartalyst\Stripe\Charge;
+
 class OrderController extends Controller
 {
     /**
      * Save recived order
      */
     function reciveOrder(Request $request){
+
         $userId = $request->input('userId');
         $quantity = $request->input('quantity');
+        $fullPrice = $request->input('fullPrice');
         $orders = $request->input('products');
 
         $uiid = (string) Str::orderedUuid();
@@ -42,8 +48,25 @@ class OrderController extends Controller
             $order->save();
         }
 
+        //Stripe setup
+        try {
+            $stripe = new \Stripe\StripeClient('sk_test_imllcXKzgyeOqz5wbc4OAhXp00OFK9yIwp');
 
-        return true;
+            $stripe->charges->create([
+                'amount' => $fullPrice*100,
+                'currency' => 'eur',
+                'source' => $request->input('stripeToken'),
+            ]);
+
+
+            return 1;
+        }
+        catch (CardException $e) {
+            return back()->withErrors('Error! ' . $e->getMessage());
+        }
+
+
+
     }
     /**
      * Confirm order status
