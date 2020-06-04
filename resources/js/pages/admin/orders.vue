@@ -56,7 +56,9 @@
                             Ime in priimek: {{ order.User[0].Name }} {{ order.User[0].Surname}}
                         </v-card-text>
 
-                        <v-simple-table>
+                        <v-simple-table
+                        height="200"
+                        >
                             <thead>
                                 <tr>
                                     <th>Ime izdelka</th>

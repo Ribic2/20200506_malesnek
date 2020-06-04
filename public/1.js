@@ -348,6 +348,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -372,6 +373,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       itemPrice: '',
       description: '',
       discount: '',
+      changeDiscount: '',
       //Other variables
       selectedItemId: '',
       Search: '',
@@ -401,7 +403,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         "itemName": this.itemName,
         "količina": this.quantity,
         "cena": this.itemPrice,
-        "Description": this.description
+        "Description": this.description,
+        "Discount": this.changeDiscount
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/change', ChangedData).then(function (results) {
         if (results.data = 1) {
@@ -752,7 +755,14 @@ var render = function() {
                                 "div",
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Znižanje v odstotkih" }
+                                    attrs: { label: "Znižanje v odstotkih" },
+                                    model: {
+                                      value: _vm.changeDiscount,
+                                      callback: function($$v) {
+                                        _vm.changeDiscount = $$v
+                                      },
+                                      expression: "changeDiscount"
+                                    }
                                   })
                                 ],
                                 1

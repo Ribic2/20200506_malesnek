@@ -20,15 +20,11 @@
           <v-card
             class="mb-12"
             color="grey lighten-1"
-            min-height="300"
+            min-height="30vw"
           >
           <items></items>
           </v-card>
 
-          <v-btn
-          text
-          class="float-right"
-          >Prekini</v-btn>
           <v-btn
             class="float-right"
             color="primary"
@@ -42,8 +38,8 @@
         <v-stepper-content step="2" v-if="this.$store.state.user.check == false">
           <v-card
             class="mb-12"
-            color="grey lighten-1"
-            min-height="200px"
+            min-height="30vw"
+            elevation="0"
           >
           <credentials></credentials>
           </v-card>
@@ -69,7 +65,7 @@
         <v-stepper-content step="3">
         <v-card
           class="mb-12"
-          min-height="200px"
+          min-height="30vw"
         >
         <paymentMethod></paymentMethod>
         </v-card>

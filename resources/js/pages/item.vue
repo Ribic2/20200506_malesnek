@@ -124,7 +124,55 @@
         </v-row>
 
         <v-divider></v-divider>
+        <!-- User adds new review -->
+        <v-row v-if="$store.state.user.LoginStatus == true">
+            <v-col cols="12">
+                <v-card
+                height="350"
+                >
+                    <h3
+                    class="ma-5"
+                    >Dodaj oceno</h3>
+                    <v-form
+
+
+                    class="ma-5"
+                    >
+
+                        <div>
+                            <v-rating v-model="rating"></v-rating>
+                        </div>
+
+                        <v-textarea
+                        outlined
+                        no-resize
+                        >
+
+                        </v-textarea>
+
+                        <v-btn
+                        class="float-right"
+                        >Oddaj oceno</v-btn>
+                    </v-form>
+                </v-card>
+            </v-col>
+        </v-row>
+
+        <v-row v-else>
+            <v-col
+            cols="12"
+            >
+                <v-card>
+                    <h3>Če hočes oddati oceno se moraš registrirati!</h3>
+                </v-card>
+            </v-col>
+        </v-row>
+
+
         <!--Reviews-->
+        <v-card v-if="allReviews.length == 0">
+            <h1>Ta izdelek nima nobenih ocen.</h1>
+        </v-card>
         <v-row class = "test">
             <v-col
             v-for="review in allReviews"
@@ -153,7 +201,8 @@ export default {
             product: '',
             allReviews: '',
             images: [],
-            currentIndex: ''
+            currentIndex: '',
+            rating: 0
         }
     },
     methods:{

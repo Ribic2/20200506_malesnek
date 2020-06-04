@@ -62,6 +62,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -132,6 +133,60 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -541,284 +596,412 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _vm.currentlySelectedItemId == _vm.product.itemId
-        ? _c(
-            "v-card",
-            [
-              _c(
-                "v-responsive",
-                { attrs: { "aspect-ratio": 4 / 5 } },
-                [
-                  _c(
-                    "v-card-title",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.redirectToItemPage(_vm.product)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.product.itemName))]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      staticClass: "text-justify mr-3 ml-3",
-                      on: {
-                        click: function($event) {
-                          return _vm.redirectToItemPage(_vm.product)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.product.itemDescription))]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      staticClass: "text-justify mr-3 ml-3",
-                      on: {
-                        click: function($event) {
-                          return _vm.redirectToItemPage(_vm.product)
-                        }
-                      }
-                    },
-                    [_vm._v("Cena " + _vm._s(_vm.product.itemPrice) + " €")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    { staticClass: "card-actions" },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { rounded: "" },
-                          on: {
-                            click: function($event) {
-                              return _vm.selectItem(null)
-                            }
-                          }
-                        },
-                        [_vm._v("Podrobnosti")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { rounded: "", color: "error" },
-                          on: {
-                            click: function($event) {
-                              return _vm.addToCart(_vm.product)
-                            }
-                          }
-                        },
-                        [_vm._v("V košarico")]
-                      ),
-                      _vm._v(" "),
-                      _vm.$store.state.favourites.favouriteItem == null
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "" },
+      _c("v-hover", {
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var hover = ref.hover
+              return [
+                _vm.currentlySelectedItemId == _vm.product.itemId
+                  ? _c(
+                      "v-card",
+                      { attrs: { elevation: hover ? 12 : 2 } },
+                      [
+                        _c(
+                          "v-responsive",
+                          { attrs: { "aspect-ratio": 77 / 100 } },
+                          [
+                            _c(
+                              "v-card-actions",
+                              [
+                                _c(
+                                  "v-card-title",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.redirectToItemPage(
+                                          _vm.product
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.product.itemName))]
+                                ),
+                                _vm._v(" "),
+                                _vm.product.isOnSale
+                                  ? _c(
+                                      "v-chip",
+                                      {
+                                        staticClass: "ma-2",
+                                        attrs: {
+                                          color: "red",
+                                          "text-color": "white"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                  Znižanje\n                  "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass: "text-justify mr-3 ml-3",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.redirectToItemPage(_vm.product)
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(_vm.product.itemDescription))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass: "text-justify mr-3 ml-3",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.redirectToItemPage(_vm.product)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "Cena " + _vm._s(_vm.product.itemPrice) + " €"
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-actions",
+                              { staticClass: "card-actions" },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { rounded: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.selectItem(null)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Podrobnosti")]
+                                ),
+                                _vm._v(" "),
+                                _vm.$store.state.cart.cart == null
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { rounded: "", color: "error" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToCart(_vm.product)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("V košarico")]
+                                    )
+                                  : _vm.$store.state.cart.cart.find(function(
+                                      o
+                                    ) {
+                                      return (
+                                        o.product.itemId === _vm.product.itemId
+                                      )
+                                    })
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          rounded: "",
+                                          color: "success"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToCart(_vm.product)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Dodano")]
+                                    )
+                                  : _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { rounded: "", color: "error" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToCart(_vm.product)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("V košarico")]
+                                    ),
+                                _vm._v(" "),
+                                _vm.$store.state.favourites.favouriteItem ==
+                                null
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToFavourites(
+                                              _vm.product
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("v-icon", [_vm._v("mdi-star")])],
+                                      1
+                                    )
+                                  : _vm.$store.state.favourites.favouriteItem.find(
+                                      function(o) {
+                                        return o.itemId === _vm.product.itemId
+                                      }
+                                    )
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "", color: "blue" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToFavourites(
+                                              _vm.product
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("v-icon", [_vm._v("mdi-star")])],
+                                      1
+                                    )
+                                  : _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToFavourites(
+                                              _vm.product
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("v-icon", [_vm._v("mdi-star")])],
+                                      1
+                                    )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _c(
+                      "v-card",
+                      { attrs: { elevation: hover ? 12 : 2 } },
+                      [
+                        _c(
+                          "v-responsive",
+                          { attrs: { "aspect-ratio": 77 / 100 } },
+                          [
+                            _c(
+                              "v-card-actions",
+                              [
+                                _c(
+                                  "v-card-title",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.redirectToItemPage(
+                                          _vm.product
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.product.itemName))]
+                                ),
+                                _vm._v(" "),
+                                _vm.product.isOnSale
+                                  ? _c(
+                                      "v-chip",
+                                      {
+                                        staticClass: "ma-2",
+                                        attrs: {
+                                          color: "red",
+                                          "text-color": "white"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n              Znižanje\n          "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("v-img", {
+                              staticClass: "productImage ma-2",
+                              attrs: {
+                                "aspect-ratio": 1 / 1,
+                                src:
+                                  "http://127.0.0.1:8000/storage/products/" +
+                                  _vm.product.dir +
+                                  "/" +
+                                  _vm.product.primaryImg
+                              },
                               on: {
                                 click: function($event) {
-                                  return _vm.addToFavourites(_vm.product)
+                                  return _vm.redirectToItemPage(_vm.product)
                                 }
                               }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-star")])],
-                            1
-                          )
-                        : _vm.$store.state.favourites.favouriteItem.find(
-                            function(o) {
-                              return o.itemId === _vm.product.itemId
-                            }
-                          )
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "", color: "blue" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToFavourites(_vm.product)
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-star")])],
-                            1
-                          )
-                        : _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToFavourites(_vm.product)
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-star")])],
-                            1
-                          )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _c(
-            "v-card",
-            [
-              _c(
-                "v-responsive",
-                { attrs: { "aspect-ratio": 4 / 5 } },
-                [
-                  _c(
-                    "v-card-title",
-                    {
-                      on: {
-                        click: function($event) {
-                          return _vm.redirectToItemPage(_vm.product)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.product.itemName))]
-                  ),
-                  _vm._v(" "),
-                  _c("v-img", {
-                    staticClass: "productImage ma-2",
-                    attrs: {
-                      "aspect-ratio": 1 / 1,
-                      src:
-                        "http://127.0.0.1:8000/storage/products/" +
-                        _vm.product.dir +
-                        "/" +
-                        _vm.product.primaryImg
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.redirectToItemPage(_vm.product)
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    { staticClass: "card-actions" },
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { rounded: "" },
-                          on: {
-                            click: function($event) {
-                              return _vm.selectItem(_vm.product.itemId)
-                            }
-                          }
-                        },
-                        [_vm._v("Podrobnosti")]
-                      ),
-                      _vm._v(" "),
-                      _vm.$store.state.cart.cart == null
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { rounded: "", color: "error" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToCart(_vm.product)
-                                }
-                              }
-                            },
-                            [_vm._v("V košarico")]
-                          )
-                        : _vm.$store.state.cart.cart.find(function(o) {
-                            return o.product.itemId === _vm.product.itemId
-                          })
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { rounded: "", color: "success" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToCart(_vm.product)
-                                }
-                              }
-                            },
-                            [_vm._v("Dodano")]
-                          )
-                        : _c(
-                            "v-btn",
-                            {
-                              attrs: { rounded: "", color: "error" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToCart(_vm.product)
-                                }
-                              }
-                            },
-                            [_vm._v("V košarico")]
-                          ),
-                      _vm._v(" "),
-                      _vm.$store.state.favourites.favouriteItem == null
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToFavourites(_vm.product)
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-star")])],
-                            1
-                          )
-                        : _vm.$store.state.favourites.favouriteItem.find(
-                            function(o) {
-                              return o.itemId === _vm.product.itemId
-                            }
-                          )
-                        ? _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "", color: "blue" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToFavourites(_vm.product)
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-star")])],
-                            1
-                          )
-                        : _c(
-                            "v-btn",
-                            {
-                              attrs: { icon: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addToFavourites(_vm.product)
-                                }
-                              }
-                            },
-                            [_c("v-icon", [_vm._v("mdi-star")])],
-                            1
-                          )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-actions",
+                              { staticClass: "card-actions" },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { rounded: "" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.selectItem(
+                                          _vm.product.itemId
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Podrobnosti")]
+                                ),
+                                _vm._v(" "),
+                                _vm.$store.state.cart.cart == null
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { rounded: "", color: "error" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToCart(_vm.product)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("V košarico")]
+                                    )
+                                  : _vm.$store.state.cart.cart.find(function(
+                                      o
+                                    ) {
+                                      return (
+                                        o.product.itemId === _vm.product.itemId
+                                      )
+                                    })
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: {
+                                          rounded: "",
+                                          color: "success"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToCart(_vm.product)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Dodano")]
+                                    )
+                                  : _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { rounded: "", color: "error" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToCart(_vm.product)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("V košarico")]
+                                    ),
+                                _vm._v(" "),
+                                _vm.$store.state.favourites.favouriteItem ==
+                                null
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToFavourites(
+                                              _vm.product
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("v-icon", [_vm._v("mdi-star")])],
+                                      1
+                                    )
+                                  : _vm.$store.state.favourites.favouriteItem.find(
+                                      function(o) {
+                                        return o.itemId === _vm.product.itemId
+                                      }
+                                    )
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "", color: "blue" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToFavourites(
+                                              _vm.product
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("v-icon", [_vm._v("mdi-star")])],
+                                      1
+                                    )
+                                  : _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.addToFavourites(
+                                              _vm.product
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_c("v-icon", [_vm._v("mdi-star")])],
+                                      1
+                                    )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+              ]
+            }
+          }
+        ])
+      })
     ],
     1
   )
@@ -996,10 +1179,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
 /* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/index.js");
-/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
+/* harmony import */ var vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VChip */ "./node_modules/vuetify/lib/components/VChip/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VHover__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VHover */ "./node_modules/vuetify/lib/components/VHover/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/index.js");
+/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
 
 
 
@@ -1029,7 +1214,9 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardTitle"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_8__["VIcon"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_9__["VImg"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_10__["VResponsive"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardTitle"],VChip: vuetify_lib_components_VChip__WEBPACK_IMPORTED_MODULE_7__["VChip"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VHover: vuetify_lib_components_VHover__WEBPACK_IMPORTED_MODULE_9__["VHover"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["VIcon"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_11__["VImg"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_12__["VResponsive"]})
 
 
 /* hot reload */

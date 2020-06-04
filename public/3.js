@@ -123,10 +123,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -599,16 +595,10 @@ var render = function() {
                     "v-card",
                     {
                       staticClass: "mb-12",
-                      attrs: { color: "grey lighten-1", "min-height": "300" }
+                      attrs: { color: "grey lighten-1", "min-height": "30vw" }
                     },
                     [_c("items")],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { staticClass: "float-right", attrs: { text: "" } },
-                    [_vm._v("Prekini")]
                   ),
                   _vm._v(" "),
                   this.$store.state.cart.cart.length > 0
@@ -641,10 +631,7 @@ var render = function() {
                         "v-card",
                         {
                           staticClass: "mb-12",
-                          attrs: {
-                            color: "grey lighten-1",
-                            "min-height": "200px"
-                          }
+                          attrs: { "min-height": "30vw", elevation: "0" }
                         },
                         [_c("credentials")],
                         1
@@ -692,7 +679,7 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    { staticClass: "mb-12", attrs: { "min-height": "200px" } },
+                    { staticClass: "mb-12", attrs: { "min-height": "30vw" } },
                     [_c("paymentMethod")],
                     1
                   ),

@@ -65,6 +65,7 @@ const router = new VueRouter({
         {
             path: '/admin',
             component: ()=> import('../pages/admin/index.vue'),
+            redirect: {name: 'orders'},
             meta: {layout: "admin"},
             //Checks if user is admin or not
             beforeEnter: (to, from, next) =>{

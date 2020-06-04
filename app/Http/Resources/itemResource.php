@@ -24,7 +24,8 @@ class itemResource extends JsonResource
             'Quantity' => $this->availableQuantity,
             'OverAllrating' => $this->OverAllrating,
             'dir' => $this->itemImgDir,
-            'primaryImg' => $this->itemImg
+            'primaryImg' => $this->itemImg,
+            'isOnSale' => $this->isOnSale
         ];
     }
 }

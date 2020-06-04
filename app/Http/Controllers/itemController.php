@@ -24,6 +24,7 @@ class itemController extends Controller
 
     public function changeItem(Request $request){
 
+        $discount = $request->input('Discount');
         $itemId = $request->input('itemId');
         $itemName = $request->input('itemName');
         $Quantity = $request->input('količina');
@@ -44,14 +45,27 @@ class itemController extends Controller
 
         //Validates if provided items are correct type
         $this->validate($request, $rules, $customMessage);
-
-        $change = Items::where('itemId', $itemId)
-        ->update([
-            'itemName' => $itemName,
-            'availableQuantity' => $Quantity,
-            'itemPrice' => $itemPrice,
-            'itemDescription' => $Description
-        ]);
+        $change = null;
+        if($discount != null){
+            $change = Items::where('itemId', $itemId)
+            ->update([
+                'itemName' => $itemName,
+                'availableQuantity' => $Quantity,
+                'itemPrice' => $itemPrice,
+                'itemDescription' => $Description,
+                'isOnSale' => 1,
+                'discount' => $discount
+            ]);
+        }
+        else{
+            $change = Items::where('itemId', $itemId)
+            ->update([
+                'itemName' => $itemName,
+                'availableQuantity' => $Quantity,
+                'itemPrice' => $itemPrice,
+                'itemDescription' => $Description
+            ]);
+        }
 
         if($change){
             return 1;

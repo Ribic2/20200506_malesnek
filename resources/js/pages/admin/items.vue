@@ -74,6 +74,7 @@
 
                                 <div v-if="discount">
                                     <v-text-field
+                                    v-model="changeDiscount"
                                     label="Znižanje v odstotkih"
                                     ></v-text-field>
                                 </div>
@@ -357,6 +358,7 @@ export default {
             itemPrice: '',
             description: '',
             discount: '',
+            changeDiscount: '',
             //Other variables
             selectedItemId: '',
             Search: '',
@@ -406,7 +408,8 @@ export default {
                 "itemName": this.itemName,
                 "količina": this.quantity,
                 "cena": this.itemPrice,
-                "Description": this.description
+                "Description": this.description,
+                "Discount": this.changeDiscount
             }
             Axios.post('/api/items/change', ChangedData)
             .then((results)=>{

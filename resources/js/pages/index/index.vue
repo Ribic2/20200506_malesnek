@@ -40,7 +40,8 @@
             cols="12"
             xl="3"
             >
-                <item v-bind:product="product"></item>
+                <item
+                v-bind:product="product"></item>
             </v-col>
         </v-row>
 
@@ -61,7 +62,7 @@ export default {
     data(){
         return{
             show: false,
-            currentlySelectedItemId: null
+            currentlySelectedItemId: null,
         }
     },
     methods:{

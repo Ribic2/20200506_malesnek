@@ -105,6 +105,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -278,7 +280,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("v-simple-table", [
+                      _c("v-simple-table", { attrs: { height: "200" } }, [
                         _c("thead", [
                           _c("tr", [
                             _c("th", [_vm._v("Ime izdelka")]),
