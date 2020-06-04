@@ -25,6 +25,8 @@ Route::post('/user/login', 'LoginController@login');
 Route::post('/user/register', 'RegisterController@register');
 Route::post('/user/register/cart', 'RegisterController@registerInCart');
 
+Route::post('/review/add', 'itemController@addReview');
+
 //Item categories
 Route::get('/categories', function(){
     return Items::select('Categorie')->distinct()->get();

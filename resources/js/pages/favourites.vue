@@ -1,6 +1,9 @@
 <template>
     <v-container>
-        <v-row  v-for="item in this.$store.state.favourites.favouriteItem" v-bind:key="item.id">
+
+        <v-row
+
+        v-for="item in this.$store.state.favourites.favouriteItem" v-bind:key="item.id">
             <v-col
             class="itemHolder"
             cols="12"
@@ -27,6 +30,12 @@
                         <v-col  class = "test">
                             {{ item.OverAllrating}}
                         </v-col>
+                        <v-col>
+                            <v-btn
+                            @click="deletFromFavourites(item)"
+                            color="error"
+                            >Izbriši</v-btn>
+                        </v-col>
                     </v-row>
                 </v-card>
             </v-col>
@@ -40,6 +49,9 @@ export default {
     methods:{
         resetFavouritesData(){
             this.$store.dispatch('resetFavouritesArray')
+        },
+        deletFromFavourites(e){
+            this.$store.dispatch('deleteFromFavouritesArray', e)
         }
     },
     mounted(){

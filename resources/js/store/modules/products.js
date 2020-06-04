@@ -9,7 +9,7 @@ export default{
     }),
     mutations:{
         ADD_DATA(state, payload){
-
+            console.log(payload)
             if(payload.length <= 0 || state.stopApiCalls){
                 state.stopApiCalls = true
             }
@@ -48,8 +48,10 @@ export default{
             })
         },
         filterItemsByCategory({commit}, payload){
+
             api.getProductsSpecificCategory(payload)
             .then((results)=>{
+
                 commit('FILTER_PRODUCTS', results.data.data)
             })
         }

@@ -26,12 +26,23 @@ export default{
             }
         },
         RESET_FAVOURITES(state){
-            if(state.favouriteItem == null){
+            if(state.favouriteItem == null || state.favouriteItem.length == 0){
                 state.favouriteItem = new Array
             }
             else{
                 state.favouriteItem = JSON.parse(localStorage.getItem('favouritesStorage'))
             }
+        },
+        DELETE_FROM_FAVOURITES(state, payload){
+            var foundItemIndex = null
+            for(var i = 0; i < state.favouriteItem.length; i++){
+
+                if(state.favouriteItem[i].itemId == payload.itemId){
+                    foundItemIndex = i
+                }
+            }
+           state.favouriteItem.splice(foundItemIndex, 1)
+           localStorage.setItem('favouritesStorage', JSON.stringify(state.cart))
         }
     },
     actions:{
@@ -41,6 +52,9 @@ export default{
         },
         resetFavouritesArray({commit}){
             commit('RESET_FAVOURITES')
+        },
+        deleteFromFavouritesArray({commit}, payload){
+            commit('DELETE_FROM_FAVOURITES', payload)
         }
 
     },

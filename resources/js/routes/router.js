@@ -23,6 +23,7 @@ const router = new VueRouter({
             children:[
                 {
                     path: '/user/login',
+                    name: 'login',
                     component: ()=> import('../pages/user/login.vue'),
                     beforeEnter: (to, from, next)=>{
                         if(localStorage.getItem('authToken')){

@@ -17,6 +17,7 @@ class CreateItemReviewTable extends Migration
             $table->id('itemReviewId');
             $table->foreignId('itemId')->references('itemId')->on('items')->onDelete('cascade');
             $table->string('Name');
+            $table->string('Email');
             $table->string('Surname');
             $table->string('comment');
             $table->date('postTime');

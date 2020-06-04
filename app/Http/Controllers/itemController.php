@@ -9,6 +9,7 @@ use App\Order;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Validation\Validator;
+use Stripe\Product;
 
 class itemController extends Controller
 {
@@ -173,4 +174,50 @@ class itemController extends Controller
         }
         return 0;
     }
+
+    public function addReview(Request $request){
+        $Comment = $request->input('Comment');
+        $Rating = $request->input('Rating');
+        $productId = $request->input('productId');
+        $name = $request->input('Name');
+        $surname = $request->input('Surname');
+        $email = $request->input('Email');
+        $date = date("Y-m-d H:i:s");
+
+        $checkIfUserAlreadyPosted = itemReview::where('Email', $email)->count();
+
+        if($checkIfUserAlreadyPosted > 0){
+            return "User Already posted";
+        }
+
+        $addItemReview = new itemReview();
+
+        $addItemReview->itemId = $productId;
+        $addItemReview->Name = $name;
+        $addItemReview->Surname = $surname;
+        $addItemReview->comment = $Comment;
+        $addItemReview->postTime = $date;
+        $addItemReview->Email = $email;
+        $addItemReview->rating = $Rating;
+
+
+        if($addItemReview->save()){
+            $newOverAllRating = 0;
+            $getItemReviews = itemReview::select('rating')->where('itemId', $productId)->get();
+
+            for($i = 0; $i < count($getItemReviews); $i++){
+                $newOverAllRating += $getItemReviews[0]->rating;
+            }
+
+            $newOverAllRating /= count($getItemReviews);
+
+            $item = Items::where('itemId', $productId)
+            ->update(['overAllrating' => $newOverAllRating]);
+
+            return 1;
+        }
+        return 2;
+    }
+
+
 }

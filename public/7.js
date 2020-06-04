@@ -205,6 +205,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -216,7 +217,8 @@ __webpack_require__.r(__webpack_exports__);
       allReviews: '',
       images: [],
       currentIndex: '',
-      rating: 0
+      rating: 0,
+      comment: ''
     };
   },
   methods: {
@@ -290,6 +292,25 @@ __webpack_require__.r(__webpack_exports__);
     //Selects the image
     selectImage: function selectImage(e) {
       this.currentIndex = e;
+    },
+    addReviews: function addReviews(e) {
+      var _this4 = this;
+
+      var credentials = {
+        "Comment": this.comment,
+        "Rating": this.rating,
+        "productId": e.itemId,
+        "Name": this.$store.state.user.Name,
+        "Surname": this.$store.state.user.Surname,
+        "Email": this.$store.state.user.Email
+      };
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/api/review/add', credentials).then(function (results) {
+        if (results.data) {
+          _this4.getReviews();
+
+          _this4.getItemData();
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -605,7 +626,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-form",
-                        { staticClass: "ma-5" },
+                        { staticClass: "ma-5", attrs: { method: "POST" } },
                         [
                           _c(
                             "div",
@@ -624,12 +645,28 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c("v-textarea", {
-                            attrs: { outlined: "", "no-resize": "" }
+                            attrs: { outlined: "", "no-resize": "" },
+                            model: {
+                              value: _vm.comment,
+                              callback: function($$v) {
+                                _vm.comment = $$v
+                              },
+                              expression: "comment"
+                            }
                           }),
                           _vm._v(" "),
-                          _c("v-btn", { staticClass: "float-right" }, [
-                            _vm._v("Oddaj oceno")
-                          ])
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "float-right",
+                              on: {
+                                click: function($event) {
+                                  return _vm.addReviews(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("Oddaj oceno")]
+                          )
                         ],
                         1
                       )

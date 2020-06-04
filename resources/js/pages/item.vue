@@ -134,11 +134,9 @@
                     class="ma-5"
                     >Dodaj oceno</h3>
                     <v-form
-
-
+                    method="POST"
                     class="ma-5"
                     >
-
                         <div>
                             <v-rating v-model="rating"></v-rating>
                         </div>
@@ -146,18 +144,20 @@
                         <v-textarea
                         outlined
                         no-resize
+                        v-model="comment"
                         >
 
                         </v-textarea>
 
                         <v-btn
                         class="float-right"
+                        @click="addReviews(product)"
                         >Oddaj oceno</v-btn>
                     </v-form>
                 </v-card>
             </v-col>
         </v-row>
-
+        <!--Is he is not logged in he is not able to add review-->
         <v-row v-else>
             <v-col
             cols="12"
@@ -170,6 +170,7 @@
 
 
         <!--Reviews-->
+
         <v-card v-if="allReviews.length == 0">
             <h1>Ta izdelek nima nobenih ocen.</h1>
         </v-card>
@@ -202,7 +203,9 @@ export default {
             allReviews: '',
             images: [],
             currentIndex: '',
-            rating: 0
+            rating: 0,
+            comment: '',
+
         }
     },
     methods:{
@@ -266,6 +269,25 @@ export default {
         selectImage(e){
             this.currentIndex = e
         },
+        addReviews(e){
+            var credentials = {
+                "Comment" : this.comment,
+                "Rating" : this.rating,
+                "productId": e.itemId,
+                "Name": this.$store.state.user.Name,
+                "Surname": this.$store.state.user.Surname,
+                "Email": this.$store.state.user.Email
+            }
+
+            Axios.post('/api/review/add', credentials)
+            .then((results)=>{
+                if(results.data){
+                    this.getReviews()
+                    this.getItemData()
+                }
+            })
+
+        }
     },
     mounted(){
         this.getItemData(),

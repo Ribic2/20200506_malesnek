@@ -72,6 +72,7 @@ export default {
          * ONLY ADDS products of 1st page!
          */
         addData(){
+
             if(this.$store.state.products.products.length == 0){
                 return this.$store.dispatch('getDataPerPage', 1)
             }

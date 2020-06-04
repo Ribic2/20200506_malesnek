@@ -8,6 +8,6 @@ class itemReview extends Model
 {
     protected $table = 'item_review';
     protected $primaryKey = 'itemReviewId';
-
+    public $timestamps = false;
 
 }
