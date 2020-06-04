@@ -11,14 +11,16 @@ class authenticateUserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+
+    public $email;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($email)
     {
-        //
+        $this->email = $email;
     }
 
     /**
@@ -29,11 +31,10 @@ class authenticateUserMail extends Mailable
     public function build()
     {
         return $this->from('mail@example.com', 'Mailtrap')
-            ->subject('Mailtrap Confirmation')
+            ->subject('Potrditev računa')
             ->markdown('mails.authenticateUser')
             ->with([
-                'name' => 'New Mailtrap User',
-                'link' => 'https://mailtrap.io/inboxes'
+                'email' => $this->email
         ]);
     }
 }

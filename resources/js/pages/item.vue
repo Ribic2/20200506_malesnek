@@ -181,9 +181,20 @@
             cols="12"
             >
                 <v-card
-                height="100"
+                height="200"
                 >
-                    {{ review }}
+                <v-card-actions>
+                    <p>{{ review.Name }} {{ review.Surname }}</p>
+                    <v-spacer></v-spacer>
+                    <v-rating
+                    readonly
+                    v-model="review.rating"
+
+                    ></v-rating>
+                </v-card-actions>
+                {{ review.postTime }}
+                <br>
+                {{ review.comment }}
                 </v-card>
             </v-col>
         </v-row>

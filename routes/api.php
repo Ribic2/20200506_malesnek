@@ -51,6 +51,7 @@ Route::get('/item/{id}', function($id){
 
 Route::get('/item/{id}/images', 'itemController@getImages');
 //Reviews for 1 item only
+
 Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
@@ -61,6 +62,8 @@ Route::get('/contact', function(){
 });
 Route::post('/contact/add', 'ContactController@getContact');
 
+//Confirm newly registerd user
+Route::post('/confirmation', 'AuthController@confirmMail');
 //ADMIN ROUTES
 
 //Used to call all items

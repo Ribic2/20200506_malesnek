@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Mail\authenticateUserMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
+
+Route::get('/email', function(){
+    return new authenticateUserMail('vid.bukovec8361@gmail.com');
+});
 Route::get('/{any}', 'appController@index')->where('any', '.*');

@@ -128,6 +128,11 @@ const router = new VueRouter({
                 })
             }
         },
+        //Confirmation of password
+        {
+            path: '/confirmation',
+            component: ()=>import('../pages/user/confirmationUser.vue')
+        },
         {
             path: '/stran-ni-bila-najdena',
             name: '404error',

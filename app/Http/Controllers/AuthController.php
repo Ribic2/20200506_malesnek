@@ -40,4 +40,26 @@ class AuthController extends Controller
 
     }
 
+    public function confirmMail(Request $request){
+        $email = $request->input('email');
+
+        $checkIfAlreadyAuth = User::select('isAuth')->where('email', $email)->get();
+        $checkIfEmailExits = User::where('email', $email)->count();
+
+        if($checkIfEmailExits == 0){
+            return "Email ni bil registriran";
+        }
+        else{
+            if($checkIfAlreadyAuth[0]->isAuth != "0"){
+                return "Already authenticated";
+            }
+            else{
+                User::where('email', $email)
+                ->update(['isAuth'=> 1]);
+
+                return 1;
+            }
+        }
+    }
+
 }
