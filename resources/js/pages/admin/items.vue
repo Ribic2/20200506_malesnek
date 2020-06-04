@@ -24,6 +24,7 @@
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
+                <p v-if="i.isOnSale">Trenutno na razprodaji!</p>
                 <p>{{ i.itemDescription}}</p>
                 <v-btn-toggle>
                     <v-btn @click="getIdToChange(i)">Spremeni</v-btn>
@@ -70,11 +71,14 @@
                                 no-resize
                                 >
                                 </v-textarea>
-                                <v-checkbox label="Razprodaja" v-model="discount"></v-checkbox>
 
-                                <div v-if="discount">
+                                <v-checkbox v-if="isOnSale" label="Razprodaja" v-model="isOnSale"></v-checkbox>
+
+
+
+                                <div v-if="isOnSale">
                                     <v-text-field
-                                    v-model="changeDiscount"
+                                    v-model="discount"
                                     label="Znižanje v odstotkih"
                                     ></v-text-field>
                                 </div>
@@ -359,6 +363,7 @@ export default {
             description: '',
             discount: '',
             changeDiscount: '',
+            isOnSale: '',
             //Other variables
             selectedItemId: '',
             Search: '',
@@ -409,9 +414,11 @@ export default {
                 "količina": this.quantity,
                 "cena": this.itemPrice,
                 "Description": this.description,
-                "Discount": this.changeDiscount
+                "Discount": this.isOnSale ? this.changeDiscount : " "
             }
-            Axios.post('/api/items/change', ChangedData)
+
+
+             Axios.post('/api/items/change', ChangedData)
             .then((results)=>{
                 if(results.data = 1){
                     this.getItemsForAdmin()
@@ -442,8 +449,10 @@ export default {
             this.change = true
             this.selectedItemId = e.itemId
             this.itemName = e.itemName
+            this.discount = e.Discount
             this.quantity = e.Quantity
             this.itemPrice = e.itemPrice
+            this.isOnSale = e.isOnSale
             this.description = e.itemDescription
         },
         addNewItem(){

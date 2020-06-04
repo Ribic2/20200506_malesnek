@@ -47,17 +47,17 @@ class AuthController extends Controller
         $checkIfEmailExits = User::where('email', $email)->count();
 
         if($checkIfEmailExits == 0){
-            return "Email ni bil registriran";
+            return response("E-naslov ne obstaja!", 403)->header('Content-Type', 'text/plain');
         }
         else{
             if($checkIfAlreadyAuth[0]->isAuth != "0"){
-                return "Already authenticated";
+                return response("Račun je bil že potrjen!", 403)->header('Content-Type', 'text/plain');
             }
             else{
                 User::where('email', $email)
                 ->update(['isAuth'=> 1]);
 
-                return 1;
+                return response(1, 200)->header('Content-Type', 'text/plain');
             }
         }
     }

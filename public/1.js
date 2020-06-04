@@ -349,6 +349,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -374,6 +378,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       description: '',
       discount: '',
       changeDiscount: '',
+      isOnSale: '',
       //Other variables
       selectedItemId: '',
       Search: '',
@@ -404,7 +409,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         "količina": this.quantity,
         "cena": this.itemPrice,
         "Description": this.description,
-        "Discount": this.changeDiscount
+        "Discount": this.isOnSale ? this.changeDiscount : " "
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/change', ChangedData).then(function (results) {
         if (results.data = 1) {
@@ -437,8 +442,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.change = true;
       this.selectedItemId = e.itemId;
       this.itemName = e.itemName;
+      this.discount = e.Discount;
       this.quantity = e.Quantity;
       this.itemPrice = e.itemPrice;
+      this.isOnSale = e.isOnSale;
       this.description = e.itemDescription;
     },
     addNewItem: function addNewItem() {
@@ -617,6 +624,10 @@ var render = function() {
               _c(
                 "v-expansion-panel-content",
                 [
+                  i.isOnSale
+                    ? _c("p", [_vm._v("Trenutno na razprodaji!")])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("p", [_vm._v(_vm._s(i.itemDescription))]),
                   _vm._v(" "),
                   _c(
@@ -739,29 +750,31 @@ var render = function() {
                             }
                           }),
                           _vm._v(" "),
-                          _c("v-checkbox", {
-                            attrs: { label: "Razprodaja" },
-                            model: {
-                              value: _vm.discount,
-                              callback: function($$v) {
-                                _vm.discount = $$v
-                              },
-                              expression: "discount"
-                            }
-                          }),
+                          _vm.isOnSale
+                            ? _c("v-checkbox", {
+                                attrs: { label: "Razprodaja" },
+                                model: {
+                                  value: _vm.isOnSale,
+                                  callback: function($$v) {
+                                    _vm.isOnSale = $$v
+                                  },
+                                  expression: "isOnSale"
+                                }
+                              })
+                            : _vm._e(),
                           _vm._v(" "),
-                          _vm.discount
+                          _vm.isOnSale
                             ? _c(
                                 "div",
                                 [
                                   _c("v-text-field", {
                                     attrs: { label: "Znižanje v odstotkih" },
                                     model: {
-                                      value: _vm.changeDiscount,
+                                      value: _vm.discount,
                                       callback: function($$v) {
-                                        _vm.changeDiscount = $$v
+                                        _vm.discount = $$v
                                       },
-                                      expression: "changeDiscount"
+                                      expression: "discount"
                                     }
                                   })
                                 ],

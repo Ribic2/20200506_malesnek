@@ -41,6 +41,7 @@
                     <v-col>
                         <v-text-field
                         label="Geslo"
+                        v-if="this.$store.state.user.LoginStatus == false"
                         v-model="password"
                         >
 

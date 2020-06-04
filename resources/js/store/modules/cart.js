@@ -12,6 +12,7 @@ export default{
             //If cart is empty adds item
             if(state.cart.length == 0){
                 state.cart.push({product: payload, quantity: 1})
+                localStorage.setItem('cartStorage', JSON.stringify(state.cart))
 
             }
              //If not then it checks cart products and check if newly added product is already in cart
@@ -38,8 +39,10 @@ export default{
         REFRESH_CART_DATA(state){
             if(JSON.parse(localStorage.getItem('cartStorage')) == null){
                 state.cart = new Array
+                console.log("empty")
             }
             else{
+                console.log("not empty")
                 state.cart = JSON.parse(localStorage.getItem('cartStorage'))
             }
         },
@@ -83,6 +86,7 @@ export default{
         },
         //Check if non register user already have it cart data stored and reapply it
         checkLocalStorageCart({commit}){
+            console.log("Checking")
             commit('REFRESH_CART_DATA')
         },
         //Deletes whole cart array upon logout

@@ -11,6 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _kosarica_register__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../kosarica/register */ "./resources/js/pages/kosarica/register.vue");
 /* harmony import */ var _user_login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user/login */ "./resources/js/pages/user/login.vue");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
 //
 //
 //
@@ -46,6 +47,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -74,6 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+//
 //
 //
 //
@@ -232,52 +249,67 @@ var render = function() {
   return _c(
     "v-container",
     [
-      _c(
-        "v-card",
-        [
-          _c(
-            "v-card-actions",
+      !this.$store.state.user.LoginStatus
+        ? _c(
+            "v-card",
             [
               _c(
-                "v-btn",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.selectedOption = "Prijava"
-                    }
-                  }
-                },
-                [_vm._v("\n                Prijavi se\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.selectedOption = "Podatki o dostavi"
-                    }
-                  }
-                },
-                [_vm._v("\n                Podatki o dostavi\n            ")]
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.selectedOption = "Prijava"
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Prijavi se\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.selectedOption = "Podatki o dostavi"
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                Podatki o dostavi\n            "
+                      )
+                    ]
+                  )
+                ],
+                1
               )
             ],
             1
           )
-        ],
-        1
-      ),
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "v-card",
-        { staticClass: "mt-1", attrs: { "min-height": "600" } },
-        [
-          _vm.selectedOption == "Prijava"
-            ? _c("v-card-actions", [_c("login")], 1)
-            : _c("v-card-actions", [_c("register")], 1)
-        ],
-        1
-      )
+      this.$store.state.user.LoginStatus == true
+        ? _c(
+            "v-card",
+            { staticClass: "mt-1", attrs: { "min-height": "600" } },
+            [_c("v-card-actions", [_c("register")], 1)],
+            1
+          )
+        : _c(
+            "v-card",
+            { staticClass: "mt-1", attrs: { "min-height": "600" } },
+            [
+              (_vm.selectedOption = "Podatki o dostavi")
+                ? _c("v-card-actions", [_c("login")], 1)
+                : (_vm.selectedOption = "Prijava")
+                ? _c("v-card-actions", [_c("register")], 1)
+                : _vm._e()
+            ],
+            1
+          )
     ],
     1
   )
@@ -383,16 +415,18 @@ var render = function() {
                   _c(
                     "v-col",
                     [
-                      _c("v-text-field", {
-                        attrs: { label: "Geslo" },
-                        model: {
-                          value: _vm.password,
-                          callback: function($$v) {
-                            _vm.password = $$v
-                          },
-                          expression: "password"
-                        }
-                      })
+                      this.$store.state.user.LoginStatus == false
+                        ? _c("v-text-field", {
+                            attrs: { label: "Geslo" },
+                            model: {
+                              value: _vm.password,
+                              callback: function($$v) {
+                                _vm.password = $$v
+                              },
+                              expression: "password"
+                            }
+                          })
+                        : _vm._e()
                     ],
                     1
                   )

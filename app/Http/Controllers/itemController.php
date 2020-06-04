@@ -64,7 +64,9 @@ class itemController extends Controller
                 'itemName' => $itemName,
                 'availableQuantity' => $Quantity,
                 'itemPrice' => $itemPrice,
-                'itemDescription' => $Description
+                'itemDescription' => $Description,
+                'isOnSale' => 0,
+                'discount' => 0
             ]);
         }
 

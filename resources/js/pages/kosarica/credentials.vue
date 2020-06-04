@@ -1,6 +1,7 @@
 <template>
     <v-container>
-        <v-card>
+        <!-- If user is not logged he is provided two options login or register -->
+        <v-card v-if="!this.$store.state.user.LoginStatus">
             <v-card-actions>
                 <v-btn
                 @click="selectedOption = 'Prijava'"
@@ -14,18 +15,31 @@
                     Podatki o dostavi
                 </v-btn>
             </v-card-actions>
-
         </v-card>
 
+
+
+        <!-- Checks if user is logged in and he is provided two options again register or login -->
         <v-card
+        v-if="this.$store.state.user.LoginStatus == true"
         class="mt-1"
         min-height="600"
         >
-            <v-card-actions v-if="selectedOption == 'Prijava'">
+            <v-card-actions>
+                <register></register>
+            </v-card-actions>
+        </v-card>
+
+        <v-card
+        v-else
+        class="mt-1"
+        min-height="600"
+        >
+            <v-card-actions v-if="selectedOption = 'Podatki o dostavi'">
                 <login></login>
             </v-card-actions>
 
-            <v-card-actions v-else>
+            <v-card-actions v-else-if="selectedOption = 'Prijava'">
                 <register></register>
             </v-card-actions>
         </v-card>
@@ -36,6 +50,7 @@
 <script>
 import register from '../kosarica/register'
 import login from '../user/login'
+import store from '../../store/index'
 export default {
     components:{
         login,
