@@ -21,6 +21,8 @@
 
             <v-expansion-panel-header>
             {{ i.itemName }}
+            <v-spacer></v-spacer>
+            <p v-if="i.Quantity == 0">Izdelka ni več na zalogi / zmankalo je zalog</p>
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
@@ -72,8 +74,8 @@
                                 >
                                 </v-textarea>
 
-                                <v-checkbox v-if="isOnSale" label="Razprodaja" v-model="isOnSale"></v-checkbox>
-
+                                <v-checkbox label="Razprodaja" v-model="isOnSale"></v-checkbox>
+                                {{ isOnSale }}
 
 
                                 <div v-if="isOnSale">
@@ -82,6 +84,7 @@
                                     label="Znižanje v odstotkih"
                                     ></v-text-field>
                                 </div>
+                                {{ discount }}
                         </v-form>
                     </v-container>
                 </v-card-actions>
@@ -363,7 +366,7 @@ export default {
             description: '',
             discount: '',
             changeDiscount: '',
-            isOnSale: '',
+            isOnSale: false,
             //Other variables
             selectedItemId: '',
             Search: '',
@@ -414,9 +417,8 @@ export default {
                 "količina": this.quantity,
                 "cena": this.itemPrice,
                 "Description": this.description,
-                "Discount": this.isOnSale ? this.changeDiscount : " "
+                "Discount": this.isOnSale ? this.discount : ""
             }
-
 
              Axios.post('/api/items/change', ChangedData)
             .then((results)=>{
@@ -452,7 +454,7 @@ export default {
             this.discount = e.Discount
             this.quantity = e.Quantity
             this.itemPrice = e.itemPrice
-            this.isOnSale = e.isOnSale
+            this.isOnSale = e.isOnSale ? true : false
             this.description = e.itemDescription
         },
         addNewItem(){

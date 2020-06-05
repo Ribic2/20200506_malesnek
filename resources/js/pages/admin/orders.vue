@@ -120,7 +120,7 @@ export default {
         confirmOrder(e){
             Axios.post('/api/Order/confirm', {confirmation: e})
             .then((results)=>{
-
+                this.filterFinished()
             })
         }
 

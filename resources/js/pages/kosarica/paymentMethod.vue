@@ -26,17 +26,26 @@
         <div v-else>
             <h1>You need to comfirm your mail first</h1>
         </div>
+
+        <paypal
+            amount="10.00"
+            currency="USD"
+            env="sandbox"
+            :client="paypal"
+        >
+        </paypal>
     </v-container>
 </template>
 
 <script>
-
+import paypal from 'vue-paypal-checkout'
 import { Card, createToken } from 'vue-stripe-elements-plus'
 import Axios from 'axios'
 
 export default {
     components: {
-        Card
+        Card,
+        paypal
     },
     data () {
         return {
@@ -45,6 +54,10 @@ export default {
             stripeOptions: {
                 hidePostalCode: true
             },
+            paypal: {
+                sandbox: 'Ad3yEDxZV7gwmFkDAtZqTMRODKM0OJEZJ2w7TZt5YWnEVnbciAQ2DrqpAsv5pPin6T85ITAftj0YchTX',
+                production: 'Ad3yEDxZV7gwmFkDAtZqTMRODKM0OJEZJ2w7TZt5YWnEVnbciAQ2DrqpAsv5pPin6T85ITAftj0YchTX'
+            }
         }
     },
     methods: {

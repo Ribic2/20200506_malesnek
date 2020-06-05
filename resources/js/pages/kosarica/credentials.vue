@@ -4,13 +4,13 @@
         <v-card v-if="!this.$store.state.user.LoginStatus">
             <v-card-actions>
                 <v-btn
-                @click="selectedOption = 'Prijava'"
+                @click="selectedOption = 1"
                 >
                     Prijavi se
                 </v-btn>
 
                 <v-btn
-                @click="selectedOption = 'Podatki o dostavi'"
+                @click="selectedOption = 0"
                 >
                     Podatki o dostavi
                 </v-btn>
@@ -35,11 +35,11 @@
         class="mt-1"
         min-height="600"
         >
-            <v-card-actions v-if="selectedOption = 'Podatki o dostavi'">
+            <v-card-actions v-if="selectedOption == 1">
                 <login></login>
             </v-card-actions>
 
-            <v-card-actions v-else-if="selectedOption = 'Prijava'">
+            <v-card-actions v-else>
                 <register></register>
             </v-card-actions>
         </v-card>

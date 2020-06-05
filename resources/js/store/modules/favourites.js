@@ -5,8 +5,8 @@ export default{
     mutations:{
         //Adds new item to favourites
         ADD_TO_FAVOURITES(state, payload){
-            if(state.favouriteItem == null){
-                console.log("null")
+            console.log(payload)
+            if(state.favouriteItem == null || state.favouriteItem.length == 0){
                 state.favouriteItem = new Array
                 state.favouriteItem.push(payload)
 
@@ -28,6 +28,7 @@ export default{
         RESET_FAVOURITES(state){
             if(state.favouriteItem == null || state.favouriteItem.length == 0){
                 state.favouriteItem = new Array
+                state.favouriteItem = JSON.parse(localStorage.getItem('favouritesStorage'))
             }
             else{
                 state.favouriteItem = JSON.parse(localStorage.getItem('favouritesStorage'))

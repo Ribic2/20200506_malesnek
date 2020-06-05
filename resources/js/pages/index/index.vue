@@ -18,15 +18,18 @@
                 <div v-show="show" id = "filter">
 
                 <div id = "filterButtonHolder">
-                    <v-btn-toggle class="ma-2">
+
                         <v-btn
+                        rounded
+                        class="ma-2"
                         v-for="category in getCategories" v-bind:key="category.Categorie"
                         color="#6C3FB8"
+                        elevation="0"
                         @click="getCategorySpecificItems(category.Categorie)"
                         >
                         {{ category.Categorie }}
                         </v-btn>
-                    </v-btn-toggle>
+
                 </div>
                 </div>
             </v-expand-transition>
@@ -39,9 +42,12 @@
             :key="product.itemName"
             cols="12"
             xl="3"
+            lg="6"
+            md="6"
             >
                 <item
-                v-bind:product="product"></item>
+                v-bind:product="product"
+                ></item>
             </v-col>
         </v-row>
 

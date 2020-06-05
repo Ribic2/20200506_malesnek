@@ -11,14 +11,15 @@ class confirmPacket extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $name;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($name)
     {
-        //
+        $this->name = $name;
     }
 
     /**
@@ -28,6 +29,11 @@ class confirmPacket extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('mail@example.com', 'Mailtrap')
+            ->subject('Paket poslan.')
+            ->markdown('mails.packetSent')
+            ->with([
+                'name' => $this->name
+        ]);
     }
 }

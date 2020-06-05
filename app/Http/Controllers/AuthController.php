@@ -61,5 +61,14 @@ class AuthController extends Controller
             }
         }
     }
+    public function getAllUsers(){
+        if(Auth::check() && Auth::user()->isEmployee == 1){
+            $returnCredentials = User::all();
+
+            return $returnCredentials;
+
+        }
+        return 0;
+    }
 
 }

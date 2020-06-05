@@ -8,7 +8,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\mail\orderConfirmed;
-
+use App\User;
+use App\Mail\confirmPacket;
 use Stripe\Exception\CardException;
 Use Cartalyst\Stripe\Stripe;
 use Cartalyst\Stripe\Charge;
@@ -24,6 +25,7 @@ class OrderController extends Controller
         $quantity = $request->input('quantity');
         $fullPrice = $request->input('fullPrice');
         $orders = $request->input('products');
+
 
         $uiid = (string) Str::orderedUuid();
 
@@ -58,6 +60,8 @@ class OrderController extends Controller
                 'source' => $request->input('stripeToken'),
             ]);
 
+            $email = User::select('email')->where('user_id', $userId)->get();
+            Mail::to($email[0]->email)->send(new orderConfirmed($orders, $quantity, $fullPrice, $userId));
 
             return 1;
         }
@@ -74,12 +78,17 @@ class OrderController extends Controller
     public function confirmOrder(Request $request){
         $id =  $request->input('confirmation');
 
+
+        $idUser = Order::select('userId')->where('OrderId', $id)->get();
+
+        $name = User::select('Name')->where('user_id', $idUser[0]->userId)->get();
+        $email = User::select('email')->where('user_id', $idUser[0]->userId)->get();
+
         $changeOrderStatus = OrderIdStore::where('OrderId', $id)
         ->update(['deliveryStatus' => 1]);
 
         if($changeOrderStatus){
-            //Sends mail to client
-            Mail::to('vid.bukovec8361@gmail.com')->send(new orderConfirmed());
+            Mail::to($email[0]->email)->send(new confirmPacket($name[0]->Name));
             return 1;
         }
         return 0;

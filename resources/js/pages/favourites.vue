@@ -1,51 +1,24 @@
 <template>
     <v-container>
-
         <v-row
-
-        v-for="item in this.$store.state.favourites.favouriteItem" v-bind:key="item.id">
+        v-for="product in this.$store.state.favourites.favouriteItem" v-bind:key="product.id">
             <v-col
             class="itemHolder"
-            cols="12"
+            cols="3"
             >
-                <v-card>
-                    <v-row
-                    class="row"
-                    >
-                        <v-col
-                        class = "test"
-                        cols="2"
-                        >
-                            <v-img
-                            aspect-ratio="1"
-                            :src='"http://127.0.0.1:8000/storage/products/"+item.dir+"/"+item.primaryImg'
-                            ></v-img>
-                        </v-col>
-                        <v-col  class = "test">
-                            {{ item.itemName }}
-                        </v-col>
-                        <v-col  class = "test">
-                            {{ item.itemPrice}}
-                        </v-col>
-                        <v-col  class = "test">
-                            {{ item.OverAllrating}}
-                        </v-col>
-                        <v-col>
-                            <v-btn
-                            @click="deletFromFavourites(item)"
-                            color="error"
-                            >Izbriši</v-btn>
-                        </v-col>
-                    </v-row>
-                </v-card>
+                <item v-bind:product="product"></item>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
+import item from '../pages/index/item.vue'
 import store from '../store/index'
 export default {
+    components:{
+        item
+    },
     methods:{
         resetFavouritesData(){
             this.$store.dispatch('resetFavouritesArray')

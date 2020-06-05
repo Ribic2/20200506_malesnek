@@ -23,7 +23,9 @@ class usersResource extends ResourceCollection
             'Postcode' => $this->Postcode,
             'Email' => $this->Email,
             'isAuth' => $this->isAuth,
-            'isEmployee' => $this->isEmployee
+            'isEmployee' => $this->isEmployee,
+            'name' => $this->name,
+            'Surname' => $this->surname
         ];
     }
 }

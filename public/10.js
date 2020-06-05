@@ -130,9 +130,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.dispatch('filterLatest');
     },
     confirmOrder: function confirmOrder(e) {
+      var _this = this;
+
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/Order/confirm', {
         confirmation: e
-      }).then(function (results) {});
+      }).then(function (results) {
+        _this.filterFinished();
+      });
     }
   },
   mounted: function mounted() {

@@ -4,7 +4,8 @@
         width="500"
         >
             <v-form>
-                <v-row>
+                <!--If user is logged in -->
+                <v-row v-if="this.$store.state.user.LoginStatus">
                     <v-col>
                         <v-text-field
                         label="Ime"
@@ -18,8 +19,26 @@
                         <v-text-field
                         label="Priimek"
                         :value="this.$store.state.user.Surname ? this.$store.state.user.Surname : ''"
-                        :model="this.$store.state.user.Surname ? '' : surname"
+                        :vmodel="this.$store.state.user.Surname ? '' : surname"
                         :disabled="this.$store.state.user.Surname ? true : false"
+                        >
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+
+                <!--If user is not logged in-->
+                <v-row v-else>
+                    <v-col>
+                        <v-text-field
+                        label="Ime"
+                        v-model="name"
+                        >
+                        </v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field
+                        label="Priimek"
+                        v-model="surname"
                         >
 
                         </v-text-field>
@@ -60,6 +79,16 @@
 
                         </v-text-field>
                     </v-col>
+
+                     <v-col>
+                        <v-text-field
+                        label="Regija"
+                        v-model="region"
+                        >
+
+
+                        </v-text-field>
+                    </v-col>
                 </v-row>
 
 
@@ -77,7 +106,6 @@
                         label="Poštna številka"
                         v-model="postcode"
                         >
-
                         </v-text-field>
                     </v-col>
                 </v-row>
@@ -102,26 +130,26 @@ export default {
             password: '',
             telephonNumber: '',
             houseNumberAndStreet: '',
-            postcode: ''
+            postcode: '',
+            region: ''
         }
     },
     methods:{
         register(){
             var credentials = {
-                name: this.name,
-                surname: this.surname,
-
+                name: this.$store.state.user.Name ? this.$store.state.user.Name : this.name,
+                surname: this.$store.state.user.Surname ? this.$store.state.user.Surname : this.surname,
                 password: this.password,
-                email: this.email,
-
+                email: this.$store.state.user.Email ? this.$store.state.user.Email : this.email,
+                region: this.region,
                 phone: this.telephonNumber,
-
                 houseNumberAndStreet: this.houseNumberAndStreet,
                 postcode: this.postcode
 
             }
 
-            Axios.post('/api/user/register/cart', credentials)
+            console.log(credentials)
+/*             Axios.post('/api/user/register/cart', credentials)
             .then((results)=>{
                 console.log(results)
                 if(results.data.authentication){
@@ -138,7 +166,7 @@ export default {
 
                 }
             })
-        }
+ */        }
     }
 }
 </script>

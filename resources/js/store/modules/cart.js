@@ -39,10 +39,8 @@ export default{
         REFRESH_CART_DATA(state){
             if(JSON.parse(localStorage.getItem('cartStorage')) == null){
                 state.cart = new Array
-                console.log("empty")
             }
             else{
-                console.log("not empty")
                 state.cart = JSON.parse(localStorage.getItem('cartStorage'))
             }
         },

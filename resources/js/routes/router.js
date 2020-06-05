@@ -106,7 +106,7 @@ const router = new VueRouter({
                 {
                     path: '/admin/users',
                     meta: {layout: "admin"},
-                    component: ()=> import('../pages/admin/items.vue')
+                    component: ()=> import('../pages/admin/users.vue')
                 }
             ]
         },

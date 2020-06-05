@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\authenticateUserMail;
+use App\Mail\orderConfirmed;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +17,6 @@ use App\Mail\authenticateUserMail;
 
 
 Route::get('/email', function(){
-    return new authenticateUserMail('vid.bukovec8361@gmail.com');
+    return new orderConfirmed("Test", "Test", "Test", 1);
 });
 Route::get('/{any}', 'appController@index')->where('any', '.*');

@@ -100,3 +100,4 @@ Route::get('/orders/latest', function(){
 Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
 Route::middleware('auth:api')->get('/profile/admin','AuthController@checkIfAdmin');
+Route::middleware('auth:api')->get('/users/all', 'AuthController@getAllUsers');
