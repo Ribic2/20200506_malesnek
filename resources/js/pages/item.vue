@@ -8,7 +8,7 @@
             cols="12"
             xs="12"
             sm="12"
-            md="6"
+            md="12"
             lg="6"
             >
 
@@ -39,6 +39,7 @@
                                     <v-carousel-item
                                     v-for="(image, i) in images"
                                     :key="i"
+                                    lazy-src="https://picsum.photos/id/11/100/60"
                                     :src='"http://127.0.0.1:8000/storage/"+image'
                                     ></v-carousel-item>
 
@@ -51,11 +52,14 @@
                     </v-row>
 
                     <!--images-->
-                    <v-row>
+                    <v-row  v-if="this.windowWidth > 800">
                         <v-col
+                        class="images"
                         v-for="(image, i) in images"
                         :key="i"
                         cols="2"
+                        md="3"
+                        sm="3"
                         >
                             <img
                             v-if="currentIndex == i"
@@ -102,9 +106,9 @@
             id="itemDescription"
             class = "test">
                 <v-card
-                height="100%"
+                height="450"
                 >
-                    <h1>Opis izdelka</h1>
+                    <h1 class="headline descriptionTitle">Opis izdelka</h1>
                     <v-list>
                         <v-divider></v-divider>
                         <v-list-item>
@@ -131,7 +135,7 @@
                 height="350"
                 >
                     <h3
-                    class="ma-5"
+                    class="ma-5 pt-5 headline"
                     >Dodaj oceno</h3>
                     <v-form
                     method="POST"
@@ -150,7 +154,8 @@
                         </v-textarea>
 
                         <v-btn
-                        class="float-right"
+                        id="addReviewButton"
+                        color="primary"
                         @click="addReviews(product)"
                         >Oddaj oceno</v-btn>
                     </v-form>
@@ -183,18 +188,32 @@
                 <v-card
                 height="200"
                 >
-                <v-card-actions>
-                    <p>{{ review.Name }} {{ review.Surname }}</p>
-                    <v-spacer></v-spacer>
-                    <v-rating
-                    readonly
-                    v-model="review.rating"
 
-                    ></v-rating>
-                </v-card-actions>
-                {{ review.postTime }}
-                <br>
-                {{ review.comment }}
+                    <v-row class = "test">
+                        <v-col
+                        cols="12">
+                            <v-rating
+                            readonly
+                            v-model="review.rating"
+                            ></v-rating>
+                        </v-col>
+                    </v-row>
+
+                    <v-row class = "test">
+                        <v-col
+                        cols="12">
+                            <p class="ml-2"><span class = "font-weight-bold">{{ review.Name }} {{ review.Surname }}</span>  {{ review.postTime }}</p>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col
+                        cols="12"
+                        >
+                            <p
+                            class="ml-2 mb-10"
+                            >{{ review.comment }}</p>
+                        </v-col>
+                    </v-row>
                 </v-card>
             </v-col>
         </v-row>
@@ -215,6 +234,7 @@ export default {
             images: [],
             currentIndex: '',
             rating: 0,
+            windowWidth: '',
             comment: '',
 
         }
@@ -298,12 +318,23 @@ export default {
                 }
             })
 
+        },
+        windowWidthWatcher(){
+            if(this.windowWidth == ''){
+                this.windowWidth = window.innerWidth
+            }
+
+            window.addEventListener('resize', () => {
+                this.windowWidth = window.innerWidth
+            })
+
         }
     },
     mounted(){
         this.getItemData(),
         this.getReviews(),
-        this.getImages()
+        this.getImages(),
+        this.windowWidthWatcher()
     }
 }
 </script>
@@ -325,5 +356,17 @@ export default {
         -webkit-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
         -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
         box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    }
+    .images{
+        border: solid 1px black;
+    }
+    #addReviewButton{
+        position: relative;
+        bottom: 15px;
+    }
+    .descriptionTitle{
+        position: relative;
+        left: 10px;
+        top: 10px;
     }
 </style>

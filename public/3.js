@@ -63,6 +63,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      fullPrice: 0,
       complete: false,
       dialog: false,
       stripeOptions: {
@@ -104,7 +105,17 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       });
+    },
+    getFullPrice: function getFullPrice() {
+      var data = JSON.parse(localStorage.getItem('cartStorage'));
+
+      for (var i = 0; i < data.length; i++) {
+        this.fullPrice += data[i].quantity * data[i].product.itemPrice;
+      }
     }
+  },
+  mounted: function mounted() {
+    this.getFullPrice();
   }
 });
 
@@ -240,7 +251,7 @@ var render = function() {
       _vm._v(" "),
       _c("paypal", {
         attrs: {
-          amount: "10.00",
+          amount: _vm.fullPrice,
           currency: "USD",
           env: "sandbox",
           client: _vm.paypal

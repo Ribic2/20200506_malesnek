@@ -217,6 +217,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -229,6 +248,7 @@ __webpack_require__.r(__webpack_exports__);
       images: [],
       currentIndex: '',
       rating: 0,
+      windowWidth: '',
       comment: ''
     };
   },
@@ -322,10 +342,21 @@ __webpack_require__.r(__webpack_exports__);
           _this4.getItemData();
         }
       });
+    },
+    windowWidthWatcher: function windowWidthWatcher() {
+      var _this5 = this;
+
+      if (this.windowWidth == '') {
+        this.windowWidth = window.innerWidth;
+      }
+
+      window.addEventListener('resize', function () {
+        _this5.windowWidth = window.innerWidth;
+      });
     }
   },
   mounted: function mounted() {
-    this.getItemData(), this.getReviews(), this.getImages();
+    this.getItemData(), this.getReviews(), this.getImages(), this.windowWidthWatcher();
   }
 });
 
@@ -343,7 +374,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#container{\n    width: 80%;\n}\n.product_image{\n    height: 100%;\n    width: 100px;\n}\n#itemDescription{\n    height: 500px;\n}\n.selected_image_in_carousel{\n    transition: 0.1s;\n    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);\n}\n", ""]);
+exports.push([module.i, "\n#container{\n    width: 80%;\n}\n.product_image{\n    height: 100%;\n    width: 100px;\n}\n#itemDescription{\n    height: 500px;\n}\n.selected_image_in_carousel{\n    transition: 0.1s;\n    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);\n}\n.images{\n    border: solid 1px black;\n}\n#addReviewButton{\n    position: relative;\n    bottom: 15px;\n}\n.descriptionTitle{\n    position: relative;\n    left: 10px;\n    top: 10px;\n}\n", ""]);
 
 // exports
 
@@ -406,7 +437,7 @@ var render = function() {
             "v-col",
             {
               staticClass: "test",
-              attrs: { cols: "12", xs: "12", sm: "12", md: "6", lg: "6" }
+              attrs: { cols: "12", xs: "12", sm: "12", md: "12", lg: "6" }
             },
             [
               _c("h1", { staticClass: "font-weight-bold ma-2 display-1" }, [
@@ -474,6 +505,8 @@ var render = function() {
                               return _c("v-carousel-item", {
                                 key: i,
                                 attrs: {
+                                  "lazy-src":
+                                    "https://picsum.photos/id/11/100/60",
                                   src: "http://127.0.0.1:8000/storage/" + image
                                 }
                               })
@@ -490,35 +523,45 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "v-row",
-                _vm._l(_vm.images, function(image, i) {
-                  return _c("v-col", { key: i, attrs: { cols: "2" } }, [
-                    _vm.currentIndex == i
-                      ? _c("img", {
-                          staticClass: "selected_image_in_carousel",
-                          attrs: {
-                            height: "100",
-                            width: "100",
-                            src: "http://127.0.0.1:8000/storage/" + image
-                          }
-                        })
-                      : _c("img", {
-                          attrs: {
-                            height: "100",
-                            width: "100",
-                            src: "http://127.0.0.1:8000/storage/" + image
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.selectImage(i)
-                            }
-                          }
-                        })
-                  ])
-                }),
-                1
-              )
+              this.windowWidth > 800
+                ? _c(
+                    "v-row",
+                    _vm._l(_vm.images, function(image, i) {
+                      return _c(
+                        "v-col",
+                        {
+                          key: i,
+                          staticClass: "images",
+                          attrs: { cols: "2", md: "3", sm: "3" }
+                        },
+                        [
+                          _vm.currentIndex == i
+                            ? _c("img", {
+                                staticClass: "selected_image_in_carousel",
+                                attrs: {
+                                  height: "100",
+                                  width: "100",
+                                  src: "http://127.0.0.1:8000/storage/" + image
+                                }
+                              })
+                            : _c("img", {
+                                attrs: {
+                                  height: "100",
+                                  width: "100",
+                                  src: "http://127.0.0.1:8000/storage/" + image
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.selectImage(i)
+                                  }
+                                }
+                              })
+                        ]
+                      )
+                    }),
+                    1
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -568,9 +611,11 @@ var render = function() {
             [
               _c(
                 "v-card",
-                { attrs: { height: "100%" } },
+                { attrs: { height: "450" } },
                 [
-                  _c("h1", [_vm._v("Opis izdelka")]),
+                  _c("h1", { staticClass: "headline descriptionTitle" }, [
+                    _vm._v("Opis izdelka")
+                  ]),
                   _vm._v(" "),
                   _c(
                     "v-list",
@@ -631,7 +676,7 @@ var render = function() {
                     "v-card",
                     { attrs: { height: "350" } },
                     [
-                      _c("h3", { staticClass: "ma-5" }, [
+                      _c("h3", { staticClass: "ma-5 pt-5 headline" }, [
                         _vm._v("Dodaj oceno")
                       ]),
                       _vm._v(" "),
@@ -669,7 +714,10 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              staticClass: "float-right",
+                              attrs: {
+                                id: "addReviewButton",
+                                color: "primary"
+                              },
                               on: {
                                 click: function($event) {
                                   return _vm.addReviews(_vm.product)
@@ -726,37 +774,58 @@ var render = function() {
                 { attrs: { height: "200" } },
                 [
                   _c(
-                    "v-card-actions",
+                    "v-row",
+                    { staticClass: "test" },
                     [
-                      _c("p", [
-                        _vm._v(
-                          _vm._s(review.Name) + " " + _vm._s(review.Surname)
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c("v-rating", {
-                        attrs: { readonly: "" },
-                        model: {
-                          value: review.rating,
-                          callback: function($$v) {
-                            _vm.$set(review, "rating", $$v)
-                          },
-                          expression: "review.rating"
-                        }
-                      })
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-rating", {
+                            attrs: { readonly: "" },
+                            model: {
+                              value: review.rating,
+                              callback: function($$v) {
+                                _vm.$set(review, "rating", $$v)
+                              },
+                              expression: "review.rating"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   ),
-                  _vm._v(
-                    "\n            " +
-                      _vm._s(review.postTime) +
-                      "\n            "
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    { staticClass: "test" },
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("p", { staticClass: "ml-2" }, [
+                          _c("span", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(review.Name) + " " + _vm._s(review.Surname)
+                            )
+                          ]),
+                          _vm._v("  " + _vm._s(review.postTime))
+                        ])
+                      ])
+                    ],
+                    1
                   ),
-                  _c("br"),
-                  _vm._v(
-                    "\n            " + _vm._s(review.comment) + "\n            "
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("p", { staticClass: "ml-2 mb-10" }, [
+                          _vm._v(_vm._s(review.comment))
+                        ])
+                      ])
+                    ],
+                    1
                   )
                 ],
                 1
@@ -838,9 +907,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["VForm"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_12__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_13__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VSpacer"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_14__["VTextarea"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["VForm"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_12__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_13__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_14__["VTextarea"]})
 
 
 /* hot reload */

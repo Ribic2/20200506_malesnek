@@ -5,7 +5,7 @@
         </div>
         <div v-else>
             <v-card v-for="cartItem in this.$store.state.cart.cart" v-bind:key="cartItem.itemId"
-            height="200"
+            min-height="200"
             class="mt-3"
             >
                 <v-row id = "informationDisplay">
@@ -17,8 +17,9 @@
                     xl="2"
                     >
                         <v-img
-                        aspect-ratio="1/1"
+                        :aspect-ratio="4/3"
                         class="productImg"
+                        :src='"http://127.0.0.1:8000/storage/products/"+cartItem.product.dir+"/"+cartItem.product.primaryImg'
                         >
                         </v-img>
                     </v-col>
@@ -27,38 +28,34 @@
                     cols="6"
                     xl="2"
                     >
-                        <p>{{ cartItem.product.itemName}}</p>
+                        <p class="title">Ime izdelka</p>
+                        <p class = "headline">{{ cartItem.product.itemName}}</p>
                     </v-col>
 
                     <v-col
                     cols="2"
                     >
-                        {{ cartItem.quantity}}
+                        <p class="title">Količina</p>
+                        <p class = "headline">{{ cartItem.quantity}}</p>
                     </v-col>
 
                     <v-col
                     cols="2"
                     >
-                        <p>{{ cartItem.product.itemPrice }}</p>
+                        <p class="title">Cena izdelka</p>
+                        <p class = "headline">{{ cartItem.product.itemPrice }}  &euro;</p>
                     </v-col>
 
                     <v-col
                     cols="2"
                     >
-                    {{ cartItem.quantity *  cartItem.product.itemPrice}} &euro;
+                        <p class="title">Skupna cena</p>
+                        <p class = "headline">{{ cartItem.quantity *  cartItem.product.itemPrice}} &euro;</p>
                     </v-col>
 
                     <v-col>
-                        <v-btn
-                        color="error"
-                        class="mb-1"
-                        @click="deleteCartProduct(cartItem.itemId)"
-                        >
-                            izbriši
-                        </v-btn>
-                        <br>
                         <v-btn-toggle
-                        class = "quantityChangerHolder"
+                        class = "quantityChangerHolder mb-1 mt-5"
                         rounded>
                             <v-btn height="56"
                             @click="changeQuantity(cartItem.product, cartItem.quantity, 'plus')"
@@ -75,6 +72,19 @@
                             @click="changeQuantity(cartItem.product, cartItem.quantity, 'minus')"
                             ><v-icon>mdi-minus</v-icon></v-btn>
                         </v-btn-toggle>
+
+                        <br>
+
+                        <!--Delete data from cart array -->
+                        <v-btn
+                        color="error"
+                        class="mb-1 mt-5"
+                        width="90%"
+                        @click="deleteCartProduct(cartItem.itemId)"
+                        >
+                            izbriši
+                        </v-btn>
+
 
                     </v-col>
                 </v-row>
@@ -126,7 +136,6 @@ export default {
     }
     .productImg{
         height: 100%;
-        border: solid 1px black;
     }
     #informationDisplay{
         width: 100%;

@@ -28,7 +28,7 @@
         </div>
 
         <paypal
-            amount="10.00"
+            :amount="fullPrice"
             currency="USD"
             env="sandbox"
             :client="paypal"
@@ -49,6 +49,7 @@ export default {
     },
     data () {
         return {
+            fullPrice: 0,
             complete: false,
             dialog: false,
             stripeOptions: {
@@ -88,7 +89,16 @@ export default {
                     })
 
             })
+        },
+        getFullPrice(){
+            var data = JSON.parse(localStorage.getItem('cartStorage'));
+            for(let i = 0; i < data.length; i++){
+                this.fullPrice+=data[i].quantity * data[i].product.itemPrice
+            }
         }
+    },
+    mounted(){
+        this.getFullPrice()
     }
 };
 </script>

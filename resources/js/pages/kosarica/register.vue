@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <v-card
+        elevation="0"
         width="500"
         >
             <v-form>
@@ -111,7 +112,10 @@
                 </v-row>
 
                 <v-card-actions>
-                    <v-btn @click="register">Registriraj se</v-btn>
+                    <v-btn
+                    @click="register"
+                    color="primary"
+                    >Registriraj se</v-btn>
                 </v-card-actions>
             </v-form>
         </v-card>

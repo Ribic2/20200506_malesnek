@@ -210,6 +210,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -370,7 +374,7 @@ var render = function() {
     [
       _c(
         "v-card",
-        { attrs: { width: "500" } },
+        { attrs: { elevation: "0", width: "500" } },
         [
           _c(
             "v-form",
@@ -590,9 +594,14 @@ var render = function() {
               _c(
                 "v-card-actions",
                 [
-                  _c("v-btn", { on: { click: _vm.register } }, [
-                    _vm._v("Registriraj se")
-                  ])
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: { click: _vm.register }
+                    },
+                    [_vm._v("Registriraj se")]
+                  )
                 ],
                 1
               )
