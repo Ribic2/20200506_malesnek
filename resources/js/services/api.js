@@ -75,5 +75,5 @@ export default{
      */
     getProductsSpecificCategory(category){
         return instace.get('/api/items/category/'+category)
-    }
+    },
 }

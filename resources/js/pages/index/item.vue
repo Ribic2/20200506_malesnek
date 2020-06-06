@@ -33,9 +33,16 @@
                         >{{ product.itemDescription }}</p>
 
                         <p
-                            class="text-justify mr-3 ml-3"
-                            @click="redirectToItemPage(product)"
+                        v-if="product.isOnSale == false"
+                        class="text-justify mr-3 ml-3"
+                        @click="redirectToItemPage(product)"
                         >Cena: {{ product.itemPrice }} &euro;</p>
+
+                        <p
+                        v-else
+                        class="text-justify mr-3 ml-3"
+                        @click="redirectToItemPage(product)"
+                        >Cena: {{ ((100-product.Discount)*product.itemPrice) / 100 }} &euro;</p>
 
                         <!--If item is aviable-->
                         <v-chip

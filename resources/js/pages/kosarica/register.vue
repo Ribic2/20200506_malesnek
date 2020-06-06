@@ -111,6 +111,9 @@
                     </v-col>
                 </v-row>
 
+                <div v-if="error.length != 0">
+                    {{ error }}
+                </div>
                 <v-card-actions>
                     <v-btn
                     @click="register"
@@ -135,7 +138,8 @@ export default {
             telephonNumber: '',
             houseNumberAndStreet: '',
             postcode: '',
-            region: ''
+            region: '',
+            error: ''
         }
     },
     methods:{
@@ -143,19 +147,23 @@ export default {
             var credentials = {
                 name: this.$store.state.user.Name ? this.$store.state.user.Name : this.name,
                 surname: this.$store.state.user.Surname ? this.$store.state.user.Surname : this.surname,
-                password: this.password,
+                password: this.$store.state.user.LoginStatus ? '' : this.password,
                 email: this.$store.state.user.Email ? this.$store.state.user.Email : this.email,
                 region: this.region,
                 phone: this.telephonNumber,
                 houseNumberAndStreet: this.houseNumberAndStreet,
-                postcode: this.postcode
+                postcode: this.postcode,
+                isAlreadyRegisterd: this.$store.state.user.LoginStatus ? 1 : 0
 
             }
+            if(this.password.length < 7 && !this.$store.state.user.LoginStatus){
+                this.error = "Geslo je prekratko!"
+                return false;
+            }
 
-            console.log(credentials)
-/*             Axios.post('/api/user/register/cart', credentials)
+             Axios.post('/api/user/register/cart', credentials)
             .then((results)=>{
-                console.log(results)
+
                 if(results.data.authentication){
                     axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
                     localStorage.setItem('authToken', results.data.access_token)
@@ -170,7 +178,7 @@ export default {
 
                 }
             })
- */        }
+        }
     }
 }
 </script>

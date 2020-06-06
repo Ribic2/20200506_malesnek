@@ -71,4 +71,26 @@ class AuthController extends Controller
         return 0;
     }
 
+    public function deleteUser(Request $request){
+
+        $id = $request->input('id');
+
+        User::where('user_id', $id)->delete();
+
+        return 1;
+    }
+
+    public function changeAdmin(Request $request){
+
+        $id = $request->input('id');
+
+        $checkIfAdmin = User::select('isEmployee')->where('user_id', $id)->get();
+
+        if($checkIfAdmin[0]->isEmployee == 1){
+            User::where('user_id', $id)->update(['isEmployee' => 0]);
+        }
+        else{
+            User::where('user_id', $id)->update(['isEmployee' => 1]);
+        }
+    }
 }

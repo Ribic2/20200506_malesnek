@@ -30,43 +30,49 @@ class RegisterController extends Controller
         $password = $request->input('password');
         $houseNumberAndStreet = $request->input('houseNumberAndStreet');
         $postcode = $request->input('postcode');
+        $region = $request->input('region');
+        $isAlreadyRegisterd = $request->input('isAlreadyRegisterd');
 
+        if($isAlreadyRegisterd){
+            $update = User::where('email', $email)->update(["Telephone" => $phone, "houseNumberAndStreet" => $houseNumberAndStreet, "Postcode" => $postcode, "Region"=>$region]);
 
+        }
+        else{
+            if($this->checkIfEmailExists($email)){
+                $newUser = new User;
 
-        if($this->checkIfEmailExists($email)){
-            $newUser = new User;
+                $newUser->Name = $name;
+                $newUser->Surname = $surname;
+                $newUser->email = $email;
+                $newUser->password = Hash::make($password);
+                $newUser->Telephone = $phone;
+                $newUser->isAuth = 0;
+                $newUser->isNewCustomer = 0;
+                $newUser->houseNumberAndStreet = $houseNumberAndStreet;
+                $newUser->Postcode = $postcode;
+                $newUser->isEmployee = 0;
 
-            $newUser->Name = $name;
-            $newUser->Surname = $surname;
-            $newUser->email = $email;
-            $newUser->password = Hash::make($password);
-            $newUser->Telephone = $phone;
-            $newUser->isAuth = 0;
-            $newUser->isNewCustomer = 0;
-            $newUser->houseNumberAndStreet = $houseNumberAndStreet;
-            $newUser->Postcode = $postcode;
-            $newUser->isEmployee = 0;
+                if($newUser->save()){
 
-            if($newUser->save()){
+                    $credentials = $request->validate([
+                        'email' => 'required|email',
+                        'password' => 'required'
+                    ]);
 
-                $credentials = $request->validate([
-                    'email' => 'required|email',
-                    'password' => 'required'
-                ]);
+                    if(Auth::attempt($credentials)){
+                        $user = Auth::user();
 
-                if(Auth::attempt($credentials)){
-                    $user = Auth::user();
+                        $accessToken = $user->createToken('accessToken')->accessToken;
 
-                    $accessToken = $user->createToken('accessToken')->accessToken;
-
-                    $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
-                    return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
+                        $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone];
+                        return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
+                    }
                 }
-            }
-            else{
-                return response(['error'=>"Napaka pri registraciji"]);
-            }
+                else{
+                    return response(['error'=>"Napaka pri registraciji"]);
+                }
 
+            }
         }
     }
     public function register(Request $request){

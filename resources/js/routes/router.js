@@ -64,6 +64,11 @@ const router = new VueRouter({
             component: ()=> import('../pages/favourites.vue')
         },
         {
+            path: '/checkout',
+            name:'checkout',
+            component: ()=>import('../pages/kosarica/checkout.vue')
+        },
+        {
             path: '/admin',
             component: ()=> import('../pages/admin/index.vue'),
             redirect: {name: 'orders'},

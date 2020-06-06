@@ -43,14 +43,16 @@
                     cols="2"
                     >
                         <p class="title">Cena izdelka</p>
-                        <p class = "headline">{{ cartItem.product.itemPrice }}  &euro;</p>
+                        <p class = "headline" v-if="cartItem.product.isOnSale != 1">{{ cartItem.product.itemPrice }}  &euro;</p>
+                        <p class = "headline" v-else>Cena: {{ ((100-cartItem.product.Discount)*cartItem.product.itemPrice) / 100 }} &euro;</p>
                     </v-col>
 
                     <v-col
                     cols="2"
                     >
                         <p class="title">Skupna cena</p>
-                        <p class = "headline">{{ cartItem.quantity *  cartItem.product.itemPrice}} &euro;</p>
+                        <p class = "headline" v-if="cartItem.product.isOnSale != 1">{{ cartItem.product.itemPrice * cartItem.quantity}}  &euro;</p>
+                        <p class = "headline" v-else>Cena: {{ ((100-cartItem.product.Discount)*cartItem.product.itemPrice * cartItem.quantity) / 100 }} &euro;</p>
                     </v-col>
 
                     <v-col>

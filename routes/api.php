@@ -79,6 +79,8 @@ Route::post('/items/add', 'itemController@addItem');
 
 
 Route::post('/Order/confirm', 'OrderController@confirmOrder');
+Route::post('/Order/denied', 'OrderController@orderDenied');
+
 Route::get('/orders', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'));
 });
@@ -98,6 +100,10 @@ Route::get('/orders/latest', function(){
 
 
 Route::post('/order/add', 'OrderController@reciveOrder');
+
+//Authenticatble api paths
+Route::post('/user/delete', 'authController@deleteUser');
+Route::post('/user/change/admin', 'authController@changeAdmin');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
 Route::middleware('auth:api')->get('/profile/admin','AuthController@checkIfAdmin');
 Route::middleware('auth:api')->get('/users/all', 'AuthController@getAllUsers');

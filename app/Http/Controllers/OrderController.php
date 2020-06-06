@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Items;
 use App\Order;
 use App\OrderIdStore;
 use Illuminate\Support\Str;
@@ -10,67 +11,100 @@ use Illuminate\Support\Facades\Mail;
 use App\mail\orderConfirmed;
 use App\User;
 use App\Mail\confirmPacket;
+use App\Mail\orderDenied;
 use Stripe\Exception\CardException;
 Use Cartalyst\Stripe\Stripe;
 use Cartalyst\Stripe\Charge;
 
 class OrderController extends Controller
 {
+
+    public $outOfStockItems = [];
+    /**
+     * Checks if provided item is avaiable is in stock
+     */
+    public function checksIfItemsIsAvaiable($itemId, $quantity){
+
+        $checkStock = Items::select('availableQuantity')->where('itemId', $itemId)->get();
+
+        if($checkStock[0]->availableQuantity == 0 || $checkStock[0]->availableQuantity - $quantity <= 0){
+            array_push($this->outOfStockItems, $itemId);
+            return false;
+        }
+        return true;
+
+    }
     /**
      * Save recived order
      */
-    function reciveOrder(Request $request){
+    public function reciveOrder(Request $request){
 
         $userId = $request->input('userId');
         $quantity = $request->input('quantity');
         $fullPrice = $request->input('fullPrice');
         $orders = $request->input('products');
-
-
         $uiid = (string) Str::orderedUuid();
 
-        $orderIds = new OrderIdStore();
-        $orderIds->orderId = $uiid;
-        $orderIds->user_Id = $userId;
-        $orderIds->ordered_time = date("Y-m-d H:i:s");
-        $orderIds->yearOfDelivery = date('Y');
-        $orderIds->monthOfDelivery = date('m');
-        $orderIds->deliveryStatus = 0;
-        $orderIds->save();
-
-
         for($i = 0; $i < count($orders); $i++){
-            $order = new Order();
-
-            $order->userId = $userId;
-            $order->itemId = $orders[$i];
-            $order->Quantity = $quantity[$i];
-            $order->orderId = $uiid;
-
-            $order->save();
+            $this->checksIfItemsIsAvaiable($orders[$i], $quantity[$i]);
         }
 
-        //Stripe setup
-        try {
-            $stripe = new \Stripe\StripeClient('sk_test_imllcXKzgyeOqz5wbc4OAhXp00OFK9yIwp');
+        if(count($this->outOfStockItems) == 0){
 
-            $stripe->charges->create([
-                'amount' => $fullPrice*100,
-                'currency' => 'eur',
-                'source' => $request->input('stripeToken'),
-            ]);
 
-            $email = User::select('email')->where('user_id', $userId)->get();
-            Mail::to($email[0]->email)->send(new orderConfirmed($orders, $quantity, $fullPrice, $userId));
+            $orderIds = new OrderIdStore();
+            $orderIds->orderId = $uiid;
+            $orderIds->user_Id = $userId;
+            $orderIds->ordered_time = date("Y-m-d H:i:s");
+            $orderIds->yearOfDelivery = date('Y');
+            $orderIds->monthOfDelivery = date('m');
+            $orderIds->deliveryStatus = 0;
+            $orderIds->save();
 
-            return 1;
+            for($x = 0; $x < count($orders); $x++){
+
+                $changeQuantiy = Items::select('availableQuantity')->where('itemId', $orders[$x])->get();
+
+                $newQuantity = $changeQuantiy[0]->availableQuantity - $quantity[$x];
+
+                Items::where('itemId', $orders[$x])->update(['availableQuantity' => $newQuantity]);
+
+                $order = new Order();
+
+                $order->userId = $userId;
+                $order->itemId = $orders[$x];
+                $order->Quantity = $quantity[$x];
+                $order->orderId = $uiid;
+
+                $order->save();
+            }
+
+            if($request->input('typeOfPayment') == 'home'){
+
+                return 1;
+            }
+            //Stripe setup
+            try {
+                $stripe = new \Stripe\StripeClient('sk_test_imllcXKzgyeOqz5wbc4OAhXp00OFK9yIwp');
+
+                $stripe->charges->create([
+                    'amount' => $fullPrice*100,
+                    'currency' => 'eur',
+                    'source' => $request->input('stripeToken'),
+                ]);
+
+                $email = User::select('email')->where('user_id', $userId)->get();
+                Mail::to($email[0]->email)->send(new orderConfirmed($orders, $quantity, $fullPrice, $userId));
+
+                return 1;
+            }
+            catch (CardException $e) {
+                return back()->withErrors('Error! ' . $e->getMessage());
+            }
+
         }
-        catch (CardException $e) {
-            return back()->withErrors('Error! ' . $e->getMessage());
-        }
 
-
-
+        return response()->json(['itemsOutOfStock'=> $this->outOfStockItems]);
     }
     /**
      * Confirm order status
@@ -92,5 +126,21 @@ class OrderController extends Controller
             return 1;
         }
         return 0;
+    }
+    /**
+     * Order denied
+     */
+    public function orderDenied(Request $request){
+        $id = $request->input('id');
+        $idUser = Order::select('userId')->where('OrderId', $id)->get();
+
+        OrderIdStore::where('OrderId', $id)->delete();
+        Order::where('orderId', $id)->delete();
+
+        $email = User::select('email')->where('user_id', $idUser[0]->userId)->get();
+
+        Mail::to($email[0]->email)->send(new orderDenied());
+        return 1;
+
     }
 }

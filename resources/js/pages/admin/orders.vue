@@ -85,6 +85,10 @@
                             <v-btn
                             @click="confirmOrder(order.OrderId)"
                             >Potrditev</v-btn>
+
+                            <v-btn
+                            @click="orderDenied(order.OrderId)">
+                            Zavrni</v-btn>
                         </v-card-actions>
                     </v-responsive>
                 </v-card>
@@ -119,6 +123,12 @@ export default {
         },
         confirmOrder(e){
             Axios.post('/api/Order/confirm', {confirmation: e})
+            .then((results)=>{
+                this.filterFinished()
+            })
+        },
+        orderDenied(e){
+            Axios.post('/api/Order/denied', {id: e})
             .then((results)=>{
                 this.filterFinished()
             })
