@@ -18,7 +18,7 @@ class itemResource extends JsonResource
             'itemId' => $this->itemId,
             'itemName' => $this->itemName,
             'itemDescription' => $this->itemDescription,
-            'itemPrice' => $this->itemPrice,
+            'itemPrice' => $this->when($this->isOnSale == 1, $this->discountItemPrice, $this->itemPrice),
             'dimensions' => $this->dimensions,
             'colors' => $this->colors,
             'Quantity' => $this->availableQuantity,
@@ -26,7 +26,7 @@ class itemResource extends JsonResource
             'dir' => $this->itemImgDir,
             'primaryImg' => $this->itemImg,
             'isOnSale' => $this->isOnSale,
-            'Discount' => $this->discount
+            'Discount' => $this->discount,
         ];
     }
 }

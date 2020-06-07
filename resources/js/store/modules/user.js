@@ -27,7 +27,7 @@ export default{
 
             //Checks if user is authentiacted (activated his/her mail)
             //and if user ever purchased
-            if(state.isAuth == 1 && state.isNewCustomer == 1){
+            if(state.isAuth == 1){
                 state.check=true
             }
         },

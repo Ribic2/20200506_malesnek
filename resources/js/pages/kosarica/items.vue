@@ -1,7 +1,21 @@
 <template>
     <v-container>
         <div v-if="this.$store.state.cart.cart.length == 0">
-            <h1>Prazno</h1>
+            <v-alert type="error" v-if="error == true">
+                Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.
+            </v-alert>
+            <v-card
+            id = "emptyCart"
+            elevation="0"
+            >
+                <v-icon
+                size="100"
+                id="cartIcon"
+                >
+                mdi-cart</v-icon>
+                <h3 class="text-center">Košarica je prazna!</h3>
+                <p class="text-center">Zgleda da je vaša košarica prazna.</p>
+            </v-card>
         </div>
         <div v-else>
             <v-card v-for="cartItem in this.$store.state.cart.cart" v-bind:key="cartItem.itemId"
@@ -43,16 +57,14 @@
                     cols="2"
                     >
                         <p class="title">Cena izdelka</p>
-                        <p class = "headline" v-if="cartItem.product.isOnSale != 1">{{ cartItem.product.itemPrice }}  &euro;</p>
-                        <p class = "headline" v-else>Cena: {{ ((100-cartItem.product.Discount)*cartItem.product.itemPrice) / 100 }} &euro;</p>
+                        <p class = "headline">{{ cartItem.product.itemPrice }}  &euro;</p>
                     </v-col>
 
                     <v-col
                     cols="2"
                     >
                         <p class="title">Skupna cena</p>
-                        <p class = "headline" v-if="cartItem.product.isOnSale != 1">{{ cartItem.product.itemPrice * cartItem.quantity}}  &euro;</p>
-                        <p class = "headline" v-else>Cena: {{ ((100-cartItem.product.Discount)*cartItem.product.itemPrice * cartItem.quantity) / 100 }} &euro;</p>
+                        <p class = "headline">Cena: {{cartItem.product.itemPrice * cartItem.quantity}} &euro;</p>
                     </v-col>
 
                     <v-col>
@@ -90,11 +102,8 @@
 
                     </v-col>
                 </v-row>
-
             </v-card>
         </div>
-
-
     </v-container>
 </template>
 
@@ -102,7 +111,11 @@
 import store from '../../store/index'
 import Axios from 'axios'
 export default {
-
+    data(){
+        return{
+            error: false
+        }
+    },
     methods:{
 
         refreshCart(){
@@ -124,10 +137,34 @@ export default {
          */
         changeQuantity(e, f, z){
             this.$store.dispatch('changeQuantity', {product: e, quantity: f, status: z})
+        },
+        /**
+         * Checks if item is avaiable
+         */
+        checkItemsQuantity(){
+            if(this.$store.state.cart.cart == null || this.$store.state.cart.cart.length == 0){
+                return false;
+            }
+            else{
+                Axios.post('/api/check/cart', {cart: this.$store.state.cart.cart})
+                .then((results)=>{
+                    this.error = true
+                    for(let i = 0; i < results.data.length; i++){
+                       for(let x = 0; x < this.$store.state.cart.cart.length; x++){
+                           if(this.$store.state.cart.cart[x].product.itemId == results.data[i]){
+                               this.$store.state.cart.cart.splice(x,1)
+                           }
+                       }
+                    }
+
+                    localStorage.setItem('cartStorage', JSON.stringify(this.$store.state.cart.cart))
+                })
+            }
         }
     },
     mounted(){
-        this.refreshCart()
+        this.refreshCart(),
+        this.checkItemsQuantity()
     }
 }
 </script>
@@ -150,5 +187,17 @@ export default {
     }
     .quantityChangerHolder{
         height: 57px;
+    }
+    #emptyCart{
+        width: 30vw;
+        margin: 0 auto;
+        position: relative;
+        top: 10%;
+    }
+    #cartIcon{
+        margin: 0 auto;
+        position: relative;
+        display: block;
+        width: 20vw;
     }
 </style>

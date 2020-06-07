@@ -140,11 +140,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
@@ -340,54 +335,26 @@ var render = function() {
                                       ]
                                     ),
                                     _vm._v(" "),
-                                    _vm.product.isOnSale == false
-                                      ? _c(
-                                          "p",
-                                          {
-                                            staticClass:
-                                              "text-justify mr-3 ml-3",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.redirectToItemPage(
-                                                  _vm.product
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Cena: " +
-                                                _vm._s(_vm.product.itemPrice) +
-                                                " €"
+                                    _c(
+                                      "p",
+                                      {
+                                        staticClass: "text-justify mr-3 ml-3",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.redirectToItemPage(
+                                              _vm.product
                                             )
-                                          ]
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Cena: " +
+                                            _vm._s(_vm.product.itemPrice) +
+                                            " €"
                                         )
-                                      : _c(
-                                          "p",
-                                          {
-                                            staticClass:
-                                              "text-justify mr-3 ml-3",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.redirectToItemPage(
-                                                  _vm.product
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Cena: " +
-                                                _vm._s(
-                                                  ((100 -
-                                                    _vm.product.Discount) *
-                                                    _vm.product.itemPrice) /
-                                                    100
-                                                ) +
-                                                " €"
-                                            )
-                                          ]
-                                        ),
+                                      ]
+                                    ),
                                     _vm._v(" "),
                                     _vm.product.Quantity > 0
                                       ? _c(

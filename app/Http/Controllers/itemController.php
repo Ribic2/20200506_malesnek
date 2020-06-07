@@ -43,7 +43,6 @@ class itemController extends Controller
             'numeric' => "Napačna vrednsot pri :attribute"
         ];
 
-
         //Validates if provided items are correct type
         $this->validate($request, $rules, $customMessage);
         $change = null;
@@ -55,7 +54,8 @@ class itemController extends Controller
                 'itemPrice' => $itemPrice,
                 'itemDescription' => $Description,
                 'isOnSale' => 1,
-                'discount' => $discount
+                'discount' => $discount,
+                'discountItemPrice' => ((100-$discount) * $itemPrice) / 100
             ]);
         }
         else{

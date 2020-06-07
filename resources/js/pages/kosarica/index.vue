@@ -19,7 +19,7 @@
           <v-stepper-content step="1">
           <v-card
             class="mb-12"
-            color="grey lighten-1"
+            elevation="0"
             min-height="30vw"
           >
           <items></items>

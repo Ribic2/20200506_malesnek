@@ -25,8 +25,8 @@ class AuthController extends Controller
             "isNewCustomer" => $user->isNewCustomer
             ];
             return response(['user'=>$returnCredentials]);
-
         }
+        return response()->json("user is not logged", 200);
     }
     /**
      * Check if user is admin

@@ -79,6 +79,7 @@ Route::post('/items/add', 'itemController@addItem');
 
 
 Route::post('/Order/confirm', 'OrderController@confirmOrder');
+Route::post('/check/cart', 'OrderController@checkCartItems');
 Route::post('/Order/denied', 'OrderController@orderDenied');
 
 Route::get('/orders', function(){

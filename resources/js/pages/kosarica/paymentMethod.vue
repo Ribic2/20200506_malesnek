@@ -7,7 +7,7 @@
 
                     <v-expansion-panel-content>
                         <div id='app'>
-                            <v-form @submit.prevent="pay()" method="POST" action = "/checkout">
+                            <v-form method="POST" action = "/checkout">
                                 <v-text-field v-model="nameOnCard" label = "Name on card" type="text"/>
                                 <card class='stripe-card'
                                 :class='{ complete }'
@@ -118,6 +118,7 @@ export default {
 
                         fullPrice+=data[i].quantity * data[i].product.itemPrice
                     }
+
 
                     this.overlay = true;
                     Axios.post('/api/order/add', {products: itemIds, userId: this.$store.state.user.userId, quantity: quantity, fullPrice: fullPrice, stripeToken: respond.token.id })

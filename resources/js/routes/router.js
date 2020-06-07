@@ -26,11 +26,11 @@ const router = new VueRouter({
                     name: 'login',
                     component: ()=> import('../pages/user/login.vue'),
                     beforeEnter: (to, from, next)=>{
-                        if(localStorage.getItem('authToken')){
-                            next({name: 'index'})
+                        if(localStorage.getItem('authToken') == null){
+                            next()
                         }
                         else{
-                            next()
+                            next({name: 'index'})
                         }
                     }
                 },

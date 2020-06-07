@@ -20,6 +20,7 @@ class OrderController extends Controller
 {
 
     public $outOfStockItems = [];
+    public $checkIfOutofStock = [];
     /**
      * Checks if provided item is avaiable is in stock
      */
@@ -141,6 +142,30 @@ class OrderController extends Controller
 
         Mail::to($email[0]->email)->send(new orderDenied());
         return 1;
+
+    }
+
+
+    /**
+     * Check if all items are aviable
+     */
+    public function checkCartItems(Request $request){
+        $cart = $request->input('cart');
+
+        for($i = 0; $i < count($cart); $i++){
+
+            $item = Items::select('availableQuantity')->where('itemId', $cart[$i]["product"]["itemId"])->get();
+            $checkIfItemExists = Items::where('itemId' ,$cart[$i]["product"]["itemId"])->get();
+
+            if($checkIfItemExists && ($item[0]->availableQuantity == 0 || $item[0]->availableQuantity == null)){
+                array_push($this->checkIfOutofStock, $cart[$i]["product"]["itemId"]);
+            }
+
+        }
+
+        return $this->checkIfOutofStock;
+
+
 
     }
 }

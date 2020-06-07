@@ -74,7 +74,9 @@
                     <v-col>
                         <v-text-field
                         label="Tel. šteilka"
-                        v-model="telephonNumber"
+                        :value="this.$store.state.user.Phone ? this.$store.state.user.Phone : ''"
+                        :model="this.$store.state.user.Phone ? '' : telephonNumber"
+                        :disabled="this.$store.state.user.Phone ? true : false"
                         >
 
 
@@ -150,7 +152,7 @@ export default {
                 password: this.$store.state.user.LoginStatus ? '' : this.password,
                 email: this.$store.state.user.Email ? this.$store.state.user.Email : this.email,
                 region: this.region,
-                phone: this.telephonNumber,
+                phone: this.$store.state.user.Phone ? this.$store.state.user.Phone : this.telephonNumber,
                 houseNumberAndStreet: this.houseNumberAndStreet,
                 postcode: this.postcode,
                 isAlreadyRegisterd: this.$store.state.user.LoginStatus ? 1 : 0

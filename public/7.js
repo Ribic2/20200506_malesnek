@@ -354,8 +354,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -442,14 +440,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.selectedItemId = e.itemId;
     },
     getIdToChange: function getIdToChange(e) {
+      console.log(e);
       this.change = true;
       this.selectedItemId = e.itemId;
       this.itemName = e.itemName;
       this.discount = e.Discount;
       this.quantity = e.Quantity;
       this.itemPrice = e.itemPrice;
-      this.isOnSale = e.isOnSale ? true : false;
-      this.description = e.itemDescription;
+      this.isOnSale = e.isOnSale, this.description = e.itemDescription;
     },
     addNewItem: function addNewItem() {
       var _this3 = this;
@@ -774,11 +772,7 @@ var render = function() {
                               expression: "isOnSale"
                             }
                           }),
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.isOnSale) +
-                              "\n\n\n                            "
-                          ),
+                          _vm._v(" "),
                           _vm.isOnSale
                             ? _c(
                                 "div",
@@ -796,12 +790,7 @@ var render = function() {
                                 ],
                                 1
                               )
-                            : _vm._e(),
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.discount) +
-                              "\n                    "
-                          )
+                            : _vm._e()
                         ],
                         1
                       )

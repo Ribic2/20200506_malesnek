@@ -75,8 +75,6 @@
                                 </v-textarea>
 
                                 <v-checkbox label="Razprodaja" v-model="isOnSale"></v-checkbox>
-                                {{ isOnSale }}
-
 
                                 <div v-if="isOnSale">
                                     <v-text-field
@@ -84,7 +82,7 @@
                                     label="Znižanje v odstotkih"
                                     ></v-text-field>
                                 </div>
-                                {{ discount }}
+
                         </v-form>
                     </v-container>
                 </v-card-actions>
@@ -420,7 +418,7 @@ export default {
                 "Discount": this.isOnSale ? this.discount : ""
             }
 
-             Axios.post('/api/items/change', ChangedData)
+            Axios.post('/api/items/change', ChangedData)
             .then((results)=>{
                 if(results.data = 1){
                     this.getItemsForAdmin()
@@ -448,13 +446,14 @@ export default {
             this.selectedItemId = e.itemId
         },
         getIdToChange(e){
+            console.log(e)
             this.change = true
             this.selectedItemId = e.itemId
             this.itemName = e.itemName
             this.discount = e.Discount
             this.quantity = e.Quantity
             this.itemPrice = e.itemPrice
-            this.isOnSale = e.isOnSale ? true : false
+            this.isOnSale = e.isOnSale,
             this.description = e.itemDescription
         },
         addNewItem(){
