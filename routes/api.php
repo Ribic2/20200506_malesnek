@@ -82,6 +82,9 @@ Route::post('/Order/confirm', 'OrderController@confirmOrder');
 Route::post('/check/cart', 'OrderController@checkCartItems');
 Route::post('/Order/denied', 'OrderController@orderDenied');
 
+//Get users purchase history
+Route::post ('/user/orders/history', 'OrderController@getAllUsersOrder');
+
 Route::get('/orders', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'));
 });

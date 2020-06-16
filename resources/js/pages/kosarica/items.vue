@@ -1,18 +1,22 @@
 <template>
-    <v-container>
+    <v-container
+    id="container"
+    >
+        <v-alert type="error" v-if="error == true">
+            Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.
+        </v-alert>
         <div v-if="this.$store.state.cart.cart.length == 0">
-            <v-alert type="error" v-if="error == true">
-                Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.
-            </v-alert>
             <v-card
             id = "emptyCart"
             elevation="0"
             >
-                <v-icon
-                size="100"
-                id="cartIcon"
-                >
-                mdi-cart</v-icon>
+                <div id = "cartHolder">
+                    <v-icon
+                    size="100"
+                    id="cartIcon"
+                    >
+                    mdi-cart</v-icon>
+                </div>
                 <h3 class="text-center">Košarica je prazna!</h3>
                 <p class="text-center">Zgleda da je vaša košarica prazna.</p>
             </v-card>
@@ -148,11 +152,12 @@ export default {
             else{
                 Axios.post('/api/check/cart', {cart: this.$store.state.cart.cart})
                 .then((results)=>{
-                    this.error = true
+
                     for(let i = 0; i < results.data.length; i++){
                        for(let x = 0; x < this.$store.state.cart.cart.length; x++){
                            if(this.$store.state.cart.cart[x].product.itemId == results.data[i]){
                                this.$store.state.cart.cart.splice(x,1)
+                               this.error = true
                            }
                        }
                     }
@@ -185,19 +190,25 @@ export default {
         width: 50px;
         height: 100%;
     }
+    #container{
+        min-height: 500px;
+    }
     .quantityChangerHolder{
         height: 57px;
     }
     #emptyCart{
-        width: 30vw;
-        margin: 0 auto;
+        width: 100%;
+        height: 100% !important;
         position: relative;
-        top: 10%;
     }
     #cartIcon{
-        margin: 0 auto;
         position: relative;
-        display: block;
-        width: 20vw;
+        vertical-align: middle;
+        height: 100%;
+        width: 100%;
+    }
+    #cartHolder{
+        width: 5%;
+        margin: 0 auto;
     }
 </style>

@@ -63,6 +63,7 @@
             <v-btn
             rounded
             width="100%"
+            to="/user/order/history"
             >Ogled prejšnih naročil</v-btn>
         </v-list-item>
       </v-list>

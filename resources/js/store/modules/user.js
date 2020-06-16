@@ -11,7 +11,8 @@ export default{
         LoginStatus: false,
         isAuth: '',
         check: false,
-        isNewCustomer: ''
+        isNewCustomer: '',
+        orderHistory: ''
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
@@ -24,7 +25,6 @@ export default{
             state.LoginStatus = true
             state.isAuth = payload.isAuth
             state.isNewCustomer = payload.isNewCustomer
-
             //Checks if user is authentiacted (activated his/her mail)
             //and if user ever purchased
             if(state.isAuth == 1){
@@ -43,7 +43,21 @@ export default{
             state.check = false
 
             window.location.href="http://127.0.0.1:8000/"
-        }
+        },
+        STORE_USER_ORDER_HISTORY(state){
+            console.log("Checking stored history")
+            if(JSON.parse(localStorage.getItem('orderHistory'))  != null){
+                state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
+            }
+            else{
+                axios.post('/api/user/orders/history', {userId: state.userId})
+                .then((results)=>{
+                    console.log(results)
+                    localStorage.setItem('orderHistory', JSON.stringify(results.data))
+                    state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
+                })
+            }
+        },
     },
     actions:{
         storeUserData({commit}){
@@ -56,8 +70,11 @@ export default{
             }
         },
         logoutUser({commit}){
-            localStorage.removeItem('authToken');
+            localStorage.clear();
             commit('LOGOUT_USER')
+        },
+        getUserOrderHistory({commit}, payload){
+            commit('STORE_USER_ORDER_HISTORY')
         },
     },
     getters:{

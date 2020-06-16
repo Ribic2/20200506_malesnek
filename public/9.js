@@ -25,6 +25,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58,7 +76,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.test{\n    border: solid 1px black;\n    height: 100%;\n}\n.row{\n    width: 100%;\n    margin: 0 auto;\n}\n\n", ""]);
+exports.push([module.i, "\n#emptyCart{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n    top: 100px;\n}\n#cartIcon{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#cartHolder{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
 
 // exports
 
@@ -112,21 +130,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    _vm._l(this.$store.state.favourites.favouriteItem, function(product) {
-      return _c(
+    [
+      this.$store.state.favourites.favouriteItem.length == 0
+        ? _c(
+            "v-row",
+            [
+              _c("v-card", { attrs: { id: "emptyCart", elevation: "0" } }, [
+                _c(
+                  "div",
+                  { attrs: { id: "cartHolder" } },
+                  [
+                    _c("v-icon", { attrs: { size: "100", id: "cartIcon" } }, [
+                      _vm._v("\n                mdi-star")
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("h3", { staticClass: "text-center" }, [
+                  _vm._v("Nimate dodanih nobenih izdelkov!")
+                ])
+              ])
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
         "v-row",
-        { key: product.id },
-        [
-          _c(
+        _vm._l(this.$store.state.favourites.favouriteItem, function(product) {
+          return _c(
             "v-col",
-            { staticClass: "itemHolder", attrs: { cols: "3" } },
+            {
+              key: product.id,
+              attrs: { cols: "12", xl: "3", lg: "6", md: "6" }
+            },
             [_c("item", { attrs: { product: product } })],
             1
           )
-        ],
+        }),
         1
       )
-    }),
+    ],
     1
   )
 }
@@ -152,7 +197,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
 
 
 
@@ -177,7 +224,9 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VContainer"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_5__["VRow"]})
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCard"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VContainer"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["VIcon"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VRow"]})
 
 
 /* hot reload */

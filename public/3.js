@@ -301,47 +301,40 @@ var render = function() {
                         "div",
                         { attrs: { id: "app" } },
                         [
+                          _c("v-text-field", {
+                            attrs: { label: "Name on card", type: "text" },
+                            model: {
+                              value: _vm.nameOnCard,
+                              callback: function($$v) {
+                                _vm.nameOnCard = $$v
+                              },
+                              expression: "nameOnCard"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("card", {
+                            staticClass: "stripe-card",
+                            class: { complete: _vm.complete },
+                            attrs: {
+                              stripe:
+                                "pk_test_6GetaNtlFSAZ94wdJEcGR4vN0066MegJBC",
+                              options: _vm.stripeOptions
+                            },
+                            on: {
+                              change: function($event) {
+                                _vm.complete = $event.complete
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
                           _c(
-                            "v-form",
-                            { attrs: { method: "POST", action: "/checkout" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Name on card", type: "text" },
-                                model: {
-                                  value: _vm.nameOnCard,
-                                  callback: function($$v) {
-                                    _vm.nameOnCard = $$v
-                                  },
-                                  expression: "nameOnCard"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("card", {
-                                staticClass: "stripe-card",
-                                class: { complete: _vm.complete },
-                                attrs: {
-                                  stripe:
-                                    "pk_test_6GetaNtlFSAZ94wdJEcGR4vN0066MegJBC",
-                                  options: _vm.stripeOptions
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.complete = $event.complete
-                                  }
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "pay-with-stripe",
-                                  attrs: { disabled: !_vm.complete },
-                                  on: { click: _vm.pay }
-                                },
-                                [_vm._v("Plačaj")]
-                              )
-                            ],
-                            1
+                            "button",
+                            {
+                              staticClass: "pay-with-stripe",
+                              attrs: { disabled: !_vm.complete },
+                              on: { click: _vm.pay }
+                            },
+                            [_vm._v("Plačaj")]
                           )
                         ],
                         1
@@ -471,10 +464,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
 /* harmony import */ var vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VExpansionPanel */ "./node_modules/vuetify/lib/components/VExpansionPanel/index.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/index.js");
-/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/index.js");
-/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
+/* harmony import */ var vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VOverlay */ "./node_modules/vuetify/lib/components/VOverlay/index.js");
+/* harmony import */ var vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VProgressCircular */ "./node_modules/vuetify/lib/components/VProgressCircular/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
 
 
 
@@ -506,8 +498,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_5__["VAlert"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["VBtn"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanels"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_9__["VForm"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_10__["VOverlay"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_11__["VProgressCircular"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["VTextField"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VAlert: vuetify_lib_components_VAlert__WEBPACK_IMPORTED_MODULE_5__["VAlert"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_6__["VBtn"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_8__["VExpansionPanels"],VOverlay: vuetify_lib_components_VOverlay__WEBPACK_IMPORTED_MODULE_9__["VOverlay"],VProgressCircular: vuetify_lib_components_VProgressCircular__WEBPACK_IMPORTED_MODULE_10__["VProgressCircular"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__["VTextField"]})
 
 
 /* hot reload */

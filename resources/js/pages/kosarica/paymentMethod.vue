@@ -7,7 +7,7 @@
 
                     <v-expansion-panel-content>
                         <div id='app'>
-                            <v-form method="POST" action = "/checkout">
+
                                 <v-text-field v-model="nameOnCard" label = "Name on card" type="text"/>
                                 <card class='stripe-card'
                                 :class='{ complete }'
@@ -16,7 +16,7 @@
                                 @change='complete = $event.complete'
                                 />
                                 <button class='pay-with-stripe' @click='pay' :disabled='!complete'>Plačaj</button>
-                            </v-form>
+
                         </div>
                     </v-expansion-panel-content>
 

@@ -1,1472 +1,753 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[20],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/admin/items.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    var _ref;
+/***/ }),
 
-    return _ref = {
-      //Add new item data
-      newItemName: '',
-      newItemPrice: '',
-      newQuantity: '',
-      newDimension: '',
-      newCategory: '',
-      newColor: '',
-      newImage: [],
-      customCategory: '',
-      newItemDescription: '',
-      primaryPicture: '',
-      //Change item data
-      itemName: '',
-      quantity: '',
-      itemPrice: '',
-      description: '',
-      discount: '',
-      changeDiscount: '',
-      isOnSale: '',
-      //Other variables
-      selectedItemId: '',
-      Search: '',
-      change: false,
-      addNewCategorie: false,
-      showImages: [],
-      deleteItem: false
-    }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "categories", ["Voščilnica"]), _defineProperty(_ref, "subCategorie", ["Unikat artikel", "Redni artikel"]), _defineProperty(_ref, "colors", ["Red", "Blue", "Purple"]), _defineProperty(_ref, "requiredInput", [function (v) {
-      return !!v || 'Pozabili ste vnesti vrednost v to polje!';
-    }]), _defineProperty(_ref, "error", ''), _ref;
-  },
-  methods: {
-    getItemsForAdmin: function getItemsForAdmin() {
-      return this.$store.dispatch('getItemsForAdmin');
-    },
-    searchForItems: function searchForItems() {
-      return this.$store.dispatch('searchItems', this.Search);
-    },
-    changeItemData: function changeItemData(e) {
-      return this.$store.dispatch('changeItemData', e);
-    },
-    changeData: function changeData() {
-      var _this = this;
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-      var ChangedData = {
-        "itemId": this.selectedItemId,
-        "itemName": this.itemName,
-        "količina": this.quantity,
-        "cena": this.itemPrice,
-        "Description": this.description,
-        "Discount": this.isOnSale ? this.changeDiscount : " "
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
       };
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/change', ChangedData).then(function (results) {
-        if (results.data = 1) {
-          _this.getItemsForAdmin();
+    });
+  }
 
-          _this.success = true;
-        }
-      });
-      this.selectedItemId = null;
-      this.change = false;
-    },
-    deleteItemFunction: function deleteItemFunction() {
-      var _this2 = this;
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/delete', {
-        itemId: this.selectedItemId
-      }).then(function (results) {
-        if (results.data == 1) {
-          _this2.getItemsForAdmin();
-        }
-      });
-      this.selectedItemId = null;
-      this.deleteItem = false;
-    },
-    getIdToDelete: function getIdToDelete(e) {
-      this.deleteItem = true;
-      this.selectedItemId = e.itemId;
-    },
-    getIdToChange: function getIdToChange(e) {
-      this.change = true;
-      this.selectedItemId = e.itemId;
-      this.itemName = e.itemName;
-      this.discount = e.Discount;
-      this.quantity = e.Quantity;
-      this.itemPrice = e.itemPrice;
-      this.isOnSale = e.isOnSale;
-      this.description = e.itemDescription;
-    },
-    addNewItem: function addNewItem() {
-      var _this3 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.post['Content-Type'] = 'multipart/form-data';
-      var data = new FormData();
-      var categoriesChoose = this.addNewCategorie ? this.customCategory : this.newCategory;
-
-      for (var i = 0; i < this.newImage.length; i++) {
-        data.append("images[]", this.newImage[i]);
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
       }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
 
-      if (!this.checkModels()) {
-        this.error = "Nekatera polja manjkajo!";
-        return false;
-      }
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
 
-      data.append('itemName', this.newItemName);
-      data.append('cena', this.newItemPrice);
-      data.append('kolicina', this.newQuantity);
-      data.append('Dimensions', this.newDimension);
-      data.append('Categorie', categoriesChoose);
-      data.append('Color', this.newColor);
-      data.append('Description', this.newItemDescription);
-      data.append('itemImg', this.primaryPicture);
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/add', data).then(function (results) {
-        if (results.data == 1) {
-          _this3.getItemsForAdmin();
-
-          _this3.addItem = false;
-          _this3.successAdd = true;
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
         }
-      })["catch"](function (error) {
-        if (error.response) {
-          console.log(error.response.data.errors.cena);
-        }
-      });
-    },
-    previewImages: function previewImages() {
-      for (var i = 0; i < this.newImage.length; i++) {
-        this.showImages.push({
-          url: URL.createObjectURL(this.newImage[i]),
-          imgName: this.newImage[i].name,
-          id: i
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
         });
       }
-    },
-    selectPrimaryImage: function selectPrimaryImage(e) {
-      this.primaryPicture = e;
-    },
-    checkModels: function checkModels() {
-      var categoriesChoose = this.addNewCategorie ? this.customCategory : this.newCategory;
+    }
 
-      if (this.newItemName == "" || this.newItemPrice == "" || this.newQuantity == "" || this.newDimension == "" || this.newColor == "" || categoriesChoose == "" || this.newImage == "" || this.newItemDescription == "" || this.primaryPicture == "") {
-        return false;
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
       }
 
-      return true;
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
     }
-  },
-  mounted: function mounted() {
-    this.getItemsForAdmin();
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
   }
-});
 
-/***/ }),
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
 
-exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
 
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
 
-// module
-exports.push([module.i, "\n.primaryImg{\n    border: solid 3px red;\n}\n", ""]);
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
 
-// exports
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
 
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
 
-/***/ }),
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+      context.method = method;
+      context.arg = arg;
 
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
 
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./items.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css&");
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
 
-if(typeof content === 'string') content = [[module.i, content, '']];
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
 
-var transform;
-var insertInto;
+          context.dispatchException(context.arg);
 
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
 
+        state = GenStateExecuting;
 
-var options = {"hmr":true}
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
 
-options.transform = transform
-options.insertInto = undefined;
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
 
-var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+          return {
+            value: record.arg,
+            done: context.done
+          };
 
-if(content.locals) module.exports = content.locals;
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
 
-if(false) {}
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
 
-/***/ }),
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=template&id=6aaa0a27&":
-/*!****************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js??ref--11-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/admin/items.vue?vue&type=template&id=6aaa0a27& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-container",
-    [
-      _c(
-        "v-app-bar",
-        [
-          _c("v-toolbar-title", [_vm._v("Izdelki")]),
-          _vm._v(" "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c("v-text-field", {
-            staticClass: "mt-7",
-            attrs: { label: "Išči izdelke", type: "text", solo: "" },
-            on: {
-              keyup: function($event) {
-                return _vm.searchForItems()
-              }
-            },
-            model: {
-              value: _vm.Search,
-              callback: function($$v) {
-                _vm.Search = $$v
-              },
-              expression: "Search"
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
             }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-divider"),
-      _vm._v(" "),
-      _c(
-        "v-expansion-panels",
-        _vm._l(this.$store.state.admin.items, function(i) {
-          return _c(
-            "v-expansion-panel",
-            { key: i.itemId },
-            [
-              _c("v-expansion-panel-header", [
-                _vm._v("\n        " + _vm._s(i.itemName) + "\n        ")
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-expansion-panel-content",
-                [
-                  i.isOnSale
-                    ? _c("p", [_vm._v("Trenutno na razprodaji!")])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(i.itemDescription))]),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn-toggle",
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.getIdToChange(i)
-                            }
-                          }
-                        },
-                        [_vm._v("Spremeni")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.getIdToDelete(i)
-                            }
-                          }
-                        },
-                        [_vm._v("Izrbriši")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        }),
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { width: "500" },
-          model: {
-            value: _vm.change,
-            callback: function($$v) {
-              _vm.change = $$v
-            },
-            expression: "change"
           }
-        },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Spremeni informacije o izdelku")
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-container",
-                    [
-                      _c(
-                        "v-form",
-                        {
-                          staticClass: "ma-auto",
-                          attrs: {
-                            width: "500",
-                            method: "post",
-                            enctype: "multipart/form-data"
-                          }
-                        },
-                        [
-                          _c("v-text-field", {
-                            attrs: { label: "Ime izdelka" },
-                            model: {
-                              value: _vm.itemName,
-                              callback: function($$v) {
-                                _vm.itemName = $$v
-                              },
-                              expression: "itemName"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: { label: "Količina" },
-                            model: {
-                              value: _vm.quantity,
-                              callback: function($$v) {
-                                _vm.quantity = $$v
-                              },
-                              expression: "quantity"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: { label: "Cena izdelka" },
-                            model: {
-                              value: _vm.itemPrice,
-                              callback: function($$v) {
-                                _vm.itemPrice = $$v
-                              },
-                              expression: "itemPrice"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-textarea", {
-                            attrs: { label: "Opis", "no-resize": "" },
-                            model: {
-                              value: _vm.description,
-                              callback: function($$v) {
-                                _vm.description = $$v
-                              },
-                              expression: "description"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.isOnSale
-                            ? _c("v-checkbox", {
-                                attrs: { label: "Razprodaja" },
-                                model: {
-                                  value: _vm.isOnSale,
-                                  callback: function($$v) {
-                                    _vm.isOnSale = $$v
-                                  },
-                                  expression: "isOnSale"
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.isOnSale
-                            ? _c(
-                                "div",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Znižanje v odstotkih" },
-                                    model: {
-                                      value: _vm.discount,
-                                      callback: function($$v) {
-                                        _vm.discount = $$v
-                                      },
-                                      expression: "discount"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "green darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.changeData()
-                        }
-                      }
-                    },
-                    [_vm._v("\n            Spremeni\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "green darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.change = false
-                        }
-                      }
-                    },
-                    [_vm._v("\n            Preklici\n            ")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { "max-width": "290" },
-          model: {
-            value: _vm.deleteItem,
-            callback: function($$v) {
-              _vm.deleteItem = $$v
-            },
-            expression: "deleteItem"
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
           }
-        },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Izbriši izdelek?")
-              ]),
-              _vm._v(" "),
-              _c("v-card-text", [
-                _vm._v(
-                  "\n                Ali ste prepričani da želite izbrisati izdelek? Enkrat ko je izdelek izbrisan ga ni mogoče dobiti nazaj.\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "green darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteItemFunction()
-                        }
-                      }
-                    },
-                    [_vm._v("\n            Izbriši\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "green darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.deleteItem = false
-                        }
-                      }
-                    },
-                    [_vm._v("\n            Preklic\n            ")]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { width: "800", height: "600" },
-          model: {
-            value: _vm.addItem,
-            callback: function($$v) {
-              _vm.addItem = $$v
-            },
-            expression: "addItem"
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
           }
-        },
-        [
-          _c(
-            "v-card",
-            [
-              _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Dodajanje izdelka")
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-container",
-                    [
-                      _c(
-                        "v-form",
-                        {
-                          ref: "form",
-                          staticClass: "ma-auto",
-                          attrs: { "lazy-validation": true, width: "500" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(_vm.error) +
-                              "\n                            "
-                          ),
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Ime izdelka",
-                                      rules: _vm.requiredInput,
-                                      type: "text",
-                                      required: ""
-                                    },
-                                    model: {
-                                      value: _vm.newItemName,
-                                      callback: function($$v) {
-                                        _vm.newItemName = $$v
-                                      },
-                                      expression: "newItemName"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      label: "Cena izdelka",
-                                      required: "",
-                                      value: _vm.newItemPrice,
-                                      rules: _vm.requiredInput
-                                    },
-                                    model: {
-                                      value: _vm.newItemPrice,
-                                      callback: function($$v) {
-                                        _vm.newItemPrice = _vm._n($$v)
-                                      },
-                                      expression: "newItemPrice"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      required: "",
-                                      rules: _vm.requiredInput,
-                                      value: _vm.newQuantity,
-                                      label: "Količina"
-                                    },
-                                    model: {
-                                      value: _vm.newQuantity,
-                                      callback: function($$v) {
-                                        _vm.newQuantity = _vm._n($$v)
-                                      },
-                                      expression: "newQuantity"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Dimenzija", required: "" },
-                                    model: {
-                                      value: _vm.newDimension,
-                                      callback: function($$v) {
-                                        _vm.newDimension = $$v
-                                      },
-                                      expression: "newDimension"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      items: _vm.colors,
-                                      label: "Barva",
-                                      dense: "",
-                                      solo: "",
-                                      required: "",
-                                      rules: _vm.requiredInput
-                                    },
-                                    model: {
-                                      value: _vm.newColor,
-                                      callback: function($$v) {
-                                        _vm.newColor = $$v
-                                      },
-                                      expression: "newColor"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      items: _vm.subCategorie,
-                                      label: "Kategorija",
-                                      disabled: _vm.addNewCategorie
-                                        ? true
-                                        : false,
-                                      dense: "",
-                                      required: "",
-                                      rules: _vm.requiredInput,
-                                      solo: ""
-                                    },
-                                    model: {
-                                      value: _vm.newCategory,
-                                      callback: function($$v) {
-                                        _vm.newCategory = $$v
-                                      },
-                                      expression: "newCategory"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-checkbox", {
-                            attrs: { label: "Dodaj novo kategorijo" },
-                            model: {
-                              value: _vm.addNewCategorie,
-                              callback: function($$v) {
-                                _vm.addNewCategorie = $$v
-                              },
-                              expression: "addNewCategorie"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.addNewCategorie
-                            ? _c("v-text-field", {
-                                attrs: { label: "Dodaj novo kategorijo" },
-                                model: {
-                                  value: _vm.customCategory,
-                                  callback: function($$v) {
-                                    _vm.customCategory = $$v
-                                  },
-                                  expression: "customCategory"
-                                }
-                              })
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("v-file-input", {
-                            attrs: {
-                              label: "File input",
-                              multiple: "",
-                              required: "",
-                              rules: _vm.requiredInput,
-                              accept: "image/*"
-                            },
-                            on: {
-                              change: function($event) {
-                                return _vm.previewImages()
-                              }
-                            },
-                            model: {
-                              value: _vm.newImage,
-                              callback: function($$v) {
-                                _vm.newImage = $$v
-                              },
-                              expression: "newImage"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _vm.showImages
-                            ? _c(
-                                "v-row",
-                                _vm._l(_vm.showImages, function(image) {
-                                  return _c(
-                                    "v-col",
-                                    { key: image.id, attrs: { cols: "3" } },
-                                    [
-                                      _vm.primaryPicture == image.imgName
-                                        ? _c("v-img", {
-                                            staticClass: "primaryImg",
-                                            attrs: {
-                                              height: "100",
-                                              src: image.url
-                                            }
-                                          })
-                                        : _c("v-img", {
-                                            attrs: {
-                                              height: "100",
-                                              src: image.url
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.selectPrimaryImage(
-                                                  image.imgName
-                                                )
-                                              }
-                                            }
-                                          })
-                                    ],
-                                    1
-                                  )
-                                }),
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("v-textarea", {
-                            attrs: {
-                              label: "Opis",
-                              required: "",
-                              rules: _vm.requiredInput,
-                              "no-resize": ""
-                            },
-                            model: {
-                              value: _vm.newItemDescription,
-                              callback: function($$v) {
-                                _vm.newItemDescription = $$v
-                              },
-                              expression: "newItemDescription"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
-                              _c("v-spacer"),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { color: "green darken-1", text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.addNewItem()
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    Dodaj\n                                    "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { color: "green darken-1", text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.addItem = false
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                    Preklic\n                                    "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-bottom-navigation",
-        { attrs: { app: "", fixed: "" } },
-        [
-          _c(
-            "v-btn",
-            {
-              on: {
-                click: function($event) {
-                  _vm.addItem = !_vm.addItem
-                }
-              }
-            },
-            [
-              _c("span", [_vm._v("Dodaj")]),
-              _vm._v(" "),
-              _c("v-icon", [_vm._v("mdi-plus")])
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-bottom-sheet",
-        {
-          model: {
-            value: _vm.success,
-            callback: function($$v) {
-              _vm.success = $$v
-            },
-            expression: "success"
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
           }
-        },
-        [
-          _c(
-            "v-sheet",
-            { staticClass: "text-center", attrs: { height: "200px" } },
-            [
-              _c("div", { staticClass: "py-3" }, [
-                _vm._v("Izdelek uspešno spremenjen!")
-              ])
-            ]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-bottom-sheet",
-        {
-          model: {
-            value: _vm.successAdd,
-            callback: function($$v) {
-              _vm.successAdd = $$v
-            },
-            expression: "successAdd"
-          }
-        },
-        [
-          _c(
-            "v-sheet",
-            { staticClass: "text-center", attrs: { height: "200px" } },
-            [
-              _c("div", { staticClass: "py-3" }, [
-                _vm._v("Izdelek uspešno dodan!")
-              ])
-            ]
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
 }
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./resources/js/pages/admin/items.vue":
-/*!********************************************!*\
-  !*** ./resources/js/pages/admin/items.vue ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _items_vue_vue_type_template_id_6aaa0a27___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./items.vue?vue&type=template&id=6aaa0a27& */ "./resources/js/pages/admin/items.vue?vue&type=template&id=6aaa0a27&");
-/* harmony import */ var _items_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./items.vue?vue&type=script&lang=js& */ "./resources/js/pages/admin/items.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./items.vue?vue&type=style&index=0&lang=css& */ "./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
-/* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VAppBar */ "./node_modules/vuetify/lib/components/VAppBar/index.js");
-/* harmony import */ var vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VBottomNavigation */ "./node_modules/vuetify/lib/components/VBottomNavigation/index.js");
-/* harmony import */ var vuetify_lib_components_VBottomSheet__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VBottomSheet */ "./node_modules/vuetify/lib/components/VBottomSheet/index.js");
-/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
-/* harmony import */ var vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VBtnToggle */ "./node_modules/vuetify/lib/components/VBtnToggle/index.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VCheckbox */ "./node_modules/vuetify/lib/components/VCheckbox/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/index.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
-/* harmony import */ var vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VExpansionPanel */ "./node_modules/vuetify/lib/components/VExpansionPanel/index.js");
-/* harmony import */ var vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vuetify/lib/components/VFileInput */ "./node_modules/vuetify/lib/components/VFileInput/index.js");
-/* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/index.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
-/* harmony import */ var vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuetify/lib/components/VImg */ "./node_modules/vuetify/lib/components/VImg/index.js");
-/* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/index.js");
-/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
-/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
-/* harmony import */ var vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! vuetify/lib/components/VToolbar */ "./node_modules/vuetify/lib/components/VToolbar/index.js");
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _items_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _items_vue_vue_type_template_id_6aaa0a27___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _items_vue_vue_type_template_id_6aaa0a27___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* vuetify-loader */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VAppBar: vuetify_lib_components_VAppBar__WEBPACK_IMPORTED_MODULE_5__["VAppBar"],VBottomNavigation: vuetify_lib_components_VBottomNavigation__WEBPACK_IMPORTED_MODULE_6__["VBottomNavigation"],VBottomSheet: vuetify_lib_components_VBottomSheet__WEBPACK_IMPORTED_MODULE_7__["VBottomSheet"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_8__["VBtn"],VBtnToggle: vuetify_lib_components_VBtnToggle__WEBPACK_IMPORTED_MODULE_9__["VBtnToggle"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_10__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_10__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_10__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_10__["VCardTitle"],VCheckbox: vuetify_lib_components_VCheckbox__WEBPACK_IMPORTED_MODULE_11__["VCheckbox"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_13__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_14__["VDivider"],VExpansionPanel: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_15__["VExpansionPanel"],VExpansionPanelContent: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_15__["VExpansionPanelContent"],VExpansionPanelHeader: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_15__["VExpansionPanelHeader"],VExpansionPanels: vuetify_lib_components_VExpansionPanel__WEBPACK_IMPORTED_MODULE_15__["VExpansionPanels"],VFileInput: vuetify_lib_components_VFileInput__WEBPACK_IMPORTED_MODULE_16__["VFileInput"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_17__["VForm"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_18__["VIcon"],VImg: vuetify_lib_components_VImg__WEBPACK_IMPORTED_MODULE_19__["VImg"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["VRow"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_20__["VSelect"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_21__["VSheet"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_12__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_22__["VTextField"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_23__["VTextarea"],VToolbarTitle: vuetify_lib_components_VToolbar__WEBPACK_IMPORTED_MODULE_24__["VToolbarTitle"]})
-
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/pages/admin/items.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/pages/admin/items.vue?vue&type=script&lang=js&":
-/*!*********************************************************************!*\
-  !*** ./resources/js/pages/admin/items.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./items.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css& ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./items.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/pages/admin/items.vue?vue&type=template&id=6aaa0a27&":
-/*!***************************************************************************!*\
-  !*** ./resources/js/pages/admin/items.vue?vue&type=template&id=6aaa0a27& ***!
-  \***************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_template_id_6aaa0a27___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./items.vue?vue&type=template&id=6aaa0a27& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/admin/items.vue?vue&type=template&id=6aaa0a27&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_template_id_6aaa0a27___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_items_vue_vue_type_template_id_6aaa0a27___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
 
 
 /***/ })

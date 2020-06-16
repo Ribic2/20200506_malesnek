@@ -1,10 +1,28 @@
 <template>
     <v-container>
-        <v-row
-        v-for="product in this.$store.state.favourites.favouriteItem" v-bind:key="product.id">
+        <v-row v-if="this.$store.state.favourites.favouriteItem.length == 0">
+            <v-card
+            id = "emptyCart"
+            elevation="0"
+            >
+                <div id = "cartHolder">
+                    <v-icon
+                    size="100"
+                    id="cartIcon"
+                    >
+                    mdi-star</v-icon>
+                </div>
+                <h3 class="text-center">Nimate dodanih nobenih izdelkov!</h3>
+            </v-card>
+        </v-row>
+
+        <v-row>
             <v-col
-            class="itemHolder"
-            cols="3"
+            v-for="product in this.$store.state.favourites.favouriteItem" v-bind:key="product.id"
+            cols="12"
+            xl="3"
+            lg="6"
+            md="6"
             >
                 <item v-bind:product="product"></item>
             </v-col>
@@ -35,14 +53,20 @@ export default {
 </script>
 
 <style>
-    .test{
-        border: solid 1px black;
-        height: 100%;
-    }
-
-    .row{
+    #emptyCart{
         width: 100%;
+        height: 100% !important;
+        position: relative;
+        top: 100px;
+    }
+    #cartIcon{
+        position: relative;
+        vertical-align: middle;
+        height: 100%;
+        width: 100%;
+    }
+    #cartHolder{
+        width: 5%;
         margin: 0 auto;
     }
-
 </style>

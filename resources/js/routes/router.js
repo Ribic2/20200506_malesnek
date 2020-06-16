@@ -35,6 +35,10 @@ const router = new VueRouter({
                     }
                 },
                 {
+                    path: '/user/order/history',
+                    component: ()=> import('../pages/user/history.vue')
+                },
+                {
                     path: '/user/register',
                     component: ()=> import('../pages/user/register.vue')
                 }

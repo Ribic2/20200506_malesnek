@@ -13,6 +13,7 @@ use App\User;
 use App\Mail\confirmPacket;
 use App\Mail\orderDenied;
 use Stripe\Exception\CardException;
+use App\Http\Resources\orderResource;
 Use Cartalyst\Stripe\Stripe;
 use Cartalyst\Stripe\Charge;
 
@@ -97,7 +98,7 @@ class OrderController extends Controller
                 $email = User::select('email')->where('user_id', $userId)->get();
                 Mail::to($email[0]->email)->send(new orderConfirmed($orders, $quantity, $fullPrice, $userId));
 
-                return 1;
+                return redirect('/checkout');
             }
             catch (CardException $e) {
                 return back()->withErrors('Error! ' . $e->getMessage());
@@ -164,8 +165,12 @@ class OrderController extends Controller
         }
 
         return $this->checkIfOutofStock;
+    }
 
+    //Get user order history
+    public function getAllUsersOrder(Request $request){
+        $user_id = $request->input("userId");
 
-
+        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('user_id', $user_id);
     }
 }

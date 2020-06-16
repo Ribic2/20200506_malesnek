@@ -268,6 +268,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -315,12 +319,12 @@ __webpack_require__.r(__webpack_exports__);
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/check/cart', {
           cart: this.$store.state.cart.cart
         }).then(function (results) {
-          _this.error = true;
-
           for (var i = 0; i < results.data.length; i++) {
             for (var x = 0; x < _this.$store.state.cart.cart.length; x++) {
               if (_this.$store.state.cart.cart[x].product.itemId == results.data[i]) {
                 _this.$store.state.cart.cart.splice(x, 1);
+
+                _this.error = true;
               }
             }
           }
@@ -368,7 +372,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.test[data-v-747f77e1]{\n    border: solid 1px black;\n}\n.productImg[data-v-747f77e1]{\n    height: 100%;\n}\n#informationDisplay[data-v-747f77e1]{\n    width: 100%;\n    height: 100%;\n    margin: 0 auto;\n}\n.quantityField[data-v-747f77e1]{\n    width: 50px;\n    height: 100%;\n}\n.quantityChangerHolder[data-v-747f77e1]{\n    height: 57px;\n}\n#emptyCart[data-v-747f77e1]{\n    width: 30vw;\n    margin: 0 auto;\n    position: relative;\n    top: 10%;\n}\n#cartIcon[data-v-747f77e1]{\n    margin: 0 auto;\n    position: relative;\n    display: block;\n    width: 20vw;\n}\n", ""]);
+exports.push([module.i, "\n.test[data-v-747f77e1]{\n    border: solid 1px black;\n}\n.productImg[data-v-747f77e1]{\n    height: 100%;\n}\n#informationDisplay[data-v-747f77e1]{\n    width: 100%;\n    height: 100%;\n    margin: 0 auto;\n}\n.quantityField[data-v-747f77e1]{\n    width: 50px;\n    height: 100%;\n}\n#container[data-v-747f77e1]{\n    min-height: 500px;\n}\n.quantityChangerHolder[data-v-747f77e1]{\n    height: 57px;\n}\n#emptyCart[data-v-747f77e1]{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n}\n#cartIcon[data-v-747f77e1]{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#cartHolder[data-v-747f77e1]{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
 
 // exports
 
@@ -686,26 +690,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-container", [
-    this.$store.state.cart.cart.length == 0
-      ? _c(
-          "div",
-          [
-            _vm.error == true
-              ? _c("v-alert", { attrs: { type: "error" } }, [
-                  _vm._v(
-                    "\n            Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.\n        "
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "v-card",
-              { attrs: { id: "emptyCart", elevation: "0" } },
-              [
-                _c("v-icon", { attrs: { size: "100", id: "cartIcon" } }, [
-                  _vm._v("\n            mdi-cart")
-                ]),
+  return _c(
+    "v-container",
+    { attrs: { id: "container" } },
+    [
+      _vm.error == true
+        ? _c("v-alert", { attrs: { type: "error" } }, [
+            _vm._v(
+              "\n        Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.\n    "
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      this.$store.state.cart.cart.length == 0
+        ? _c(
+            "div",
+            [
+              _c("v-card", { attrs: { id: "emptyCart", elevation: "0" } }, [
+                _c(
+                  "div",
+                  { attrs: { id: "cartHolder" } },
+                  [
+                    _c("v-icon", { attrs: { size: "100", id: "cartIcon" } }, [
+                      _vm._v("\n                mdi-cart")
+                    ])
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _c("h3", { staticClass: "text-center" }, [
                   _vm._v("Košarica je prazna!")
@@ -714,186 +725,192 @@ var render = function() {
                 _c("p", { staticClass: "text-center" }, [
                   _vm._v("Zgleda da je vaša košarica prazna.")
                 ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      : _c(
-          "div",
-          _vm._l(this.$store.state.cart.cart, function(cartItem) {
-            return _c(
-              "v-card",
-              {
-                key: cartItem.itemId,
-                staticClass: "mt-3",
-                attrs: { "min-height": "200" }
-              },
-              [
-                _c(
-                  "v-row",
-                  { attrs: { id: "informationDisplay" } },
-                  [
-                    _c(
-                      "v-col",
-                      {
-                        attrs: { cols: "6", md: "2", lg: "2", sm: "2", xl: "2" }
-                      },
-                      [
-                        _c("v-img", {
-                          staticClass: "productImg",
+              ])
+            ],
+            1
+          )
+        : _c(
+            "div",
+            _vm._l(this.$store.state.cart.cart, function(cartItem) {
+              return _c(
+                "v-card",
+                {
+                  key: cartItem.itemId,
+                  staticClass: "mt-3",
+                  attrs: { "min-height": "200" }
+                },
+                [
+                  _c(
+                    "v-row",
+                    { attrs: { id: "informationDisplay" } },
+                    [
+                      _c(
+                        "v-col",
+                        {
                           attrs: {
-                            "aspect-ratio": 4 / 3,
-                            src:
-                              "http://127.0.0.1:8000/storage/products/" +
-                              cartItem.product.dir +
-                              "/" +
-                              cartItem.product.primaryImg
+                            cols: "6",
+                            md: "2",
+                            lg: "2",
+                            sm: "2",
+                            xl: "2"
                           }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-col", { attrs: { cols: "6", xl: "2" } }, [
-                      _c("p", { staticClass: "title" }, [
-                        _vm._v("Ime izdelka")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "headline" }, [
-                        _vm._v(_vm._s(cartItem.product.itemName))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("v-col", { attrs: { cols: "2" } }, [
-                      _c("p", { staticClass: "title" }, [_vm._v("Količina")]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "headline" }, [
-                        _vm._v(_vm._s(cartItem.quantity))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("v-col", { attrs: { cols: "2" } }, [
-                      _c("p", { staticClass: "title" }, [
-                        _vm._v("Cena izdelka")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "headline" }, [
-                        _vm._v(_vm._s(cartItem.product.itemPrice) + "  €")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("v-col", { attrs: { cols: "2" } }, [
-                      _c("p", { staticClass: "title" }, [
-                        _vm._v("Skupna cena")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "headline" }, [
-                        _vm._v(
-                          "Cena: " +
-                            _vm._s(
-                              cartItem.product.itemPrice * cartItem.quantity
-                            ) +
-                            " €"
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      [
-                        _c(
-                          "v-btn-toggle",
-                          {
-                            staticClass: "quantityChangerHolder mb-1 mt-5",
-                            attrs: { rounded: "" }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { height: "56" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.changeQuantity(
-                                      cartItem.product,
-                                      cartItem.quantity,
-                                      "plus"
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("v-icon", [_vm._v("mdi-plus")])],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-text-field",
-                              {
-                                staticClass: "quantityField",
-                                attrs: {
-                                  flat: "",
-                                  outlined: "",
-                                  value: cartItem.quantity
-                                }
-                              },
-                              [_vm._v(_vm._s(cartItem.quantity))]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { height: "56" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.changeQuantity(
-                                      cartItem.product,
-                                      cartItem.quantity,
-                                      "minus"
-                                    )
-                                  }
-                                }
-                              },
-                              [_c("v-icon", [_vm._v("mdi-minus")])],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            staticClass: "mb-1 mt-5",
-                            attrs: { color: "error", width: "90%" },
-                            on: {
-                              click: function($event) {
-                                return _vm.deleteCartProduct(cartItem.itemId)
-                              }
+                        },
+                        [
+                          _c("v-img", {
+                            staticClass: "productImg",
+                            attrs: {
+                              "aspect-ratio": 4 / 3,
+                              src:
+                                "http://127.0.0.1:8000/storage/products/" +
+                                cartItem.product.dir +
+                                "/" +
+                                cartItem.product.primaryImg
                             }
-                          },
-                          [
-                            _vm._v(
-                              "\n                        izbriši\n                    "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          }),
-          1
-        )
-  ])
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "6", xl: "2" } }, [
+                        _c("p", { staticClass: "title" }, [
+                          _vm._v("Ime izdelka")
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "headline" }, [
+                          _vm._v(_vm._s(cartItem.product.itemName))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "2" } }, [
+                        _c("p", { staticClass: "title" }, [_vm._v("Količina")]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "headline" }, [
+                          _vm._v(_vm._s(cartItem.quantity))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "2" } }, [
+                        _c("p", { staticClass: "title" }, [
+                          _vm._v("Cena izdelka")
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "headline" }, [
+                          _vm._v(_vm._s(cartItem.product.itemPrice) + "  €")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "2" } }, [
+                        _c("p", { staticClass: "title" }, [
+                          _vm._v("Skupna cena")
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "headline" }, [
+                          _vm._v(
+                            "Cena: " +
+                              _vm._s(
+                                cartItem.product.itemPrice * cartItem.quantity
+                              ) +
+                              " €"
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        [
+                          _c(
+                            "v-btn-toggle",
+                            {
+                              staticClass: "quantityChangerHolder mb-1 mt-5",
+                              attrs: { rounded: "" }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { height: "56" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.changeQuantity(
+                                        cartItem.product,
+                                        cartItem.quantity,
+                                        "plus"
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mdi-plus")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-text-field",
+                                {
+                                  staticClass: "quantityField",
+                                  attrs: {
+                                    flat: "",
+                                    outlined: "",
+                                    value: cartItem.quantity
+                                  }
+                                },
+                                [_vm._v(_vm._s(cartItem.quantity))]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { height: "56" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.changeQuantity(
+                                        cartItem.product,
+                                        cartItem.quantity,
+                                        "minus"
+                                      )
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mdi-minus")])],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "mb-1 mt-5",
+                              attrs: { color: "error", width: "90%" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteCartProduct(cartItem.itemId)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        izbriši\n                    "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
