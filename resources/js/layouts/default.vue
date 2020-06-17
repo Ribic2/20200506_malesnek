@@ -56,6 +56,7 @@
             <v-btn
             rounded
             width="100%"
+            to="/reset-password"
             >Spremeni geslo</v-btn>
         </v-list-item>
 

@@ -76,7 +76,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#emptyCart{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n    top: 100px;\n}\n#cartIcon{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#cartHolder{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "\n#emptyFavourites{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n    top: 250px;\n}\n#starIcon{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#starHolder{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
 
 // exports
 
@@ -135,22 +135,26 @@ var render = function() {
         ? _c(
             "v-row",
             [
-              _c("v-card", { attrs: { id: "emptyCart", elevation: "0" } }, [
-                _c(
-                  "div",
-                  { attrs: { id: "cartHolder" } },
-                  [
-                    _c("v-icon", { attrs: { size: "100", id: "cartIcon" } }, [
-                      _vm._v("\n                mdi-star")
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("h3", { staticClass: "text-center" }, [
-                  _vm._v("Nimate dodanih nobenih izdelkov!")
-                ])
-              ])
+              _c(
+                "v-card",
+                { attrs: { id: "emptyFavourites", elevation: "0" } },
+                [
+                  _c(
+                    "div",
+                    { attrs: { id: "starHolder" } },
+                    [
+                      _c("v-icon", { attrs: { size: "100", id: "starIcon" } }, [
+                        _vm._v("\n                mdi-star")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("h3", { staticClass: "text-center" }, [
+                    _vm._v("Nimate dodanih nobenih izdelkov!")
+                  ])
+                ]
+              )
             ],
             1
           )

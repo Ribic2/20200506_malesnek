@@ -20,6 +20,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+//Reset password
+
+// Send reset password mail
+Route::post('reset-password', 'resetPasswordController@sendPasswordResetLink');
+// handle reset password form process
+Route::post('reset/password', 'resetPasswordController@callResetPassword');
+
+
 //User authentication login and register
 Route::post('/user/login', 'LoginController@login');
 Route::post('/user/register', 'RegisterController@register');

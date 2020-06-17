@@ -16,7 +16,8 @@
       <!--Content-->
 
       <v-stepper-items>
-          <v-stepper-content step="1">
+          <v-stepper-content
+          step="1">
           <v-card
             class="mb-12"
             elevation="0"

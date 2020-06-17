@@ -123,6 +123,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -372,7 +373,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.test[data-v-747f77e1]{\n    border: solid 1px black;\n}\n.productImg[data-v-747f77e1]{\n    height: 100%;\n}\n#informationDisplay[data-v-747f77e1]{\n    width: 100%;\n    height: 100%;\n    margin: 0 auto;\n}\n.quantityField[data-v-747f77e1]{\n    width: 50px;\n    height: 100%;\n}\n#container[data-v-747f77e1]{\n    min-height: 500px;\n}\n.quantityChangerHolder[data-v-747f77e1]{\n    height: 57px;\n}\n#emptyCart[data-v-747f77e1]{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n}\n#cartIcon[data-v-747f77e1]{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#cartHolder[data-v-747f77e1]{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "\n.test[data-v-747f77e1]{\n    border: solid 1px black;\n}\n.productImg[data-v-747f77e1]{\n    height: 100%;\n}\n#informationDisplay[data-v-747f77e1]{\n    width: 100%;\n    height: 100%;\n    margin: 0 auto;\n}\n.quantityField[data-v-747f77e1]{\n    width: 50px;\n    height: 100%;\n}\n#container[data-v-747f77e1]{\n    min-height: 500px;\n}\n.quantityChangerHolder[data-v-747f77e1]{\n    height: 57px;\n}\n#emptyCart[data-v-747f77e1]{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n    top: 200px;\n}\n#cartIcon[data-v-747f77e1]{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#cartHolder[data-v-747f77e1]{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
 
 // exports
 
@@ -697,8 +698,9 @@ var render = function() {
       _vm.error == true
         ? _c("v-alert", { attrs: { type: "error" } }, [
             _vm._v(
-              "\n        Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.\n    "
-            )
+              "\n        Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi. O zalogi nas lahko kontaktirate na "
+            ),
+            _c("a", { attrs: { href: "/kontakt" } }, [_vm._v("kontakt")])
           ])
         : _vm._e(),
       _vm._v(" "),

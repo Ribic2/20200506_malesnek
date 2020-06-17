@@ -3,7 +3,7 @@
     id="container"
     >
         <v-alert type="error" v-if="error == true">
-            Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi.
+            Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi. O zalogi nas lahko kontaktirate na <a href="/kontakt">kontakt</a>
         </v-alert>
         <div v-if="this.$store.state.cart.cart.length == 0">
             <v-card
@@ -200,6 +200,7 @@ export default {
         width: 100%;
         height: 100% !important;
         position: relative;
+        top: 200px;
     }
     #cartIcon{
         position: relative;

@@ -2,13 +2,13 @@
     <v-container>
         <v-row v-if="this.$store.state.favourites.favouriteItem.length == 0">
             <v-card
-            id = "emptyCart"
+            id = "emptyFavourites"
             elevation="0"
             >
-                <div id = "cartHolder">
+                <div id = "starHolder">
                     <v-icon
                     size="100"
-                    id="cartIcon"
+                    id="starIcon"
                     >
                     mdi-star</v-icon>
                 </div>
@@ -53,19 +53,19 @@ export default {
 </script>
 
 <style>
-    #emptyCart{
+    #emptyFavourites{
         width: 100%;
         height: 100% !important;
         position: relative;
-        top: 100px;
+        top: 250px;
     }
-    #cartIcon{
+    #starIcon{
         position: relative;
         vertical-align: middle;
         height: 100%;
         width: 100%;
     }
-    #cartHolder{
+    #starHolder{
         width: 5%;
         margin: 0 auto;
     }

@@ -6,9 +6,12 @@ use App\Http\Resources\usersResource;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+
+
     /**
      * Function that check if user is authenticated
      */
@@ -93,4 +96,6 @@ class AuthController extends Controller
             User::where('user_id', $id)->update(['isEmployee' => 1]);
         }
     }
+
+
 }

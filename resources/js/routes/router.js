@@ -25,15 +25,15 @@ const router = new VueRouter({
                     path: '/user/login',
                     name: 'login',
                     component: ()=> import('../pages/user/login.vue'),
-                    beforeEnter: (to, from, next)=>{
-                        if(localStorage.getItem('authToken') == null){
+/*                     beforeEnter: (to, from, next)=>{
+                        if(localStorage.getItem('authToken') === null){
                             next()
                         }
                         else{
                             next({name: 'index'})
                         }
                     }
-                },
+ */                },
                 {
                     path: '/user/order/history',
                     component: ()=> import('../pages/user/history.vue')
@@ -136,6 +136,16 @@ const router = new VueRouter({
                     }
                 })
             }
+        },
+        {
+            path: '/reset-password',
+            name: 'reset-password',
+            component: ()=>import('../pages/resetPassword/forgotPassword.vue')
+          },
+          {
+            path: '/reset-password/:token',
+            name: 'reset-password-form',
+            component: ()=>import('../pages/resetPassword/ResetPasswordForm.vue')
         },
         //Confirmation of password
         {
