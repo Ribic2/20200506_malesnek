@@ -95,6 +95,7 @@ export default {
         changeUserAdminStatus(e){
             Axios.post('/api/user/change/admin', {id: e})
             .then((results)=>{
+
                 this.getAllUsers()
             })
 

@@ -45,17 +45,21 @@ export default{
             window.location.href="http://127.0.0.1:8000/"
         },
         STORE_USER_ORDER_HISTORY(state){
-            console.log("Checking stored history")
-            if(JSON.parse(localStorage.getItem('orderHistory'))  != null){
-                state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
+            if(localStorage.getItem('authToken') == null){
+                window.location.href="http://127.0.0.1:8000"
             }
             else{
-                axios.post('/api/user/orders/history', {userId: state.userId})
-                .then((results)=>{
-                    console.log(results)
-                    localStorage.setItem('orderHistory', JSON.stringify(results.data))
+                if(JSON.parse(localStorage.getItem('orderHistory'))  != null){
                     state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
-                })
+                }
+                else{
+                    axios.post('/api/user/orders/history', {userId: state.userId})
+                    .then((results)=>{
+                        console.log(results)
+                        localStorage.setItem('orderHistory', JSON.stringify(results.data))
+                        state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
+                    })
+                }
             }
         },
     },

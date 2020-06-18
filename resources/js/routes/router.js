@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import login from '../pages/user/login.vue'
 import Axios from 'axios'
 import api from '../services/api'
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -25,22 +26,25 @@ const router = new VueRouter({
                     path: '/user/login',
                     name: 'login',
                     component: ()=> import('../pages/user/login.vue'),
-/*                     beforeEnter: (to, from, next)=>{
-                        if(localStorage.getItem('authToken') === null){
-                            next()
-                        }
-                        else{
+                    beforeEnter: (to, from, next) =>{
+                        Axios.get('/api/profile')
+                        .then((results)=>{
                             next({name: 'index'})
-                        }
+                        })
+                        .catch((error)=>{
+                            next()
+                        })
+
                     }
- */                },
+                },
                 {
                     path: '/user/order/history',
-                    component: ()=> import('../pages/user/history.vue')
+                    component: ()=> import('../pages/user/history.vue'),
                 },
                 {
                     path: '/user/register',
-                    component: ()=> import('../pages/user/register.vue')
+                    component: ()=> import('../pages/user/register.vue'),
+
                 }
             ]
         },

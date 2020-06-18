@@ -1,20 +1,22 @@
 <template>
     <v-container>
-        <div class="row justify-content-center">
-            <div class="col-6">
-                <div class="card card-default">
-                    <div class="card-header">Reset Password</div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="email">E-mail</label>
-                                <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email" required>
-                            </div>
-                            <button class="btn btn-primary" @click="requestResetPassword">Send Password Reset Link</button>
-
-                        </div>
-                    </div>
-             </div>
-        </div>
+        <v-card
+        width="25%"
+        height="400"
+        id="form"
+        class="ma-auto"
+        >
+            <v-card-title>Spremeni geslo</v-card-title>
+                <div class = "ma-2">
+                    <label for="email">E-naslov</label>
+                    <input type="email" id="email" class="form-control" placeholder="e-naslov" v-model="email" required>
+                    <v-btn
+                    color="primary mt-1"
+                    @click="requestResetPassword"
+                    width="100%"
+                    >Poenostavi geslo</v-btn>
+                </div>
+        </v-card>
     </v-container>
 </template>
 
@@ -41,5 +43,8 @@ export default {
 </script>
 
 <style scoped>
-
+    #form{
+        position: relative;
+        top: 100px;
+    }
 </style>

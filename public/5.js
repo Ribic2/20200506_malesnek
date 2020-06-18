@@ -797,7 +797,10 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("p", { staticClass: "headline" }, [
-                          _vm._v(_vm._s(cartItem.product.itemPrice) + "  €")
+                          _vm._v(
+                            _vm._s(cartItem.product.itemPrice.toFixed(2)) +
+                              "  €"
+                          )
                         ])
                       ]),
                       _vm._v(" "),
@@ -810,7 +813,9 @@ var render = function() {
                           _vm._v(
                             "Cena: " +
                               _vm._s(
-                                cartItem.product.itemPrice * cartItem.quantity
+                                (
+                                  cartItem.product.itemPrice * cartItem.quantity
+                                ).toFixed(2)
                               ) +
                               " €"
                           )

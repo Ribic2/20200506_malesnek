@@ -7,6 +7,7 @@ use App\Http\Resources\orderResource;
 use App\itemReview;
 use App\Items;
 use App\Order;
+use Illuminate\Support\Facades\Auth;
 use App\OrderIdStore;
 use Illuminate\Support\Facades\Route;
 
@@ -65,10 +66,6 @@ Route::get('/item/{id}/reviews', function($id){
     return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
 });
 
-//CONTACTS
-Route::get('/contact', function(){
-    return Contacts::all();
-});
 Route::post('/contact/add', 'ContactController@getContact');
 
 //Confirm newly registerd user
@@ -81,42 +78,50 @@ Route::get('/items', function(){
     return itemResource::collection(Items::all());
 });
 
-Route::post('/items/change', 'itemController@changeItem');
-Route::post('/items/delete', 'itemController@deleteItem');
-Route::post('/items/search', 'itemController@searchForItems');
-Route::post('/items/add', 'itemController@addItem');
 
-
-Route::post('/Order/confirm', 'OrderController@confirmOrder');
-Route::post('/check/cart', 'OrderController@checkCartItems');
-Route::post('/Order/denied', 'OrderController@orderDenied');
 
 //Get users purchase history
-Route::post ('/user/orders/history', 'OrderController@getAllUsersOrder');
-
 Route::get('/orders', function(){
     return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'));
 });
-//Filter for admin page - ORDERS
-Route::get('/orders/finished', function(){
-    return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 0);
-});
-Route::get('/orders/complete', function(){
-    return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 1);
-});
-Route::get('/orders/oldest', function(){
-    return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->sortBy('Created_at');
-});
-Route::get('/orders/latest', function(){
-    return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->sortDesc();
+
+
+Route::post('/user/orders/history', 'OrderController@getAllUsersOrder')->middleware('auth:api');
+
+Route::middleware('auth:api', 'check_admin')->group(function(){
+
+    Route::get('/contact', function(){
+        return Contacts::all();
+    });
+    Route::get('/orders/finished', function(){
+        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 0);
+    });
+    Route::get('/orders/complete', function(){
+        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 1);
+    });
+    Route::get('/orders/oldest', function(){
+        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->sortBy('Created_at');
+    });
+    Route::get('/orders/latest', function(){
+        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->sortDesc();
+    });
+
+    Route::post('/Order/confirm', 'OrderController@confirmOrder');
+    Route::post('/check/cart', 'OrderController@checkCartItems');
+    Route::post('/Order/denied', 'OrderController@orderDenied');
+
+    Route::post('/items/change', 'itemController@changeItem');
+    Route::post('/items/delete', 'itemController@deleteItem');
+    Route::post('/items/search', 'itemController@searchForItems');
+    Route::post('/items/add', 'itemController@addItem');
 });
 
 
 Route::post('/order/add', 'OrderController@reciveOrder');
 
 //Authenticatble api paths
-Route::post('/user/delete', 'authController@deleteUser');
-Route::post('/user/change/admin', 'authController@changeAdmin');
+Route::middleware('auth:api', 'check_admin')->post('/user/delete', 'authController@deleteUser');
+Route::middleware('auth:api', 'check_admin')->post('/user/change/admin', 'authController@changeAdmin');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
 Route::middleware('auth:api')->get('/profile/admin','AuthController@checkIfAdmin');
-Route::middleware('auth:api')->get('/users/all', 'AuthController@getAllUsers');
+Route::middleware('auth:api', 'check_admin')->get('/users/all', 'AuthController@getAllUsers');

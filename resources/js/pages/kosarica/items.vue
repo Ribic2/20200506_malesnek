@@ -61,14 +61,14 @@
                     cols="2"
                     >
                         <p class="title">Cena izdelka</p>
-                        <p class = "headline">{{ cartItem.product.itemPrice }}  &euro;</p>
+                        <p class = "headline">{{ cartItem.product.itemPrice.toFixed(2) }}  &euro;</p>
                     </v-col>
 
                     <v-col
                     cols="2"
                     >
                         <p class="title">Skupna cena</p>
-                        <p class = "headline">Cena: {{cartItem.product.itemPrice * cartItem.quantity}} &euro;</p>
+                        <p class = "headline">Cena: {{(cartItem.product.itemPrice * cartItem.quantity).toFixed(2)}} &euro;</p>
                     </v-col>
 
                     <v-col>

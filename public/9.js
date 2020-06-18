@@ -131,7 +131,8 @@ var render = function() {
   return _c(
     "v-container",
     [
-      this.$store.state.favourites.favouriteItem.length == 0
+      this.$store.state.favourites.favouriteItem.length == 0 ||
+      this.$store.state.favourites.favouriteItem == null
         ? _c(
             "v-row",
             [

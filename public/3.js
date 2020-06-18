@@ -89,8 +89,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -229,7 +227,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#app[data-v-007be3b0]{\n    height: 200px;\n    background-color: #f6f9fc;\n    max-width: 400px;\n    width: auto;\n}\n.pay-with-stripe[data-v-007be3b0]{\n    display: block;\n    width: 90%;\n    height: 40px;\n    background-color: #fcd669;\n    border-radius: 20px;\n    color: #525f7f;\n    font-weight: 600;\n    margin: 0 auto;\n    margin-top: 10px;\n    text-transform: uppercase;\n    cursor: pointer;\n}\n.pay-with-stripe[data-v-007be3b0]:active{\n    background-color: #f5be58;\n}\n.stripe-card[data-v-007be3b0] {\n    width: 90%;\n    height: 25px;\n    background-color: #7488aa;\n    color: white;\n    border-radius: 20px;\n    position: relative;\n    top: 5px;\n    margin: 0 auto;\n}\n.stripe-card.complete[data-v-007be3b0] {\n  border-color: green;\n}\n", ""]);
+exports.push([module.i, "\n#app[data-v-007be3b0]{\n    height: 200px;\n    max-width: 400px;\n    width: auto;\n}\n.pay-with-stripe[data-v-007be3b0]{\n    display: block;\n    width: 100%;\n    height: 40px;\n    background-color: #fcd669;\n    border-radius: 20px;\n    color: #525f7f;\n    font-weight: 600;\n    margin: 0 auto;\n    margin-top: 10px;\n    text-transform: uppercase;\n    cursor: pointer;\n}\n.pay-with-stripe[data-v-007be3b0]:active{\n    background-color: #f5be58;\n}\n.stripe-card[data-v-007be3b0] {\n    width: 100%;\n    height: 25px;\n    background-color: #7488aa;\n    color: white;\n    position: relative;\n    top: 5px;\n    padding-right: 10px;\n    padding-left: 10px;\n    padding-top: 1px;\n    border-radius: 20px;\n    margin: 0 auto;\n}\n.stripe-card.complete[data-v-007be3b0] {\n  border-color: green;\n}\n", ""]);
 
 // exports
 

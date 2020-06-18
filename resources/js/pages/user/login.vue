@@ -68,7 +68,6 @@ export default {
     login(){
         axios.post('/api/user/login', {email: this.email, password: this.password},)
         .then((results)=>{
-            console.log(results.data)
             if(!results.data.authentication){
                 this.response = "Napačno geslo ali uporabniško ime!"
             }
@@ -91,9 +90,17 @@ export default {
                 this.response = error.response.data.errors.email[0]
             }
         })
+    },
+    checkIfLoggedIn(){
+        if(localStorage.getItem('authToken')){
+            window.location.href = "http://127.0.0.1:8000/"
+        }
     }
   },
   computed:{
+
+  },
+  mounted(){
 
   }
 }

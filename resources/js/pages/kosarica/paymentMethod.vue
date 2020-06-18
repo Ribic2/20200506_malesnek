@@ -7,16 +7,14 @@
 
                     <v-expansion-panel-content>
                         <div id='app'>
-
-                                <v-text-field v-model="nameOnCard" label = "Name on card" type="text"/>
-                                <card class='stripe-card'
-                                :class='{ complete }'
-                                stripe='pk_test_6GetaNtlFSAZ94wdJEcGR4vN0066MegJBC'
-                                :options='stripeOptions'
-                                @change='complete = $event.complete'
-                                />
-                                <button class='pay-with-stripe' @click='pay' :disabled='!complete'>Plačaj</button>
-
+                            <v-text-field v-model="nameOnCard" label = "Name on card" type="text"/>
+                            <card class='stripe-card'
+                            :class='{ complete }'
+                            stripe='pk_test_6GetaNtlFSAZ94wdJEcGR4vN0066MegJBC'
+                            :options='stripeOptions'
+                            @change='complete = $event.complete'
+                            />
+                            <button class='pay-with-stripe' @click='pay' :disabled='!complete'>Plačaj</button>
                         </div>
                     </v-expansion-panel-content>
 
@@ -195,13 +193,12 @@ export default {
 <style scoped>
 #app{
     height: 200px;
-    background-color: #f6f9fc;
     max-width: 400px;
     width: auto;
 }
 .pay-with-stripe{
     display: block;
-    width: 90%;
+    width: 100%;
     height: 40px;
     background-color: #fcd669;
     border-radius: 20px;
@@ -216,13 +213,16 @@ export default {
     background-color: #f5be58;
 }
 .stripe-card {
-    width: 90%;
+    width: 100%;
     height: 25px;
     background-color: #7488aa;
     color: white;
-    border-radius: 20px;
     position: relative;
     top: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 1px;
+    border-radius: 20px;
     margin: 0 auto;
 }
 .stripe-card.complete {

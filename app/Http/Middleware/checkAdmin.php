@@ -16,9 +16,13 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && Auth::user()->isEmploye == 1){
-            $next;
+
+
+        if(Auth::user()->isEmployee == 1){
+            return $next($request);
         }
-        return redirect('/');
+        else{
+            return response("Not an admin", 401);
+        }
     }
 }

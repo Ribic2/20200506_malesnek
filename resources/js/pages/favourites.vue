@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row v-if="this.$store.state.favourites.favouriteItem.length == 0">
+        <v-row v-if="this.$store.state.favourites.favouriteItem.length == 0 || this.$store.state.favourites.favouriteItem == null">
             <v-card
             id = "emptyFavourites"
             elevation="0"
