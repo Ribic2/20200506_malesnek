@@ -42,7 +42,7 @@ class MailResetPasswordNotification extends ResetPassword{
     {
         $link = url("/reset-password/".$this->token );
         return ( new MailMessage )
-            ->subject( 'Reset Password Notification' )
+            ->subject( 'Spremeni geslo' )
             ->line( "Hello! You are receiving this email because we received a password reset request for your account." )
             ->action( 'Reset Password', $link )
             ->line( "This password reset link will expire in ".config('auth.passwords.users.expire')." minutes" )

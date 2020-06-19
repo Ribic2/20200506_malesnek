@@ -354,6 +354,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -440,7 +441,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.selectedItemId = e.itemId;
     },
     getIdToChange: function getIdToChange(e) {
-      console.log(e);
       this.change = true;
       this.selectedItemId = e.itemId;
       this.itemName = e.itemName;
@@ -478,13 +478,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this3.getItemsForAdmin();
 
           _this3.addItem = false;
-          _this3.successAdd = true;
+          _this3.successAdd = true; //resets all data
+
+          _this3.newItemName = null;
+          _this3.newItemPrice = null;
+          _this3.newQuantity = null;
+          _this3.newDimension = null;
+          _this3.newCategory = null;
+          _this3.customCategory = null;
+          _this3.newColor = null;
+          _this3.newItemDescription = null;
+          _this3.primaryPicture = null;
         }
       })["catch"](function (error) {
         if (error.response) {
           console.log(error.response.data.errors.cena);
         }
       });
+    },
+    cancel: function cancel() {
+      this.$refs.form.reset();
+      this.addItem = false;
+      this.newItemPrice = null;
+      this.newItemPrice = null;
+      this.newQuantity = null;
+      this.newDimension = null;
+      this.newCategory = null;
+      this.customCategory = null;
+      this.newColor = null;
+      this.newItemDescription = null;
+      this.primaryPicture = null;
     },
     previewImages: function previewImages() {
       for (var i = 0; i < this.newImage.length; i++) {
@@ -506,8 +529,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return true;
+    },
+    formatPrice: function formatPrice() {
+      this.newItemPrice = parseFloat(this.newItemPrice).toFixed(2);
     }
   },
+  computed: {},
   mounted: function mounted() {
     this.getItemsForAdmin();
   }
@@ -981,6 +1008,11 @@ var render = function() {
                                       value: _vm.newItemPrice,
                                       rules: _vm.requiredInput
                                     },
+                                    on: {
+                                      blur: function($event) {
+                                        return _vm.formatPrice()
+                                      }
+                                    },
                                     model: {
                                       value: _vm.newItemPrice,
                                       callback: function($$v) {
@@ -1047,9 +1079,8 @@ var render = function() {
                               _c(
                                 "v-col",
                                 [
-                                  _c("v-select", {
+                                  _c("v-text-field", {
                                     attrs: {
-                                      items: _vm.colors,
                                       label: "Barva",
                                       dense: "",
                                       solo: "",
@@ -1225,7 +1256,7 @@ var render = function() {
                                   attrs: { color: "green darken-1", text: "" },
                                   on: {
                                     click: function($event) {
-                                      _vm.addItem = false
+                                      return _vm.cancel()
                                     }
                                   }
                                 },

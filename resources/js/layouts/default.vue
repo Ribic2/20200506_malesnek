@@ -42,11 +42,13 @@
         nav
         v-else
       >
-       <h5 class = "text-center">Dobrodošel uporabnik {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
+       <h5 class = "text-center">Dobrodošel {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
         <v-list-item>
             <v-btn
             width="100%"
             rounded
+            color="#6C3FB8"
+            dark
             @click="logout()"
             >
             <v-icon>mdi-logout</v-icon>
@@ -55,6 +57,8 @@
         <v-list-item>
             <v-btn
             rounded
+            color="#6C3FB8"
+            dark
             width="100%"
             to="/reset-password"
             >Spremeni geslo</v-btn>
@@ -63,8 +67,10 @@
         <v-list-item>
             <v-btn
             rounded
+            dark
             width="100%"
             to="/user/order/history"
+            color="#6C3FB8"
             >Ogled prejšnih naročil</v-btn>
         </v-list-item>
       </v-list>
@@ -77,12 +83,12 @@
     dark
     >
     <v-app-bar-nav-icon>
-      <!--<v-img
-      src = "/logo.jpg"
+      <v-img
+      src = "http://127.0.0.1:8000/storage/store/FullColor_1280x1024_300dpi.jpg"
       width="2"
       height="48"
       id="logo"
-      ></v-img>-->
+      ></v-img>
     </v-app-bar-nav-icon>
     <v-toolbar-title>Uniq Cards</v-toolbar-title>
 
@@ -121,19 +127,56 @@
         <slot />
     </v-content>
 
+    <VueCookieAcceptDecline
+        :ref="'myPanel1'"
+        :elementId="'myPanel1'"
+        :debug="false"
+        :position="'bottom-left'"
+        :type="'floating'"
+        :disableDecline="false"
+        :transitionName="'slideFromBottom'"
+        :showPostponeButton="false"
+        @clicked-accept="cookieClickedAccept"
+        @clicked-decline="cookieClickedDecline">
 
+        <!-- Optional -->
+        <div slot="postponeContent">
+            &times;
+        </div>
+
+        <!-- Optional -->
+        <div slot="message">
+            We use cookies to ensure you get the best experience on our website. <a href="https://cookiesandyou.com/" target="_blank">Learn More...</a>
+        </div>
+
+        <!-- Optional -->
+        <div slot="declineContent">
+        OPT OUT
+        </div>
+
+        <!-- Optional -->
+        <div slot="acceptContent">
+        GOT IT!
+        </div>
+    </VueCookieAcceptDecline>
   </v-app>
 </template>
 
 <script>
 
 import store from '../store/index'
+import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
+import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 
 export default {
+    components:{
+        VueCookieAcceptDecline
+    },
     props: ['routeName'],
     data(){
         return{
             route: this.routeName,
+            cookieStatus: '',
             links:[
                 {label: 'TRGOVINA', url: '/', route: "index"},
                 {label: 'KONTAKT', url: '/kontakt'},
@@ -162,6 +205,12 @@ export default {
         refreshCart(){
             return this.$store.dispatch('checkLocalStorageCart')
         },
+        cookieClickedAccept(){
+            this.cookieStatus = 'accept'
+        },
+        cookieClickedDecline(){
+            this.cookieStatus = 'decline'
+        }
     },
     computed:{
 

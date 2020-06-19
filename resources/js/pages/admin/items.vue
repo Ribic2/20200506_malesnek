@@ -175,6 +175,7 @@
                                         <v-text-field
                                         label="Cena izdelka"
                                         v-model.number="newItemPrice"
+                                        @blur="formatPrice()"
                                         required
                                         :value="newItemPrice"
                                         :rules="requiredInput"
@@ -203,8 +204,7 @@
 
                                 <v-row>
                                     <v-col>
-                                        <v-select
-                                        :items="colors"
+                                        <v-text-field
                                         label="Barva"
                                         v-model="newColor"
                                         dense
@@ -212,7 +212,7 @@
                                         required
                                         :rules="requiredInput"
                                         >
-                                        </v-select>
+                                        </v-text-field>
                                     </v-col>
                                     <v-col>
                                         <v-select
@@ -294,7 +294,8 @@
                                         <v-btn
                                             color="green darken-1"
                                             text
-                                            @click="addItem = false"
+
+                                            @click="cancel()"
                                         >
                                         Preklic
                                         </v-btn>
@@ -446,7 +447,6 @@ export default {
             this.selectedItemId = e.itemId
         },
         getIdToChange(e){
-            console.log(e)
             this.change = true
             this.selectedItemId = e.itemId
             this.itemName = e.itemName
@@ -492,6 +492,17 @@ export default {
                         this.getItemsForAdmin();
                         this.addItem = false
                         this.successAdd = true
+
+                        //resets all data
+                        this.newItemName = null
+                        this.newItemPrice = null
+                        this.newQuantity = null
+                        this.newDimension = null
+                        this.newCategory = null
+                        this.customCategory = null
+                        this.newColor = null
+                        this.newItemDescription = null
+                        this.primaryPicture = null
                     }
 
 
@@ -503,7 +514,20 @@ export default {
                     }
                 })
             },
+            cancel(){
+                this.$refs.form.reset()
 
+                this.addItem = false
+                this.newItemPrice = null
+                this.newItemPrice = null
+                this.newQuantity = null
+                this.newDimension = null
+                this.newCategory = null
+                this.customCategory = null
+                this.newColor = null
+                this.newItemDescription = null
+                this.primaryPicture = null
+            },
             previewImages(){
                 for(let i = 0; i < this.newImage.length; i++){
                     this.showImages.push({url: URL.createObjectURL(this.newImage[i]), imgName: this.newImage[i].name, id:i})
@@ -519,9 +543,16 @@ export default {
                    return false;
                 }
                 return true
-            }
-    },
+            },
+            formatPrice(){
+                this.newItemPrice = parseFloat(this.newItemPrice).toFixed(2)
 
+            }
+
+    },
+    computed:{
+
+    },
     mounted(){
         this.getItemsForAdmin();
     }

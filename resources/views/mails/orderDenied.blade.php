@@ -10,6 +10,4 @@ Lp, Uniq Cards
 
 @endcomponent
 
-@component('mail::footer')
-test
-@endcomponent
+@yield('mail::footer')

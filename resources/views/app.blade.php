@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" href="http://127.0.0.1:8000/storage/store/favicon-16x16.png" type="image/gif" sizes="16x16">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->

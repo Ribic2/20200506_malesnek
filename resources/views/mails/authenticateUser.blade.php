@@ -1,5 +1,3 @@
-
-
 @component('mail::header')
 @endcomponent
 
@@ -16,6 +14,4 @@ Potrdi
 
 @endcomponent
 
-@component('mail::footer')
-test
-@endcomponent
+@yield('mail::footer')

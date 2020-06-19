@@ -28,7 +28,7 @@ class CreateItemTable extends Migration
             $table->boolean('isAvailable')->nullable($value=true);
             $table->string('categorie');
             $table->string('subCategorie')->nullable($value=true);
-            $table->enum('colors', ['Red', 'Blue', 'Purple']);
+            $table->string('colors');
             $table->string('dimensions');
             $table->integer('OverAllrating')->default(0);
         });
