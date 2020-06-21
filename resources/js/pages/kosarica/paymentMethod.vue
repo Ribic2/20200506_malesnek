@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <div v-if="this.$store.state.user.isAuth == true">
+            <h1>Celotno plačilo: {{ parseFloat(this.$store.state.cart.fullPrice).toFixed(2) }}&euro;</h1>
             <v-expansion-panels>
                 <v-expansion-panel>
                     <v-expansion-panel-header>Kreditna kartica</v-expansion-panel-header>
@@ -77,6 +78,7 @@ import paypal from 'vue-paypal-checkout'
 import { Card, createToken} from 'vue-stripe-elements-plus'
 import route from '../../routes/router'
 import Axios from 'axios'
+import store from '../../store/index'
 
 export default {
     components: {
@@ -96,7 +98,7 @@ export default {
                 production: 'Ad3yEDxZV7gwmFkDAtZqTMRODKM0OJEZJ2w7TZt5YWnEVnbciAQ2DrqpAsv5pPin6T85ITAftj0YchTX'
             },
             error: '',
-            overlay: false
+            overlay: false,
         }
     },
     methods: {
@@ -116,6 +118,8 @@ export default {
 
                         fullPrice+=data[i].quantity * data[i].product.itemPrice
                     }
+
+                    fullPrice.toFixed(2)
 
 
                     this.overlay = true;
@@ -171,18 +175,24 @@ export default {
                 })
         },
         getFullPrice(){
+            console.log("check");
             let data = JSON.parse(localStorage.getItem('cartStorage'));
+            let fullPrice = 0;
 
             if(data == null || data.length == 0){
                return false;
             }
             else{
                 for(let i = 0; i < data.length; i++){
-                    this.fullPrice+=data[i].quantity * data[i].product.itemPrice
+                   fullPrice+=data[i].quantity * data[i].product.itemPrice
                 }
+                this.fullPrice = fullPrice
                 this.fullPrice.toString()
             }
+
+            this.$store.dispatch('getFullPrice', fullPrice)
         }
+
     },
     mounted(){
         this.getFullPrice()

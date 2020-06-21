@@ -75,7 +75,7 @@
                                         {{ item.quantity }}
                                     </td>
                                     <td>
-                                        {{ item.item[0].itemPrice * item.quantity}} &euro;
+                                        {{ parseFloat(item.item[0].itemPrice * item.quantity).toFixed(2) }} &euro;
                                     </td>
                                 </tr>
                             </tbody>

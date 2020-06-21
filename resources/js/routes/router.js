@@ -20,6 +20,7 @@ const router = new VueRouter({
         {
             path: '/user',
             name: 'user',
+            redirect: '/',
             component: ()=> import('../pages/user/index.vue'),
             children:[
                 {

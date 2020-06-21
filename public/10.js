@@ -236,6 +236,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -267,29 +316,10 @@ __webpack_require__.r(__webpack_exports__);
      * @param {Object} e selected product
      */
     addToCart: function addToCart(e) {
-      //If cart is empty adds item
-      if (this.$store.state.cart.cart.length < 1) {
-        return this.$store.dispatch('addProduct', {
-          product: e[0],
-          quantity: 1
-        });
-      } //If not then it checks cart products and check if newly added product is already in cart
-      //If it's not it addes it
-      //Else it returns false
-      else {
-          for (var i = 0; i < this.$store.state.cart.cart.length; i++) {
-            if (e.itemId == this.$store.state.cart.cart[i].product.itemId) {
-              return false;
-            }
-          } //Turns item button to green and changes text
-          //TODO
-
-
-          return this.$store.dispatch('addProduct', {
-            product: e[0],
-            quantity: 1
-          });
-        }
+      return this.$store.dispatch('addProduct', e);
+    },
+    addToFavourites: function addToFavourites(e) {
+      this.$store.dispatch('addToFavourites', e);
     },
 
     /**
@@ -374,7 +404,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#container{\n    width: 80%;\n}\n.product_image{\n    height: 100%;\n    width: 100px;\n}\n#itemDescription{\n    height: 500px;\n}\n.selected_image_in_carousel{\n    transition: 0.1s;\n    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);\n}\n.images{\n    border: solid 1px black;\n}\n#addReviewButton{\n    position: relative;\n    bottom: 15px;\n}\n.descriptionTitle{\n    position: relative;\n    left: 10px;\n    top: 10px;\n}\n", ""]);
+exports.push([module.i, "\n#container{\n    width: 80%;\n}\n#itemDescription{\n    height: 500px;\n}\n.selected_image_in_carousel{\n    transition: 0.1s;\n    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);\n}\n#addReviewButton{\n    position: relative;\n    bottom: 15px;\n}\n.descriptionTitle{\n    position: relative;\n    left: 10px;\n    top: 10px;\n}\n", ""]);
 
 // exports
 
@@ -449,6 +479,7 @@ var render = function() {
                 { staticClass: "d-inline-flex ml-2" },
                 [
                   _c("v-rating", {
+                    attrs: { readonly: "" },
                     model: {
                       value: _vm.product.OverAllrating,
                       callback: function($$v) {
@@ -462,9 +493,7 @@ var render = function() {
                     ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
                         _vm._v(_vm._s(_vm.allReviews.length) + " ocena")
                       ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.allReviews.length == 2
+                    : _vm.allReviews.length == 2
                     ? _c("p", { staticClass: "overline mt-3 ml-2" }, [
                         _vm._v(_vm._s(_vm.allReviews.length) + " oceni")
                       ])
@@ -505,6 +534,7 @@ var render = function() {
                               return _c("v-carousel-item", {
                                 key: i,
                                 attrs: {
+                                  "aspect-ratio": 16 / 9,
                                   "lazy-src":
                                     "https://picsum.photos/id/11/100/60",
                                   src: "http://127.0.0.1:8000/storage/" + image
@@ -572,23 +602,114 @@ var render = function() {
             [
               _c(
                 "v-card",
-                { attrs: { "min-height": "400", height: "100%" } },
+                { attrs: { "max-height": "400", "min-height": "200" } },
                 [
-                  _c("h2", { staticClass: "headline font-weight-bold" }, [
-                    _vm._v(_vm._s(_vm.product.itemName))
+                  _c("v-card-title", [
+                    _c("p", { staticClass: "headline" }, [
+                      _vm._v(_vm._s(_vm.product.itemName))
+                    ])
                   ]),
                   _vm._v(" "),
+                  _vm.product.Quantity > 0
+                    ? _c("v-card-text", [
+                        _vm.product.Quantity > 0
+                          ? _c("p", [_vm._v("Izdelek je na voljo.")])
+                          : _c("p", [_vm._v("Izdelek ni na voljo.")])
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { rounded: "", color: "error" },
-                      on: {
-                        click: function($event) {
-                          return _vm.addToCart(_vm.product)
-                        }
-                      }
-                    },
-                    [_vm._v("V košarico")]
+                    "v-card-actions",
+                    { staticClass: "card-actions" },
+                    [
+                      _vm.$store.state.cart.cart == null
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "error" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("V košarico")]
+                          )
+                        : _vm.$store.state.cart.cart.find(function(o) {
+                            return o.product.itemId === _vm.product.itemId
+                          })
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "success" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("Dodano")]
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "error" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToCart(_vm.product)
+                                }
+                              }
+                            },
+                            [_vm._v("V košarico")]
+                          ),
+                      _vm._v(" "),
+                      _vm.$store.state.favourites.favouriteItem == null
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToFavourites(_vm.product)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-star")])],
+                            1
+                          )
+                        : _vm.$store.state.favourites.favouriteItem.find(
+                            function(o) {
+                              return o.itemId === _vm.product.itemId
+                            }
+                          )
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "", color: "blue" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToFavourites(_vm.product)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-star")])],
+                            1
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              attrs: { icon: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addToFavourites(_vm.product)
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-star")])],
+                            1
+                          )
+                    ],
+                    1
                   )
                 ],
                 1
@@ -620,8 +741,6 @@ var render = function() {
                   _c(
                     "v-list",
                     [
-                      _c("v-divider"),
-                      _vm._v(" "),
                       _c("v-list-item", [
                         _vm._v(
                           "\n                    Opis: " +
@@ -630,8 +749,6 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
                       _c("v-list-item", [
                         _vm._v(
                           "\n                    Cena: " +
@@ -639,8 +756,6 @@ var render = function() {
                             "\n                    "
                         )
                       ]),
-                      _vm._v(" "),
-                      _c("v-divider"),
                       _vm._v(" "),
                       _c("v-list-item", [
                         _vm._v(
@@ -868,10 +983,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
 /* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
 /* harmony import */ var vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VForm */ "./node_modules/vuetify/lib/components/VForm/index.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VRating */ "./node_modules/vuetify/lib/components/VRating/index.js");
-/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
-/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
+/* harmony import */ var vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VRating */ "./node_modules/vuetify/lib/components/VRating/index.js");
+/* harmony import */ var vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! vuetify/lib/components/VResponsive */ "./node_modules/vuetify/lib/components/VResponsive/index.js");
+/* harmony import */ var vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuetify/lib/components/VTextarea */ "./node_modules/vuetify/lib/components/VTextarea/index.js");
 
 
 
@@ -907,7 +1023,11 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["VForm"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_11__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_12__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_13__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_14__["VTextarea"]})
+
+
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_4___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardTitle"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_7__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VContainer"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VForm: vuetify_lib_components_VForm__WEBPACK_IMPORTED_MODULE_10__["VForm"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_11__["VIcon"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_12__["VListItem"],VRating: vuetify_lib_components_VRating__WEBPACK_IMPORTED_MODULE_13__["VRating"],VResponsive: vuetify_lib_components_VResponsive__WEBPACK_IMPORTED_MODULE_14__["VResponsive"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_8__["VRow"],VTextarea: vuetify_lib_components_VTextarea__WEBPACK_IMPORTED_MODULE_15__["VTextarea"]})
 
 
 /* hot reload */

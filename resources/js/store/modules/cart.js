@@ -1,9 +1,11 @@
 import { Store } from "vuex"
 import api from '../../services/api.js'
+import { add } from "lodash"
 
 export default{
     state: ()=>({
-       cart: []
+       cart: [],
+       fullPrice: 0
     }),
     mutations:{
         ADD_DATA_TO_CART(state, payload){
@@ -13,6 +15,7 @@ export default{
             if(state.cart.length == 0){
                 state.cart.push({product: payload, quantity: 1})
                 localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                state.fullPrice+=parseFloat(payload.itemPrice);
 
             }
              //If not then it checks cart products and check if newly added product is already in cart
@@ -30,6 +33,7 @@ export default{
                 }
                 //Turns item button to green and changes text
                 //TODO
+                state.fullPrice+=parseFloat(payload.itemPrice);
                 state.cart.push({product: payload, quantity: 1})
                 localStorage.setItem('cartStorage', JSON.stringify(state.cart))
             }
@@ -49,30 +53,54 @@ export default{
             localStorage.removeItem('cartStorage')
         },
         DELETE_PRODUCT(state, payload){
+            console.log(payload)
             var foundItemIndex = null
             for(var i = 0; i < state.cart.length; i++){
 
-                if(state.cart[i].itemId == payload){
+                if(state.cart[i].itemId == payload.itemId){
                     foundItemIndex = i
                 }
             }
-           state.cart.splice(foundItemIndex, 1)
-           localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+            state.cart.splice(foundItemIndex, 1)
+            localStorage.setItem('cartStorage', JSON.stringify(state.cart))
         },
         CHANGE_QUANTITY(state, payload){
            for(let i = 0; i < state.cart.length; i++){
                 if(state.cart[i].product.itemId == payload.product.itemId){
                     if(payload.status == "minus" && payload.quantity - 1 > 0){
+                        let addup = parseFloat(payload.product.itemPrice).toFixed(2)
+                        state.fullPrice -= parseFloat(addup)
                         state.cart[i].quantity--
                         localStorage.setItem('cartStorage', JSON.stringify(state.cart))
                     }
                     else if(payload.status == "plus"){
 
+                        let addup = parseFloat(payload.product.itemPrice).toFixed(2)
+                        state.fullPrice += parseFloat(addup)
                         state.cart[i].quantity++
                         localStorage.setItem('cartStorage', JSON.stringify(state.cart))
                     }
                 }
            }
+        },
+        RESET_FULL_PRICE(state, payload){
+            state.fullPrice = payload
+        },
+        CHANGE_INPUT_QUANTITY(state, payload){
+            let fullpriceCounter = 0
+            for(let i = 0; i < state.cart.length; i++){
+                if(state.cart[i].product.itemId == payload.product.itemId){
+                    state.cart[i].quantity = payload.quantity
+                    localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+
+                    for(let i = 0; i < state.cart.length; i++){
+
+                        fullpriceCounter+=state.cart[i].quantity * state.cart[i].product.itemPrice
+                    }
+                }
+            }
+
+            state.fullPrice = fullpriceCounter
         }
     },
     actions:{
@@ -100,6 +128,12 @@ export default{
         changeQuantity({commit}, payload){
             commit('CHANGE_QUANTITY', payload)
         },
+        getFullPrice({commit}, payload){
+            commit('RESET_FULL_PRICE', payload)
+        },
+        changeQuantityInput({commit}, payload){
+            commit('CHANGE_INPUT_QUANTITY', payload)
+        }
     },
     getters:{
 

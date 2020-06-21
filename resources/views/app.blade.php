@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="http://127.0.0.1:8000/storage/store/favicon-16x16.png" type="image/gif" sizes="16x16">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Uniq Cards</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">

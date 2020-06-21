@@ -11,6 +11,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _migration_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../migration.json */ "./migration.json");
+var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../../../migration.json */ "./migration.json", 1);
 //
 //
 //
@@ -82,6 +84,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -116,9 +120,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.$store.dispatch('checkLocalStorageCart');
 
           if (_this.$router.currentRoute.path != "/kosarica") {
-            window.location.href = "http://127.0.0.1:8000/";
+            window.location.href = _migration_json__WEBPACK_IMPORTED_MODULE_1__[0].redirectURL;
           } else {
-            window.location.href = "http://127.0.0.1:8000/kosarica";
+            window.location.href = _migration_json__WEBPACK_IMPORTED_MODULE_1__[0].redirectURL + "kosarica";
           }
         }
       });
@@ -247,10 +251,14 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { width: "100%", type: "button" },
+                          attrs: {
+                            width: "100%",
+                            type: "button",
+                            color: "primary"
+                          },
                           on: { click: _vm.registerAction }
                         },
-                        [_vm._v("Prijavi se")]
+                        [_vm._v("Registriraj se")]
                       )
                     ],
                     1

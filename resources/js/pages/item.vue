@@ -16,10 +16,13 @@
 
                     <!--Rating and number of reviews -->
                     <v-row class = "d-inline-flex ml-2">
-                        <v-rating v-model.number='product.OverAllrating'></v-rating>
+                        <v-rating
+                        v-model.number='product.OverAllrating'
+                        readonly
+                        ></v-rating>
                         <p class = "overline mt-3 ml-2" v-if="allReviews.length == 1">{{ allReviews.length }} ocena</p>
 
-                        <p class = "overline mt-3 ml-2" v-if="allReviews.length == 2">{{ allReviews.length }} oceni</p>
+                        <p class = "overline mt-3 ml-2" v-else-if="allReviews.length == 2">{{ allReviews.length }} oceni</p>
 
                         <p class = "overline mt-3 ml-2" v-else>{{ allReviews.length }} ocen</p>
                     </v-row>
@@ -37,6 +40,7 @@
                                 hide-delimiter-background
                                 >
                                     <v-carousel-item
+                                    :aspect-ratio="16/9"
                                     v-for="(image, i) in images"
                                     :key="i"
                                     lazy-src="https://picsum.photos/id/11/100/60"
@@ -86,15 +90,60 @@
             class = "test"
             >
                <v-card
-               min-height="400"
-               height="100%"
+               max-height="400"
+               min-height="200"
                >
-                <h2 class="headline font-weight-bold">{{ product.itemName }}</h2>
-                <v-btn
-                @click="addToCart(product)"
-                rounded
-                color="error"
-                >V košarico</v-btn>
+                <v-card-title>
+                    <p class="headline">{{ product.itemName }}</p>
+                </v-card-title>
+
+                <v-card-text v-if="product.Quantity > 0">
+                    <p v-if="product.Quantity > 0">Izdelek je na voljo.</p>
+                    <p v-else>Izdelek ni na voljo.</p>
+                </v-card-text>
+
+                <v-card-actions class="card-actions">
+                    <!-- Add to cart button logic-->
+                    <v-btn
+                    @click="addToCart(product)"
+                    color="error"
+                    v-if="$store.state.cart.cart == null"
+                    >V košarico</v-btn>
+
+                    <v-btn
+                    @click="addToCart(product)"
+                    color="success"
+                    v-else-if="$store.state.cart.cart.find(o=> o.product.itemId === product.itemId)"
+                    >Dodano</v-btn>
+
+                    <v-btn
+                    @click="addToCart(product)"
+                    color="error"
+                    v-else
+                    >V košarico</v-btn>
+
+                    <!-- Add to favourits button logic -->
+                    <v-btn
+                    @click="addToFavourites(product)"
+                    icon
+                    v-if="$store.state.favourites.favouriteItem == null"
+                    >
+                    <v-icon>mdi-star</v-icon>
+                    </v-btn>
+
+                    <v-btn
+                    icon
+                    @click="addToFavourites(product)"
+                    color="blue"
+                    v-else-if="$store.state.favourites.favouriteItem.find(o=> o.itemId === product.itemId)"
+                    >
+                    <v-icon>mdi-star</v-icon>
+                    </v-btn>
+
+                    <v-btn @click="addToFavourites(product)" icon v-else>
+                    <v-icon>mdi-star</v-icon>
+                    </v-btn>
+                </v-card-actions>
                </v-card>
             </v-col>
         </v-row>
@@ -110,15 +159,15 @@
                 >
                     <h1 class="headline descriptionTitle">Opis izdelka</h1>
                     <v-list>
-                        <v-divider></v-divider>
+
                         <v-list-item>
                         Opis: {{ product.itemDescription }}
                         </v-list-item>
-                        <v-divider></v-divider>
+
                         <v-list-item>
                         Cena: {{ product.itemPrice}}
                         </v-list-item>
-                        <v-divider></v-divider>
+
                         <v-list-item>
                         Dimenzija: {{ product.dimensions }}
                         </v-list-item>
@@ -252,24 +301,10 @@ export default {
          * @param {Object} e selected product
          */
         addToCart(e){
-
-            //If cart is empty adds item
-            if(this.$store.state.cart.cart.length < 1){
-                return this.$store.dispatch('addProduct', {product: e[0], quantity: 1})
-            }
-            //If not then it checks cart products and check if newly added product is already in cart
-            //If it's not it addes it
-            //Else it returns false
-            else{
-                for(var i = 0; i < this.$store.state.cart.cart.length;i++){
-                    if(e.itemId == this.$store.state.cart.cart[i].product.itemId){
-                       return false
-                    }
-                }
-                //Turns item button to green and changes text
-                //TODO
-                return this.$store.dispatch('addProduct', {product: e[0], quantity: 1})
-            }
+            return this.$store.dispatch('addProduct', e)
+        },
+        addToFavourites(e){
+            this.$store.dispatch('addToFavourites', e)
         },
         /**
          * Get all review for this item
@@ -344,10 +379,7 @@ export default {
     #container{
         width: 80%;
     }
-    .product_image{
-        height: 100%;
-        width: 100px;
-    }
+
     #itemDescription{
         height: 500px;
     }
@@ -356,9 +388,6 @@ export default {
         -webkit-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
         -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
         box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-    }
-    .images{
-        border: solid 1px black;
     }
     #addReviewButton{
         position: relative;

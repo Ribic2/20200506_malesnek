@@ -28,10 +28,9 @@
             >
                 <v-row id = "informationDisplay">
                     <v-col
-                    cols="6"
+                    cols="12"
                     md="2"
                     lg="2"
-                    sm="2"
                     xl="2"
                     >
                         <v-img
@@ -43,29 +42,36 @@
                     </v-col>
 
                     <v-col
-                    cols="6"
+                    cols="12"
                     xl="2"
+                    lg="2"
                     >
                         <p class="title">Ime izdelka</p>
                         <p class = "headline">{{ cartItem.product.itemName}}</p>
                     </v-col>
 
                     <v-col
-                    cols="2"
+                    cols="12"
+                    xl=2
+                    lg="2"
                     >
                         <p class="title">Količina</p>
                         <p class = "headline">{{ cartItem.quantity}}</p>
                     </v-col>
 
                     <v-col
-                    cols="2"
+                    cols="12"
+                    xl=2
+                    lg="2"
                     >
                         <p class="title">Cena izdelka</p>
                         <p class = "headline">{{  parseFloat(cartItem.product.itemPrice).toFixed(2) }}  &euro;</p>
                     </v-col>
 
                     <v-col
-                    cols="2"
+                    cols="12"
+                    xl=2
+                    lg="2"
                     >
                         <p class="title">Skupna cena</p>
                         <p class = "headline">Cena: {{ parseFloat(cartItem.product.itemPrice * cartItem.quantity).toFixed(2) }} &euro;</p>
@@ -83,6 +89,8 @@
                             flat
                             outlined
                             v-bind:value="cartItem.quantity"
+                            v-model="cartItem.quantity"
+                            @keyup="changeQuantityViaInput(cartItem.product, cartItem.quantity)"
                             class="quantityField"
                             >{{ cartItem.quantity }}</v-text-field>
 
@@ -98,7 +106,7 @@
                         color="error"
                         class="mb-1 mt-5"
                         width="90%"
-                        @click="deleteCartProduct(cartItem.itemId)"
+                        @click="deleteCartProduct(cartItem)"
                         >
                             izbriši
                         </v-btn>
@@ -117,7 +125,8 @@ import Axios from 'axios'
 export default {
     data(){
         return{
-            error: false
+            error: false,
+            changeQuantityInput: 0
         }
     },
     methods:{
@@ -165,6 +174,9 @@ export default {
                     localStorage.setItem('cartStorage', JSON.stringify(this.$store.state.cart.cart))
                 })
             }
+        },
+        changeQuantityViaInput(e, f){
+            return this.$store.dispatch('changeQuantityInput', {product:e, quantity: f})
         }
     },
     mounted(){

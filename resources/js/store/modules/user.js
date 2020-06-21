@@ -1,4 +1,5 @@
 import api from '../../services/api.js'
+import migration from '../../../../migration.json'
 
 export default{
     state: ()=>({
@@ -42,11 +43,16 @@ export default{
             state.isNewCustomer = false
             state.check = false
 
-            window.location.href="http://127.0.0.1:8000/"
+            localStorage.removeItem('authToken')
+            localStorage.removeItem('cartStorage')
+            localStorage.removeItem('orderHistory')
+
+            window.location.href=migration[0].redirectURL
+
         },
         STORE_USER_ORDER_HISTORY(state){
             if(localStorage.getItem('authToken') == null){
-                window.location.href="http://127.0.0.1:8000"
+                window.location.href=migration[0].redirectURL
             }
             else{
                 if(JSON.parse(localStorage.getItem('orderHistory'))  != null){
@@ -55,7 +61,6 @@ export default{
                 else{
                     axios.post('/api/user/orders/history', {userId: state.userId})
                     .then((results)=>{
-                        console.log(results)
                         localStorage.setItem('orderHistory', JSON.stringify(results.data))
                         state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
                     })
@@ -74,7 +79,6 @@ export default{
             }
         },
         logoutUser({commit}){
-            localStorage.clear();
             commit('LOGOUT_USER')
         },
         getUserOrderHistory({commit}, payload){

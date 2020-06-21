@@ -273,12 +273,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      error: false
+      error: false,
+      changeQuantityInput: 0
     };
   },
   methods: {
@@ -333,6 +342,12 @@ __webpack_require__.r(__webpack_exports__);
           localStorage.setItem('cartStorage', JSON.stringify(_this.$store.state.cart.cart));
         });
       }
+    },
+    changeQuantityViaInput: function changeQuantityViaInput(e, f) {
+      return this.$store.dispatch('changeQuantityInput', {
+        product: e,
+        quantity: f
+      });
     }
   },
   mounted: function mounted() {
@@ -748,15 +763,7 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        {
-                          attrs: {
-                            cols: "6",
-                            md: "2",
-                            lg: "2",
-                            sm: "2",
-                            xl: "2"
-                          }
-                        },
+                        { attrs: { cols: "12", md: "2", lg: "2", xl: "2" } },
                         [
                           _c("v-img", {
                             staticClass: "productImg",
@@ -773,7 +780,7 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-col", { attrs: { cols: "6", xl: "2" } }, [
+                      _c("v-col", { attrs: { cols: "12", xl: "2", lg: "2" } }, [
                         _c("p", { staticClass: "title" }, [
                           _vm._v("Ime izdelka")
                         ]),
@@ -783,7 +790,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("v-col", { attrs: { cols: "2" } }, [
+                      _c("v-col", { attrs: { cols: "12", xl: "2", lg: "2" } }, [
                         _c("p", { staticClass: "title" }, [_vm._v("Količina")]),
                         _vm._v(" "),
                         _c("p", { staticClass: "headline" }, [
@@ -791,7 +798,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("v-col", { attrs: { cols: "2" } }, [
+                      _c("v-col", { attrs: { cols: "12", xl: "2", lg: "2" } }, [
                         _c("p", { staticClass: "title" }, [
                           _vm._v("Cena izdelka")
                         ]),
@@ -805,7 +812,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("v-col", { attrs: { cols: "2" } }, [
+                      _c("v-col", { attrs: { cols: "12", xl: "2", lg: "2" } }, [
                         _c("p", { staticClass: "title" }, [
                           _vm._v("Skupna cena")
                         ]),
@@ -859,6 +866,21 @@ var render = function() {
                                     flat: "",
                                     outlined: "",
                                     value: cartItem.quantity
+                                  },
+                                  on: {
+                                    keyup: function($event) {
+                                      return _vm.changeQuantityViaInput(
+                                        cartItem.product,
+                                        cartItem.quantity
+                                      )
+                                    }
+                                  },
+                                  model: {
+                                    value: cartItem.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(cartItem, "quantity", $$v)
+                                    },
+                                    expression: "cartItem.quantity"
                                   }
                                 },
                                 [_vm._v(_vm._s(cartItem.quantity))]
@@ -894,7 +916,7 @@ var render = function() {
                               attrs: { color: "error", width: "90%" },
                               on: {
                                 click: function($event) {
-                                  return _vm.deleteCartProduct(cartItem.itemId)
+                                  return _vm.deleteCartProduct(cartItem)
                                 }
                               }
                             },

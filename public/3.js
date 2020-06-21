@@ -15,6 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../routes/router */ "./resources/js/routes/router.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
 //
 //
 //
@@ -89,6 +90,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -132,6 +135,7 @@ __webpack_require__.r(__webpack_exports__);
           fullPrice += data[i].quantity * data[i].product.itemPrice;
         }
 
+        fullPrice.toFixed(2);
         _this.overlay = true;
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/api/order/add', {
           products: itemIds,
@@ -195,17 +199,22 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getFullPrice: function getFullPrice() {
+      console.log("check");
       var data = JSON.parse(localStorage.getItem('cartStorage'));
+      var fullPrice = 0;
 
       if (data == null || data.length == 0) {
         return false;
       } else {
         for (var i = 0; i < data.length; i++) {
-          this.fullPrice += data[i].quantity * data[i].product.itemPrice;
+          fullPrice += data[i].quantity * data[i].product.itemPrice;
         }
 
+        this.fullPrice = fullPrice;
         this.fullPrice.toString();
       }
+
+      this.$store.dispatch('getFullPrice', fullPrice);
     }
   },
   mounted: function mounted() {
@@ -284,6 +293,16 @@ var render = function() {
       ? _c(
           "div",
           [
+            _c("h1", [
+              _vm._v(
+                "Celotno plačilo: " +
+                  _vm._s(
+                    parseFloat(this.$store.state.cart.fullPrice).toFixed(2)
+                  ) +
+                  "€"
+              )
+            ]),
+            _vm._v(" "),
             _c(
               "v-expansion-panels",
               [

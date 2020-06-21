@@ -332,7 +332,9 @@ var render = function() {
                                 _vm._v(
                                   "\n                                    " +
                                     _vm._s(
-                                      item.item[0].itemPrice * item.quantity
+                                      parseFloat(
+                                        item.item[0].itemPrice * item.quantity
+                                      ).toFixed(2)
                                     ) +
                                     " €\n                                "
                                 )

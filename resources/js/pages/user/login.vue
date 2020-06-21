@@ -53,7 +53,7 @@
 </template>
 
 <script>
-
+import migration from '../../../../migration.json'
 import route from '../../routes/router'
 export default {
   data(){
@@ -77,10 +77,10 @@ export default {
                 this.$store.dispatch('checkLocalStorageCart')
 
                 if(this.$router.currentRoute.path != "/kosarica"){
-                    window.location.href = "http://127.0.0.1:8000/"
+                    window.location.href = migration[0].redirectURL
                 }
                 else{
-                    window.location.href = "http://127.0.0.1:8000/kosarica"
+                    window.location.href = migration[0].redirectURL+"kosarica"
                 }
 
             }
@@ -93,7 +93,7 @@ export default {
     },
     checkIfLoggedIn(){
         if(localStorage.getItem('authToken')){
-            window.location.href = "http://127.0.0.1:8000/"
+            window.location.href = migration[0].redirectURL
         }
     }
   },

@@ -127,6 +127,37 @@
         <slot />
     </v-content>
 
+    <v-footer
+    color="#6C3FB8"
+    padless
+    >
+        <v-row
+        justify="center"
+        color="#6C3FB8"
+        no-gutters
+        >
+            <v-btn
+            v-for="link in links"
+            :key="link.label"
+            color="white"
+            text
+            rounded
+            class="my-2"
+            :to="link.url"
+            >
+            {{ link.label }}
+            </v-btn>
+
+            <v-col
+            color="#6C3FB8"
+            class="lighten-2 py-4 text-center white--text"
+            cols="12"
+            >
+            {{ new Date().getFullYear() }}  <strong>Uniq Cards</strong>
+            </v-col>
+        </v-row>
+    </v-footer>
+
     <VueCookieAcceptDecline
         :ref="'myPanel1'"
         :elementId="'myPanel1'"

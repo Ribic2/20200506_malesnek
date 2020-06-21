@@ -53,8 +53,9 @@
             <v-btn
             width="100%"
             type="button"
+            color="primary"
             @click="registerAction"
-            >Prijavi se</v-btn>
+            >Registriraj se</v-btn>
 
           </v-card-actions>
         </v-form>
@@ -71,6 +72,7 @@
 
 <script>
 import Axios from 'axios'
+import migration from '../../../../migration.json'
 export default {
     data(){
         return{
@@ -104,10 +106,10 @@ export default {
                     this.$store.dispatch('checkLocalStorageCart')
 
                     if(this.$router.currentRoute.path != "/kosarica"){
-                        window.location.href = "http://127.0.0.1:8000/"
+                        window.location.href = migration[0].redirectURL
                     }
                     else{
-                        window.location.href = "http://127.0.0.1:8000/kosarica"
+                        window.location.href = migration[0].redirectURL+"kosarica"
                     }
                 }
             })

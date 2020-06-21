@@ -17,7 +17,6 @@ export default {
             let email = this.$route.query.email;
             Axios.post('/api/confirmation', {email: email})
             .then((results)=>{
-                console.log(results.data)
                 if(results.data == 1){
                     this.displayText = "Uporabik uspešno potrjen!"
                 }
