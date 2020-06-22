@@ -81,6 +81,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -197,90 +199,93 @@ var render = function() {
         _vm._l(_vm.users, function(user) {
           return _c(
             "v-col",
-            { key: user.user_id, attrs: { cols: "12", lg: "4", md: "6" } },
+            {
+              key: user.user_id,
+              attrs: { cols: "12", lg: "4", md: "6", xl: "3" }
+            },
             [
-              _vm.$store.state.user.Name != user.Name
-                ? _c(
-                    "v-card",
-                    { attrs: { height: "500" } },
+              _c(
+                "v-card",
+                { attrs: { height: "500" } },
+                [
+                  _c("h1", { staticClass: "headline text-center pt-4" }, [
+                    _vm._v(
+                      _vm._s(user.user_id) +
+                        ". " +
+                        _vm._s(user.Name) +
+                        " " +
+                        _vm._s(user.Surname)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
                     [
-                      _c("h1", { staticClass: "headline text-center pt-4" }, [
+                      _c("p", [
+                        _c("span", { staticClass: "font-weight-bold" }, [
+                          _vm._v("E-naslov:  ")
+                        ]),
+                        _vm._v(_vm._s(user.email))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c("span", { staticClass: "font-weight-bold" }, [
+                          _vm._v("Telefon: ")
+                        ]),
+                        _vm._v(_vm._s(user.Telephone))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c("span", { staticClass: "font-weight-bold" }, [
+                          _vm._v("Hišna številka: ")
+                        ]),
                         _vm._v(
-                          _vm._s(user.user_id) +
-                            ". " +
-                            _vm._s(user.Name) +
+                          _vm._s(user.houseNumberAndStreet) +
                             " " +
-                            _vm._s(user.Surname)
+                            _vm._s(user.Postcode)
                         )
                       ]),
                       _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-text",
-                        [
-                          _c("p", [
-                            _c("span", { staticClass: "font-weight-bold" }, [
-                              _vm._v("E-naslov:  ")
-                            ]),
-                            _vm._v(_vm._s(user.email))
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _c("span", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Telefon: ")
-                            ]),
-                            _vm._v(_vm._s(user.Telephone))
-                          ]),
-                          _vm._v(" "),
-                          _c("p", [
-                            _c("span", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Hišna številka: ")
-                            ]),
+                      user.isEmployee
+                        ? _c("p", [
                             _vm._v(
-                              _vm._s(user.houseNumberAndStreet) +
-                                " " +
-                                _vm._s(user.Postcode)
+                              "\n                    Uporabnik je administrator.\n                "
                             )
-                          ]),
-                          _vm._v(" "),
-                          user.isEmployee
-                            ? _c("p", [
-                                _vm._v(
-                                  "\n                    Uporabnik je administrator.\n                "
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          user.isAuth
-                            ? _c("p", [
-                                _vm._v(
-                                  "\n                    Uporabnik je potrdil svoj e-naslov.\n                "
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          user.isNewCustomer
-                            ? _c("p", [
-                                _vm._v(
-                                  "\n                Je nov uporabnik.\n                "
-                                )
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("v-divider")
-                        ],
-                        1
-                      ),
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
+                      user.isAuth
+                        ? _c("p", [
+                            _vm._v(
+                              "\n                    Uporabnik je potrdil svoj e-naslov.\n                "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      user.isNewCustomer
+                        ? _c("p", [
+                            _vm._v(
+                              "\n                Je nov uporabnik.\n                "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("v-divider")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { attrs: { id: "buttonHolder" } },
+                    [
                       _c(
-                        "div",
-                        { attrs: { id: "buttonHolder" } },
+                        "v-row",
                         [
-                          _c(
-                            "v-row",
-                            [
-                              _c(
+                          _vm.$store.state.user.Name != user.Name
+                            ? _c(
                                 "v-col",
                                 { attrs: { cols: "12" } },
                                 [
@@ -299,14 +304,16 @@ var render = function() {
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            [
-                              _c(
+                            : _vm._e()
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _vm.$store.state.user.Name != user.Name
+                            ? _c(
                                 "v-col",
                                 { attrs: { cols: "12" } },
                                 [
@@ -344,16 +351,16 @@ var render = function() {
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          )
+                            : _vm._e()
                         ],
                         1
                       )
                     ],
                     1
                   )
-                : _vm._e()
+                ],
+                1
+              )
             ],
             1
           )

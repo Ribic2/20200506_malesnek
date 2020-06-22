@@ -74,11 +74,17 @@ export default{
                         localStorage.setItem('cartStorage', JSON.stringify(state.cart))
                     }
                     else if(payload.status == "plus"){
-
-                        let addup = parseFloat(payload.product.itemPrice).toFixed(2)
-                        state.fullPrice += parseFloat(addup)
-                        state.cart[i].quantity++
-                        localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                        //Checks if user can add more items to cart
+                        if(state.cart[i].product.Quantity < state.cart[i].quantity+1){
+                            console.log("Checked")
+                            state.cart[i].Quantity = state.cart[i].product.quantity;
+                        }
+                        else{
+                            let addup = parseFloat(payload.product.itemPrice).toFixed(2)
+                            state.fullPrice += parseFloat(addup)
+                            state.cart[i].quantity++
+                            localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                        }
                     }
                 }
            }
@@ -90,9 +96,17 @@ export default{
             let fullpriceCounter = 0
             for(let i = 0; i < state.cart.length; i++){
                 if(state.cart[i].product.itemId == payload.product.itemId){
-                    state.cart[i].quantity = payload.quantity
-                    localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                    //Checks if user can add more items to cart
 
+                    console.log(payload.quantity > state.cart[i].product.Quantity)
+                    if(payload.quantity > state.cart[i].product.Quantity){
+                        state.cart[i].quantity = state.cart[i].product.Quantity
+                        localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                    }
+                    else{
+                        state.cart[i].quantity = payload.quantity
+                        localStorage.setItem('cartStorage', JSON.stringify(state.cart))
+                    }
                     for(let i = 0; i < state.cart.length; i++){
 
                         fullpriceCounter+=state.cart[i].quantity * state.cart[i].product.itemPrice

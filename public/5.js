@@ -922,7 +922,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        izbriši\n                    "
+                                "\n                    izbriši\n                    "
                               )
                             ]
                           )

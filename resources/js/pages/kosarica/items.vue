@@ -108,7 +108,7 @@
                         width="90%"
                         @click="deleteCartProduct(cartItem)"
                         >
-                            izbriši
+                        izbriši
                         </v-btn>
 
 

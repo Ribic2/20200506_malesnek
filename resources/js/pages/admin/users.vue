@@ -5,9 +5,9 @@
             cols="12"
             lg="4"
             md="6"
+            xl="3"
             v-for="user in users" :key="user.user_id">
                 <v-card
-                v-if="$store.state.user.Name != user.Name"
                 height="500"
                 >
                 <h1 class="headline text-center pt-4">{{ user.user_id }}. {{ user.Name }} {{ user.Surname }}</h1>
@@ -35,6 +35,7 @@
                     <div id="buttonHolder">
                         <v-row>
                             <v-col
+                            v-if="$store.state.user.Name != user.Name"
                             cols="12"
                             >
                                 <v-btn
@@ -46,6 +47,7 @@
 
                         <v-row>
                             <v-col
+                            v-if="$store.state.user.Name != user.Name"
                             cols="12">
                                 <v-btn
                                 width="100%"

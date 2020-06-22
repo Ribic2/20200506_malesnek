@@ -502,7 +502,7 @@ var render = function() {
                   _c(
                     "v-col",
                     [
-                      this.$store.state.user.LoginStatus == false
+                      this.$store.state.user.LoginStatus != false
                         ? _c("v-text-field", {
                             attrs: { label: "Geslo" },
                             model: {

@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <v-card
-        width="25%"
-        height="400"
+        width="500"
+        height="500"
         id="form"
         class="ma-auto"
         >
@@ -14,7 +14,7 @@
                     color="primary mt-1"
                     @click="requestResetPassword"
                     width="100%"
-                    >Poenostavi geslo</v-btn>
+                    >Spremeni geslo</v-btn>
                 </div>
         </v-card>
     </v-container>
@@ -45,6 +45,6 @@ export default {
 <style scoped>
     #form{
         position: relative;
-        top: 100px;
+        top: 70px;
     }
 </style>

@@ -71,7 +71,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#form[data-v-f5ea2e28]{\n    position: relative;\n    top: 100px;\n}\n", ""]);
+exports.push([module.i, "\n#form[data-v-f5ea2e28]{\n    position: relative;\n    top: 70px;\n}\n", ""]);
 
 // exports
 
@@ -130,7 +130,7 @@ var render = function() {
         "v-card",
         {
           staticClass: "ma-auto",
-          attrs: { width: "25%", height: "400", id: "form" }
+          attrs: { width: "500", height: "500", id: "form" }
         },
         [
           _c("v-card-title", [_vm._v("Spremeni geslo")]),
@@ -174,7 +174,7 @@ var render = function() {
                   attrs: { color: "primary mt-1", width: "100%" },
                   on: { click: _vm.requestResetPassword }
                 },
-                [_vm._v("Poenostavi geslo")]
+                [_vm._v("Spremeni geslo")]
               )
             ],
             1

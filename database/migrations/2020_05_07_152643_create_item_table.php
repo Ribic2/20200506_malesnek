@@ -29,6 +29,7 @@ class CreateItemTable extends Migration
             $table->string('categorie');
             $table->string('subCategorie')->nullable($value=true);
             $table->string('colors');
+            $table->boolean('delisted')->nullable($value=true);
             $table->string('dimensions');
             $table->integer('OverAllrating')->default(0);
         });

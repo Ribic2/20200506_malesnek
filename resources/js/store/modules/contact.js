@@ -10,9 +10,6 @@ export default{
         }
     },
     actions:{
-        addContact({commit}, payload){
-            api.sendContact(payload)
-        },
         getContact({commit}){
             api.getContact()
             .then((results)=>{

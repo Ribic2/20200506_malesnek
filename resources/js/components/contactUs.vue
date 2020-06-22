@@ -40,22 +40,60 @@
             @click="addContact()"
             >Pošlji</v-btn>
         </v-form>
+
+        <v-card-actions>
+            <v-alert
+            v-if="error"
+            width="100%"
+            type="warning"
+            >
+            {{ error }}
+            </v-alert>
+
+            <v-alert
+            width="100%"
+            v-else-if="response"
+            type="success"
+            >
+            {{ response }}
+            </v-alert>
+        </v-card-actions>
     </v-card>
 </template>
 
 <script>
+import api from '../services/api'
 import store from '../store/index'
 export default {
     data(){
         return{
             name: '',
             email: '',
-            message: ''
+            message: '',
+            response: '',
+            error: ''
         }
     },
     methods:{
         addContact(){
-            return this.$store.dispatch('addContact', {name: this.name, email: this.email, message: this.message})
+
+            api.sendContact({name: this.name, email: this.email, message: this.message})
+            .then((results)=>{
+                if(results.data == 1){
+                    this.name = null
+                    this.email = null
+                    this.message = null
+                    this.response = "Vaše sporočilo je bilo uspešno poslano!"
+                }
+                else{
+                    this.error = "Ni bilo podanih podatkov";
+                }
+            })
+            .catch(error=>{
+                if(error.response){
+                   this.error = error.response.data.errors.email[0]
+                }
+            })
         }
     }
 }

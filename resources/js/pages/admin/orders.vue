@@ -43,7 +43,8 @@
             v-bind:key="order.idOrders"
             >
                 <v-card
-                height="400"
+
+                height="500"
                 >
                     <v-responsive :aspect-ratio="4/3">
                         <v-card-title
@@ -53,7 +54,8 @@
                         </v-card-title>
                         <v-card-text>
                             <p>Datum narocila: {{ order.Created_at }}</p>
-                            Ime in priimek: {{ order.User[0].Name }} {{ order.User[0].Surname}}
+                            <p>Ime in priimek: {{ order.User[0].Name }} {{ order.User[0].Surname}}</p>
+                            <p>Naslov: {{ order.User[0].Region }}<br> {{ order.User[0].houseNumberAndStreet }} <br>{{ order.User[0].Postcode }}</p>
                         </v-card-text>
 
                         <v-simple-table
@@ -81,7 +83,7 @@
                             </tbody>
                         </v-simple-table>
 
-                        <v-card-actions>
+                        <v-card-actions v-if="!order.DeliveryStatus">
                             <v-btn
                             @click="confirmOrder(order.OrderId)"
                             >Potrditev</v-btn>
@@ -90,6 +92,9 @@
                             @click="orderDenied(order.OrderId)">
                             Zavrni</v-btn>
                         </v-card-actions>
+                        <v-card-text v-else>
+                            <p>Naročilo je bilo potrjeno.</p>
+                        </v-card-text>
                     </v-responsive>
                 </v-card>
             </v-col>

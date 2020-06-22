@@ -31,6 +31,7 @@
                 <v-btn-toggle>
                     <v-btn @click="getIdToChange(i)">Spremeni</v-btn>
                     <v-btn @click="getIdToDelete(i)">Izrbriši</v-btn>
+                    <v-btn>Umakni iz prodaje</v-btn>
                 </v-btn-toggle>
             </v-expansion-panel-content>
 

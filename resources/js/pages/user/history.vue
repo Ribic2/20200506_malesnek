@@ -3,7 +3,7 @@
 
         <v-expansion-panels>
             <v-expansion-panel v-for="order in $store.state.user.orderHistory" :key="order.idOrders">
-                <v-expansion-panel-header class="headline">{{ order.OrderId }}</v-expansion-panel-header>
+                <v-expansion-panel-header class="headline">{{ order.Created_at.split(" ")[0].split('-').reverse().join('.') }}</v-expansion-panel-header>
 
                 <v-expansion-panel-content>
                     <div v-for="item in order.Items" :key="item.itemId">

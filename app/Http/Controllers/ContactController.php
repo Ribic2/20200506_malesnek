@@ -13,12 +13,20 @@ class ContactController extends Controller
         $name = $request->input('name');
         $message = $request->input('message');
 
-        $validateData = $request->validate([
+        if($email == null && $name == null && $message == null){
+            return "Ni bilo podanih podatkov";
+        }
+
+        $rules = [
             'name' => 'string',
             'email' => 'email'
-        ]);
+        ];
 
-        if($validateData){
+        $customMessage = [
+            "email" => "Napačno vnesen e-naslov!"
+        ];
+
+        if($this->validate($request, $rules, $customMessage)){
             $contact = new Contacts;
 
             $contact->name = $name;
@@ -26,6 +34,8 @@ class ContactController extends Controller
             $contact->message = $message;
 
             $contact->save();
+
+            return response("1", 200);
         }
     }
 }

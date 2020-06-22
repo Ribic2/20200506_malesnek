@@ -37,6 +37,7 @@
             width="100%"
             type="button"
             @click="login"
+            color="primary"
             >Prijavi se</v-btn>
 
           </v-card-actions>
