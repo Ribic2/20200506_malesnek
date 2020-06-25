@@ -37,6 +37,7 @@
                         :aspect-ratio="4/3"
                         class="productImg"
                         :src='"http://127.0.0.1:8000/storage/products/"+cartItem.product.dir+"/"+cartItem.product.primaryImg'
+                        alt="Slika ne obstaja"
                         >
                         </v-img>
                     </v-col>
@@ -161,7 +162,7 @@ export default {
             else{
                 Axios.post('/api/check/cart', {cart: this.$store.state.cart.cart})
                 .then((results)=>{
-
+                    console.log(results)
                     for(let i = 0; i < results.data.length; i++){
                        for(let x = 0; x < this.$store.state.cart.cart.length; x++){
                            if(this.$store.state.cart.cart[x].product.itemId == results.data[i]){
@@ -179,9 +180,9 @@ export default {
             return this.$store.dispatch('changeQuantityInput', {product:e, quantity: f})
         }
     },
-    mounted(){
-        this.refreshCart(),
-        this.checkItemsQuantity()
+    async mounted(){
+        await this.checkItemsQuantity(),
+        await this.refreshCart()
     }
 }
 </script>

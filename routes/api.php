@@ -86,6 +86,7 @@ Route::get('/orders', function(){
 });
 
 
+Route::post('/check/favourites', 'itemController@checkFavourites');
 Route::post('/user/orders/history', 'OrderController@getAllUsersOrder')->middleware('auth:api');
 
 Route::middleware('auth:api', 'check_admin')->group(function(){

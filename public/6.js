@@ -68,7 +68,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -215,80 +214,86 @@ var render = function() {
             [
               _c("v-card-title", [_vm._v("Trgovina")]),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { icon: "" },
-                  on: {
-                    click: function($event) {
-                      _vm.show = !_vm.show
-                    }
-                  }
-                },
-                [
-                  _c("v-icon", [
-                    _vm._v(
-                      _vm._s(_vm.show ? "mdi-chevron-up" : "mdi-chevron-down")
-                    )
-                  ])
-                ],
-                1
-              )
+              _vm.getCategories.length != 0
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { icon: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.show = !_vm.show
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [
+                        _vm._v(
+                          _vm._s(
+                            _vm.show ? "mdi-chevron-up" : "mdi-chevron-down"
+                          )
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           ),
           _vm._v(" "),
-          _c("v-expand-transition", [
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.show,
-                    expression: "show"
-                  }
-                ],
-                attrs: { id: "filter" }
-              },
-              [
+          _vm.getCategories.length != 0
+            ? _c("v-expand-transition", [
                 _c(
                   "div",
-                  { attrs: { id: "filterButtonHolder" } },
-                  _vm._l(_vm.getCategories, function(category) {
-                    return _c(
-                      "v-btn",
+                  {
+                    directives: [
                       {
-                        key: category.Categorie,
-                        staticClass: "ma-2",
-                        attrs: {
-                          rounded: "",
-                          color: "#6C3FB8",
-                          elevation: "0"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.getCategorySpecificItems(
-                              category.Categorie
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.show,
+                        expression: "show"
+                      }
+                    ],
+                    attrs: { id: "filter" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { attrs: { id: "filterButtonHolder" } },
+                      _vm._l(_vm.getCategories, function(category) {
+                        return _c(
+                          "v-btn",
+                          {
+                            key: category.Categorie,
+                            staticClass: "ma-2",
+                            attrs: {
+                              rounded: "",
+                              color: "#6C3FB8",
+                              elevation: "0"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.getCategorySpecificItems(
+                                  category.Categorie
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(category.Categorie) +
+                                "\n                        "
                             )
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(category.Categorie) +
-                            "\n                    "
+                          ]
                         )
-                      ]
+                      }),
+                      1
                     )
-                  }),
-                  1
+                  ]
                 )
-              ]
-            )
-          ])
+              ])
+            : _vm._e()
         ],
         1
       ),

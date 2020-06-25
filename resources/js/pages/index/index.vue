@@ -8,29 +8,28 @@
             <v-card-actions>
                 <v-card-title>Trgovina</v-card-title>
                 <v-btn
+                v-if="getCategories.length != 0"
                 icon
                 @click="show = !show"
                 >
                 <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                 </v-btn>
             </v-card-actions>
-            <v-expand-transition>
+            <v-expand-transition v-if="getCategories.length != 0">
                 <div v-show="show" id = "filter">
 
-                <div id = "filterButtonHolder">
-
-                        <v-btn
-                        rounded
-                        class="ma-2"
-                        v-for="category in getCategories" v-bind:key="category.Categorie"
-                        color="#6C3FB8"
-                        elevation="0"
-                        @click="getCategorySpecificItems(category.Categorie)"
-                        >
-                        {{ category.Categorie }}
-                        </v-btn>
-
-                </div>
+                    <div id = "filterButtonHolder">
+                            <v-btn
+                            rounded
+                            class="ma-2"
+                            v-for="category in getCategories" v-bind:key="category.Categorie"
+                            color="#6C3FB8"
+                            elevation="0"
+                            @click="getCategorySpecificItems(category.Categorie)"
+                            >
+                            {{ category.Categorie }}
+                            </v-btn>
+                    </div>
                 </div>
             </v-expand-transition>
         </v-card

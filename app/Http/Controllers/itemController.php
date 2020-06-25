@@ -12,10 +12,33 @@ use Illuminate\Contracts\Validation\Validator;
 use Stripe\Product;
 
 class itemController extends Controller
-{
+{   
+
+
+  
     /**
      * Function  that searches for items from user input
      */
+    public function checkFavourites(Request $request){
+        $checkItems = [];
+        $favourites = $request->input('favourites');
+        for($i = 0; $i < count($favourites); $i++){
+
+            $item = Items::select('availableQuantity')->where('itemId', $favourites[$i]["itemId"])->get();
+            $checkIfItemExists = Items::where('itemId', $favourites[$i]["itemId"])->get();
+
+            
+            if(count($checkIfItemExists) == 0){
+                array_push($checkItems, $favourites[$i]["itemId"]);
+            }
+            else{
+                if($item[0]->availableQuantity == 0 || $item[0]->availableQuantity == null){
+                    array_push($checkItems, $favourites[$i]["itemId"]);
+                }
+            }
+            return $checkItems;
+        }
+    }
     public function searchForItems(Request $request){
         $data =  $request->input('data');
         $returnData = Items::where('itemName', 'like', '%'.$data.'%')->get();

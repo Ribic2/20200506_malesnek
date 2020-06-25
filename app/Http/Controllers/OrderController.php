@@ -154,14 +154,20 @@ class OrderController extends Controller
         $cart = $request->input('cart');
 
         for($i = 0; $i < count($cart); $i++){
-
+            
+            
             $item = Items::select('availableQuantity')->where('itemId', $cart[$i]["product"]["itemId"])->get();
             $checkIfItemExists = Items::where('itemId' ,$cart[$i]["product"]["itemId"])->get();
 
-            if($checkIfItemExists && ($item[0]->availableQuantity == 0 || $item[0]->availableQuantity == null)){
+            
+            if(count($checkIfItemExists) == 0){
                 array_push($this->checkIfOutofStock, $cart[$i]["product"]["itemId"]);
             }
-
+            else{
+                if($item[0]->availableQuantity == 0 || $item[0]->availableQuantity == null){
+                    array_push($this->checkIfOutofStock, $cart[$i]["product"]["itemId"]);
+                }
+            }
         }
 
         return $this->checkIfOutofStock;
