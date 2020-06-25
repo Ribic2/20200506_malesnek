@@ -79,4 +79,10 @@ export default{
     getProductsSpecificCategory(category){
         return instace.get('/api/items/category/'+category)
     },
+    getDelistedItems(){
+        return instace.get('/api/items/delisted')
+    },
+    getUnlistedItems(){
+        return instace.get('/api/items/unlisted')
+    }
 }

@@ -1,4 +1,5 @@
 import api from '../../services/api.js'
+import Axios from 'axios'
 
 export default{
     state: ()=>({
@@ -68,6 +69,25 @@ export default{
                 commit('GET_ITEMS', results.data)
             })
         },
+        allUnlisted(){
+            api.getUnlistedItems()
+            .then((results)=>{
+                console.log(results)
+            })
+        },
+
+        getAllItems(){
+            api.getItemsForAdmin()
+            .then((results)=>{
+                console.log(results)
+            })
+        },
+        allDelisted(){
+            api.getDelistedItems()
+            .then((results)=>{
+                console.log(results)
+            })
+        }
 
     },
     getters:{

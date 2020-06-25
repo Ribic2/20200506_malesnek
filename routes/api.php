@@ -44,11 +44,14 @@ Route::get('/categories', function(){
 
 //Api path for items
 Route::get('/items/{page}', function($page){
-    return itemResource::collection(Items::paginate(12, ['*'], 'page', $page));
+    return itemResource::collection(Items::where('delisted', 0)->paginate(12, ['*'], 'page', $page));
 });
 
 Route::get('/items/category/{category}', function($category){
-    return itemResource::collection(Items::where('categorie', $category)->get());
+    return itemResource::collection(Items::where([
+        ['categorie', '=', $category],
+        ['delisted', '=' , 0]
+    ])->get());
 });
 
 Route::get('/items/category/{category}/{page}', function($category, $page){
@@ -114,7 +117,16 @@ Route::middleware('auth:api', 'check_admin')->group(function(){
     Route::post('/items/change', 'itemController@changeItem');
     Route::post('/items/delete', 'itemController@deleteItem');
     Route::post('/items/search', 'itemController@searchForItems');
+    Route::post('/item/delist', 'itemController@delistItem');
     Route::post('/items/add', 'itemController@addItem');
+    
+    Route::get('/items/unlisted', function(){
+        return 1;
+    });
+
+    Route::get('/items/delisted', function(){
+        return 2;
+    });
 });
 
 

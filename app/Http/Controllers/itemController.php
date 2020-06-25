@@ -98,7 +98,21 @@ class itemController extends Controller
         }
         return 0;
     }
+    //Delists item from store
+    public function delistItem(Request $request){
+      
+        if($request->input('status') == "Remove"){
+            $item = Items::find($request->input('itemId'));
+            $item->delisted = 1;
+            $item->save();
 
+        }
+        else{
+            $item = Items::find($request->input('itemId'));
+            $item->delisted = 0;
+            $item->save();
+        }
+    }
     public function deleteItem(Request $request){
         $id = $request->input('itemId');
         $name = Items::select('itemName')->where('itemId', $id)->get();

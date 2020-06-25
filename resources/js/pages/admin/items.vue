@@ -11,7 +11,29 @@
             v-model="Search"
             solo
             ></v-text-field>
+
         </v-app-bar>
+            
+        <v-app-bar>
+            <v-btn-toggle>
+                <v-btn
+                @click="allUnlisted()"
+                >
+                    <v-icon>mdi-check</v-icon>
+                </v-btn>
+                <v-btn
+                @click="allDelisted()"
+                >
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-btn
+                @click="getAllItems()"
+                >
+                    <v-icon>mdi-all-inclusive</v-icon>
+                </v-btn>
+            </v-btn-toggle>
+        </v-app-bar>
+
         <v-divider></v-divider>
         <v-expansion-panels>
             <v-expansion-panel
@@ -22,7 +44,7 @@
             <v-expansion-panel-header>
             {{ i.itemName }}
             <v-spacer></v-spacer>
-            <p v-if="i.Quantity == 0">Izdelka ni več na zalogi / zmankalo je zalog</p>
+            <p v-if="i.Quantity == 0">Izdelka ni več na zalogi.</p>
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
@@ -31,7 +53,8 @@
                 <v-btn-toggle>
                     <v-btn @click="getIdToChange(i)">Spremeni</v-btn>
                     <v-btn @click="getIdToDelete(i)">Izrbriši</v-btn>
-                    <v-btn>Umakni iz prodaje</v-btn>
+                    <v-btn v-if="i.Delisted == 0" @click="delistItem(i.itemId, 'Remove')">Umakni iz prodaje</v-btn>
+                    <v-btn v-else-if="i.Delisted == 1" @click="delistItem(i.itemId, 'Return')">Vrni v prodajo</v-btn>
                 </v-btn-toggle>
             </v-expansion-panel-content>
 
@@ -378,17 +401,9 @@ export default {
             success: false,
             successAdd: false,
             addItem: false,
-            categories:[
-                "Voščilnica",
-            ],
             subCategorie:[
                 "Unikat artikel",
                 "Redni artikel"
-            ],
-            colors:[
-                "Red",
-                "Blue",
-                "Purple"
             ],
             //Rules and validation
             requiredInput:[
@@ -399,6 +414,21 @@ export default {
         }
     },
     methods:{
+        allUnlisted(){  
+            return this.$store.dispatch('allUnlisted')
+        },
+        allDelisted(){
+            return this.$store.dispatch('allDelisted')
+        },
+        getAllItems(){
+            return this.$store.dispatch('getAllItems')
+        },
+        delistItem(e, f){
+            Axios.post('/api/item/delist', {itemId: e, status: f})
+            .then((results)=>{
+                this.getItemsForAdmin()
+            })
+        },
         getItemsForAdmin(){
             return this.$store.dispatch('getItemsForAdmin')
         },

@@ -27,6 +27,7 @@ class itemResource extends JsonResource
             'primaryImg' => $this->itemImg,
             'isOnSale' => $this->isOnSale,
             'Discount' => $this->discount,
+            'Delisted' => $this->delisted
         ];
     }
 }
