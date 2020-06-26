@@ -22,6 +22,10 @@ class itemController extends Controller
     public function checkFavourites(Request $request){
         $checkItems = [];
         $favourites = $request->input('favourites');
+
+        if($favourites == null){
+            return "empty";
+        }
         for($i = 0; $i < count($favourites); $i++){
 
             $item = Items::select('availableQuantity')->where('itemId', $favourites[$i]["itemId"])->get();

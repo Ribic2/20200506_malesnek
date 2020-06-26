@@ -41,11 +41,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     getContacts: function getContacts() {
       return this.$store.dispatch('getContact');
+    },
+    contactOldest: function contactOldest() {
+      return this.$store.dispatch('getOldest');
+    },
+    contactLatest: function contactLatest() {
+      return this.$store.dispatch('getLatest');
     }
   },
   computed: {
@@ -90,12 +100,26 @@ var render = function() {
             [
               _c(
                 "v-btn",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.contactOldest()
+                    }
+                  }
+                },
                 [_c("v-icon", [_vm._v("mdi-filter-variant-plus")])],
                 1
               ),
               _vm._v(" "),
               _c(
                 "v-btn",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.contactLatest()
+                    }
+                  }
+                },
                 [_c("v-icon", [_vm._v("mdi-filter-variant-minus")])],
                 1
               )

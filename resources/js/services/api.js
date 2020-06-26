@@ -80,9 +80,17 @@ export default{
         return instace.get('/api/items/category/'+category)
     },
     getDelistedItems(){
-        return instace.get('/api/items/delisted')
+        return instace.get('/api/items/listed')
     },
     getUnlistedItems(){
         return instace.get('/api/items/unlisted')
+    },
+
+    //Filter for contacts
+    latestContacts(){
+        return instace.get('/api/contact/latest')
+    },
+    oldestContacts(){
+        return instace.get('/api/contact/oldest')
     }
 }

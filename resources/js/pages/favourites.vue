@@ -1,6 +1,9 @@
 <template>
     <v-container>
-        <v-row v-if="this.$store.state.favourites.favouriteItem == null || this.$store.state.favourites.favouriteItem.length == 0">
+        <v-overlay :value="overlay">
+            <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>
+        <v-row v-if="(this.$store.state.favourites.favouriteItem == null || this.$store.state.favourites.favouriteItem.length == 0) && overlay == false">
             <v-card
             id = "emptyFavourites"
             elevation="0"
@@ -33,13 +36,41 @@
 <script>
 import item from '../pages/index/item.vue'
 import store from '../store/index'
+import Axios from 'axios'
 export default {
     components:{
         item
     },
+    data(){
+        return{
+            overlay: false
+        }
+    },
     methods:{
         resetFavouritesData(){
-            this.$store.dispatch('resetFavouritesArray')
+                let data = JSON.parse(localStorage.getItem('favouritesStorage'))
+                
+                this.overlay = true
+                Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
+                .then((results)=>{
+                    if(data == null && results == null){
+                        this.overlay = false
+                    }
+                    else{
+                        
+                        for(let i = 0; i < results.data.length; i++){
+                            for(let x = 0; x < data.length; x++){
+                                if(data[x].itemId == results.data[i]){
+                                    data.splice(x,1)
+                                }
+                            }
+                        }
+                        
+                        localStorage.setItem('favouritesStorage', JSON.stringify(data))
+                        this.$store.state.favourites.favouriteItem = data
+                        this.overlay = false
+                    }   
+                })
         },
         deletFromFavourites(e){
             this.$store.dispatch('deleteFromFavouritesArray', e)

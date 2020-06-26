@@ -97,9 +97,6 @@ export default {
         },
         getCategorySpecificItems(e){
             return this.$store.dispatch('filterItemsByCategory', e)
-        },
-        resetFavourites(){
-            return this.$store.dispatch('resetFavouritesArray')
         }
     },
     computed:{
@@ -113,8 +110,8 @@ export default {
     },
     mounted(){
         this.addData(),
-        this.getCategoriesApi(),
-        this.resetFavourites()
+        this.getCategoriesApi()
+        
     }
 }
 </script>

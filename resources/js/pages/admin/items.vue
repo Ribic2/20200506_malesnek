@@ -42,20 +42,76 @@
             >
 
             <v-expansion-panel-header>
-            {{ i.itemName }}
-            <v-spacer></v-spacer>
-            <p v-if="i.Quantity == 0">Izdelka ni več na zalogi.</p>
+                <v-row>
+                    <v-col
+                    cols="6"
+                    xl="1"
+                    md="2"
+                    lg="2"
+                    >
+                        <v-img
+                        :aspect-ratio="1/1"
+                        height="100"
+                        width="100"
+                        :src='"http://127.0.0.1:8000/storage/products/"+i.dir+"/"+i.primaryImg'
+                        ></v-img>
+                    </v-col>
+                    <v-col>
+                        {{ i.itemName }}
+                    </v-col>
+                    <v-col>
+                        <p v-if="i.Quantity == 0">Izdelka ni več na zalogi.</p>
+                    </v-col>
+                </v-row>
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
+                
                 <p v-if="i.isOnSale">Trenutno na razprodaji!</p>
+                <p v-if="i.Delisted == 0">Trenutno v prodaji</p>
+                <p v-else-if="i.Delisted == 1">Ni v prodaji</p>
                 <p>{{ i.itemDescription}}</p>
-                <v-btn-toggle>
-                    <v-btn @click="getIdToChange(i)">Spremeni</v-btn>
-                    <v-btn @click="getIdToDelete(i)">Izrbriši</v-btn>
-                    <v-btn v-if="i.Delisted == 0" @click="delistItem(i.itemId, 'Remove')">Umakni iz prodaje</v-btn>
-                    <v-btn v-else-if="i.Delisted == 1" @click="delistItem(i.itemId, 'Return')">Vrni v prodajo</v-btn>
-                </v-btn-toggle>
+               
+               
+                <v-row>
+                    <v-col
+                    cols="12"
+                    xl=4
+                    lg="4"
+                    md="4"
+                    >
+                        <v-btn @click="getIdToChange(i)"
+                        width="100%"
+                        >Spremeni</v-btn>
+                    </v-col>
+                    <v-col
+                    xl=4
+                    cols="12"
+                    lg="4"
+                    md="4"
+                    >
+                        <v-btn @click="getIdToDelete(i)"
+                        width="100%"
+                        >Izrbriši</v-btn>
+                    </v-col>
+                    <v-col
+                    xl=4
+                    cols="12"
+                    lg="4"
+                    md="4" 
+                    >
+                        <v-btn v-if="i.Delisted == 0" @click="delistItem(i.itemId, 'Remove')"
+                        width="100%"
+                        >Umakni iz prodaje</v-btn>
+
+                        <v-btn v-else-if="i.Delisted == 1" @click="delistItem(i.itemId, 'Return')"
+                        width="100%"
+                        >Vrni v prodajo</v-btn>
+                    </v-col>
+                </v-row>
+                    
+                    
+            
             </v-expansion-panel-content>
 
             </v-expansion-panel>
@@ -418,7 +474,7 @@ export default {
             return this.$store.dispatch('allUnlisted')
         },
         allDelisted(){
-            return this.$store.dispatch('allDelisted')
+            return this.$store.dispatch('allListed')
         },
         getAllItems(){
             return this.$store.dispatch('getAllItems')

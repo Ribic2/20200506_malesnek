@@ -24,6 +24,14 @@ use Illuminate\Support\Facades\Route;
 
 //Reset password
 
+Route::get('/items/unlisted', function(){
+    return itemResource::collection(Items::where('delisted', 1)->get());
+})->middleware('auth:api', 'check_admin');
+
+Route::get('/items/listed', function(){
+    return itemResource::collection(Items::where('delisted', 0)->get());
+})->middleware('auth:api', 'check_admin');
+
 // Send reset password mail
 Route::post('reset-password', 'resetPasswordController@sendPasswordResetLink');
 // handle reset password form process
@@ -41,6 +49,7 @@ Route::post('/review/add', 'itemController@addReview');
 Route::get('/categories', function(){
     return Items::select('Categorie')->distinct()->get();
 });
+
 
 //Api path for items
 Route::get('/items/{page}', function($page){
@@ -94,9 +103,20 @@ Route::post('/user/orders/history', 'OrderController@getAllUsersOrder')->middlew
 
 Route::middleware('auth:api', 'check_admin')->group(function(){
 
+    //Contact
     Route::get('/contact', function(){
         return Contacts::all();
     });
+
+    Route::get('/contact/latest', function(){
+        return Contact::all()->orderBy('created_at', 'desc');
+    });
+
+    Route::get('/contact/oldest', function(){
+        return Contact::all()->orderBy('created_at', 'asc');
+    });
+
+    //Orders
     Route::get('/orders/finished', function(){
         return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 0);
     });
@@ -119,16 +139,7 @@ Route::middleware('auth:api', 'check_admin')->group(function(){
     Route::post('/items/search', 'itemController@searchForItems');
     Route::post('/item/delist', 'itemController@delistItem');
     Route::post('/items/add', 'itemController@addItem');
-    
-    Route::get('/items/unlisted', function(){
-        return 1;
-    });
-
-    Route::get('/items/delisted', function(){
-        return 2;
-    });
 });
-
 
 Route::post('/order/add', 'OrderController@reciveOrder');
 

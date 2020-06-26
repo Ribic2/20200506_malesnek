@@ -108,9 +108,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     getCategorySpecificItems: function getCategorySpecificItems(e) {
       return this.$store.dispatch('filterItemsByCategory', e);
-    },
-    resetFavourites: function resetFavourites() {
-      return this.$store.dispatch('resetFavouritesArray');
     }
   },
   computed: {
@@ -122,7 +119,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.addData(), this.getCategoriesApi(), this.resetFavourites();
+    this.addData(), this.getCategoriesApi();
   }
 });
 

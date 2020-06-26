@@ -69,23 +69,27 @@ export default{
                 commit('GET_ITEMS', results.data)
             })
         },
-        allUnlisted(){
+
+        //Get all unlisted items
+        allUnlisted({commit}){
             api.getUnlistedItems()
             .then((results)=>{
-                console.log(results)
+                commit('GET_ITEMS', results.data.data)
             })
         },
 
-        getAllItems(){
+        //Get all items
+        getAllItems({commit}){
             api.getItemsForAdmin()
             .then((results)=>{
-                console.log(results)
+                commit('GET_ITEMS', results.data.data)
             })
         },
-        allDelisted(){
+        //Get all listed items
+        allListed({commit}){
             api.getDelistedItems()
             .then((results)=>{
-                console.log(results)
+                commit('GET_ITEMS', results.data.data)
             })
         }
 

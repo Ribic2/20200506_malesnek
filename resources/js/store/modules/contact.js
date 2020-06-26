@@ -15,6 +15,18 @@ export default{
             .then((results)=>{
                 commit('GET_CONTACTS', results.data)
             })
+        },
+        getOldest({commit}){
+            api.oldestContacts()
+            .then((results)=>{
+                console.log(results)
+            })
+        },
+        getLatest({commit}){
+            api.latestContacts()
+            .then((results)=>{
+                console.log(results)
+            })
         }
     },
     getters:{

@@ -5,10 +5,14 @@
             <v-toolbar-title>Kontakti</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn-toggle>
-                    <v-btn>
+                    <v-btn
+                    @click="contactOldest()"
+                    >
                         <v-icon>mdi-filter-variant-plus</v-icon>
                     </v-btn>
-                    <v-btn>
+                    <v-btn
+                    @click="contactLatest()"
+                    >
                         <v-icon>mdi-filter-variant-minus</v-icon>
                     </v-btn>
                 </v-btn-toggle>
@@ -36,6 +40,12 @@ export default {
         getContacts(){
             return this.$store.dispatch('getContact')
         },
+        contactOldest(){
+            return this.$store.dispatch('getOldest')
+        },
+        contactLatest(){
+            return this.$store.dispatch('getLatest')
+        }
     },
     computed:{
         getAllConctacts(){

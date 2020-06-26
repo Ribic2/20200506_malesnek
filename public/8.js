@@ -379,6 +379,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -421,7 +477,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$store.dispatch('allUnlisted');
     },
     allDelisted: function allDelisted() {
-      return this.$store.dispatch('allDelisted');
+      return this.$store.dispatch('allListed');
     },
     getAllItems: function getAllItems() {
       return this.$store.dispatch('getAllItems');
@@ -742,12 +798,45 @@ var render = function() {
               _c(
                 "v-expansion-panel-header",
                 [
-                  _vm._v("\n        " + _vm._s(i.itemName) + "\n        "),
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  i.Quantity == 0
-                    ? _c("p", [_vm._v("Izdelka ni več na zalogi.")])
-                    : _vm._e()
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "6", xl: "1", md: "2", lg: "2" } },
+                        [
+                          _c("v-img", {
+                            attrs: {
+                              "aspect-ratio": 1 / 1,
+                              height: "100",
+                              width: "100",
+                              src:
+                                "http://127.0.0.1:8000/storage/products/" +
+                                i.dir +
+                                "/" +
+                                i.primaryImg
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-col", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(i.itemName) +
+                            "\n                "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-col", [
+                        i.Quantity == 0
+                          ? _c("p", [_vm._v("Izdelka ni več na zalogi.")])
+                          : _vm._e()
+                      ])
+                    ],
+                    1
+                  )
                 ],
                 1
               ),
@@ -759,60 +848,91 @@ var render = function() {
                     ? _c("p", [_vm._v("Trenutno na razprodaji!")])
                     : _vm._e(),
                   _vm._v(" "),
+                  i.Delisted == 0
+                    ? _c("p", [_vm._v("Trenutno v prodaji")])
+                    : i.Delisted == 1
+                    ? _c("p", [_vm._v("Ni v prodaji")])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c("p", [_vm._v(_vm._s(i.itemDescription))]),
                   _vm._v(" "),
                   _c(
-                    "v-btn-toggle",
+                    "v-row",
                     [
                       _c(
-                        "v-btn",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.getIdToChange(i)
-                            }
-                          }
-                        },
-                        [_vm._v("Spremeni")]
+                        "v-col",
+                        { attrs: { cols: "12", xl: "4", lg: "4", md: "4" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { width: "100%" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.getIdToChange(i)
+                                }
+                              }
+                            },
+                            [_vm._v("Spremeni")]
+                          )
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-btn",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.getIdToDelete(i)
-                            }
-                          }
-                        },
-                        [_vm._v("Izrbriši")]
+                        "v-col",
+                        { attrs: { xl: "4", cols: "12", lg: "4", md: "4" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { width: "100%" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.getIdToDelete(i)
+                                }
+                              }
+                            },
+                            [_vm._v("Izrbriši")]
+                          )
+                        ],
+                        1
                       ),
                       _vm._v(" "),
-                      i.Delisted == 0
-                        ? _c(
-                            "v-btn",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.delistItem(i.itemId, "Remove")
-                                }
-                              }
-                            },
-                            [_vm._v("Umakni iz prodaje")]
-                          )
-                        : i.Delisted == 1
-                        ? _c(
-                            "v-btn",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.delistItem(i.itemId, "Return")
-                                }
-                              }
-                            },
-                            [_vm._v("Vrni v prodajo")]
-                          )
-                        : _vm._e()
+                      _c(
+                        "v-col",
+                        { attrs: { xl: "4", cols: "12", lg: "4", md: "4" } },
+                        [
+                          i.Delisted == 0
+                            ? _c(
+                                "v-btn",
+                                {
+                                  attrs: { width: "100%" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.delistItem(i.itemId, "Remove")
+                                    }
+                                  }
+                                },
+                                [_vm._v("Umakni iz prodaje")]
+                              )
+                            : i.Delisted == 1
+                            ? _c(
+                                "v-btn",
+                                {
+                                  attrs: { width: "100%" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.delistItem(i.itemId, "Return")
+                                    }
+                                  }
+                                },
+                                [_vm._v("Vrni v prodajo")]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

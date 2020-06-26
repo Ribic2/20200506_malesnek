@@ -26,14 +26,21 @@
                     </v-card-actions>
 
                 <transition name="fade" mode="out-in">
-                    <div v-if="currentlySelectedItemId==product.itemId">
+                    <!-- Back page of item -->
+                    <div
+                    v-if="currentlySelectedItemId==product.itemId">
+
+                        <v-img
+                        :src="'http://127.0.0.1:8000/storage/products/'+product.dir+'/'+product.primaryImg"
+                        >
+                        </v-img>
                         <p
-                        class="text-justify mr-3 ml-3 body-2"
+                        class="text-justify mr-3 ml-3 body-2 unblured"
                         @click="redirectToItemPage(product)"
                         >{{ product.itemDescription }}</p>
 
                         <p
-                        class="text-justify mr-3 ml-3"
+                        class="text-justify mr-3 ml-3 unblured"
                         @click="redirectToItemPage(product)"
                         >Cena: {{ product.itemPrice }} &euro;</p>
 
@@ -42,7 +49,7 @@
                         <!--If item is aviable-->
                         <v-chip
                         v-if="product.Quantity > 0"
-                        class="ma-2"
+                        class="ma-2 unblured"
                         color="green"
                         text-color="white"
                         >
@@ -51,6 +58,7 @@
 
                         <v-chip
                         v-else
+                        class="unblured"
                         text-color="white"
                         color="error">
                         Izdelek ni na zalogi
@@ -58,6 +66,7 @@
 
                     </div>
 
+                    <!-- Front page of item -->
                     <v-img
                     v-else
                         @click="redirectToItemPage(product)"
@@ -188,6 +197,18 @@ export default {
         position: relative;
         bottom: 15px;
     }
+    #content_holder{
+        width: 95%;
+        margin: 0 auto;
+        background-size: cover;
+        height: 73%;
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+    }
+    .unblured{
+        filter: blur(0px) !important;
+        -webkit-filter: blur(0px) !important;
+    }
     .fade-enter-active,
     .fade-leave-active {
         transition: opacity .5s;
@@ -198,6 +219,5 @@ export default {
     .fade-enter,
     .fade-leave-to {
         opacity: 0;
-
     }
 </style>
