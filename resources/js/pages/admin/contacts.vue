@@ -8,12 +8,12 @@
                     <v-btn
                     @click="contactOldest()"
                     >
-                        <v-icon>mdi-filter-variant-plus</v-icon>
+                        <v-icon>mdi-filter-variant-minus</v-icon>
                     </v-btn>
                     <v-btn
                     @click="contactLatest()"
                     >
-                        <v-icon>mdi-filter-variant-minus</v-icon>
+                        <v-icon>mdi-filter-variant-plus</v-icon>
                     </v-btn>
                 </v-btn-toggle>
         </v-app-bar>
@@ -26,6 +26,7 @@
             >
             <v-expansion-panel-header>{{ contact.name }}<v-spacer></v-spacer> {{ contact.email }}</v-expansion-panel-header>
             <v-expansion-panel-content>
+                {{ contact }}
                 {{ contact.message }}
             </v-expansion-panel-content>
             </v-expansion-panel>

@@ -109,11 +109,11 @@ Route::middleware('auth:api', 'check_admin')->group(function(){
     });
 
     Route::get('/contact/latest', function(){
-        return Contact::all()->orderBy('created_at', 'desc');
+        return Contacts::latest()->get();
     });
 
     Route::get('/contact/oldest', function(){
-        return Contact::all()->orderBy('created_at', 'asc');
+        return Contacts::oldest()->get();
     });
 
     //Orders

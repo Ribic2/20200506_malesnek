@@ -28,42 +28,50 @@
                 <transition name="fade" mode="out-in">
                     <!-- Back page of item -->
                     <div
+                    class="holder_product"
                     v-if="currentlySelectedItemId==product.itemId">
+                        
+                            <div 
+                            class = "product_info"
+                            >
+                                <p
+                                class="text-justify mr-3 ml-3 body-2 unblured"
+                                @click="redirectToItemPage(product)"
+                                >{{ product.itemDescription }}</p>
 
+                                <p
+                                class="text-justify mr-3 ml-3 unblured"
+                                @click="redirectToItemPage(product)"
+                                >Cena: {{ product.itemPrice }} &euro;</p>
+
+
+
+                                <!--If item is aviable-->
+                                <v-chip
+                                v-if="product.Quantity > 0"
+                                class="ma-2 unblured"
+                                color="green"
+                                text-color="white"
+                                >
+                                Izdelek je na voljo
+                                </v-chip>
+
+                                <v-chip
+                                v-else
+                                class="unblured"
+                                text-color="white"
+                                color="error">
+                                Izdelek ni na zalogi
+                                </v-chip>
+                            </div>
+                        
                         <v-img
                         :src="'http://127.0.0.1:8000/storage/products/'+product.dir+'/'+product.primaryImg"
+                        class="productImage_back ma-2"
+                        :aspect-ratio="1/1"
                         >
                         </v-img>
-                        <p
-                        class="text-justify mr-3 ml-3 body-2 unblured"
-                        @click="redirectToItemPage(product)"
-                        >{{ product.itemDescription }}</p>
-
-                        <p
-                        class="text-justify mr-3 ml-3 unblured"
-                        @click="redirectToItemPage(product)"
-                        >Cena: {{ product.itemPrice }} &euro;</p>
-
-
-
-                        <!--If item is aviable-->
-                        <v-chip
-                        v-if="product.Quantity > 0"
-                        class="ma-2 unblured"
-                        color="green"
-                        text-color="white"
-                        >
-                        Izdelek je na voljo
-                        </v-chip>
-
-                        <v-chip
-                        v-else
-                        class="unblured"
-                        text-color="white"
-                        color="error">
-                        Izdelek ni na zalogi
-                        </v-chip>
-
+                       
                     </div>
 
                     <!-- Front page of item -->
@@ -193,9 +201,20 @@ export default {
         padding-top: 10px;
         bottom: 0;
     }
+    .productImage_back{
+        position: relative;
+        bottom: 15px;
+        opacity: 0.1;
+        filter: blur(8px);
+        -webkit-filter: blur(8px);
+    }
     .productImage{
         position: relative;
         bottom: 15px;
+    }
+    .product_info{
+        position: absolute;
+        width: 100%;
     }
     #content_holder{
         width: 95%;
@@ -204,10 +223,6 @@ export default {
         height: 73%;
         filter: blur(8px);
         -webkit-filter: blur(8px);
-    }
-    .unblured{
-        filter: blur(0px) !important;
-        -webkit-filter: blur(0px) !important;
     }
     .fade-enter-active,
     .fade-leave-active {

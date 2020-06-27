@@ -45,6 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
@@ -107,7 +108,7 @@ var render = function() {
                     }
                   }
                 },
-                [_c("v-icon", [_vm._v("mdi-filter-variant-plus")])],
+                [_c("v-icon", [_vm._v("mdi-filter-variant-minus")])],
                 1
               ),
               _vm._v(" "),
@@ -120,7 +121,7 @@ var render = function() {
                     }
                   }
                 },
-                [_c("v-icon", [_vm._v("mdi-filter-variant-minus")])],
+                [_c("v-icon", [_vm._v("mdi-filter-variant-plus")])],
                 1
               )
             ],
@@ -151,7 +152,11 @@ var render = function() {
               _vm._v(" "),
               _c("v-expansion-panel-content", [
                 _vm._v(
-                  "\n            " + _vm._s(contact.message) + "\n        "
+                  "\n            " +
+                    _vm._s(contact) +
+                    "\n            " +
+                    _vm._s(contact.message) +
+                    "\n        "
                 )
               ])
             ],
