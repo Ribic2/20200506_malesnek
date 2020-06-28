@@ -50,27 +50,32 @@ export default {
         resetFavouritesData(){
                 let data = JSON.parse(localStorage.getItem('favouritesStorage'))
                 
-                this.overlay = true
-                Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
-                .then((results)=>{
-                    if(data == null && results == null){
-                        this.overlay = false
-                    }
-                    else{
-                        
-                        for(let i = 0; i < results.data.length; i++){
-                            for(let x = 0; x < data.length; x++){
-                                if(data[x].itemId == results.data[i]){
-                                    data.splice(x,1)
+                if(data == null){
+                    localStorage.setItem('favouritesStorage', "")
+                }
+                else{
+                    this.overlay = true
+                    Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
+                    .then((results)=>{
+                        if(data == null && results == null){
+                            this.overlay = false
+                        }
+                        else{
+                            
+                            for(let i = 0; i < results.data.length; i++){
+                                for(let x = 0; x < data.length; x++){
+                                    if(data[x].itemId == results.data[i]){
+                                        data.splice(x,1)
+                                    }
                                 }
                             }
-                        }
-                        
-                        localStorage.setItem('favouritesStorage', JSON.stringify(data))
-                        this.$store.state.favourites.favouriteItem = data
-                        this.overlay = false
-                    }   
-                })
+                            
+                            localStorage.setItem('favouritesStorage', JSON.stringify(data))
+                            this.$store.state.favourites.favouriteItem = data
+                            this.overlay = false
+                        }   
+                    })
+                }   
         },
         deletFromFavourites(e){
             this.$store.dispatch('deleteFromFavouritesArray', e)
