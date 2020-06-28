@@ -51,7 +51,7 @@ export default {
                 let data = JSON.parse(localStorage.getItem('favouritesStorage'))
                 
                 if(data == null){
-                    localStorage.setItem('favouritesStorage', "")
+                    localStorage.setItem('favouritesStorage', "[]")
                 }
                 else{
                     this.overlay = true
@@ -75,6 +75,7 @@ export default {
                             this.overlay = false
                         }   
                     })
+                    this.overlay = false
                 }   
         },
         deletFromFavourites(e){
