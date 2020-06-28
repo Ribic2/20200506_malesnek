@@ -338,7 +338,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       var id = this.$route.params.id;
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/item/' + id + "/images").then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('http://vidbukovec.si/api/item/' + id + "/images").then(function (results) {
         _this3.images = results.data;
 
         if (!_this3.images.length < 2) {
@@ -537,7 +537,7 @@ var render = function() {
                                   "aspect-ratio": 16 / 9,
                                   "lazy-src":
                                     "https://picsum.photos/id/11/100/60",
-                                  src: "http://127.0.0.1:8000/storage/" + image
+                                  src: "http://vidbukovec.si/storage/" + image
                                 }
                               })
                             }),
@@ -571,14 +571,14 @@ var render = function() {
                                 attrs: {
                                   height: "100",
                                   width: "100",
-                                  src: "http://127.0.0.1:8000/storage/" + image
+                                  src: "http://vidbukovec.si/storage/" + image
                                 }
                               })
                             : _c("img", {
                                 attrs: {
                                   height: "100",
                                   width: "100",
-                                  src: "http://127.0.0.1:8000/storage/" + image
+                                  src: "http://vidbukovec.si/storage/" + image
                                 },
                                 on: {
                                   click: function($event) {

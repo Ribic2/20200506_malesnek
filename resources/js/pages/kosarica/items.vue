@@ -36,7 +36,7 @@
                         <v-img
                         :aspect-ratio="4/3"
                         class="productImg"
-                        :src='"http://127.0.0.1:8000/storage/products/"+cartItem.product.dir+"/"+cartItem.product.primaryImg'
+                        :src='"http://vidbukovec.si/storage/products/"+cartItem.product.dir+"/"+cartItem.product.primaryImg'
                         alt="Slika ne obstaja"
                         >
                         </v-img>
@@ -160,7 +160,7 @@ export default {
                 return false;
             }
             else{
-                Axios.post('/api/check/cart', {cart: this.$store.state.cart.cart})
+                Axios.post('http://vidbukovec.si/api/check/cart', {cart: this.$store.state.cart.cart})
                 .then((results)=>{
                     console.log(results)
                     for(let i = 0; i < results.data.length; i++){

@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
     requestResetPassword: function requestResetPassword() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/reset-password", {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://vidbukovec.si/api/reset-password", {
         email: this.email
       }).then(function (result) {
         _this.response = result.data;

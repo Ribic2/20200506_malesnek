@@ -335,7 +335,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.$store.state.cart.cart == null || this.$store.state.cart.cart.length == 0) {
         return false;
       } else {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/check/cart', {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('http://vidbukovec.si/api/check/cart', {
           cart: this.$store.state.cart.cart
         }).then(function (results) {
           console.log(results);
@@ -801,7 +801,7 @@ var render = function() {
                             attrs: {
                               "aspect-ratio": 4 / 3,
                               src:
-                                "http://127.0.0.1:8000/storage/products/" +
+                                "http://vidbukovec.si/storage/products/" +
                                 cartItem.product.dir +
                                 "/" +
                                 cartItem.product.primaryImg,

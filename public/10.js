@@ -64,27 +64,32 @@ __webpack_require__.r(__webpack_exports__);
     resetFavouritesData: function resetFavouritesData() {
       var _this = this;
 
-      var data = JSON.parse(localStorage.getItem('favouritesStorage'));
-      this.overlay = true;
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/check/favourites', {
-        favourites: JSON.parse(localStorage.getItem('favouritesStorage'))
-      }).then(function (results) {
-        if (data == null && results == null) {
-          _this.overlay = false;
-        } else {
-          for (var i = 0; i < results.data.length; i++) {
-            for (var x = 0; x < data.length; x++) {
-              if (data[x].itemId == results.data[i]) {
-                data.splice(x, 1);
+      if (localStorage.getItem('favouritesStorage') == null) {
+        localStorage.setItem('favouritesStorage', "[]");
+      } else {
+        this.overlay = true;
+        var data = JSON.parse(localStorage.getItem('favouritesStorage'));
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('http://vidbukovec.si/api/check/favourites', {
+          favourites: JSON.parse(localStorage.getItem('favouritesStorage'))
+        }).then(function (results) {
+          if (data == null && results == null) {
+            _this.overlay = false;
+          } else {
+            for (var i = 0; i < results.data.length; i++) {
+              for (var x = 0; x < data.length; x++) {
+                if (data[x].itemId == results.data[i]) {
+                  data.splice(x, 1);
+                }
               }
             }
-          }
 
-          localStorage.setItem('favouritesStorage', JSON.stringify(data));
-          _this.$store.state.favourites.favouriteItem = data;
-          _this.overlay = false;
-        }
-      });
+            localStorage.setItem('favouritesStorage', JSON.stringify(data));
+            _this.$store.state.favourites.favouriteItem = data;
+            _this.overlay = false;
+          }
+        });
+        this.overlay = false;
+      }
     },
     deletFromFavourites: function deletFromFavourites(e) {
       this.$store.dispatch('deleteFromFavouritesArray', e);

@@ -256,7 +256,7 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user/register/cart', credentials).then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://vidbukovec.si/api/user/register/cart', credentials).then(function (results) {
         if (results.data.authentication) {
           axios.defaults.headers.common["Authorization"] = "Bearer " + results.data.access_token;
           localStorage.setItem('authToken', results.data.access_token);
@@ -264,9 +264,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.$store.dispatch('checkLocalStorageCart');
 
           if (_this.$router.currentRoute.path != "/kosarica") {
-            window.location.href = "http://127.0.0.1:8000/";
+            window.location.href = "http://vidbukovec.si/";
           } else {
-            window.location.href = "http://127.0.0.1:8000/kosarica";
+            window.location.href = "http://vidbukovec.si/kosarica";
           }
         }
       });

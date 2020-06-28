@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         requestResetPassword() {
-            Axios.post("/api/reset-password", {email: this.email}).then(result => {
+            Axios.post("http://vidbukovec.si/api/reset-password", {email: this.email}).then(result => {
                 this.response = result.data;
                 console.log(result.data);
             }, error => {

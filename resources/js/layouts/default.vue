@@ -84,7 +84,7 @@
     >
     <v-app-bar-nav-icon>
       <v-img
-      src = "http://127.0.0.1:8000/storage/store/FullColor_1280x1024_300dpi.jpg"
+      src = "http://vidbukovec.si/storage/store/FullColor_1280x1024_300dpi.jpg"
       width="2"
       height="48"
       id="logo"

@@ -163,7 +163,7 @@ export default {
                 return false;
             }
 
-             Axios.post('/api/user/register/cart', credentials)
+             Axios.post('http://vidbukovec.si/api/user/register/cart', credentials)
             .then((results)=>{
 
                 if(results.data.authentication){
@@ -172,10 +172,10 @@ export default {
                     this.$store.dispatch('checkLocalStorageCart')
 
                     if(this.$router.currentRoute.path != "/kosarica"){
-                        window.location.href = "http://127.0.0.1:8000/"
+                        window.location.href = "http://vidbukovec.si/"
                     }
                     else{
-                        window.location.href = "http://127.0.0.1:8000/kosarica"
+                        window.location.href = "http://vidbukovec.si/kosarica"
                     }
 
                 }

@@ -44,7 +44,7 @@
                                     v-for="(image, i) in images"
                                     :key="i"
                                     lazy-src="https://picsum.photos/id/11/100/60"
-                                    :src='"http://127.0.0.1:8000/storage/"+image'
+                                    :src='"http://vidbukovec.si/storage/"+image'
                                     ></v-carousel-item>
 
 
@@ -70,7 +70,7 @@
                             height="100"
                             width="100"
                             class="selected_image_in_carousel"
-                            :src='"http://127.0.0.1:8000/storage/"+image'
+                            :src='"http://vidbukovec.si/storage/"+image'
                             >
 
                             <img
@@ -78,7 +78,7 @@
                             height="100"
                             width="100"
                             @click="selectImage(i)"
-                            :src='"http://127.0.0.1:8000/storage/"+image'
+                            :src='"http://vidbukovec.si/storage/"+image'
                             >
                         </v-col>
                     </v-row>
@@ -320,7 +320,7 @@ export default {
         //Removes first primary image and re-adds it to first place of the array
         getImages(){
             let id = this.$route.params.id
-            Axios.get('/api/item/'+id+"/images")
+            Axios.get('http://vidbukovec.si/api/item/'+id+"/images")
             .then((results)=>{
                 this.images = results.data
                 if(!this.images.length < 2){

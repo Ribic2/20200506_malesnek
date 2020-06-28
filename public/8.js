@@ -572,7 +572,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       data.append('Color', this.newColor);
       data.append('Description', this.newItemDescription);
       data.append('itemImg', this.primaryPicture);
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/add', data).then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://vidbukovec.si/api/items/add', data).then(function (results) {
         if (results.data == 1) {
           _this4.getItemsForAdmin();
 
@@ -811,7 +811,7 @@ var render = function() {
                               height: "100",
                               width: "100",
                               src:
-                                "http://127.0.0.1:8000/storage/products/" +
+                                "http://vidbukovec.si/storage/products/" +
                                 i.dir +
                                 "/" +
                                 i.primaryImg

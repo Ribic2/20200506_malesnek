@@ -95,7 +95,7 @@ __webpack_require__.r(__webpack_exports__);
     getAllUsers: function getAllUsers() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/users/all').then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('http://vidbukovec.si/api/users/all').then(function (results) {
         _this.users = results.data;
       });
     },
@@ -103,7 +103,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteUser: function deleteUser(e) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user/delete/', {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://vidbukovec.si/api/user/delete/', {
         id: e
       }).then(function (results) {
         _this2.getAllUsers();
@@ -113,7 +113,7 @@ __webpack_require__.r(__webpack_exports__);
     changeUserAdminStatus: function changeUserAdminStatus(e) {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/user/change/admin', {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://vidbukovec.si/api/user/change/admin', {
         id: e
       }).then(function (results) {
         _this3.getAllUsers();

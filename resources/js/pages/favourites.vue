@@ -48,14 +48,13 @@ export default {
     },
     methods:{
         resetFavouritesData(){
-                let data = JSON.parse(localStorage.getItem('favouritesStorage'))
-                
-                if(data == null){
+                if(localStorage.getItem('favouritesStorage') == null){
                     localStorage.setItem('favouritesStorage', "[]")
                 }
                 else{
                     this.overlay = true
-                    Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
+                    var data = JSON.parse(localStorage.getItem('favouritesStorage'))
+                    Axios.post('http://vidbukovec.si/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
                     .then((results)=>{
                         if(data == null && results == null){
                             this.overlay = false
@@ -76,7 +75,7 @@ export default {
                         }   
                     })
                     this.overlay = false
-                }   
+                }
         },
         deletFromFavourites(e){
             this.$store.dispatch('deleteFromFavouritesArray', e)

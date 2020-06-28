@@ -420,7 +420,7 @@ var render = function() {
                                       staticClass: "productImage_back ma-2",
                                       attrs: {
                                         src:
-                                          "http://127.0.0.1:8000/storage/products/" +
+                                          "http://vidbukovec.si/storage/products/" +
                                           _vm.product.dir +
                                           "/" +
                                           _vm.product.primaryImg,
@@ -435,7 +435,7 @@ var render = function() {
                                   attrs: {
                                     "aspect-ratio": 1 / 1,
                                     src:
-                                      "http://127.0.0.1:8000/storage/products/" +
+                                      "http://vidbukovec.si/storage/products/" +
                                       _vm.product.dir +
                                       "/" +
                                       _vm.product.primaryImg

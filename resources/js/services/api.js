@@ -1,7 +1,8 @@
 import Axios from 'axios'
+import migration from '../../../migration.json'
 
 var instace = Axios.create({
-    baseURL: 'http://127.0.0.1:8000',
+    baseURL: migration[0].redirectURL,
     headers:{
         'Authorization': `Bearer `+localStorage.getItem('authToken')
     }

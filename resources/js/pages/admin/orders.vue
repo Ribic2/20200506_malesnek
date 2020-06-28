@@ -127,13 +127,13 @@ export default {
             return this.$store.dispatch('filterLatest')
         },
         confirmOrder(e){
-            Axios.post('/api/Order/confirm', {confirmation: e})
+            Axios.post('http://vidbukovec.si/api/Order/confirm', {confirmation: e})
             .then((results)=>{
                 this.filterFinished()
             })
         },
         orderDenied(e){
-            Axios.post('/api/Order/denied', {id: e})
+            Axios.post('http://vidbukovec.si/api/Order/denied', {id: e})
             .then((results)=>{
                 this.filterFinished()
             })

@@ -141,7 +141,7 @@ __webpack_require__.r(__webpack_exports__);
     confirmOrder: function confirmOrder(e) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/Order/confirm', {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://vidbukovec.si/api/Order/confirm', {
         confirmation: e
       }).then(function (results) {
         _this.filterFinished();
@@ -150,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
     orderDenied: function orderDenied(e) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/Order/denied', {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://vidbukovec.si/api/Order/denied', {
         id: e
       }).then(function (results) {
         _this2.filterFinished();

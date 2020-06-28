@@ -57,7 +57,7 @@ __webpack_require__.r(__webpack_exports__);
     resetPassword: function resetPassword() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/reset/password/", {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("http://vidbukovec.si/api/reset/password/", {
         token: this.$route.params.token,
         email: this.email,
         password: this.password,

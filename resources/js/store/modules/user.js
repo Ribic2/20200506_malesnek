@@ -59,7 +59,7 @@ export default{
                     state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
                 }
                 else{
-                    axios.post('/api/user/orders/history', {userId: state.userId})
+                    axios.post('http://vidbukovec.si/api/user/orders/history', {userId: state.userId})
                     .then((results)=>{
                         localStorage.setItem('orderHistory', JSON.stringify(results.data))
                         state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
@@ -73,7 +73,7 @@ export default{
             if(localStorage.getItem('authToken')){
                 axios.defaults.headers.common["Authorization"] = `Bearer `+localStorage.getItem('authToken')
 
-                axios.get('/api/profile').then((results)=>{
+                axios.get('http://vidbukovec.si/api/profile').then((results)=>{
                     commit('ADD_USER_DATA', results.data.user)
                 })
             }

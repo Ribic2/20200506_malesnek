@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         resetPassword() {
-            Axios.post("/api/reset/password/", {
+            Axios.post("http://vidbukovec.si/api/reset/password/", {
                 token: this.$route.params.token,
                 email: this.email,
                 password: this.password,

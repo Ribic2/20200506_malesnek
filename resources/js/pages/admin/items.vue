@@ -53,7 +53,7 @@
                         :aspect-ratio="1/1"
                         height="100"
                         width="100"
-                        :src='"http://127.0.0.1:8000/storage/products/"+i.dir+"/"+i.primaryImg'
+                        :src='"http://vidbukovec.si/storage/products/"+i.dir+"/"+i.primaryImg'
                         ></v-img>
                     </v-col>
                     <v-col>
@@ -573,7 +573,7 @@ export default {
                 data.append('itemImg', this.primaryPicture)
 
 
-                Axios.post('/api/items/add', data)
+                Axios.post('http://vidbukovec.si/api/items/add', data)
                 .then((results)=>{
                     if(results.data == 1){
                         this.getItemsForAdmin();
