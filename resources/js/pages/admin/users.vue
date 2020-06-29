@@ -81,21 +81,21 @@ export default {
     },
     methods:{
         getAllUsers(){
-            Axios.get('http://vidbukovec.si/api/users/all')
+            Axios.get('/api/users/all')
             .then((results)=>{
                 this.users = results.data
             })
         },
         //Deletes user
         deleteUser(e){
-            Axios.post('http://vidbukovec.si/api/user/delete/', {id: e})
+            Axios.post('/api/user/delete/', {id: e})
             .then((results)=>{
                 this.getAllUsers()
             })
         },
         //Changes admin status of user
         changeUserAdminStatus(e){
-            Axios.post('http://vidbukovec.si/api/user/change/admin', {id: e})
+            Axios.post('/api/user/change/admin', {id: e})
             .then((results)=>{
 
                 this.getAllUsers()

@@ -23,8 +23,6 @@ export default {
             return (this.$route.meta.layout || default_layout) + '-layout';
         }
     },
-    mounted(){
-
-    }
+    
 }
 </script>

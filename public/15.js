@@ -45,7 +45,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
@@ -152,11 +151,7 @@ var render = function() {
               _vm._v(" "),
               _c("v-expansion-panel-content", [
                 _vm._v(
-                  "\n            " +
-                    _vm._s(contact) +
-                    "\n            " +
-                    _vm._s(contact.message) +
-                    "\n        "
+                  "\n            " + _vm._s(contact.message) + "\n        "
                 )
               ])
             ],

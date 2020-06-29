@@ -54,7 +54,7 @@ export default {
                 else{
                     this.overlay = true
                     var data = JSON.parse(localStorage.getItem('favouritesStorage'))
-                    Axios.post('http://vidbukovec.si/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
+                    Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
                     .then((results)=>{
                         if(data == null && results == null){
                             this.overlay = false
@@ -91,9 +91,12 @@ export default {
 <style>
     #emptyFavourites{
         width: 100%;
-        height: 100% !important;
-        position: relative;
-        top: 250px;
+        margin: auto;
+        position: absolute;
+        top: 28%; 
+        left: 0;
+        bottom: 0; 
+        right: 0;
     }
     #starIcon{
         position: relative;

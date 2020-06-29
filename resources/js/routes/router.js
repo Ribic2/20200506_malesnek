@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import migration from '../../../migration.json'
 //Import layout
 import login from '../pages/user/login.vue'
 import Axios from 'axios'
@@ -87,7 +87,7 @@ const router = new VueRouter({
                 if(localStorage.getItem('authToken')){
                     axios.defaults.headers.common["Authorization"] = `Bearer `+localStorage.getItem('authToken')
 
-                    axios.get('http://vidbukovec.si/api/profile/admin').then((results)=>{
+                    axios.get('/api/profile/admin').then((results)=>{
                         if(!results.data){
                            next({name: 'index'})
                         }

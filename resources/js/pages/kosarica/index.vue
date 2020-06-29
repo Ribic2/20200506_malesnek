@@ -7,7 +7,7 @@
 
         <v-divider></v-divider>
 
-        <v-stepper-step :complete="counter > 2" step="2" v-if="this.$store.state.user.check == false">Podatki o dostavi</v-stepper-step>
+        <v-stepper-step :complete="counter > 2" step="2" v-if="this.$store.state.user.check == false">Naslov</v-stepper-step>
 
         <v-divider></v-divider>
 

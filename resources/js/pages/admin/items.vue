@@ -53,7 +53,7 @@
                         :aspect-ratio="1/1"
                         height="100"
                         width="100"
-                        :src='"http://vidbukovec.si/storage/products/"+i.dir+"/"+i.primaryImg'
+                        :src='migration[0].redirectURL+"storage/products/"+i.dir+"/"+i.primaryImg'
                         ></v-img>
                     </v-col>
                     <v-col>
@@ -423,10 +423,13 @@
 
 import store from '../../store/index'
 import Axios from 'axios'
+import migration from '../../../../migration.json'
 
 export default {
     data(){
         return{
+            //Migration
+            migration: migration,
             //Add new item data
             newItemName: '',
             newItemPrice: '',
@@ -506,7 +509,7 @@ export default {
                 "Discount": this.isOnSale ? this.discount : ""
             }
 
-            Axios.post('/api/items/change', ChangedData)
+            Axios.post(migration[0].redirectURL+'api/items/change', ChangedData)
             .then((results)=>{
                 if(results.data = 1){
                     this.getItemsForAdmin()
@@ -519,7 +522,7 @@ export default {
 
         },
         deleteItemFunction(){
-            Axios.post('/api/items/delete',  {itemId: this.selectedItemId})
+            Axios.post(migration[0].redirectURL+'api/items/delete',  {itemId: this.selectedItemId})
             .then((results)=>{
                 if(results.data == 1){
                     this.getItemsForAdmin()
@@ -573,7 +576,7 @@ export default {
                 data.append('itemImg', this.primaryPicture)
 
 
-                Axios.post('http://vidbukovec.si/api/items/add', data)
+                Axios.post(migration[0].redirectURL+'api/items/add', data)
                 .then((results)=>{
                     if(results.data == 1){
                         this.getItemsForAdmin();

@@ -531,7 +531,7 @@ var render = function() {
                 ? _c(
                     "v-stepper-step",
                     { attrs: { complete: _vm.counter > 2, step: "2" } },
-                    [_vm._v("Podatki o dostavi")]
+                    [_vm._v("Naslov")]
                   )
                 : _vm._e(),
               _vm._v(" "),

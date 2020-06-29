@@ -26,7 +26,6 @@
             >
             <v-expansion-panel-header>{{ contact.name }}<v-spacer></v-spacer> {{ contact.email }}</v-expansion-panel-header>
             <v-expansion-panel-content>
-                {{ contact }}
                 {{ contact.message }}
             </v-expansion-panel-content>
             </v-expansion-panel>

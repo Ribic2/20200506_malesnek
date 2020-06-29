@@ -89,7 +89,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+/* harmony import */ var _migration_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../migration.json */ "./migration.json");
+var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../../../migration.json */ "./migration.json", 1);
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
 //
 //
 //
@@ -219,11 +221,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      migraiton: _migration_json__WEBPACK_IMPORTED_MODULE_1__,
       name: '',
       surname: '',
       email: '',
@@ -256,7 +260,7 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('http://vidbukovec.si/api/user/register/cart', credentials).then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/user/register/cart', credentials).then(function (results) {
         if (results.data.authentication) {
           axios.defaults.headers.common["Authorization"] = "Bearer " + results.data.access_token;
           localStorage.setItem('authToken', results.data.access_token);
@@ -264,9 +268,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.$store.dispatch('checkLocalStorageCart');
 
           if (_this.$router.currentRoute.path != "/kosarica") {
-            window.location.href = "http://vidbukovec.si/";
+            window.location.href = _migration_json__WEBPACK_IMPORTED_MODULE_1__[0].redirectURL;
           } else {
-            window.location.href = "http://vidbukovec.si/kosarica";
+            window.location.href = _migration_json__WEBPACK_IMPORTED_MODULE_1__[0].redirectURL + "kosarica";
           }
         }
       });

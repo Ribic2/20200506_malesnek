@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _migration_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../migration.json */ "./migration.json");
+var _migration_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../../../migration.json */ "./migration.json", 1);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -437,11 +439,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
 
     return _ref = {
+      //Migration
+      migration: _migration_json__WEBPACK_IMPORTED_MODULE_2__,
       //Add new item data
       newItemName: '',
       newItemPrice: '',
@@ -512,7 +517,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         "Description": this.description,
         "Discount": this.isOnSale ? this.discount : ""
       };
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/change', ChangedData).then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(_migration_json__WEBPACK_IMPORTED_MODULE_2__[0].redirectURL + 'api/items/change', ChangedData).then(function (results) {
         if (results.data = 1) {
           _this2.getItemsForAdmin();
 
@@ -525,7 +530,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteItemFunction: function deleteItemFunction() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/items/delete', {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(_migration_json__WEBPACK_IMPORTED_MODULE_2__[0].redirectURL + 'api/items/delete', {
         itemId: this.selectedItemId
       }).then(function (results) {
         if (results.data == 1) {
@@ -572,7 +577,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       data.append('Color', this.newColor);
       data.append('Description', this.newItemDescription);
       data.append('itemImg', this.primaryPicture);
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('http://vidbukovec.si/api/items/add', data).then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(_migration_json__WEBPACK_IMPORTED_MODULE_2__[0].redirectURL + 'api/items/add', data).then(function (results) {
         if (results.data == 1) {
           _this4.getItemsForAdmin();
 
@@ -811,7 +816,8 @@ var render = function() {
                               height: "100",
                               width: "100",
                               src:
-                                "http://vidbukovec.si/storage/products/" +
+                                _vm.migration[0].redirectURL +
+                                "storage/products/" +
                                 i.dir +
                                 "/" +
                                 i.primaryImg

@@ -3,6 +3,7 @@
     <v-card
     class="mx-auto mt-12"
     width="500"
+    :elevation="$vuetify.breakpoint.smAndDown ? 0 : 5"
     height="600"
     >
       <v-card-title>
@@ -19,19 +20,19 @@
             <v-text-field
             label="Ime"
             v-model="name"
-            prepend-icon="mdi-alpha-n"
+            prepend-icon="mdi-account-circle"
             ></v-text-field>
 
             <v-text-field
             label="Priimek"
             v-model="surname"
-            prepend-icon="mdi-alpha-s"
+            prepend-icon="mdi-smart-card"
             ></v-text-field>
 
             <v-text-field
             label="E-naslov"
             v-model="email"
-            prepend-icon="mdi-account-circle"
+            prepend-icon="mdi-email"
             ></v-text-field>
 
             <v-text-field
@@ -52,8 +53,9 @@
           <v-card-actions>
             <v-btn
             width="100%"
-            type="button"
-            color="primary"
+            rounded
+            color="#6C3FB8"
+            dark
             @click="registerAction"
             >Registriraj se</v-btn>
 

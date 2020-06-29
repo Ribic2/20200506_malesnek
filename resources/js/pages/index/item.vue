@@ -14,7 +14,7 @@
                         @click="redirectToItemPage(product)"
                         class="headline"
                         >{{ product.itemName }}</v-card-title>
-
+                        
                         <v-chip
                         v-if="product.isOnSale"
                         class="ma-2"
@@ -147,6 +147,7 @@
 
 <script>
 import store from '../../store/index'
+import migration from '../../../../migration.json'
 
 export default {
     props: [
@@ -154,6 +155,7 @@ export default {
     ],
     data(){
         return{
+            json: migration,
             currentlySelectedItemId: null
         }
     },

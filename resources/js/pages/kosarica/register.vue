@@ -129,10 +129,12 @@
 
 <script>
 import Axios from 'axios'
+import migration from '../../../../migration.json'
 import store from '../../store/index'
 export default {
     data(){
         return{
+            migraiton: migration,
             name: '',
             surname: '',
             email: '',
@@ -163,7 +165,7 @@ export default {
                 return false;
             }
 
-             Axios.post('http://vidbukovec.si/api/user/register/cart', credentials)
+             Axios.post('api/user/register/cart', credentials)
             .then((results)=>{
 
                 if(results.data.authentication){
@@ -172,10 +174,10 @@ export default {
                     this.$store.dispatch('checkLocalStorageCart')
 
                     if(this.$router.currentRoute.path != "/kosarica"){
-                        window.location.href = "http://vidbukovec.si/"
+                        window.location.href = migration[0].redirectURL
                     }
                     else{
-                        window.location.href = "http://vidbukovec.si/kosarica"
+                        window.location.href = migration[0].redirectURL+"kosarica"
                     }
 
                 }

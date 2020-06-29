@@ -10,6 +10,8 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+/* harmony import */ var _migration_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../migration.json */ "./migration.json");
+var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../../../migration.json */ "./migration.json", 1);
 //
 //
 //
@@ -158,10 +160,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
   data: function data() {
     return {
+      json: _migration_json__WEBPACK_IMPORTED_MODULE_1__,
       currentlySelectedItemId: null
     };
   },

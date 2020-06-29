@@ -4,6 +4,7 @@
     class="mx-auto mt-12"
     width="500"
     height="500"
+    :elevation="$vuetify.breakpoint.smAndDown ? 0 : 5"
     >
       <v-card-title>
         Prijava
@@ -19,7 +20,7 @@
             <v-text-field
             label="E-naslov"
             v-model="email"
-            prepend-icon="mdi-account-circle"
+            prepend-icon="mdi-email"
             ></v-text-field>
 
 
@@ -33,11 +34,12 @@
             prepend-icon="mdi-lock"
             ></v-text-field>
           <v-card-actions>
-            <v-btn
+            <v-btn           
             width="100%"
-            type="button"
+            rounded
+            color="#6C3FB8"
+            dark
             @click="login"
-            color="primary"
             >Prijavi se</v-btn>
 
           </v-card-actions>
@@ -59,6 +61,7 @@ import route from '../../routes/router'
 export default {
   data(){
     return{
+      migration: migration,
       showPassword: false,
       email: '',
       password: '',

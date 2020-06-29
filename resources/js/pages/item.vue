@@ -320,7 +320,7 @@ export default {
         //Removes first primary image and re-adds it to first place of the array
         getImages(){
             let id = this.$route.params.id
-            Axios.get('http://vidbukovec.si/api/item/'+id+"/images")
+            Axios.get('/api/item/'+id+"/images")
             .then((results)=>{
                 this.images = results.data
                 if(!this.images.length < 2){

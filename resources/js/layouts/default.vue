@@ -25,15 +25,18 @@
       >
         <v-list-item
           v-for="link in userLinks" :key="link.label"
-          :to='link.url'
         >
-          <v-list-item-icon>
+          <v-btn
+          width="100%"
+          :elevation="0"
+          rounded
+          color="#6C3FB8"
+          dark
+          :ripple="false"
+          :to='link.url'>
             <v-icon>{{ link.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title :to='link.url'>{{ link.label }}</v-list-item-title>
-          </v-list-item-content>
+            {{ link.label }}
+          </v-btn>
         </v-list-item>
       </v-list>
       <!--If user is registerd-->
@@ -49,10 +52,14 @@
             rounded
             color="#6C3FB8"
             dark
+            :ripple="false"
+            :elevation="0"
             @click="logout()"
             >
             <v-icon>mdi-logout</v-icon>
             Odjava</v-btn>
+
+            
          </v-list-item>
         <v-list-item>
             <v-btn
@@ -84,7 +91,8 @@
     >
     <v-app-bar-nav-icon>
       <v-img
-      src = "http://vidbukovec.si/storage/store/FullColor_1280x1024_300dpi.jpg"
+      @click="redirect()"
+      :src='migration[0].redirectURL+"storage/store/FullColor_1280x1024_300dpi.jpg"'
       width="2"
       height="48"
       id="logo"
@@ -198,6 +206,7 @@
 import store from '../store/index'
 import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
 import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
+import migration from '../../../migration.json'
 
 export default {
     components:{
@@ -206,6 +215,7 @@ export default {
     props: ['routeName'],
     data(){
         return{
+            migration: migration,
             route: this.routeName,
             cookieStatus: '',
             links:[
@@ -241,6 +251,9 @@ export default {
         },
         cookieClickedDecline(){
             this.cookieStatus = 'decline'
+        },
+        redirect(){
+          window.location.href=migration[0].redirectURL
         }
     },
     computed:{

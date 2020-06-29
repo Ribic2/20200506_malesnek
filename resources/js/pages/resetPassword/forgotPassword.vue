@@ -1,20 +1,31 @@
 <template>
     <v-container>
         <v-card
+        class="mx-auto mt-12"
         width="500"
         height="500"
-        id="form"
-        class="ma-auto"
+        :elevation="$vuetify.breakpoint.smAndDown ? 0 : 5"
         >
             <v-card-title>Spremeni geslo</v-card-title>
                 <div class = "ma-2">
-                    <label for="email">E-naslov</label>
-                    <input type="email" id="email" class="form-control" placeholder="e-naslov" v-model="email" required>
+
+                    <v-text-field 
+                    type="email" 
+                    placeholder="e-naslov" 
+                    v-model="email"
+                    required
+                    prepend-icon="mdi-email"
+                    ></v-text-field>
+
                     <v-btn
-                    color="primary mt-1"
                     @click="requestResetPassword"
                     width="100%"
+                    class="mt-1"
+                    rounded
+                    color="#6C3FB8"
+                    dark
                     >Spremeni geslo</v-btn>
+
                 </div>
         </v-card>
     </v-container>
@@ -31,7 +42,7 @@ export default {
     },
     methods: {
         requestResetPassword() {
-            Axios.post("http://vidbukovec.si/api/reset-password", {email: this.email}).then(result => {
+            Axios.post("/api/reset-password", {email: this.email}).then(result => {
                 this.response = result.data;
                 console.log(result.data);
             }, error => {
@@ -43,8 +54,4 @@ export default {
 </script>
 
 <style scoped>
-    #form{
-        position: relative;
-        top: 70px;
-    }
 </style>

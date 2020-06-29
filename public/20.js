@@ -85,6 +85,8 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -154,7 +156,11 @@ var render = function() {
         "v-card",
         {
           staticClass: "mx-auto mt-12",
-          attrs: { width: "500", height: "600" }
+          attrs: {
+            width: "500",
+            elevation: _vm.$vuetify.breakpoint.smAndDown ? 0 : 5,
+            height: "600"
+          }
         },
         [
           _c("v-card-title", [_vm._v("\n      Registracija\n    ")]),
@@ -173,7 +179,10 @@ var render = function() {
                 },
                 [
                   _c("v-text-field", {
-                    attrs: { label: "Ime", "prepend-icon": "mdi-alpha-n" },
+                    attrs: {
+                      label: "Ime",
+                      "prepend-icon": "mdi-account-circle"
+                    },
                     model: {
                       value: _vm.name,
                       callback: function($$v) {
@@ -184,7 +193,10 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: { label: "Priimek", "prepend-icon": "mdi-alpha-s" },
+                    attrs: {
+                      label: "Priimek",
+                      "prepend-icon": "mdi-smart-card"
+                    },
                     model: {
                       value: _vm.surname,
                       callback: function($$v) {
@@ -195,10 +207,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: {
-                      label: "E-naslov",
-                      "prepend-icon": "mdi-account-circle"
-                    },
+                    attrs: { label: "E-naslov", "prepend-icon": "mdi-email" },
                     model: {
                       value: _vm.email,
                       callback: function($$v) {
@@ -253,8 +262,9 @@ var render = function() {
                         {
                           attrs: {
                             width: "100%",
-                            type: "button",
-                            color: "primary"
+                            rounded: "",
+                            color: "#6C3FB8",
+                            dark: ""
                           },
                           on: { click: _vm.registerAction }
                         },

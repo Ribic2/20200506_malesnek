@@ -69,7 +69,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.overlay = true;
         var data = JSON.parse(localStorage.getItem('favouritesStorage'));
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('http://vidbukovec.si/api/check/favourites', {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/check/favourites', {
           favourites: JSON.parse(localStorage.getItem('favouritesStorage'))
         }).then(function (results) {
           if (data == null && results == null) {
@@ -114,7 +114,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#emptyFavourites{\n    width: 100%;\n    height: 100% !important;\n    position: relative;\n    top: 250px;\n}\n#starIcon{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#starHolder{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
+exports.push([module.i, "\n#emptyFavourites{\n    width: 100%;\n    margin: auto;\n    position: absolute;\n    top: 28%; \n    left: 0;\n    bottom: 0; \n    right: 0;\n}\n#starIcon{\n    position: relative;\n    vertical-align: middle;\n    height: 100%;\n    width: 100%;\n}\n#starHolder{\n    width: 5%;\n    margin: 0 auto;\n}\n", ""]);
 
 // exports
 

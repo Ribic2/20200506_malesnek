@@ -338,7 +338,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       var id = this.$route.params.id;
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('http://vidbukovec.si/api/item/' + id + "/images").then(function (results) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/item/' + id + "/images").then(function (results) {
         _this3.images = results.data;
 
         if (!_this3.images.length < 2) {

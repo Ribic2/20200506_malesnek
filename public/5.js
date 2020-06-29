@@ -334,9 +334,16 @@ var render = function() {
     "v-card",
     { attrs: { elevation: "0" } },
     [
-      _c("v-card-title", { staticClass: "display-1" }, [
-        _vm._v("Kontaktne informacije")
-      ]),
+      _c(
+        "v-card-title",
+        {
+          class: {
+            "display-1": _vm.$vuetify.breakpoint.xs,
+            "display-2": _vm.$vuetify.breakpoint.smAndUp
+          }
+        },
+        [_vm._v("Kontaktne informacije")]
+      ),
       _vm._v(" "),
       _c("v-divider"),
       _vm._v(" "),
