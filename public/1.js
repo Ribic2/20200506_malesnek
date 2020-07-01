@@ -221,6 +221,7 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
 //
 //
 //
+//
 
 
 
@@ -508,7 +509,7 @@ var render = function() {
                     [
                       this.$store.state.user.LoginStatus != false
                         ? _c("v-text-field", {
-                            attrs: { label: "Geslo" },
+                            attrs: { label: "Geslo", type: "password" },
                             model: {
                               value: _vm.password,
                               callback: function($$v) {
@@ -551,7 +552,7 @@ var render = function() {
                     "v-col",
                     [
                       _c("v-text-field", {
-                        attrs: { label: "Regija" },
+                        attrs: { label: "Kraj" },
                         model: {
                           value: _vm.region,
                           callback: function($$v) {

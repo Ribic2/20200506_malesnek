@@ -4,7 +4,6 @@
     >
         <v-row>
             <v-col
-            class = "test"
             cols="12"
             xs="12"
             sm="12"
@@ -35,16 +34,17 @@
                             >
                                 <v-carousel
                                 hide-delimiters
+                                id="carousel"
                                 show-arrows-on-hover
                                 v-model="currentIndex"
                                 hide-delimiter-background
                                 >
                                     <v-carousel-item
                                     :aspect-ratio="16/9"
+                                    class="image"
                                     v-for="(image, i) in images"
                                     :key="i"
-                                    lazy-src="https://picsum.photos/id/11/100/60"
-                                    :src='"http://vidbukovec.si/storage/"+image'
+                                    :src='migration[0].redirectURL+"storage/"+image'
                                     ></v-carousel-item>
 
 
@@ -70,7 +70,7 @@
                             height="100"
                             width="100"
                             class="selected_image_in_carousel"
-                            :src='"http://vidbukovec.si/storage/"+image'
+                            :src='migration[0].redirectURL+"storage/"+image'
                             >
 
                             <img
@@ -78,7 +78,7 @@
                             height="100"
                             width="100"
                             @click="selectImage(i)"
-                            :src='"http://vidbukovec.si/storage/"+image'
+                            :src='migration[0].redirectURL+"storage/"+image'
                             >
                         </v-col>
                     </v-row>
@@ -86,93 +86,91 @@
             </v-col>
 
             <!--Add to cart part-->
-            <v-col
-            class = "test"
-            >
-               <v-card
-               max-height="400"
-               min-height="200"
-               >
-                <v-card-title>
-                    <p class="headline">{{ product.itemName }}</p>
-                </v-card-title>
-
-                <v-card-text v-if="product.Quantity > 0">
-                    <p v-if="product.Quantity > 0">Izdelek je na voljo.</p>
-                    <p v-else>Izdelek ni na voljo.</p>
-                </v-card-text>
-
-                <v-card-actions class="card-actions">
-                    <!-- Add to cart button logic-->
-                    <v-btn
-                    @click="addToCart(product)"
-                    color="error"
-                    v-if="$store.state.cart.cart == null"
-                    >V košarico</v-btn>
-
-                    <v-btn
-                    @click="addToCart(product)"
-                    color="success"
-                    v-else-if="$store.state.cart.cart.find(o=> o.product.itemId === product.itemId)"
-                    >Dodano</v-btn>
-
-                    <v-btn
-                    @click="addToCart(product)"
-                    color="error"
-                    v-else
-                    >V košarico</v-btn>
-
-                    <!-- Add to favourits button logic -->
-                    <v-btn
-                    @click="addToFavourites(product)"
-                    icon
-                    v-if="$store.state.favourites.favouriteItem == null"
+            <v-col>
+                <v-row>
+                    <v-col
+                    cols="12"
                     >
-                    <v-icon>mdi-star</v-icon>
-                    </v-btn>
+                        <v-card
+                        max-height="400"
+                        min-height="200"
+                        >
+                            <v-card-title>
+                                <p class="headline">{{ product.itemName }}</p>
+                            </v-card-title>
 
-                    <v-btn
-                    icon
-                    @click="addToFavourites(product)"
-                    color="blue"
-                    v-else-if="$store.state.favourites.favouriteItem.find(o=> o.itemId === product.itemId)"
+                            <v-card-text v-if="product.Quantity > 0">
+                                <p v-if="product.Quantity > 0">Izdelek je na voljo.</p>
+                                <p v-else>Izdelek ni na voljo.</p>
+                            </v-card-text>
+
+                            <v-card-actions class="card-actions">
+                                <!-- Add to cart button logic-->
+                                <v-btn
+                                @click="addToCart(product)"
+                                color="error"
+                                v-if="$store.state.cart.cart == null"
+                                >V košarico</v-btn>
+
+                                <v-btn
+                                @click="addToCart(product)"
+                                color="success"
+                                v-else-if="$store.state.cart.cart.find(o=> o.product.itemId === product.itemId)"
+                                >Dodano</v-btn>
+
+                                <v-btn
+                                @click="addToCart(product)"
+                                color="error"
+                                v-else
+                                >V košarico</v-btn>
+
+                                <!-- Add to favourits button logic -->
+                                <v-btn
+                                @click="addToFavourites(product)"
+                                icon
+                                v-if="$store.state.favourites.favouriteItem == null"
+                                >
+                                <v-icon>mdi-star</v-icon>
+                                </v-btn>
+
+                                <v-btn
+                                icon
+                                @click="addToFavourites(product)"
+                                color="blue"
+                                v-else-if="$store.state.favourites.favouriteItem.find(o=> o.itemId === product.itemId)"
+                                >
+                                <v-icon>mdi-star</v-icon>
+                                </v-btn>
+
+                                <v-btn @click="addToFavourites(product)" icon v-else>
+                                <v-icon>mdi-star</v-icon>
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                    <v-col
+                    cols="12"
                     >
-                    <v-icon>mdi-star</v-icon>
-                    </v-btn>
+                        <v-card
+                        height="500"
+                        >
+                        <h1 class="headline descriptionTitle">Opis izdelka</h1>
+                            <v-list>
+                                <v-list-item>
+                                Opis: {{ product.itemDescription }}
+                                </v-list-item>
 
-                    <v-btn @click="addToFavourites(product)" icon v-else>
-                    <v-icon>mdi-star</v-icon>
-                    </v-btn>
-                </v-card-actions>
-               </v-card>
-            </v-col>
-        </v-row>
+                                <v-list-item>
+                                Cena: {{ product.itemPrice}}&euro;
+                                </v-list-item>
 
-        <v-divider></v-divider>
-        <!--Item description -->
-        <v-row>
-            <v-col
-            id="itemDescription"
-            class = "test">
-                <v-card
-                height="450"
-                >
-                    <h1 class="headline descriptionTitle">Opis izdelka</h1>
-                    <v-list>
-
-                        <v-list-item>
-                        Opis: {{ product.itemDescription }}
-                        </v-list-item>
-
-                        <v-list-item>
-                        Cena: {{ product.itemPrice}}
-                        </v-list-item>
-
-                        <v-list-item>
-                        Dimenzija: {{ product.dimensions }}
-                        </v-list-item>
-                    </v-list>
-                </v-card>
+                                <v-list-item>
+                                Dimenzija: {{ product.dimensions }}mm
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-col>
         </v-row>
 
@@ -225,10 +223,12 @@
 
         <!--Reviews-->
 
-        <v-card v-if="allReviews.length == 0">
+        <v-card v-if="allReviews.length == 0"
+        elevation="0"
+        >
             <h1>Ta izdelek nima nobenih ocen.</h1>
         </v-card>
-        <v-row class = "test">
+        <v-row>
             <v-col
             v-for="review in allReviews"
             :key="review.id"
@@ -238,7 +238,7 @@
                 height="200"
                 >
 
-                    <v-row class = "test">
+                    <v-row>
                         <v-col
                         cols="12">
                             <v-rating
@@ -248,7 +248,7 @@
                         </v-col>
                     </v-row>
 
-                    <v-row class = "test">
+                    <v-row>
                         <v-col
                         cols="12">
                             <p class="ml-2"><span class = "font-weight-bold">{{ review.Name }} {{ review.Surname }}</span>  {{ review.postTime }}</p>
@@ -274,6 +274,7 @@ import route from '../routes/router.js'
 import store from '../store/index'
 import api from '../services/api.js'
 import Axios from 'axios'
+import migration from '../../../migration.json'
 
 export default {
     data(){
@@ -285,7 +286,7 @@ export default {
             rating: 0,
             windowWidth: '',
             comment: '',
-
+            migration: migration
         }
     },
     methods:{
@@ -375,7 +376,10 @@ export default {
 </script>
 
 <style>
-
+    .test
+    {
+       border: solid 1px black;
+    }
     #container{
         width: 80%;
     }
@@ -397,5 +401,8 @@ export default {
         position: relative;
         left: 10px;
         top: 10px;
+    }
+    #carousel:hover, .image{
+        transform: scale(1.1);
     }
 </style>

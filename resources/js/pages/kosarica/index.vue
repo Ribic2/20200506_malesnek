@@ -73,10 +73,14 @@
         <v-btn
         @click="$store.state.user.check ? counter = 1 : counter = 2"
         >Nazaj</v-btn>
+
+
         <v-btn
         text
+        @click="redirectToFrontPage()"
         class="float-right"
-        >Prekini</v-btn>
+        >Prekini
+        </v-btn>
       </v-stepper-content>
 
       </v-stepper-items>
@@ -109,6 +113,7 @@
 <script>
 
 import store from '../../store/index'
+import route from '../../routes/router'
 import api from '../../services/api.js'
 
 import items from '../kosarica/items.vue'
@@ -129,10 +134,11 @@ export default {
             dialog: false,
         }
      },
-    methods:{
-
-
-    },
+     methods:{
+        redirectToFrontPage(){
+            route.push({name: 'index'})
+        }
+    }
 }
 </script>
 

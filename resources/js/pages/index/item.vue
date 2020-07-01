@@ -66,7 +66,8 @@
                             </div>
                         
                         <v-img
-                        :src="'http://vidbukovec.si/storage/products/'+product.dir+'/'+product.primaryImg"
+                        
+                        :src="migration[0].redirectURL+'storage/products/'+product.dir+'/'+product.primaryImg"
                         class="productImage_back ma-2"
                         :aspect-ratio="1/1"
                         >
@@ -80,7 +81,7 @@
                         @click="redirectToItemPage(product)"
                         class="productImage ma-2"
                         :aspect-ratio="1/1"
-                        :src="'http://vidbukovec.si/storage/products/'+product.dir+'/'+product.primaryImg"
+                        :src="migration[0].redirectURL+'storage/products/'+product.dir+'/'+product.primaryImg"
                     ></v-img>
                 </transition>
 
@@ -155,7 +156,7 @@ export default {
     ],
     data(){
         return{
-            json: migration,
+            migration: migration,
             currentlySelectedItemId: null
         }
     },
@@ -206,7 +207,7 @@ export default {
     .productImage_back{
         position: relative;
         bottom: 15px;
-        opacity: 0.1;
+        opacity: 0.5;
         filter: blur(8px);
         -webkit-filter: blur(8px);
     }
@@ -228,13 +229,16 @@ export default {
     }
     .fade-enter-active,
     .fade-leave-active {
-        transition: opacity .5s;
+        opacity: 1;
+        transition: opacity .5s ease-in-out;
         filter: blur(8px);
         -webkit-filter: blur(8px);
     }
 
     .fade-enter,
     .fade-leave-to {
-        opacity: 0;
+        opacity: 0.5;
+        -webkit-filter: blur(8px); 
+        filter: blur(8px);
     }
 </style>

@@ -249,11 +249,9 @@ class itemController extends Controller
             $getItemReviews = itemReview::select('rating')->where('itemId', $productId)->get();
 
             for($i = 0; $i < count($getItemReviews); $i++){
-                $newOverAllRating += $getItemReviews[0]->rating;
+                $newOverAllRating += $getItemReviews[$i]->rating;
             }
-
             $newOverAllRating /= count($getItemReviews);
-
             $item = Items::where('itemId', $productId)
             ->update(['overAllrating' => $newOverAllRating]);
 

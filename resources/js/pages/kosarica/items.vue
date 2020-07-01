@@ -36,7 +36,7 @@
                         <v-img
                         :aspect-ratio="4/3"
                         class="productImg"
-                        :src='"http://vidbukovec.si/storage/products/"+cartItem.product.dir+"/"+cartItem.product.primaryImg'
+                        :src='migration[0].redirectURL+"storage/products/"+cartItem.product.dir+"/"+cartItem.product.primaryImg'
                         alt="Slika ne obstaja"
                         >
                         </v-img>
@@ -122,11 +122,13 @@
 
 <script>
 import store from '../../store/index'
+import migration from '../../../../migration.json'
 import Axios from 'axios'
 export default {
     data(){
         return{
             error: false,
+            migration: migration,
             changeQuantityInput: 0
         }
     },
@@ -160,7 +162,7 @@ export default {
                 return false;
             }
             else{
-                Axios.post('http://vidbukovec.si/api/check/cart', {cart: this.$store.state.cart.cart})
+                Axios.post('/api/check/cart', {cart: this.$store.state.cart.cart})
                 .then((results)=>{
                     console.log(results)
                     for(let i = 0; i < results.data.length; i++){

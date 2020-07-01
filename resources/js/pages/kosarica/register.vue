@@ -61,6 +61,7 @@
                     <v-col>
                         <v-text-field
                         label="Geslo"
+                        type="password"
                         v-if="this.$store.state.user.LoginStatus != false"
                         v-model="password"
                         >
@@ -85,7 +86,7 @@
 
                      <v-col>
                         <v-text-field
-                        label="Regija"
+                        label="Kraj"
                         v-model="region"
                         >
 

@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <div v-if="this.$store.state.user.isAuth == true">
+        <div v-if="this.$store.state.user.isAuth == true && this.$store.state.user.loginStatus == false">
             <h1>Celotno plačilo: {{ parseFloat(this.$store.state.cart.fullPrice).toFixed(2) }}&euro;</h1>
             <v-expansion-panels>
                 <v-expansion-panel>
@@ -67,9 +67,25 @@
                 <v-progress-circular indeterminate size="64"></v-progress-circular>
             </v-overlay>
         </div>
-        <div v-else>
-            <h1>You need to comfirm your mail first</h1>
-        </div>
+        
+        <!-- if user is not logged in or authenticated -->
+      
+        <v-row v-else>
+            <v-card
+            id = "emptyEmail"
+            elevation="0"
+            >
+                <div id = "EmailHolder">
+                    <v-icon
+                    size="100"
+                    id="EmailIcon"
+                    >
+                    mdi-email-check</v-icon>
+                </div>
+                <h3 class="text-center">Niste še potrdili vašega e-mail naslova!</h3>
+            </v-card>
+        </v-row>
+      
     </v-container>
 </template>
 
@@ -237,5 +253,26 @@ export default {
 }
 .stripe-card.complete {
   border-color: green;
+}
+
+
+#emptyEmail{
+    width: 100%;
+    margin: auto;
+    position: absolute;
+    top: 28%; 
+    left: 0;
+    bottom: 0; 
+    right: 0;
+}
+#EmailIcon{
+    position: relative;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+}
+#EmailHolder{
+    width: 5%;
+    margin: 0 auto;
 }
 </style>

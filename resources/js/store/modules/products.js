@@ -5,33 +5,46 @@ export default{
         products: '',
         counter: 1,
         stopApiCalls: false,
-        categories: ''
+        selected: false,
+        categories: '',
     }),
     mutations:{
         ADD_DATA(state, payload){
-            console.log(payload)
-            if(payload.length <= 0 || state.stopApiCalls){
-                state.stopApiCalls = true
+            //First checks if there were any specific selections
+            if(state.selected == true){
+                state.selected = false
+                state.products = null
+                state.products = payload
+
+                state.counter++
             }
-            else{
-                if(state.products.length == 0){
-                    state.products = payload
+            else{     
+                if(payload.length <= 0 || state.stopApiCalls){
+                    state.stopApiCalls = true
                 }
                 else{
-                    for(let i = 0; i < payload.length; i++){
-                        state.products.push(payload[i])
+                    if(state.products.length == 0){
+                        state.products = payload
                     }
-                }
-                state.counter++
+                    else{
+                        for(let i = 0; i < payload.length; i++){
+                            state.products.push(payload[i])
+                        }
+                    }
+                    state.counter++
+                }   
             }
         },
         SAVE_CATEGORIES(state, payload){
             state.categories = payload
         },
         FILTER_PRODUCTS(state, payload){
-            state.products = null;
+            state.products = null
             state.products = payload
-        }
+            
+            state.counter = 1
+            state.selected = true
+        },
     },
     actions:{
         //Return items per page
@@ -54,7 +67,8 @@ export default{
 
                 commit('FILTER_PRODUCTS', results.data.data)
             })
-        }
+        },
+        
     },
     getters:{
 

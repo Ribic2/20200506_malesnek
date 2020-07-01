@@ -56,6 +56,8 @@ Route::get('/items/{page}', function($page){
     return itemResource::collection(Items::where('delisted', 0)->paginate(12, ['*'], 'page', $page));
 });
 
+Route::post('/check/cart', 'OrderController@checkCartItems')->middleware('auth:api');
+
 Route::get('/items/category/{category}', function($category){
     return itemResource::collection(Items::where([
         ['categorie', '=', $category],
@@ -131,7 +133,6 @@ Route::middleware('auth:api', 'check_admin')->group(function(){
     });
 
     Route::post('/Order/confirm', 'OrderController@confirmOrder');
-    Route::post('/check/cart', 'OrderController@checkCartItems');
     Route::post('/Order/denied', 'OrderController@orderDenied');
 
     Route::post('/items/change', 'itemController@changeItem');

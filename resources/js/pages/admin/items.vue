@@ -19,12 +19,12 @@
                 <v-btn
                 @click="allUnlisted()"
                 >
-                    <v-icon>mdi-check</v-icon>
+                    <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-btn
                 @click="allDelisted()"
                 >
-                    <v-icon>mdi-close</v-icon>
+                    <v-icon>mdi-check</v-icon>
                 </v-btn>
                 <v-btn
                 @click="getAllItems()"

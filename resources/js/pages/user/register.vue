@@ -46,12 +46,13 @@
 
             <v-text-field
             label="Telefonska številka"
+            maxLength="9"
             v-model="phone"
             prepend-icon="mdi-phone"
             ></v-text-field>
 
           <v-card-actions>
-            <v-btn
+          <v-btn
             width="100%"
             rounded
             color="#6C3FB8"
@@ -69,6 +70,11 @@
 
       </v-card-text>
     </v-card>
+
+     <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+
   </v-container>
 </template>
 
@@ -86,7 +92,8 @@ export default {
             surname: '',
             response: '',
             //Other variables
-            showPassword: false
+            showPassword: false,
+            overlay: false
         }
     },
     methods:{
@@ -100,13 +107,14 @@ export default {
                 surname: this.surname,
             }
 
+            this.overlay = true
             Axios.post('/api/user/register', credentials)
             .then((results)=>{
                 if(results.data.authentication){
                     axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
                     localStorage.setItem('authToken', results.data.access_token)
                     this.$store.dispatch('checkLocalStorageCart')
-
+                    this.overlay = false
                     if(this.$router.currentRoute.path != "/kosarica"){
                         window.location.href = migration[0].redirectURL
                     }
@@ -115,6 +123,7 @@ export default {
                     }
                 }
             })
+            
 
 
 

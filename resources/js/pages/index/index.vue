@@ -21,6 +21,15 @@
                     <div id = "filterButtonHolder">
                             <v-btn
                             rounded
+                            color="#6C3FB8"
+                            elevation="0"
+                            class="ma-2"
+                            @click="getAllProducts()"
+                            >
+                            Vsi izdelk   
+                            </v-btn>
+                            <v-btn
+                            rounded
                             class="ma-2"
                             v-for="category in getCategories" v-bind:key="category.Categorie"
                             color="#6C3FB8"
@@ -77,7 +86,6 @@ export default {
          * ONLY ADDS products of 1st page!
          */
         addData(){
-
             if(this.$store.state.products.products.length == 0){
                 return this.$store.dispatch('getDataPerPage', 1)
             }
@@ -97,6 +105,12 @@ export default {
         },
         getCategorySpecificItems(e){
             return this.$store.dispatch('filterItemsByCategory', e)
+        },
+        /**
+         * Gets all products from 1st page
+         */
+        getAllProducts(){
+           return this.$store.dispatch('getDataPerPage', 1)
         }
     },
     computed:{

@@ -45,7 +45,7 @@
         nav
         v-else
       >
-       <h5 class = "text-center">Dobrodošel {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
+       <h5 class = "text-center">Dobrodošli {{ this.$store.state.user.Name}} {{ this.$store.state.user.Surname}}</h5>
         <v-list-item>
             <v-btn
             width="100%"

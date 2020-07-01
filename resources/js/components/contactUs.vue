@@ -3,11 +3,11 @@
     elevation="0"
     >
         <v-card-title
-        class="display-1"
+        class="display-1 pl-0"
         >Kontaktirajte nas</v-card-title>
         <v-form>
             <v-text-field
-            label="Vaše ime"
+            label="Ime in priimek"
             outlined
             v-model="name"
             >
