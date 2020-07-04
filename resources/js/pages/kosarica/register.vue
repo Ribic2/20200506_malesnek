@@ -41,31 +41,29 @@
                         label="Priimek"
                         v-model="surname"
                         >
-
                         </v-text-field>
                     </v-col>
                 </v-row>
 
 
                 <v-row>
-                    <v-col>
+                    <!-- If user is registerd -->
+                    <v-col v-if="this.$store.state.user.Email">
                         <v-text-field
                         label="email"
-                        :value="this.$store.state.user.Email ? this.$store.state.user.Email : ''"
-                        :model="this.$store.state.user.Email ? '' : email"
-                        :disabled="this.$store.state.user.Surname ? true : false"
+                        :value="this.$store.state.user.Email"
+                        disabled
                         >
-
                         </v-text-field>
                     </v-col>
-                    <v-col>
-                        <v-text-field
-                        label="Geslo"
-                        type="password"
-                        v-if="this.$store.state.user.LoginStatus != false"
-                        v-model="password"
-                        >
 
+
+                    <!-- If user is not registerd nor is guest -->
+                    <v-col v-else>
+                        <v-text-field
+                        label="email"
+                        v-model="email"
+                        >
                         </v-text-field>
                     </v-col>
                 </v-row>
@@ -74,17 +72,22 @@
                 <v-row>
                     <v-col>
                         <v-text-field
-                        label="Tel. šteilka"
-                        :value="this.$store.state.user.Phone ? this.$store.state.user.Phone : ''"
-                        :model="this.$store.state.user.Phone ? '' : telephonNumber"
-                        :disabled="this.$store.state.user.Phone ? true : false"
+                        v-if="this.$store.state.user.Phone"
+                        :value="this.$store.state.user.Phone"
+                        :model="this.$store.state.user.Phone"
+                        disabled
                         >
-
+                        </v-text-field>
+                        <v-text-field
+                        label="Tel. šteilka"
+                        v-model="telephonNumber"
+                        v-else
+                        >
 
                         </v-text-field>
                     </v-col>
 
-                     <v-col>
+                    <v-col>
                         <v-text-field
                         label="Kraj"
                         v-model="region"
@@ -139,7 +142,6 @@ export default {
             name: '',
             surname: '',
             email: '',
-            password: '',
             telephonNumber: '',
             houseNumberAndStreet: '',
             postcode: '',
@@ -152,7 +154,6 @@ export default {
             var credentials = {
                 name: this.$store.state.user.Name ? this.$store.state.user.Name : this.name,
                 surname: this.$store.state.user.Surname ? this.$store.state.user.Surname : this.surname,
-                password: this.$store.state.user.LoginStatus ? '' : this.password,
                 email: this.$store.state.user.Email ? this.$store.state.user.Email : this.email,
                 region: this.region,
                 phone: this.$store.state.user.Phone ? this.$store.state.user.Phone : this.telephonNumber,
@@ -161,17 +162,16 @@ export default {
                 isAlreadyRegisterd: this.$store.state.user.LoginStatus ? 1 : 0
 
             }
-            if(this.password.length < 7 && !this.$store.state.user.LoginStatus){
-                this.error = "Geslo je prekratko!"
-                return false;
-            }
 
-             Axios.post('api/user/register/cart', credentials)
+
+            Axios.post('api/user/register/cart', credentials)
             .then((results)=>{
+                //Checks if user registerd as guest
+                if(results.data.guest){
+                    localStorage.setItem('guest', JSON.stringify(results.data.user))
+                }
+                if(results.data.response == "Ok"){
 
-                if(results.data.authentication){
-                    axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
-                    localStorage.setItem('authToken', results.data.access_token)
                     this.$store.dispatch('checkLocalStorageCart')
 
                     if(this.$router.currentRoute.path != "/kosarica"){
@@ -183,7 +183,26 @@ export default {
 
                 }
             })
+        },
+        /**
+        * Checks if
+        */
+        checkIfGuest(){
+            if(localStorage.getItem('guest')){
+                let data = JSON.parse(localStorage.getItem('guest'))
+                this.name = data.Name
+                this.surname = data.Surname
+                this.email = data.Email
+                this.telephonNumber = data.Phone
+                this.postcode = data.PostCode
+                this.region = data.Region
+                this.houseNumberAndStreet = data.houseNumberAndStreet
+
+            }
         }
+    },
+    mounted(){
+        this.checkIfGuest()
     }
 }
 </script>

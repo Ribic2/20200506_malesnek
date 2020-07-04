@@ -29,7 +29,7 @@ class OrderController extends Controller
 
         $checkStock = Items::select('availableQuantity')->where('itemId', $itemId)->get();
 
-        if($checkStock[0]->availableQuantity == 0 || $checkStock[0]->availableQuantity - $quantity <= 0){
+        if($checkStock[0]->availableQuantity == 0 || $checkStock[0]->availableQuantity - $quantity < 0){
             array_push($this->outOfStockItems, $itemId);
             return false;
         }
@@ -154,12 +154,12 @@ class OrderController extends Controller
         $cart = $request->input('cart');
 
         for($i = 0; $i < count($cart); $i++){
-            
-            
+
+
             $item = Items::select('availableQuantity')->where('itemId', $cart[$i]["product"]["itemId"])->get();
             $checkIfItemExists = Items::where('itemId' ,$cart[$i]["product"]["itemId"])->get();
 
-            
+
             if(count($checkIfItemExists) == 0){
                 array_push($this->checkIfOutofStock, $cart[$i]["product"]["itemId"]);
             }

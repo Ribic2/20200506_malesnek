@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('Surname');
             $table->string('email');
             $table->string('remember_token')->nullable($value=true);
-            $table->string('password');
+            $table->string('password')->nullable($value=true);
             $table->string('Telephone');
             $table->string('Country')->nullable($value=true);
             $table->string('Region')->nullable($value=true);
@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->integer('Postcode')->nullable($value=true);
             $table->boolean('isAuth');
             $table->boolean('isNewCustomer');
+            $table->boolean('isGuest');
             $table->boolean('isEmployee');
             $table->integer('overallSpending')->default(0);
             $table->integer('points')->default(0);

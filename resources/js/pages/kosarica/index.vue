@@ -53,6 +53,7 @@
           text
           >Prekini</v-btn>
           <v-btn
+            v-if="(this.$store.state.user.isAuth == 1 && this.$store.state.user.isNewCustomer) || isGuest == true"
             class="float-right"
             color="primary"
             @click="counter = 3"
@@ -132,12 +133,21 @@ export default {
             counter: 1,
             check: '',
             dialog: false,
+            isGuest: ''
         }
      },
      methods:{
         redirectToFrontPage(){
             route.push({name: 'index'})
-        }
+        },
+        checkIfGuest(){
+            if(JSON.parse(localStorage.getItem('guest'))){
+                this.isGuest = true
+            }
+            else{
+                this.isGuest = false
+            }
+        },
     }
 }
 </script>

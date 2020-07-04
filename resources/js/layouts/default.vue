@@ -80,6 +80,16 @@
             color="#6C3FB8"
             >Ogled prejšnih naročil</v-btn>
         </v-list-item>
+
+        <v-list-item>
+          <v-btn
+          rounded
+          dark
+          width="100%"
+          to="/user/profile"
+          color="#6C3FB8"
+          >Ogled profila</v-btn>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

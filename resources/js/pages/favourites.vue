@@ -4,19 +4,10 @@
             <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-overlay>
         <v-row v-if="(this.$store.state.favourites.favouriteItem == null || this.$store.state.favourites.favouriteItem.length == 0) && overlay == false">
-            <v-card
-            id = "emptyFavourites"
-            elevation="0"
-            >
-                <div id = "starHolder">
-                    <v-icon
-                    size="100"
-                    id="starIcon"
-                    >
-                    mdi-star</v-icon>
-                </div>
-                <h3 class="text-center">Nimate dodanih nobenih izdelkov!</h3>
-            </v-card>
+            <empty
+            text="Nimate dodanih nobenih izdelkov!"
+            icon="mdi-star"
+            ></empty>
         </v-row>
 
         <v-row>
@@ -37,8 +28,10 @@
 import item from '../pages/index/item.vue'
 import store from '../store/index'
 import Axios from 'axios'
+import empty from '../components/empty.vue'
 export default {
     components:{
+        empty,
         item
     },
     data(){

@@ -164,6 +164,7 @@ class itemController extends Controller
         $images = $request->file('images');
         $Description = $request->input('Description');
 
+        
         //Validation
         $rules = [
             'cena' => 'required|numeric',
@@ -177,6 +178,8 @@ class itemController extends Controller
         //Validates if provided items are correct type
         $this->validate($request, $rules, $customMessage);
 
+
+    
         if(Items::where('itemName', $itemName)->count() == 1){
             return "Izdelek že obstaja!";
         }

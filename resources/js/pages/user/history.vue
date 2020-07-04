@@ -1,19 +1,10 @@
 <template>
     <v-container>
         <v-row v-if="$store.state.user.orderHistory == null || $store.state.user.orderHistory.length == 0">
-            <v-card
-            id = "emptyFavourites"
-            elevation="0"
-            >
-                <div id = "starHolder">
-                    <v-icon
-                    size="100"
-                    id="starIcon"
-                    >
-                    mdi-package</v-icon>
-                </div>
-                <h3 class="text-center">Nimate še nobenih naročil!</h3>
-            </v-card>
+            <empty
+            icon="mdi-package"
+            text="Nimate še nobenih naročil!"
+            ></empty>
         </v-row>
 
         <v-expansion-panels v-else>
@@ -52,11 +43,15 @@
 </template>
 
 <script>
+import empty from '../../components/empty.vue'
 import Axios from 'axios'
 import store from '../../store/index'
 import migration from '../../../../migration.json'
 
 export default {
+    components:{
+        empty
+    },
     data(){
         return{
             migration: migration
@@ -75,23 +70,5 @@ export default {
 </script>
 
 <style scoped>
-    #emptyFavourites{
-        width: 100%;
-        margin: auto;
-        position: absolute;
-        top: 28%; 
-        left: 0;
-        bottom: 0; 
-        right: 0;
-    }
-    #starIcon{
-        position: relative;
-        vertical-align: middle;
-        height: 100%;
-        width: 100%;
-    }
-    #starHolder{
-        width: 5%;
-        margin: 0 auto;
-    }
+  
 </style>

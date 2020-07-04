@@ -10,13 +10,15 @@ export default{
         userId: '',
         isEmployee: '',
         LoginStatus: false,
-        isAuth: '',
+        isAuth: 0,
         check: false,
         isNewCustomer: '',
         orderHistory: ''
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
+
+            console.log(state)
             state.Name = payload.Name
             state.Surname = payload.Surname
             state.Email = payload.Email
@@ -28,7 +30,7 @@ export default{
             state.isNewCustomer = payload.isNewCustomer
             //Checks if user is authentiacted (activated his/her mail)
             //and if user ever purchased
-            if(state.isAuth == 1){
+            if(state.isAuth == 1 && state.isNewCustomer == 1){
                 state.check=true
             }
         },

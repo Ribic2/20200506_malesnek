@@ -46,6 +46,18 @@ const router = new VueRouter({
                     path: '/user/register',
                     component: ()=> import('../pages/user/register.vue'),
 
+                },
+                {
+                    path: '/user/profile',
+                    component: ()=> import('../pages/user/profile.vue'),
+                    //Checks if user is logged in, if not he is redirected
+                    beforeEnter: (to, from, next)=>{
+                        if(localStorage.getItem('authToken') == null){
+                            next('/')
+                        }
+                        else next()
+                    }
+
                 }
             ]
         },

@@ -34,7 +34,7 @@
             prepend-icon="mdi-lock"
             ></v-text-field>
           <v-card-actions>
-            <v-btn           
+            <v-btn
             width="100%"
             rounded
             color="#6C3FB8"
@@ -81,9 +81,11 @@ export default {
                 this.$store.dispatch('checkLocalStorageCart')
 
                 if(this.$router.currentRoute.path != "/kosarica"){
+                    localStorage.removeItem('guest')
                     window.location.href = migration[0].redirectURL
                 }
                 else{
+                    localStorage.removeItem('guest')
                     window.location.href = migration[0].redirectURL+"kosarica"
                 }
 

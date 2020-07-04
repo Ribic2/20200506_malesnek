@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <div v-if="this.$store.state.user.isAuth == true && this.$store.state.user.loginStatus == false">
+        <div v-if="(this.$store.state.user.isAuth == 1 && this.$store.state.user.isNewCustomer) || isGuest == true">
             <h1>Celotno plačilo: {{ parseFloat(this.$store.state.cart.fullPrice).toFixed(2) }}&euro;</h1>
             <v-expansion-panels>
                 <v-expansion-panel>
@@ -67,9 +67,9 @@
                 <v-progress-circular indeterminate size="64"></v-progress-circular>
             </v-overlay>
         </div>
-        
+
         <!-- if user is not logged in or authenticated -->
-      
+
         <v-row v-else>
             <v-card
             id = "emptyEmail"
@@ -85,7 +85,7 @@
                 <h3 class="text-center">Niste še potrdili vašega e-mail naslova!</h3>
             </v-card>
         </v-row>
-      
+
     </v-container>
 </template>
 
@@ -115,6 +115,7 @@ export default {
             },
             error: '',
             overlay: false,
+            isGuest: null
         }
     },
     methods: {
@@ -137,9 +138,25 @@ export default {
 
                     fullPrice.toFixed(2)
 
+                    let id = null
+                    if(localStorage.getItem('guest')){
+                        let data = JSON.parse(localStorage.getItem("guest"))
+                        id = data.Id
+                    }
+                    else{
+                        id = this.$store.user.userId
+                    }
+
+
 
                     this.overlay = true;
-                    Axios.post('/api/order/add', {products: itemIds, userId: this.$store.state.user.userId, quantity: quantity, fullPrice: fullPrice, stripeToken: respond.token.id })
+                    Axios.post('/api/order/add', {
+                        products: itemIds,
+                        userId: id ,
+                        quantity: quantity,
+                        fullPrice: fullPrice,
+                        stripeToken: respond.token.id
+                    })
                     .then((results)=>{
 
                         if(results.data.itemsOutOfStock){
@@ -150,6 +167,11 @@ export default {
                             this.dialog = true
                             this.overlay = false;
                             localStorage.removeItem('cartStorage')
+
+                            if(localStorage.getItem('guest')){
+                                localStorage.removeItem('guest')
+                            }
+
                             this.$store.state.cart.cart = new Array();
 
                             //Redirects to /checkout
@@ -191,7 +213,6 @@ export default {
                 })
         },
         getFullPrice(){
-            console.log("check");
             let data = JSON.parse(localStorage.getItem('cartStorage'));
             let fullPrice = 0;
 
@@ -207,10 +228,22 @@ export default {
             }
 
             this.$store.dispatch('getFullPrice', fullPrice)
-        }
-
+        },
+        checkUserProfile(){
+            return this.$store.dispatch('storeUserData')
+        },
+        checkIfGuest(){
+            if(JSON.parse(localStorage.getItem('guest'))){
+                this.isGuest = true
+            }
+            else{
+                this.isGuest = false
+            }
+        },
     },
     mounted(){
+        this.checkIfGuest(),
+        this.checkUserProfile(),
         this.getFullPrice()
     }
 };
@@ -260,9 +293,9 @@ export default {
     width: 100%;
     margin: auto;
     position: absolute;
-    top: 28%; 
+    top: 28%;
     left: 0;
-    bottom: 0; 
+    bottom: 0;
     right: 0;
 }
 #EmailIcon{

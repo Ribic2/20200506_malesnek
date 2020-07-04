@@ -1,15 +1,26 @@
 <template>
-    <h1>{{  displayText }}</h1>
+    <v-container>
+        <empty
+        :text="displayText"
+        :icon="icon"
+        ></empty>
+
+    </v-container>
 </template>
 
 <script>
+import empty from '../../components/empty.vue'
+
 import router from '../../routes/router'
 import Axios from 'axios'
 export default {
-
+    components:{
+        empty
+    },
     data(){
         return{
-            displayText: ''
+            displayText: '',
+            icon: ''
         }
     },
     methods:{
@@ -19,9 +30,11 @@ export default {
             .then((results)=>{
                 if(results.data == 1){
                     this.displayText = "Uporabik uspešno potrjen!"
+                    this.icon="mdi-emoticon-happy-outline"
                 }
                 else{
                     this.displayText = "Uporabnik ne obstaja ali je pa že potrjen"
+                    this.icon = "mdi-emoticon-sad-outline"
                 }
             })
         }

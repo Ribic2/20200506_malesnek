@@ -6,20 +6,11 @@
             Nekateri izdelki so bili odstranjeni iz košarice, ker niso več na zalogi. O zalogi nas lahko kontaktirate na <a href="/kontakt">kontakt</a>
         </v-alert>
         <div v-if="this.$store.state.cart.cart.length == 0">
-            <v-card
-            id = "emptyCart"
-            elevation="0"
-            >
-                <div id = "cartHolder">
-                    <v-icon
-                    size="100"
-                    id="cartIcon"
-                    >
-                    mdi-cart</v-icon>
-                </div>
-                <h3 class="text-center">Košarica je prazna!</h3>
-                <p class="text-center">Zgleda da je vaša košarica prazna.</p>
-            </v-card>
+            <empty
+            icon="mdi-cart"
+            text="Košarica je prazna!"
+            ></empty>
+           
         </div>
         <div v-else>
             <v-card v-for="cartItem in this.$store.state.cart.cart" v-bind:key="cartItem.itemId"
@@ -121,10 +112,14 @@
 </template>
 
 <script>
+import empty from '../../components/empty.vue'
 import store from '../../store/index'
 import migration from '../../../../migration.json'
 import Axios from 'axios'
 export default {
+    components:{
+        empty
+    },
     data(){
         return{
             error: false,
@@ -210,21 +205,5 @@ export default {
     }
     .quantityChangerHolder{
         height: 57px;
-    }
-    #emptyCart{
-        width: 100%;
-        height: 100% !important;
-        position: relative;
-        top: 200px;
-    }
-    #cartIcon{
-        position: relative;
-        vertical-align: middle;
-        height: 100%;
-        width: 100%;
-    }
-    #cartHolder{
-        width: 5%;
-        margin: 0 auto;
     }
 </style>
