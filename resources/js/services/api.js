@@ -93,5 +93,16 @@ export default{
     },
     oldestContacts(){
         return instace.get('/api/contact/oldest')
+    },
+
+    /**
+    * Add item to favourites db
+    */
+
+    addToFavourites(payload){
+        return instace.post('/api/add/favourites', payload)
+    },
+    getAllFavourites(){
+        return instace,get('/api/get/favourites')
     }
 }

@@ -101,7 +101,11 @@ Route::get('/orders', function(){
 
 
 Route::post('/check/favourites', 'itemController@checkFavourites');
+Route::post('/add/favourites', 'favouritesController@addToFavourites')->middleware('auth:api');
+Route::get('/get/favourites', 'favouritesController@getFavourites')->middleware('auth:api');
+
 Route::post('/user/orders/history', 'OrderController@getAllUsersOrder')->middleware('auth:api');
+
 
 Route::middleware('auth:api', 'check_admin')->group(function(){
 

@@ -8,14 +8,15 @@ use App\Items;
 use App\Order;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\Validator;
 use Stripe\Product;
 
 class itemController extends Controller
-{   
+{
 
 
-  
+
     /**
      * Function  that searches for items from user input
      */
@@ -31,7 +32,7 @@ class itemController extends Controller
             $item = Items::select('availableQuantity')->where('itemId', $favourites[$i]["itemId"])->get();
             $checkIfItemExists = Items::where('itemId', $favourites[$i]["itemId"])->get();
 
-            
+
             if(count($checkIfItemExists) == 0){
                 array_push($checkItems, $favourites[$i]["itemId"]);
             }
@@ -104,7 +105,7 @@ class itemController extends Controller
     }
     //Delists item from store
     public function delistItem(Request $request){
-      
+
         if($request->input('status') == "Remove"){
             $item = Items::find($request->input('itemId'));
             $item->delisted = 1;
@@ -164,7 +165,7 @@ class itemController extends Controller
         $images = $request->file('images');
         $Description = $request->input('Description');
 
-        
+
         //Validation
         $rules = [
             'cena' => 'required|numeric',
@@ -179,7 +180,7 @@ class itemController extends Controller
         $this->validate($request, $rules, $customMessage);
 
 
-    
+
         if(Items::where('itemName', $itemName)->count() == 1){
             return "Izdelek že obstaja!";
         }
