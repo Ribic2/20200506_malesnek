@@ -18,18 +18,62 @@ class AuthController extends Controller
     function getUserData(){
         if(Auth::check()){
             $user = Auth::user();
-            $returnCredentials = ["id"=>$user->user_id,
+            $returnCredentials = [
+            "id"=>$user->user_id,
             "Name"=>$user->Name,
             "Surname"=> $user->Surname,
             "Email"=>$user->email,
             "Phone"=>$user->Telephone,
             "isAuth"=>$user->isAuth,
             "isEmployee"=>$user->isEmployee,
-            "isNewCustomer" => $user->isNewCustomer
+            "isNewCustomer" => $user->isNewCustomer,
+
+            //Place
+            "houseNumberAndStreet" => $user->houseNumberAndStreet,
+            "Postcode"=> $user->Postcode,
+            "Region" => $user->Region
             ];
             return response(['user'=>$returnCredentials]);
         }
         return response()->json("user is not logged", 200);
+    }
+
+    /**
+    * Changes users basic data
+    */
+    public function changeUserBasics(Request $request){
+        $name = $request->input('name');
+        $surname = $request->input('surname');
+        $phone = $request->input('phone');
+        $userId = $request->input('userId');
+
+        $changeBasic = User::find($userId);
+
+        $changeBasic->Name = $name;
+        $changeBasic->Surname = $surname;
+        $changeBasic->Telephone = $phone;
+
+        if($changeBasic->save()){
+            return response("Ok", 200);
+        }
+    }
+
+    public function changeResidenceInfo(Request $request){
+        $postcode = $request->input('postcode');
+        $houseNumberAndStreet = $request->input('houseNumberAndStreet');
+        $region = $request->input('region');
+        $userId = $request->input('userId');
+
+        $changeBasic = User::find($userId);
+
+        $changeBasic->houseNumberAndStreet = $houseNumberAndStreet;
+        $changeBasic->Postcode = $postcode;
+        $changeBasic->Region = $region;
+
+        if($changeBasic->save()){
+            return response("Ok", 200);
+        }
+
     }
     /**
      * Check if user is admin
@@ -66,7 +110,7 @@ class AuthController extends Controller
     }
     public function getAllUsers(){
         if(Auth::check() && Auth::user()->isEmployee == 1){
-            $returnCredentials = User::all();
+            $returnCredentials = User::all()->where('isGuest', 0);
 
             return $returnCredentials;
 

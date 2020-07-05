@@ -149,5 +149,9 @@ Route::post('/order/add', 'OrderController@reciveOrder');
 Route::middleware('auth:api', 'check_admin')->post('/user/delete', 'authController@deleteUser');
 Route::middleware('auth:api', 'check_admin')->post('/user/change/admin', 'authController@changeAdmin');
 Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
+
+Route::middleware('auth:api')->post('/user/change/basic', 'AuthController@changeUserBasics');
+Route::middleware('auth:api')->post('/user/change/residence', 'AuthController@changeResidenceInfo');
+
 Route::middleware('auth:api')->get('/profile/admin','AuthController@checkIfAdmin');
 Route::middleware('auth:api', 'check_admin')->get('/users/all', 'AuthController@getAllUsers');

@@ -8,11 +8,11 @@
                 <v-card
                 height="300"
                 >
-                
+
                 <v-card-title>
                 Informacije u uporabniku
                 </v-card-title>
-                
+
                 <v-card-text>
 
                     <p><span class="font-weight-black">Ime in priimek</span> {{ this.$store.state.user.Name }} {{ this.$store.state.user.Surname }}</p>
@@ -30,18 +30,187 @@
             >
                 <v-card
                 height="500"
-                >test</v-card>
+                >
+                    <v-expansion-panels>
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Spremeni naslov dostave</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+
+                                <v-text-field
+                                label="Kraj"
+                                v-model="region"
+                                >
+                                </v-text-field>
+
+                                <v-text-field
+                                v-model="houseNumberAndStreet"
+                                label="Hišna številka in ulica"
+                                >
+                                </v-text-field>
+
+                                <v-text-field
+                                label="Poštna številka"
+                                v-model="postcode"
+                                >
+                                </v-text-field>
+
+                                <v-btn
+                                width="100%"
+                                rounded
+                                color="#6C3FB8"
+                                dark
+                                @click="changeResidenceInfo()"
+                                >Spremeni</v-btn>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+
+                        <v-expansion-panel>
+                            <v-expansion-panel-header>Spremeni osnovne podatke</v-expansion-panel-header>
+
+                            <v-expansion-panel-content>
+                                <v-text-field
+                                label="Ime"
+                                v-model="name"
+                                >
+                                </v-text-field>
+
+                                <v-text-field
+                                label="Priimek"
+                                v-model="surname"
+                                >
+                                </v-text-field>
+
+                                <v-text-field
+                                label="Tel. šteilka"
+                                v-model="phone"
+                                >
+                                </v-text-field>
+
+                                <v-btn
+                                width="100%"
+                                rounded
+                                color="#6C3FB8"
+                                dark
+                                @click="changeBasicInfo()"
+                                >Spremeni</v-btn>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </v-card>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import store from '../../store/index'
 import router from '../../routes/router'
+import Axios from 'axios'
 export default {
- 
-    
+    data(){
+        return{
+            changeRegion: '',
+            changeHouseNumberAndStreet: '' ,
+            changePostcode: '',
+            changeName: '',
+            changeSurname: '',
+            changePhone: ''
+        }
+    },
+    computed:{
+        name:{
+            get(){
+                this.changeName = this.$store.state.user.Name
+                return this.$store.state.user.Name
+            },
+            set(value){
+                this.changeName = value
+            }
+        },
+        surname:{
+            get(){
+                this.changeSurname = this.$store.state.user.Surname
+                return this.$store.state.user.Surname
+            },
+            set(value){
+               this.changeSurname = value
+            }
+        },
+        phone:{
+            get(){
+                this.changePhone = this.$store.state.user.Phone
+                return this.$store.state.user.Phone
+            },
+            set(value){
+                this.changePhone = value
+            }
+        },
+
+        region:{
+            get(){
+                this.changeRegion = this.$store.state.user.Region
+                return this.$store.state.user.Region
+            },
+            set(value){
+                this.changeRegion = value
+            }
+        },
+        postcode:{
+            get(){
+                this.postcode = this.$store.state.user.Postcode
+                return this.$store.state.user.Postcode
+            },
+            set(value){
+                this.changePostcode = value
+            }
+        },
+        houseNumberAndStreet:{
+            get(){
+                this.changeHouseNumberAndStreet = this.$store.state.user.houseNumberAndStreet
+                return this.$store.state.user.houseNumberAndStreet
+            },
+            set(value){
+               this.changeHouseNumberAndStreet = value
+            }
+        }
+
+    },
+    methods:{
+        //Changes basic info about user such as name, surname and phone number
+        changeBasicInfo(){
+            //All credentials that are going to get changed
+            var credentials = {
+                name: this.changeName,
+                surname: this.changeSurname,
+                phone: this.changePhone,
+                userId: this.$store.state.user.userId
+            }
+
+
+
+
+            Axios.post('/api/user/change/basic', credentials)
+            .then((results)=>{
+                return this.$store.dispatch('storeUserData')
+            })
+        },
+        //Changes the user's residence information
+        changeResidenceInfo(){
+            //All credentials that are going to get changed
+            var credentials = {
+                postcode: this.changePostcode,
+                houseNumberAndStreet: this.changeHouseNumberAndStreet,
+                region: this.changeRegion,
+                userId: this.$store.state.user.userId
+            }
+
+            Axios.post('/api/user/change/residence', credentials)
+            .then((results)=>{
+                return this.$store.dispatch('storeUserData')
+            })
+        },
+    }
 }
 </script>
 

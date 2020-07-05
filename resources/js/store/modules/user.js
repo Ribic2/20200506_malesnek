@@ -13,12 +13,16 @@ export default{
         isAuth: 0,
         check: false,
         isNewCustomer: '',
-        orderHistory: ''
+        orderHistory: '',
+
+        //Place
+        houseNumberAndStreet: '',
+        Postcode: '',
+        Region: ''
     }),
     mutations:{
         ADD_USER_DATA(state, payload){
 
-            console.log(state)
             state.Name = payload.Name
             state.Surname = payload.Surname
             state.Email = payload.Email
@@ -28,6 +32,10 @@ export default{
             state.LoginStatus = true
             state.isAuth = payload.isAuth
             state.isNewCustomer = payload.isNewCustomer
+
+            state.houseNumberAndStreet = payload.houseNumberAndStreet
+            state.Postcode = payload.Postcode
+            state.Region = payload.Region
             //Checks if user is authentiacted (activated his/her mail)
             //and if user ever purchased
             if(state.isAuth == 1 && state.isNewCustomer == 1){

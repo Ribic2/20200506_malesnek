@@ -20,7 +20,7 @@
                         <v-text-field
                         label="Priimek"
                         :value="this.$store.state.user.Surname ? this.$store.state.user.Surname : ''"
-                        :vmodel="this.$store.state.user.Surname ? '' : surname"
+                        :model="this.$store.state.user.Surname ? '' : surname"
                         :disabled="this.$store.state.user.Surname ? true : false"
                         >
                         </v-text-field>
@@ -190,6 +190,7 @@ export default {
         checkIfGuest(){
             if(localStorage.getItem('guest')){
                 let data = JSON.parse(localStorage.getItem('guest'))
+
                 this.name = data.Name
                 this.surname = data.Surname
                 this.email = data.Email

@@ -14,7 +14,7 @@
                 <v-divider></v-divider>
 
                 <v-card-text>
-                    <p><span class="font-weight-bold">E-naslov:  </span>{{ user.email }}</p>
+                    <p><span class="font-weight-bold">E-naslov: </span>{{ user.email }}</p>
                     <p><span class="font-weight-bold">Telefon: </span>{{ user.Telephone }}</p>
                     <p><span class="font-weight-bold">Hišna številka: </span>{{ user.houseNumberAndStreet }} {{ user.Postcode }}</p>
 
