@@ -14,7 +14,7 @@
                         @click="redirectToItemPage(product)"
                         class="headline"
                         >{{ product.itemName }}</v-card-title>
-                        
+
                         <v-chip
                         v-if="product.isOnSale"
                         class="ma-2"
@@ -30,8 +30,8 @@
                     <div
                     class="holder_product"
                     v-if="currentlySelectedItemId==product.itemId">
-                        
-                            <div 
+
+                            <div
                             class = "product_info"
                             >
                                 <p
@@ -63,16 +63,18 @@
                                 color="error">
                                 Izdelek ni na zalogi
                                 </v-chip>
+
+
                             </div>
-                        
+
                         <v-img
-                        
+
                         :src="migration[0].redirectURL+'storage/products/'+product.dir+'/'+product.primaryImg"
                         class="productImage_back ma-2"
                         :aspect-ratio="1/1"
                         >
                         </v-img>
-                       
+
                     </div>
 
                     <!-- Front page of item -->
@@ -122,7 +124,7 @@
                     <v-btn
                     @click="addToFavourites(product)"
                     icon
-                    v-if="$store.state.favourites.favouriteItem == null"
+                    v-if="$store.state.favourites.favouriteItem.length == 0"
                     >
                     <v-icon>mdi-star</v-icon>
                     </v-btn>
@@ -238,7 +240,7 @@ export default {
     .fade-enter,
     .fade-leave-to {
         opacity: 0.5;
-        -webkit-filter: blur(8px); 
+        -webkit-filter: blur(8px);
         filter: blur(8px);
     }
 </style>

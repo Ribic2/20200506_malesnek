@@ -160,6 +160,8 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -222,7 +224,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.card-actions {\n      position: absolute;\n      padding-top: 10px;\n      bottom: 0;\n}\n.productImage_back{\n      position: relative;\n      bottom: 15px;\n      opacity: 0.5;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.productImage{\n      position: relative;\n      bottom: 15px;\n}\n.product_info{\n      position: absolute;\n      width: 100%;\n}\n#content_holder{\n      width: 95%;\n      margin: 0 auto;\n      background-size: cover;\n      height: 73%;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter-active,\n  .fade-leave-active {\n      opacity: 1;\n      transition: opacity .5s ease-in-out;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter,\n  .fade-leave-to {\n      opacity: 0.5;\n      -webkit-filter: blur(8px); \n      filter: blur(8px);\n}\n", ""]);
+exports.push([module.i, "\n.card-actions {\n      position: absolute;\n      padding-top: 10px;\n      bottom: 0;\n}\n.productImage_back{\n      position: relative;\n      bottom: 15px;\n      opacity: 0.5;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.productImage{\n      position: relative;\n      bottom: 15px;\n}\n.product_info{\n      position: absolute;\n      width: 100%;\n}\n#content_holder{\n      width: 95%;\n      margin: 0 auto;\n      background-size: cover;\n      height: 73%;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter-active,\n  .fade-leave-active {\n      opacity: 1;\n      transition: opacity .5s ease-in-out;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter,\n  .fade-leave-to {\n      opacity: 0.5;\n      -webkit-filter: blur(8px);\n      filter: blur(8px);\n}\n", ""]);
 
 // exports
 
@@ -530,7 +532,8 @@ var render = function() {
                                   [_vm._v("V košarico")]
                                 ),
                             _vm._v(" "),
-                            _vm.$store.state.favourites.favouriteItem == null
+                            _vm.$store.state.favourites.favouriteItem.length ==
+                            0
                               ? _c(
                                   "v-btn",
                                   {

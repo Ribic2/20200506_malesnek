@@ -59,7 +59,7 @@
             <v-icon>mdi-logout</v-icon>
             Odjava</v-btn>
 
-            
+
          </v-list-item>
         <v-list-item>
             <v-btn
@@ -252,7 +252,6 @@ export default {
         authUser(){
             return this.$store.dispatch('storeUserData')
         },
-
         refreshCart(){
             return this.$store.dispatch('checkLocalStorageCart')
         },
@@ -264,6 +263,11 @@ export default {
         },
         redirect(){
           window.location.href=migration[0].redirectURL
+        },
+        getFavourites(){
+            if(localStorage.getItem('authToken')){
+                return this.$store.dispatch('resetFavouritesRegisterdUser')
+            }
         }
     },
     computed:{
@@ -271,7 +275,8 @@ export default {
     },
     mounted(){
         this.authUser(),
-        this.refreshCart()
+        this.refreshCart(),
+        this.getFavourites()
     }
 }
 </script>

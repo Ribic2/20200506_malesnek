@@ -103,6 +103,6 @@ export default{
         return instace.post('/api/add/favourites', payload)
     },
     getAllFavourites(){
-        return instace,get('/api/get/favourites')
+        return instace.get('/api/get/favourites')
     }
 }

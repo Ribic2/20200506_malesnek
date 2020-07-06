@@ -18,6 +18,7 @@
             lg="6"
             md="6"
             >
+
                 <item v-bind:product="product"></item>
             </v-col>
         </v-row>
@@ -45,29 +46,31 @@ export default {
                     localStorage.setItem('favouritesStorage', "[]")
                 }
                 else{
-                    this.overlay = true
-                    var data = JSON.parse(localStorage.getItem('favouritesStorage'))
-                    Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
-                    .then((results)=>{
-                        if(data == null && results == null){
-                            this.overlay = false
-                        }
-                        else{
-                            
-                            for(let i = 0; i < results.data.length; i++){
-                                for(let x = 0; x < data.length; x++){
-                                    if(data[x].itemId == results.data[i]){
-                                        data.splice(x,1)
+                    if(!localStorage.getItem('authToken')){
+                        this.overlay = true
+                        var data = JSON.parse(localStorage.getItem('favouritesStorage'))
+                        Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
+                        .then((results)=>{
+                            if(data == null && results == null){
+                                this.overlay = false
+                            }
+                            else{
+
+                                for(let i = 0; i < results.data.length; i++){
+                                    for(let x = 0; x < data.length; x++){
+                                        if(data[x].itemId == results.data[i]){
+                                            data.splice(x,1)
+                                        }
                                     }
                                 }
+
+                                localStorage.setItem('favouritesStorage', JSON.stringify(data))
+                                this.$store.state.favourites.favouriteItem = data
+                                this.overlay = false
                             }
-                            
-                            localStorage.setItem('favouritesStorage', JSON.stringify(data))
-                            this.$store.state.favourites.favouriteItem = data
-                            this.overlay = false
-                        }   
-                    })
-                    this.overlay = false
+                        })
+                        this.overlay = false
+                    }
                 }
         },
         deletFromFavourites(e){
@@ -86,9 +89,9 @@ export default {
         width: 100%;
         margin: auto;
         position: absolute;
-        top: 28%; 
+        top: 28%;
         left: 0;
-        bottom: 0; 
+        bottom: 0;
         right: 0;
     }
     #starIcon{
