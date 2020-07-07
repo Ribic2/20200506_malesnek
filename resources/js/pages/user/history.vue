@@ -1,11 +1,8 @@
 <template>
-    <v-container>
-        <v-row v-if="$store.state.user.orderHistory == null || $store.state.user.orderHistory.length == 0">
-            <empty
-            icon="mdi-package"
-            text="Nimate še nobenih naročil!"
-            ></empty>
-        </v-row>
+    <div>
+        <v-card v-if="$store.state.user.orderHistory == null || $store.state.user.orderHistory.length == 0">
+           <h1>Nimate nobenih naročil.</h1>
+        </v-card>
 
         <v-expansion-panels v-else>
             <v-expansion-panel v-for="order in $store.state.user.orderHistory" :key="order.idOrders">
@@ -39,7 +36,7 @@
 
             </v-expansion-panel>
         </v-expansion-panels>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -70,5 +67,5 @@ export default {
 </script>
 
 <style scoped>
-  
+
 </style>

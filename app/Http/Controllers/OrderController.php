@@ -177,6 +177,6 @@ class OrderController extends Controller
     public function getAllUsersOrder(Request $request){
         $user_id = $request->input("userId");
 
-        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('user_id', $user_id);
+        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('user_id', 1);
     }
 }

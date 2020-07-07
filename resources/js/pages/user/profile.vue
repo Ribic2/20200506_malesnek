@@ -6,7 +6,7 @@
             xl="6"
             >
                 <v-card
-                height="300"
+                height="390"
                 >
 
                 <v-card-title>
@@ -29,7 +29,7 @@
             xl="6"
             >
                 <v-card
-                height="500"
+                height="390"
                 >
                     <v-expansion-panels>
                         <v-expansion-panel>
@@ -99,15 +99,28 @@
                 </v-card>
             </v-col>
         </v-row>
+
+        <v-row>
+            <v-col
+            cols="12"
+            >
+                <history></history>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script>
+
+import history from '../user/history.vue'
 import { mapState } from 'vuex'
 import store from '../../store/index'
 import router from '../../routes/router'
 import Axios from 'axios'
 export default {
+    components:{
+        history
+    },
     data(){
         return{
             changeRegion: '',

@@ -225,6 +225,8 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
 //
 //
 //
+//
+//
 
 
 
@@ -550,7 +552,7 @@ var render = function() {
                             }
                           })
                         : _c("v-text-field", {
-                            attrs: { label: "Tel. šteilka" },
+                            attrs: { label: "Tel. šteilka", maxLength: "9" },
                             model: {
                               value: _vm.telephonNumber,
                               callback: function($$v) {
@@ -607,7 +609,7 @@ var render = function() {
                     "v-col",
                     [
                       _c("v-text-field", {
-                        attrs: { label: "Poštna številka" },
+                        attrs: { label: "Poštna številka", maxLength: "4" },
                         model: {
                           value: _vm.postcode,
                           callback: function($$v) {

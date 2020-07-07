@@ -160,7 +160,7 @@ __webpack_require__.r(__webpack_exports__);
 
           id = _data.Id;
         } else {
-          id = _this.$store.user.userId;
+          id = _this.$store.state.user.userId;
         }
 
         _this.overlay = true;

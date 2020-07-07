@@ -144,7 +144,7 @@ export default {
                         id = data.Id
                     }
                     else{
-                        id = this.$store.user.userId
+                        id = this.$store.state.user.userId
                     }
 
 

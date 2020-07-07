@@ -81,6 +81,7 @@
                         <v-text-field
                         label="Tel. šteilka"
                         v-model="telephonNumber"
+                        maxLength="9"
                         v-else
                         >
 
@@ -112,6 +113,7 @@
                         <v-text-field
                         label="Poštna številka"
                         v-model="postcode"
+                         maxLength="4"
                         >
                         </v-text-field>
                     </v-col>

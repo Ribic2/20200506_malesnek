@@ -65,16 +65,11 @@ export default{
                 window.location.href=migration[0].redirectURL
             }
             else{
-                if(JSON.parse(localStorage.getItem('orderHistory'))  != null){
+                axios.post(migration[0].redirectURL+'api/user/orders/history', {userId: state.userId})
+                .then((results)=>{
+                    localStorage.setItem('orderHistory', JSON.stringify(results.data))
                     state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
-                }
-                else{
-                    axios.post(migration[0].redirectURL+'api/user/orders/history', {userId: state.userId})
-                    .then((results)=>{
-                        localStorage.setItem('orderHistory', JSON.stringify(results.data))
-                        state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
-                    })
-                }
+                })
             }
         },
     },

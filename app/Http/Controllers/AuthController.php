@@ -53,6 +53,18 @@ class AuthController extends Controller
         $changeBasic->Surname = $surname;
         $changeBasic->Telephone = $phone;
 
+        $rules = [
+            'name' => 'required',
+            'surname' => 'required',
+            'phone' => 'required'
+        ];
+
+        $customMessage = [
+            'required' => 'Mankajoči podatki!'
+        ];
+
+        $this->validate($request, $rules, $customMessage);
+
         if($changeBasic->save()){
             return response("Ok", 200);
         }
@@ -63,6 +75,19 @@ class AuthController extends Controller
         $houseNumberAndStreet = $request->input('houseNumberAndStreet');
         $region = $request->input('region');
         $userId = $request->input('userId');
+
+
+        $rules = [
+            'postcode' => 'required',
+            'houseNumberAndStreet' => 'required',
+            'region' => 'required'
+        ];
+
+        $customMessage = [
+            'required' => 'Mankajoči podatki!'
+        ];
+
+        $this->validate($request, $rules, $customMessage);
 
         $changeBasic = User::find($userId);
 

@@ -72,16 +72,6 @@
         </v-list-item>
 
         <v-list-item>
-            <v-btn
-            rounded
-            dark
-            width="100%"
-            to="/user/order/history"
-            color="#6C3FB8"
-            >Ogled prejšnih naročil</v-btn>
-        </v-list-item>
-
-        <v-list-item>
           <v-btn
           rounded
           dark
@@ -268,7 +258,10 @@ export default {
             if(localStorage.getItem('authToken')){
                 return this.$store.dispatch('resetFavouritesRegisterdUser')
             }
-        }
+        },
+        getUserHistory(){
+            return this.$store.dispatch('getUserOrderHistory')
+        },
     },
     computed:{
 
@@ -276,6 +269,7 @@ export default {
     mounted(){
         this.authUser(),
         this.refreshCart(),
+        this.getUserHistory(),
         this.getFavourites()
     }
 }
