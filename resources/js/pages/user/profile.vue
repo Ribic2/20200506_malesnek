@@ -1,5 +1,37 @@
 <template>
     <v-container>
+        <v-dialog
+        v-model="error"
+        width="500"
+        >
+            <v-card>
+                <v-card-title
+                class="headline grey lighten-2"
+                primary-title
+                >
+                Napaka
+                </v-card-title>
+
+
+                <v-card-text>
+                Nekateri podatki manjkajo!
+                </v-card-text>
+
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                    color="primary"
+                    text
+                    @click="error = false"
+                    >
+                    Ok
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
         <v-row>
             <v-col
             cols="12"
@@ -51,6 +83,7 @@
                                 <v-text-field
                                 label="Poštna številka"
                                 v-model="postcode"
+                                maxLength="4"
                                 >
                                 </v-text-field>
 
@@ -83,6 +116,7 @@
                                 <v-text-field
                                 label="Tel. šteilka"
                                 v-model="phone"
+                                maxLength="9"
                                 >
                                 </v-text-field>
 
@@ -128,7 +162,10 @@ export default {
             changePostcode: '',
             changeName: '',
             changeSurname: '',
-            changePhone: ''
+            changePhone: '',
+
+            //error
+            error: false
         }
     },
     computed:{
@@ -205,7 +242,10 @@ export default {
 
             Axios.post('/api/user/change/basic', credentials)
             .then((results)=>{
-                return this.$store.dispatch('storeUserData')
+                this.$store.dispatch('storeUserData')
+            })
+            .catch((error)=>{
+                this.error = true;
             })
         },
         //Changes the user's residence information
@@ -221,6 +261,9 @@ export default {
             Axios.post('/api/user/change/residence', credentials)
             .then((results)=>{
                 return this.$store.dispatch('storeUserData')
+            })
+            .catch((error)=>{
+                this.error = true;
             })
         },
     }
