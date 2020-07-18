@@ -44,27 +44,6 @@
                                 @click="redirectToItemPage(product)"
                                 >Cena: {{ product.itemPrice }} &euro;</p>
 
-
-
-                                <!--If item is aviable-->
-                                <v-chip
-                                v-if="product.Quantity > 0"
-                                class="ma-2 unblured"
-                                color="green"
-                                text-color="white"
-                                >
-                                Izdelek je na voljo
-                                </v-chip>
-
-                                <v-chip
-                                v-else
-                                class="unblured"
-                                text-color="white"
-                                color="error">
-                                Izdelek ni na zalogi
-                                </v-chip>
-
-
                             </div>
 
                         <v-img
@@ -87,7 +66,27 @@
                     ></v-img>
                 </transition>
 
-                <v-card-actions class="card-actions">
+              
+                    
+
+                <v-card-actions class="card-actions cardAction">
+                    <v-chip
+                    v-if="product.Quantity > 0"
+                    class="ma-2 unblured"
+                    color="green"
+                    text-color="white"
+                    >
+                    Izdelek je na voljo
+                    </v-chip>
+
+                    <v-chip
+                    v-else
+                    class="unblured"
+                    text-color="white"
+                    color="error">
+                    Izdelek ni na zalogi
+                    </v-chip>
+                                
                     <v-btn
                     v-if="currentlySelectedItemId==product.itemId"
                     color="primary"
@@ -201,6 +200,9 @@ export default {
 </script>
 
 <style>
+    .cardAction{
+        display: block !important;
+    }
   .card-actions {
         position: absolute;
         padding-top: 10px;

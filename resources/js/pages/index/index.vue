@@ -26,7 +26,7 @@
                             class="ma-2"
                             @click="getAllProducts()"
                             >
-                            Vsi izdelk   
+                            Vsi izdelki   
                             </v-btn>
                             <v-btn
                             rounded

@@ -461,8 +461,8 @@ export default {
             successAdd: false,
             addItem: false,
             subCategorie:[
-                "Unikat artikel",
-                "Redni artikel"
+                "Unikat artikli",
+                "Redni artikli"
             ],
             //Rules and validation
             requiredInput:[

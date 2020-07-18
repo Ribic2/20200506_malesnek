@@ -159,7 +159,7 @@ export default {
             else{
                 Axios.post('/api/check/cart', {cart: this.$store.state.cart.cart})
                 .then((results)=>{
-                    console.log(results)
+                   
                     for(let i = 0; i < results.data.length; i++){
                        for(let x = 0; x < this.$store.state.cart.cart.length; x++){
                            if(this.$store.state.cart.cart[x].product.itemId == results.data[i]){

@@ -161,7 +161,6 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -224,7 +223,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.card-actions {\n      position: absolute;\n      padding-top: 10px;\n      bottom: 0;\n}\n.productImage_back{\n      position: relative;\n      bottom: 15px;\n      opacity: 0.5;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.productImage{\n      position: relative;\n      bottom: 15px;\n}\n.product_info{\n      position: absolute;\n      width: 100%;\n}\n#content_holder{\n      width: 95%;\n      margin: 0 auto;\n      background-size: cover;\n      height: 73%;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter-active,\n  .fade-leave-active {\n      opacity: 1;\n      transition: opacity .5s ease-in-out;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter,\n  .fade-leave-to {\n      opacity: 0.5;\n      -webkit-filter: blur(8px);\n      filter: blur(8px);\n}\n", ""]);
+exports.push([module.i, "\n.cardAction{\n      display: block !important;\n}\n.card-actions {\n      position: absolute;\n      padding-top: 10px;\n      bottom: 0;\n}\n.productImage_back{\n      position: relative;\n      bottom: 15px;\n      opacity: 0.5;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.productImage{\n      position: relative;\n      bottom: 15px;\n}\n.product_info{\n      position: absolute;\n      width: 100%;\n}\n#content_holder{\n      width: 95%;\n      margin: 0 auto;\n      background-size: cover;\n      height: 73%;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter-active,\n  .fade-leave-active {\n      opacity: 1;\n      transition: opacity .5s ease-in-out;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter,\n  .fade-leave-to {\n      opacity: 0.5;\n      -webkit-filter: blur(8px);\n      filter: blur(8px);\n}\n", ""]);
 
 // exports
 
@@ -340,88 +339,49 @@ var render = function() {
                                   "div",
                                   { staticClass: "holder_product" },
                                   [
-                                    _c(
-                                      "div",
-                                      { staticClass: "product_info" },
-                                      [
-                                        _c(
-                                          "p",
-                                          {
-                                            staticClass:
-                                              "text-justify mr-3 ml-3 body-2 unblured",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.redirectToItemPage(
-                                                  _vm.product
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.product.itemDescription
+                                    _c("div", { staticClass: "product_info" }, [
+                                      _c(
+                                        "p",
+                                        {
+                                          staticClass:
+                                            "text-justify mr-3 ml-3 body-2 unblured",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.redirectToItemPage(
+                                                _vm.product
                                               )
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "p",
-                                          {
-                                            staticClass:
-                                              "text-justify mr-3 ml-3 unblured",
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.redirectToItemPage(
-                                                  _vm.product
-                                                )
-                                              }
                                             }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "Cena: " +
-                                                _vm._s(_vm.product.itemPrice) +
-                                                " €"
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm.product.Quantity > 0
-                                          ? _c(
-                                              "v-chip",
-                                              {
-                                                staticClass: "ma-2 unblured",
-                                                attrs: {
-                                                  color: "green",
-                                                  "text-color": "white"
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                              Izdelek je na voljo\n                              "
-                                                )
-                                              ]
-                                            )
-                                          : _c(
-                                              "v-chip",
-                                              {
-                                                staticClass: "unblured",
-                                                attrs: {
-                                                  "text-color": "white",
-                                                  color: "error"
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                              Izdelek ni na zalogi\n                              "
-                                                )
-                                              ]
-                                            )
-                                      ],
-                                      1
-                                    ),
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(_vm.product.itemDescription)
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "p",
+                                        {
+                                          staticClass:
+                                            "text-justify mr-3 ml-3 unblured",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.redirectToItemPage(
+                                                _vm.product
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "Cena: " +
+                                              _vm._s(_vm.product.itemPrice) +
+                                              " €"
+                                          )
+                                        ]
+                                      )
+                                    ]),
                                     _vm._v(" "),
                                     _c("v-img", {
                                       staticClass: "productImage_back ma-2",
@@ -461,8 +421,40 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "v-card-actions",
-                          { staticClass: "card-actions" },
+                          { staticClass: "card-actions cardAction" },
                           [
+                            _vm.product.Quantity > 0
+                              ? _c(
+                                  "v-chip",
+                                  {
+                                    staticClass: "ma-2 unblured",
+                                    attrs: {
+                                      color: "green",
+                                      "text-color": "white"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Izdelek je na voljo\n                  "
+                                    )
+                                  ]
+                                )
+                              : _c(
+                                  "v-chip",
+                                  {
+                                    staticClass: "unblured",
+                                    attrs: {
+                                      "text-color": "white",
+                                      color: "error"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                  Izdelek ni na zalogi\n                  "
+                                    )
+                                  ]
+                                ),
+                            _vm._v(" "),
                             _vm.currentlySelectedItemId == _vm.product.itemId
                               ? _c(
                                   "v-btn",

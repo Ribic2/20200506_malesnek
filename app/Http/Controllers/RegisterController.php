@@ -22,7 +22,7 @@ class RegisterController extends Controller
             ['isGuest', '=', 0]
         ])->count();
 
-        if($checkEmail){
+        if($checkEmail > 0){
             return true;
         }
         return false;
@@ -45,6 +45,24 @@ class RegisterController extends Controller
         * If user is already registerd but it's his/her first purchase
         */
         if($isAlreadyRegisterd){
+
+            /**
+            *  Rules and custom messages for validation
+            */
+            $rules = [
+                'postcode' => 'required|numeric',
+                'phone' => 'required',
+                'houseNumberAndStreet' => 'required'
+            ];
+
+            $customMessage = [
+                'numeric' => 'Vnesite številko!',
+                'required' => 'Nekatera polja so prazna!'
+            ];
+
+            $this->validate($request, $rules, $customMessage);
+
+
             User::where('email', $email)->update([
                 "Telephone" => $phone,
                 "houseNumberAndStreet" => $houseNumberAndStreet,
@@ -62,11 +80,18 @@ class RegisterController extends Controller
             *  Rules and custom messages for validation, if user even provided email
             */
             $rules = [
-                'email' => 'required|email'
+                'name' => 'required',
+                'surname' => 'required',
+                'phone' => 'required', 
+                'email' => 'required|email',
+                'postcode' => 'required|numeric',
+                'houseNumberAndStreet' => 'required',
+                'region' => 'required'
             ];
 
             $customMessage = [
-                'required' => 'Polje za :attribute je prazno!'
+                'required' => 'Nekatere polja so prazna!',
+                'numeric' => 'Vnesite številko!'
             ];
 
             $this->validate($request, $rules, $customMessage);
@@ -102,6 +127,8 @@ class RegisterController extends Controller
         }
     }
     public function register(Request $request){
+        
+      
         $name = $request->input('name');
         $surname = $request->input('surname');
         $phone = $request->input('phone');
@@ -150,11 +177,11 @@ class RegisterController extends Controller
                 }
 
             }
-            return "error";
+            return response(['error'=>"Napaka pri registraciji"]);
 
         }
         //If it exits return error message
-        return "obstaja";
+        return response(['error'=>"E-naslov je že registriran!"], 401);
 
     }
 }

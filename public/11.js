@@ -473,7 +473,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       addNewCategorie: false,
       showImages: [],
       deleteItem: false
-    }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "subCategorie", ["Unikat artikel", "Redni artikel"]), _defineProperty(_ref, "requiredInput", [function (v) {
+    }, _defineProperty(_ref, "discount", false), _defineProperty(_ref, "success", false), _defineProperty(_ref, "successAdd", false), _defineProperty(_ref, "addItem", false), _defineProperty(_ref, "subCategorie", ["Unikat artikli", "Redni artikli"]), _defineProperty(_ref, "requiredInput", [function (v) {
       return !!v || 'Pozabili ste vnesti vrednost v to polje!';
     }]), _defineProperty(_ref, "error", ''), _ref;
   },

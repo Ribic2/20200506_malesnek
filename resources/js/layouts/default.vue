@@ -98,7 +98,15 @@
       id="logo"
       ></v-img>
     </v-app-bar-nav-icon>
-    <v-toolbar-title>Uniq Cards</v-toolbar-title>
+    <v-toolbar-title>
+      <v-btn
+      depressed
+      @click="redirect()"
+      color="#6C3FB8"
+      width="95"
+      :ripple="false"
+      >Uniq Cards</v-btn>
+    </v-toolbar-title>
 
     <v-spacer></v-spacer>
 

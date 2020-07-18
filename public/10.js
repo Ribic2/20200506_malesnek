@@ -291,7 +291,7 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        Vsi izdelk   \n                        "
+                              "\n                        Vsi izdelki   \n                        "
                             )
                           ]
                         ),

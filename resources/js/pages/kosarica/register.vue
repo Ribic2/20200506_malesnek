@@ -113,22 +113,24 @@
                         <v-text-field
                         label="Poštna številka"
                         v-model="postcode"
-                         maxLength="4"
+                        maxLength="4"
                         >
                         </v-text-field>
                     </v-col>
                 </v-row>
 
-                <div v-if="error.length != 0">
-                    {{ error }}
-                </div>
                 <v-card-actions>
                     <v-btn
                     @click="register"
                     color="primary"
-                    >Registriraj se</v-btn>
+                    >Oddaj podatke</v-btn>
                 </v-card-actions>
             </v-form>
+
+            <v-alert type="error" v-if="error != ''">
+                {{error}}
+            </v-alert>
+
         </v-card>
     </v-container>
 </template>
@@ -184,6 +186,9 @@ export default {
                     }
 
                 }
+            })
+            .catch((error)=>{
+                this.error = error.response.data.errors.postcode[0]
             })
         },
         /**

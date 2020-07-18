@@ -41,6 +41,7 @@
             :type="showPassword ? 'text' : 'password'"
   	        :append-icon="showPassword ? 'mdi-eye': 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
+            minLength="6"
             prepend-icon="mdi-lock"
             ></v-text-field>
 
@@ -71,7 +72,7 @@
       </v-card-text>
     </v-card>
 
-     <v-overlay :value="overlay">
+      <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
 
@@ -93,7 +94,7 @@ export default {
             response: '',
             //Other variables
             showPassword: false,
-            overlay: false
+            overlay: false,
         }
     },
     methods:{
@@ -107,9 +108,11 @@ export default {
                 surname: this.surname,
             }
 
+           
             this.overlay = true
             Axios.post('/api/user/register', credentials)
             .then((results)=>{
+                
                 if(results.data.authentication){
                     axios.defaults.headers.common["Authorization"] = `Bearer `+results.data.access_token
                     localStorage.setItem('authToken', results.data.access_token)
@@ -122,6 +125,11 @@ export default {
                         window.location.href = migration[0].redirectURL+"kosarica"
                     }
                 }
+                this.overlay = false
+            }) 
+            .catch((error)=>{
+              this.overlay = false
+              this.response = error.response.data.error
             })
             
 

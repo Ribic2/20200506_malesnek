@@ -100,8 +100,8 @@
                             </v-card-title>
 
                             <v-card-text v-if="product.Quantity > 0">
-                                <p v-if="product.Quantity > 0">Izdelek je na voljo.</p>
-                                <p v-else>Izdelek ni na voljo.</p>
+                                <p v-if="product.Quantity > 0"><b>Izdelek je na voljo.</b></p>
+                                <p v-else><b>Izdelek ni na voljo.</b></p>
                             </v-card-text>
 
                             <v-card-actions class="card-actions">
@@ -157,15 +157,15 @@
                         <h1 class="headline descriptionTitle">Opis izdelka</h1>
                             <v-list>
                                 <v-list-item>
-                                Opis: {{ product.itemDescription }}
+                                <b>Opis:</b> {{ product.itemDescription }}
                                 </v-list-item>
 
                                 <v-list-item>
-                                Cena: {{ product.itemPrice}}&euro;
+                                <b>Cena:</b> {{ product.itemPrice}}&euro;
                                 </v-list-item>
 
                                 <v-list-item>
-                                Dimenzija: {{ product.dimensions }}mm
+                                <b>Dimenzija:</b> {{ product.dimensions }}mm
                                 </v-list-item>
                             </v-list>
                         </v-card>

@@ -162,6 +162,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -391,8 +392,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/api/check/cart', {
           cart: this.$store.state.cart.cart
         }).then(function (results) {
-          console.log(results);
-
           for (var i = 0; i < results.data.length; i++) {
             for (var x = 0; x < _this.$store.state.cart.cart.length; x++) {
               if (_this.$store.state.cart.cart[x].product.itemId == results.data[i]) {
@@ -750,7 +749,15 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-btn",
-                        { staticClass: "float-right", attrs: { text: "" } },
+                        {
+                          staticClass: "float-right",
+                          attrs: { text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.redirectToFrontPage()
+                            }
+                          }
+                        },
                         [_vm._v("Prekini")]
                       ),
                       _vm._v(" "),

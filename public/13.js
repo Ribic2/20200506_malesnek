@@ -629,8 +629,12 @@ var render = function() {
                           _vm.product.Quantity > 0
                             ? _c("v-card-text", [
                                 _vm.product.Quantity > 0
-                                  ? _c("p", [_vm._v("Izdelek je na voljo.")])
-                                  : _c("p", [_vm._v("Izdelek ni na voljo.")])
+                                  ? _c("p", [
+                                      _c("b", [_vm._v("Izdelek je na voljo.")])
+                                    ])
+                                  : _c("p", [
+                                      _c("b", [_vm._v("Izdelek ni na voljo.")])
+                                    ])
                               ])
                             : _vm._e(),
                           _vm._v(" "),
@@ -760,24 +764,27 @@ var render = function() {
                             "v-list",
                             [
                               _c("v-list-item", [
+                                _c("b", [_vm._v("Opis:")]),
                                 _vm._v(
-                                  "\n                            Opis: " +
+                                  " " +
                                     _vm._s(_vm.product.itemDescription) +
                                     "\n                            "
                                 )
                               ]),
                               _vm._v(" "),
                               _c("v-list-item", [
+                                _c("b", [_vm._v("Cena:")]),
                                 _vm._v(
-                                  "\n                            Cena: " +
+                                  " " +
                                     _vm._s(_vm.product.itemPrice) +
                                     "€\n                            "
                                 )
                               ]),
                               _vm._v(" "),
                               _c("v-list-item", [
+                                _c("b", [_vm._v("Dimenzija:")]),
                                 _vm._v(
-                                  "\n                            Dimenzija: " +
+                                  " " +
                                     _vm._s(_vm.product.dimensions) +
                                     "mm\n                            "
                                 )

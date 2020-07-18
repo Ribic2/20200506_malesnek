@@ -50,6 +50,7 @@
 
           <v-btn
           class="float-right"
+          @click="redirectToFrontPage()"
           text
           >Prekini</v-btn>
           <v-btn

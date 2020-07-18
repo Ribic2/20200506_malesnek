@@ -93,6 +93,7 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -137,6 +138,11 @@ var _migration_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webp
             window.location.href = _migration_json__WEBPACK_IMPORTED_MODULE_1__[0].redirectURL + "kosarica";
           }
         }
+
+        _this.overlay = false;
+      })["catch"](function (error) {
+        _this.overlay = false;
+        _this.response = error.response.data.error;
       });
     }
   }
@@ -234,6 +240,7 @@ var render = function() {
                       "append-icon": _vm.showPassword
                         ? "mdi-eye"
                         : "mdi-eye-off",
+                      minLength: "6",
                       "prepend-icon": "mdi-lock"
                     },
                     on: {
