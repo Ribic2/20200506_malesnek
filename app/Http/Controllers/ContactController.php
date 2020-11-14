@@ -2,40 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Contacts;
+use App\Contact;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function getContact(Request $request){
-
-        $email = $request->input('email');
-        $name = $request->input('name');
-        $message = $request->input('message');
-
-        if($email == null && $name == null && $message == null){
-            return "Ni bilo podanih podatkov";
-        }
-
-        $rules = [
-            'name' => 'string',
-            'email' => 'email'
-        ];
-
-        $customMessage = [
-            "email" => "Napačno vnesen e-naslov!"
-        ];
-
-        if($this->validate($request, $rules, $customMessage)){
-            $contact = new Contacts;
-
-            $contact->name = $name;
-            $contact->email = $email;
-            $contact->message = $message;
-
-            $contact->save();
-
-            return response("1", 200);
-        }
+    /**
+     * Get latest contacts first
+     * @return JsonResponse
+     */
+    public function getContacts(): JsonResponse
+    {
+        return response()->json(Contact::latest());
     }
+
+    /**
+     * Get oldest contacts first
+     * @return JsonResponse
+     */
+    public function getOldestContacts(): JsonResponse
+    {
+        return Contact::oldest()->get();
+    }
+
+    /**
+     * Stores contact that was send by user
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function sendContact(Request $request): JsonResponse
+    {
+        // Checks if some of the data is missing
+        if(!$request->filled(['name', 'email', 'message'])){
+            abort(403, "Nekateri podatki manjkajo!");
+        }
+
+        $request->validate([
+            'email' => 'email'
+        ]);
+
+        Contact::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'message' => $request->input('message')
+        ])->save();
+
+        return response()->json("Kontakt je bil uspešno poslan!");
+
+    }
+
 }

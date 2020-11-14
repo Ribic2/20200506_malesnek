@@ -2,18 +2,13 @@
 
 namespace App;
 
-use App\Items;
+use App\Item;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $table = "orders";
-    public $timestamps = false;
-    protected $primaryKey = "idOrders";
-
-
     public function item(){
-        return $this->hasMany(Items::class, 'itemId', 'itemId');
+        return $this->hasMany(Item::class, 'itemId', 'itemId');
     }
 
 }

@@ -19,7 +19,7 @@ class orderResource extends JsonResource
     {
         return[
             "OrderId" => $this->OrderId,
-            "Items"=>eachOrderResource::collection($this->Orders),
+            "Item"=>eachOrderResource::collection($this->Orders),
             "Created_at" => $this->ordered_time,
             "DeliveryStatus" => $this->deliveryStatus,
             "User"=>User::where('user_id', $this->user_id,)->select('Name', 'Surname', 'Telephone', 'email', 'Country', 'Region', 'houseNumberAndStreet', 'Postcode')->get()

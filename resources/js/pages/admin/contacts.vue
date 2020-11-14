@@ -11,7 +11,7 @@
                         <v-icon>mdi-filter-variant-minus</v-icon>
                     </v-btn>
                     <v-btn
-                    @click="contactLatest()"
+                    @click="getContacts()"
                     >
                         <v-icon>mdi-filter-variant-plus</v-icon>
                     </v-btn>
@@ -21,7 +21,7 @@
         <v-divider></v-divider>
         <v-expansion-panels>
             <v-expansion-panel
-            v-for="contact in getAllConctacts"
+            v-for="contact in this.$store.state.contact.contacts"
             :key="contact.id"
             >
             <v-expansion-panel-header>{{ contact.name }}<v-spacer></v-spacer> {{ contact.email }}</v-expansion-panel-header>
@@ -34,23 +34,15 @@
 </template>
 
 <script>
-import store from '../../store/index'
+
 export default {
     methods:{
         getContacts(){
-            return this.$store.dispatch('getContact')
+            return this.$store.dispatch('getContacts')
         },
         contactOldest(){
-            return this.$store.dispatch('getOldest')
+            return this.$store.dispatch('getOldestContacts')
         },
-        contactLatest(){
-            return this.$store.dispatch('getLatest')
-        }
-    },
-    computed:{
-        getAllConctacts(){
-            return this.$store.state.contact.contacts
-        }
     },
     mounted(){
         this.getContacts()

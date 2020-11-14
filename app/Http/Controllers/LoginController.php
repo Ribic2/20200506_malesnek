@@ -2,64 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Laravel\Cashier\Cashier;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-
     use ThrottlesLogins;
-    /**
-     * Function that sets username to email, so login throttling will work
-     */
-    public function username()
-    {
+
+
+    public function username(){
         return 'email';
     }
     /**
-     * Login function that authenticates user
+     * Attempts to login user
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
      */
-    public function login(Request $request){
-
-
-
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-
-        if($this->hasTooManyLoginAttempts($request)){
+    public function login(Request $request): JsonResponse
+    {
+        // Login throttling
+        if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
-            return $this->sendLockoutResponse($request);
+            return response()->json($this->sendLockoutResponse($request), 403);
         }
 
+        $credentials = $request->only('email', 'password');
 
-
-
-        if(Auth::attempt($credentials)){
-            $this->clearLoginAttempts($request);
-
-
-            $user = Auth::user();
-
-            $accessToken = $user->createToken('accessToken')->accessToken;
-
-
-            $returnCredentials = ["id"=>$user->user_id,"Name"=>$user->Name, "Surname"=> $user->Surname, "Email"=>$user->email, "Phone"=>$user->Telephone, "isAuthenticated"=>$user->isAuth, 'isNewCustomer'=>$user->isNewCustomer];
-            return response(['user'=>$returnCredentials, 'access_token'=> $accessToken, 'authentication' => true]);
-
-
-        }
-        else{
+        if (!Auth::attempt($credentials)) {
             $this->incrementLoginAttempts($request);
-            return response()->json(['authentication' => false]);
+            return response()->json(["message" => 'Dani podatki niso pravilni!'], 403);
         }
 
+        // Clears login throttling and creates token
+        $this->clearLoginAttempts($request);
+        $user = Auth::user();
+        $accessToken = $user->createToken('accessToken')->accessToken;
 
+        return response()->json(
+            ['access_token' => $accessToken]
+        );
 
     }
 }

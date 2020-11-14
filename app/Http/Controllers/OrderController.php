@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Items;
+use App\Item;
 use App\Order;
 use App\OrderIdStore;
 use Illuminate\Support\Str;
@@ -27,7 +27,7 @@ class OrderController extends Controller
      */
     public function checksIfItemsIsAvaiable($itemId, $quantity){
 
-        $checkStock = Items::select('availableQuantity')->where('itemId', $itemId)->get();
+        $checkStock = Item::select('availableQuantity')->where('itemId', $itemId)->get();
 
         if($checkStock[0]->availableQuantity == 0 || $checkStock[0]->availableQuantity - $quantity < 0){
             array_push($this->outOfStockItems, $itemId);
@@ -65,11 +65,11 @@ class OrderController extends Controller
 
             for($x = 0; $x < count($orders); $x++){
 
-                $changeQuantiy = Items::select('availableQuantity')->where('itemId', $orders[$x])->get();
+                $changeQuantiy = Item::select('availableQuantity')->where('itemId', $orders[$x])->get();
 
                 $newQuantity = $changeQuantiy[0]->availableQuantity - $quantity[$x];
 
-                Items::where('itemId', $orders[$x])->update(['availableQuantity' => $newQuantity]);
+                Item::where('itemId', $orders[$x])->update(['availableQuantity' => $newQuantity]);
 
                 $order = new Order();
 
@@ -156,8 +156,8 @@ class OrderController extends Controller
         for($i = 0; $i < count($cart); $i++){
 
 
-            $item = Items::select('availableQuantity')->where('itemId', $cart[$i]["product"]["itemId"])->get();
-            $checkIfItemExists = Items::where('itemId' ,$cart[$i]["product"]["itemId"])->get();
+            $item = Item::select('availableQuantity')->where('itemId', $cart[$i]["product"]["itemId"])->get();
+            $checkIfItemExists = Item::where('itemId' ,$cart[$i]["product"]["itemId"])->get();
 
 
             if(count($checkIfItemExists) == 0){

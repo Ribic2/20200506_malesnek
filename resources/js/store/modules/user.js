@@ -3,17 +3,7 @@ import migration from '../../../../migration.json'
 
 export default{
     state: ()=>({
-        Name: '',
-        Surname: '',
-        Email: '',
-        Phone: '',
-        userId: '',
-        isEmployee: '',
-        LoginStatus: false,
-        isAuth: 0,
-        check: false,
-        isNewCustomer: '',
-        orderHistory: '',
+        user: null,
 
         //Place
         houseNumberAndStreet: '',
@@ -21,26 +11,8 @@ export default{
         Region: ''
     }),
     mutations:{
-        ADD_USER_DATA(state, payload){
-
-            state.Name = payload.Name
-            state.Surname = payload.Surname
-            state.Email = payload.Email
-            state.Phone = payload.Phone
-            state.userId = payload.id
-            state.isEmployee = payload.isEmployee
-            state.LoginStatus = true
-            state.isAuth = payload.isAuth
-            state.isNewCustomer = payload.isNewCustomer
-
-            state.houseNumberAndStreet = payload.houseNumberAndStreet
-            state.Postcode = payload.Postcode
-            state.Region = payload.Region
-            //Checks if user is authentiacted (activated his/her mail)
-            //and if user ever purchased
-            if(state.isAuth == 1 && state.isNewCustomer == 1){
-                state.check=true
-            }
+        SET_USER_DATA(state, payload){
+            state.user = payload
         },
         LOGOUT_USER(state){
             state.Name = null
@@ -69,17 +41,19 @@ export default{
         },
     },
     actions:{
-        storeUserData({commit}){
-            if(localStorage.getItem('authToken') != null){
-                axios.defaults.headers.common["Authorization"] = `Bearer `+localStorage.getItem('authToken')
-
-                axios.get(migration[0].redirectURL+'api/profile').then((results)=>{
-                    commit('ADD_USER_DATA', results.data.user)
-                })
-            }
+        getUser({commit}){
+           api.getUsersData().then((response)=>{
+               if(response.data.check){
+                   commit('SET_USER_DATA', response.data.user)
+               }
+           })
         },
-        logoutUser({commit}){
-            commit('LOGOUT_USER')
+
+
+        logout({commit}){
+            // Clears token and cart
+            localStorage.clear()
+            commit('SET_USER_DATA', null)
         },
         getUserOrderHistory({commit}, payload){
             commit('STORE_USER_ORDER_HISTORY')

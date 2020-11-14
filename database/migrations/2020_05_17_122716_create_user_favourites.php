@@ -13,11 +13,11 @@ class CreateUserFavourites extends Migration
      */
     public function up()
     {
-        Schema::create('user_favourites', function (Blueprint $table) {
+        Schema::create('favourites', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('userId')->references('user_id')->on('users');
-            $table->foreignId('itemId')->references('itemId')->on('items');
+            $table->foreignId('usersId')->references('id')->on('users');
+            $table->foreignId('itemsId')->references('Id')->on('items');
         });
     }
 

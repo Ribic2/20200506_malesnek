@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id('user_id');
+            $table->id('id');
             $table->timestamps();
             $table->string('Name');
             $table->string('Surname');
@@ -29,7 +29,6 @@ class CreateUsersTable extends Migration
             $table->boolean('isAuth');
             $table->boolean('isNewCustomer');
             $table->boolean('isGuest');
-            $table->boolean('isEmployee');
             $table->integer('overallSpending')->default(0);
             $table->integer('points')->default(0);
         });

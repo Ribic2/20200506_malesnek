@@ -28,7 +28,6 @@ class UserSeeder extends Seeder
                 'isGuest'=> false,
                 'isAuth' => true,
                 'isNewCustomer' => true,
-                'isEmployee' => false,
                 'overallSpending' => 0,
                 'points' => 0
             ],
@@ -45,7 +44,6 @@ class UserSeeder extends Seeder
                 'isGuest'=> false,
                 'isAuth' => true,
                 'isNewCustomer' => false,
-                'isEmployee' => true,
                 'overallSpending' => 0,
                 'points' => 0
             ]

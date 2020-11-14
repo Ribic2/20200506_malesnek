@@ -15,15 +15,13 @@ class CreateTableOrderIdStore extends Migration
     {
         Schema::create('orderIds', function (Blueprint $table) {
             $table->string('OrderId', 100)->primary();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreignId('usersId')->references('id')->on('users');
             $table->dateTime('ordered_time');
             $table->year('yearOfDelivery');
             $table->string('monthOfDelivery');
             $table->boolean('paymentStatus')->nullable($value=true);
-            $table->enum('typeOfPayment', ['whenDeliverd', 'prepay'])->nullable($value=true);
+            $table->enum('typeOfPayment', ['whenDelivered', 'prepay'])->nullable($value=true);
             $table->boolean('deliveryStatus');
-
             $table->timestamps();
         });
     }

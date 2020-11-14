@@ -223,7 +223,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.cardAction{\n      display: block !important;\n}\n.card-actions {\n      position: absolute;\n      padding-top: 10px;\n      bottom: 0;\n}\n.productImage_back{\n      position: relative;\n      bottom: 15px;\n      opacity: 0.5;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.productImage{\n      position: relative;\n      bottom: 15px;\n}\n.product_info{\n      position: absolute;\n      width: 100%;\n}\n#content_holder{\n      width: 95%;\n      margin: 0 auto;\n      background-size: cover;\n      height: 73%;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter-active,\n  .fade-leave-active {\n      opacity: 1;\n      transition: opacity .5s ease-in-out;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter,\n  .fade-leave-to {\n      opacity: 0.5;\n      -webkit-filter: blur(8px);\n      filter: blur(8px);\n}\n", ""]);
+exports.push([module.i, "\n.cardAction{\n      display: block !important;\n}\n.card-actions {\n      position: absolute;\n      padding-top: 10px;\n      bottom: 0;\n}\n.productImage_back{\n      position: relative;\n      bottom: 15px;\n      opacity: 0.5;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.productImage{\n      position: relative;\n      bottom: 15px;\n}\n.product_info{\n      position: absolute;\n      width: 100%;\n}\n#content_holder{\n      width: 95%;\n      margin: 0 auto;\n      background-size: cover;\n      height: 73%;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter-active,\n  .fade-leave-active {\n      opacity: 1;\n      transition: opacity .5s ease-in-out;\n      filter: blur(8px);\n      -webkit-filter: blur(8px);\n}\n.fade-enter,\n  .fade-leave-to {\n      opacity: 0.5;\n      filter: blur(8px);\n}\n", ""]);
 
 // exports
 
@@ -595,6 +595,36 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vuetify-loader/lib/runtime/installComponents.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/vuetify-loader/lib/runtime/installComponents.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function installComponents (component, components) {
+  var options = typeof component.exports === 'function'
+    ? component.exports.extendOptions
+    : component.options
+
+  if (typeof component.exports === 'function') {
+    options.components = component.exports.options.components
+  }
+
+  options.components = options.components || {}
+
+  for (var i in components) {
+    options.components[i] = options.components[i] || components[i]
+  }
+}
+
+
+/***/ }),
+
 /***/ "./resources/js/pages/index/item.vue":
 /*!*******************************************!*\
   !*** ./resources/js/pages/index/item.vue ***!
@@ -684,8 +714,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vuetify-loader/lib/loader.js??ref--11-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./item.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vuetify-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/index/item.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vuetify_loader_lib_loader_js_ref_11_0_node_modules_vue_loader_lib_index_js_vue_loader_options_item_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 

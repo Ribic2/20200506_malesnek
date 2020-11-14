@@ -1,42 +1,40 @@
 import Axios from 'axios'
-import migration from '../../../migration.json'
 
-var instace = Axios.create({
-    baseURL: migration[0].redirectURL,
+let instance = Axios.create({
     headers:{
-        'Authorization': `Bearer `+localStorage.getItem('authToken')
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
     }
 })
 
 export default{
     /**
-     * Call api and retrives all the items on the first page
+     * Call api and retrieves all the items on the first page
      * @param {int} id page number
      */
     getItems(id){
-        return instace.get('/api/items/'+id)
+        return instance.get('/api/items/'+id)
     },
 
     /**
      * Get all items for admin
      */
     getItemsForAdmin(){
-        return instace.get('/api/items/')
+        return instance.get('/api/items/')
     },
     getAllOrders(){
-        return instace.get('/api/orders')
+        return instance.get('/api/orders')
     },
     filterFinished(){
-        return instace.get('/api/orders/finished')
+        return instance.get('/api/orders/finished')
     },
     filterComplete(){
-        return instace.get('/api/orders/complete')
+        return instance.get('/api/orders/complete')
     },
     filterOldest(){
-        return instace.get('/api/orders/oldest')
+        return instance.get('/api/orders/oldest')
     },
     filterLatest(){
-        return instace.get('/api/orders/latest')
+        return instance.get('/api/orders/latest')
     },
 
     /**
@@ -44,65 +42,123 @@ export default{
      * @param {OBJECT} data data that will be send to database
      */
     searchItem(data){
-        return instace.post('/api/items/search', {data: data})
+        return instance.post('/api/items/search', {data: data})
     },
     /**
      * Sends contact data to database
-     * @param {OBJECT} data data that will be send to database
+     * @param {{name: string, message: string, email: string}} data data that will be send to database
      */
     sendContact(data){
-        return instace.post('/api/contact/add', data)
-    },
-    /**
-     * Get all contact
-     */
-    getContact(){
-        return instace.get('/api/contact')
+        return instance.post('/api/contact/add', data)
     },
 
     /**
      * Get information about item
      */
     getProductData(e){
-        return instace.get('/api/item/'+e)
+        return instance.get('/api/item/'+e)
     },
 
     /**
      * Get all categories there are
      */
     getCategories(){
-        return instace.get('/api/categories')
+        return instance.get('/api/categories')
     },
 
     /**
      * Get items from specific category
      */
     getProductsSpecificCategory(category){
-        return instace.get('/api/items/category/'+category)
+        return instance.get('/api/items/category/'+category)
     },
     getDelistedItems(){
-        return instace.get('/api/items/listed')
+        return instance.get('/api/items/listed')
     },
     getUnlistedItems(){
-        return instace.get('/api/items/unlisted')
+        return instance.get('/api/items/unlisted')
     },
 
-    //Filter for contacts
-    latestContacts(){
-        return instace.get('/api/contact/latest')
+    addToFavourites(payload){
+        return instance.post('/api/add/favourites', payload)
     },
-    oldestContacts(){
-        return instace.get('/api/contact/oldest')
+    getAllFavourites(){
+        return instance.get('/api/get/favourites')
     },
 
     /**
-    * Add item to favourites db
-    */
-
-    addToFavourites(payload){
-        return instace.post('/api/add/favourites', payload)
+     * Get all Contacts
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    getContacts(){
+        return instance.get('/api/contact/all')
     },
-    getAllFavourites(){
-        return instace.get('/api/get/favourites')
+
+    /**
+     * Get oldest contacts
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    getOldestContacts(){
+        return instance.get('/api/contact/all/oldest')
+    },
+
+    /**
+     * Sends request to log in user
+     * @param email
+     * @param password
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    login(email, password){
+        return instance.post('/api/user/login', {email: email, password: password})
+    },
+
+    /**
+     * Registers user
+     * @param data
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    register(data){
+        return instance.post('/api/user/register', data)
+    },
+    /**
+     * Get users data
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    getUsersData(){
+        return instance.post('/api/user/data')
+    },
+
+    /**
+     * Checks if user is admin
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    checkIfAdmin(){
+        return instance.post('/api/user/admin')
+    },
+
+    /**
+     * Gets all users
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    getAllUsers(){
+        return instance.get('/api/user/all')
+    },
+
+    /**
+     * Deletes user
+     * @param id users id
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    deleteUser(id){
+        return instance.delete(`/api/user/${id}/delete`)
+    },
+
+    /**
+     * Changes user status
+     * @param id users id
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    changeUserAdminStatus(id){
+        return instance.patch(`/api/user/${id}/change/admin`)
     }
 }

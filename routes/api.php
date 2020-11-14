@@ -1,11 +1,11 @@
 <?php
 
-use App\Contacts;
+use App\Contact;
 use App\Http\Resources\itemResource;
 use App\Http\Resources\itemReviewResource;
 use App\Http\Resources\orderResource;
 use App\itemReview;
-use App\Items;
+use App\Item;
 use App\Order;
 use Illuminate\Support\Facades\Auth;
 use App\OrderIdStore;
@@ -25,11 +25,11 @@ use Illuminate\Support\Facades\Route;
 //Reset password
 
 Route::get('/items/unlisted', function(){
-    return itemResource::collection(Items::where('delisted', 1)->get());
+    return itemResource::collection(Item::where('delisted', 1)->get());
 })->middleware('auth:api', 'check_admin');
 
 Route::get('/items/listed', function(){
-    return itemResource::collection(Items::where('delisted', 0)->get());
+    return itemResource::collection(Item::where('delisted', 0)->get());
 })->middleware('auth:api', 'check_admin');
 
 // Send reset password mail
@@ -38,49 +38,40 @@ Route::post('reset-password', 'resetPasswordController@sendPasswordResetLink');
 Route::post('reset/password', 'resetPasswordController@callResetPassword');
 
 
-//User authentication login and register
-Route::post('/user/login', 'LoginController@login');
-Route::post('/user/register', 'RegisterController@register');
-Route::post('/user/register/cart', 'RegisterController@registerInCart');
 
 Route::post('/review/add', 'itemController@addReview');
 
-//Item categories
-Route::get('/categories', function(){
-    return Items::select('Categorie')->distinct()->get();
-});
+
 
 
 //Api path for items
 Route::get('/items/{page}', function($page){
-    return itemResource::collection(Items::where('delisted', 0)->paginate(12, ['*'], 'page', $page));
+    return itemResource::collection(Item::where('delisted', 0)->paginate(12, ['*'], 'page', $page));
 });
 
 Route::post('/check/cart', 'OrderController@checkCartItems');
 
 Route::get('/items/category/{category}', function($category){
-    return itemResource::collection(Items::where([
+    return itemResource::collection(Item::where([
         ['categorie', '=', $category],
         ['delisted', '=' , 0]
     ])->get());
 });
 
 Route::get('/items/category/{category}/{page}', function($category, $page){
-    return itemResource::collection(Items::where('categorie', $category)->paginate(12, ['*'], 'page', $page));
+    return itemResource::collection(Item::where('categorie', $category)->paginate(12, ['*'], 'page', $page));
 });
 //Get data for 1 item only
 Route::get('/item/{id}', function($id){
-    return itemResource::collection(Items::where('itemId', $id)->get());
+    return itemResource::collection(Item::where('itemId', $id)->get());
 });
 
 Route::get('/item/{id}/images', 'itemController@getImages');
 //Reviews for 1 item only
 
 Route::get('/item/{id}/reviews', function($id){
-    return itemReviewResource::collection(Items::findOrFail($id)->Review()->get());
+    return itemReviewResource::collection(Item::findOrFail($id)->Review()->get());
 });
-
-Route::post('/contact/add', 'ContactController@getContact');
 
 //Confirm newly registerd user
 Route::post('/confirmation', 'AuthController@confirmMail');
@@ -89,7 +80,7 @@ Route::post('/confirmation', 'AuthController@confirmMail');
 //Used to call all items
 
 Route::get('/items', function(){
-    return itemResource::collection(Items::all());
+    return itemResource::collection(Item::all());
 });
 
 
@@ -108,20 +99,6 @@ Route::post('/user/orders/history', 'OrderController@getAllUsersOrder')->middlew
 
 
 Route::middleware('auth:api', 'check_admin')->group(function(){
-
-    //Contact
-    Route::get('/contact', function(){
-        return Contacts::all();
-    });
-
-    Route::get('/contact/latest', function(){
-        return Contacts::latest()->get();
-    });
-
-    Route::get('/contact/oldest', function(){
-        return Contacts::oldest()->get();
-    });
-
     //Orders
     Route::get('/orders/finished', function(){
         return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('deliveryStatus', 0);
@@ -150,12 +127,42 @@ Route::post('/items/add', 'itemController@addItem');
 Route::post('/order/add', 'OrderController@reciveOrder');
 
 //Authenticatble api paths
-Route::middleware('auth:api', 'check_admin')->post('/user/delete', 'authController@deleteUser');
-Route::middleware('auth:api', 'check_admin')->post('/user/change/admin', 'authController@changeAdmin');
-Route::middleware('auth:api')->get('/profile','AuthController@getUserData');
+
 
 Route::middleware('auth:api')->post('/user/change/basic', 'AuthController@changeUserBasics');
 Route::middleware('auth:api')->post('/user/change/residence', 'AuthController@changeResidenceInfo');
 
-Route::middleware('auth:api')->get('/profile/admin','AuthController@checkIfAdmin');
-Route::middleware('auth:api', 'check_admin')->get('/users/all', 'AuthController@getAllUsers');
+
+// Api V1
+
+// Register
+Route::post('/user/register', 'RegisterController@register');
+
+// Sends contact
+Route::post('/contact/add', 'ContactController@sendContact');
+
+//User login
+Route::post('/user/login', 'LoginController@login');
+
+//Item categories
+Route::get('/categories', 'ItemController@getCategories');
+
+
+Route::middleware('auth:api')->group(function (){
+    Route::post('/user/data','AuthController@getUserData');
+
+
+    //Contact
+    Route::get('/contact/all', 'ContactController@getContacts');
+    Route::get('/contact/all/oldest', 'ContactController@getOldestContacts');
+
+    // Admin authentication is required
+    Route::get('/user/all', 'AuthController@getAllUsers')->middleware('check.admin');
+    Route::delete('/user/{id}/delete', 'AuthController@deleteUser')->middleware('check.admin');
+    Route::patch('/user/{id}/change/admin', 'AuthController@changeAdminRole')->middleware('check.admin');
+
+});
+
+
+
+

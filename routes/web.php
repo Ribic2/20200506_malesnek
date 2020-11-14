@@ -19,4 +19,6 @@ use App\Mail\orderConfirmed;
 Route::get('/email', function(){
     return new orderConfirmed("Test", "Test", "Test", 1);
 });
-Route::get('/{any}', 'appController@index')->where('any', '.*');
+Route::get('/{any}', function(){
+    return view('app');
+})->where('any', '.*');

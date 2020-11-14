@@ -1,1 +1,33 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[24],{434:function(e,n,t){"use strict";t.r(n);var r=t(6),u=Object(r.a)({},(function(){var e=this.$createElement,n=this._self._c||e;return n("div",[n("router-view")],1)}),[],!1,null,null,null);n.default=u.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[24],{
+
+/***/ "./node_modules/vuetify-loader/lib/runtime/installComponents.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/vuetify-loader/lib/runtime/installComponents.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function installComponents (component, components) {
+  var options = typeof component.exports === 'function'
+    ? component.exports.extendOptions
+    : component.options
+
+  if (typeof component.exports === 'function') {
+    options.components = component.exports.options.components
+  }
+
+  options.components = options.components || {}
+
+  for (var i in components) {
+    options.components[i] = options.components[i] || components[i]
+  }
+}
+
+
+/***/ })
+
+}]);

@@ -13,9 +13,9 @@ class CreateItemReviewTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_review', function (Blueprint $table) {
-            $table->id('itemReviewId');
-            $table->foreignId('itemId')->references('itemId')->on('items')->onDelete('cascade');
+        Schema::create('itemReviews', function (Blueprint $table) {
+            $table->id('id');
+            $table->foreignId('itemsId')->references('id')->on('items')->onDelete('cascade');
             $table->string('Name');
             $table->string('Email');
             $table->string('Surname');

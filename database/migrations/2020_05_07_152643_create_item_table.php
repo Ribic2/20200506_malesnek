@@ -14,7 +14,7 @@ class CreateItemTable extends Migration
     public function up()
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->id('itemId');
+            $table->id('id');
             $table->string('itemName');
             $table->double('itemPrice', 100, 2);
             $table->string('itemImg');
@@ -26,12 +26,12 @@ class CreateItemTable extends Migration
             $table->boolean('isEditable')->nullable($value=true);
             $table->integer('availableQuantity');
             $table->boolean('isAvailable')->nullable($value=true);
-            $table->string('categorie');
-            $table->string('subCategorie')->nullable($value=true);
+            $table->string('categories');
+            $table->string('subCategories')->nullable($value=true);
             $table->string('colors');
             $table->boolean('delisted')->default(0);
             $table->string('dimensions');
-            $table->integer('OverAllrating')->default(0);
+            $table->integer('OverallRating')->default(0);
         });
     }
 

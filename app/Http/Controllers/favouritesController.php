@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\itemResource;
-use App\Favourites;
-use App\Items;
+use App\Favourite;
+use App\Item;
 
 class favouritesController extends Controller
 {
@@ -19,10 +19,10 @@ class favouritesController extends Controller
     * Get all the info about the item
     */
     public function getDataInfo($itemId){
-        $item = Items::where('itemId', $itemId)->get();
+        $item = Item::where('itemId', $itemId)->get();
 
         if($item != null){
-            array_push($this->items, itemResource::collection(Items::where('itemId', $itemId)->get()));
+            array_push($this->items, itemResource::collection(Item::where('itemId', $itemId)->get()));
         }
     }
     /**
@@ -30,7 +30,7 @@ class favouritesController extends Controller
     */
     public function getFavourites(){
         if(Auth::check() != null){
-            $items = Favourites::where('userId', Auth::id())->get();
+            $items = Favourite::where('userId', Auth::id())->get();
 
 
             if(count($items) == 0){
@@ -58,7 +58,7 @@ class favouritesController extends Controller
             * Checks if if item is already added or not
             * If it is, it get deleted, otherwise it adds it
             */
-            $check = Favourites::where([
+            $check = Favourite::where([
                 ["userId", '=' , Auth::id()],
                 ["itemId", '=',  $itemId]
             ])->count();
@@ -66,7 +66,7 @@ class favouritesController extends Controller
 
             //Delets the item
             if($check == 1){
-                Favourites::where([
+                Favourite::where([
                     ["userId", "=" ,Auth::id()],
                     ["itemId", "=", $itemId]
                 ])->delete();
@@ -76,7 +76,7 @@ class favouritesController extends Controller
 
             //Adds it to database
             else{
-                $favourites = new Favourites();
+                $favourites = new Favourite();
 
                 $favourites->userId = Auth::id();
                 $favourites->itemId = $itemId;

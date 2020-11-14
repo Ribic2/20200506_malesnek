@@ -1,11 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import migration from '../../../migration.json'
-//Import layout
-import login from '../pages/user/login.vue'
-import Axios from 'axios'
 import api from '../services/api'
-import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -14,120 +9,87 @@ const router = new VueRouter({
     routes:[
         {
             path: '/',
-            name: 'index',
-            component: ()=>import('../pages/index/index.vue'),
-        },
-        {
-            path: '/user',
-            name: 'user',
-            redirect: '/',
-            component: ()=> import('../pages/user/index.vue'),
+            component: ()=>import('../layouts/default'),
             children:[
+                // Home page
                 {
-                    path: '/user/login',
-                    name: 'login',
-                    component: ()=> import('../pages/user/login.vue'),
-                    beforeEnter: (to, from, next) =>{
-                        Axios.get('/api/profile')
-                        .then((results)=>{
-                            next({name: 'index'})
-                        })
-                        .catch((error)=>{
-                            next()
-                        })
-
-                    }
+                  path: '',
+                  component: ()=>import('../pages/index/index')
                 },
+                // Contact page
                 {
-                    path: '/user/register',
+                    path: '/contact',
+                    component: ()=> import('../pages/Contact/View.vue')
+                },
+                // Favourite
+                {
+                    path: '/favourites',
+                    component: ()=> import('../pages/favourites.vue')
+                },
+                // Login
+                {
+                    path: '/login',
+                    component: ()=> import('../pages/user/login.vue')
+                },
+                // Cart
+                {
+                    path: '/cart',
+                    name: 'cart',
+                    component: ()=> import('../pages/kosarica/index.vue'),
+                    children:[
+                        {
+                            path: '/cart/1',
+                            component: ()=> import('../pages/kosarica/credentials.vue'),
+                        },
+                        {
+                            path: '/cart/2',
+                            component: ()=> import('../pages/kosarica/paymentMethod.vue')
+                        }
+                    ]
+                },
+                // Register
+                {
+                    path: '/register',
                     component: ()=> import('../pages/user/register.vue'),
-
                 },
+
+                // TODO
                 {
-                    path: '/user/profile',
+                    path: '/profile',
                     component: ()=> import('../pages/user/profile.vue'),
-                    //Checks if user is logged in, if not he is redirected
                     beforeEnter: (to, from, next)=>{
                         if(localStorage.getItem('authToken') == null){
                             next('/')
                         }
                         else next()
                     }
-
                 }
             ]
-        },
-        {
-            path: '/kosarica',
-            name: 'cart',
-            component: ()=> import('../pages/kosarica/index.vue'),
-            children:[
-                {
-                    path: '/kosarica/1',
-                    component: ()=> import('../pages/kosarica/credentials.vue'),
-                },
-                {
-                    path: '/kosarica/2',
-                    component: ()=> import('../pages/kosarica/paymentMethod.vue')
-                }
-            ]
-        },
-        {
-            path: '/kontakt',
-            component: ()=> import('../pages/kontakt.vue')
-        },
-        {
-            path: '/priljubljeno',
-            component: ()=> import('../pages/favourites.vue')
         },
         {
             path: '/checkout',
             name:'checkout',
             component: ()=>import('../pages/kosarica/checkout.vue')
         },
+        // Admin panel
         {
             path: '/admin',
-            component: ()=> import('../pages/admin/index.vue'),
-            redirect: {name: 'orders'},
-            meta: {layout: "admin"},
-            //Checks if user is admin or not
-            beforeEnter: (to, from, next) =>{
-                if(localStorage.getItem('authToken')){
-                    axios.defaults.headers.common["Authorization"] = `Bearer `+localStorage.getItem('authToken')
-
-                    axios.get('/api/profile/admin').then((results)=>{
-                        if(!results.data){
-                           next({name: 'index'})
-                        }
-                        else{
-                            next();
-                        }
-                    })
-                }
-                else{
-                    next({name: 'index'})
-                }
-            },
+            component: ()=> import('../layouts/admin'),
             children:[
                 {
-                    path: '/admin/items',
-                    meta: {layout: "admin"},
+                    path: '',
                     component: ()=> import('../pages/admin/items.vue')
                 },
                 {
-                    path: '/admin/orders',
-                    name: 'orders',
-                    meta: {layout: "admin"},
+                    path: 'orders',
                     component: ()=> import('../pages/admin/orders.vue')
                 },
                 {
-                    path: '/admin/contacts',
-                    meta: {layout: "admin"},
+                    path: 'contacts',
                     component: ()=> import('../pages/admin/contacts.vue')
                 },
                 {
-                    path: '/admin/users',
-                    meta: {layout: "admin"},
+                    path: 'users',
                     component: ()=> import('../pages/admin/users.vue')
                 }
             ]
@@ -165,16 +127,6 @@ const router = new VueRouter({
             path: '/confirmation',
             component: ()=>import('../pages/user/confirmationUser.vue')
         },
-        {
-            path: '/stran-ni-bila-najdena',
-            name: '404error',
-            component: ()=>import('../pages/errors/404.vue')
-        },
-        {
-            path: '/*',
-            name: '404',
-            redirect: {name: '404error'},
-        }
     ]
 })
 
