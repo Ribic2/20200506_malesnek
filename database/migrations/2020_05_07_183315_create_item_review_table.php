@@ -13,15 +13,13 @@ class CreateItemReviewTable extends Migration
      */
     public function up()
     {
-        Schema::create('itemReviews', function (Blueprint $table) {
-            $table->id('id');
+        Schema::create('item_reviews', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('itemsId')->references('id')->on('items')->onDelete('cascade');
-            $table->string('Name');
-            $table->string('Email');
-            $table->string('Surname');
+            $table->foreignId('userId')->references('id')->on('users')->onDelete('cascade');
             $table->string('comment');
-            $table->date('postTime');
             $table->integer('rating');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +30,6 @@ class CreateItemReviewTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_review');
+        Schema::dropIfExists('item_reviews');
     }
 }

@@ -2,271 +2,349 @@
 
 namespace App\Http\Controllers;
 
-use App\itemReview;
 use App\Item;
-use App\Order;
+use App\ItemReview;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
 
+
+    /**
+     * READE ME
+     * Image naming convention for primary image and images is
+     * IMAGES - picture-index-name
+     * PRIMARY IMAGE - picture-PI-name
+     */
+
+    /**
+     * Crates folder and uploads images to it,
+     * if folder already exists it return error
+     * @param $images
+     * @param $name
+     * @param $primaryImage
+     */
+    public function uploadImageAndCreateFolder($images, $name, $primaryImage)
+    {
+        if (Storage::exists('/public/products/' . $name)) {
+            abort(403, "Directory already exists!");
+        }
+
+        // Inserts primary image
+        $primaryImage->storeAs('/public/products/' . $name, "picture-PI-" . $name . ".jpg");
+
+        // Creates folder
+        Storage::makeDirectory('/public/products/' . $name);
+        foreach ($images as $index => $image) {
+            if ($image != $primaryImage) {
+                $image->storeAs('/public/products/' . $name, "picture-" . $index . "-" . $name . ".jpg");
+            }
+        }
+    }
+
+    /**
+     * Adds item to database
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addItem(Request $request): JsonResponse
+    {
+        // Checks if any data is missing
+        if (
+            !$request->input('itemName') ||
+            !$request->input('itemPrice') ||
+            !$request->input('dimensions') ||
+            !$request->input('category') ||
+            !$request->input('quantity') ||
+            !$request->input('color') ||
+            !$request->input('itemDescription')
+
+        ) {
+            abort(400, "Some of the data is missing");
+        }
+
+        // Checks if images are inserted and if primary image is selected
+        if (!$request->hasFile('primaryImage') || !$request->hasFile('images')) {
+            abort(400, "Either primary image or images are missing!");
+        }
+
+        // Creates item and stores it
+        $item = Item::create([
+            "itemName" => $request->input('itemName'),
+            "itemImg" => "picture-PI-" . $request->input('itemName') . ".jpg",
+            "itemImgDir" => '/products/' . $request->input('itemName'),
+            "itemPrice" => $request->input('itemPrice'),
+            "itemDescription" => $request->input('itemDescription'),
+            "quantity" => $request->input('quantity'),
+            "categories" => $request->input('category'),
+            "colors" => $request->input('color'),
+            "dimensions" => $request->input('dimensions'),
+            "defaultItemPrice" => $request->input('itemPrice')
+        ])->save();
+
+        if ($item) {
+            $this->uploadImageAndCreateFolder(
+                $request->file('images'),
+                $request->input('itemName'),
+                $request->file('primaryImage')
+            );
+        }
+
+        return response()->json("Item was created");
+    }
+
+    /**
+     * Get all items
+     * @return JsonResponse
+     */
+    public function getItems(): JsonResponse
+    {
+        return response()->json(Item::all());
+    }
+
+    /**
+     * Returns all items for a customer
+     * @return JsonResponse
+     */
+    public function getItemsCustomer(): JsonResponse
+    {
+        return response()->json(Item::where([
+            'delisted' => 0,
+        ])->get());
+    }
+
+
+    /**
+     * Changes item price and default item price
+     * It could be done in changeItem part but there was to much logic involved so I moved it to
+     * separate function.
+     * @param int $id
+     * @param int $price
+     * @param bool $isOnSale
+     * @param int $discount
+     */
+    public function changeItemPrice(int $id, int $price, bool $isOnSale, int $discount)
+    {
+        // Item object
+        $item = Item::find($id);
+
+        // If item was set to IsOnSale then it changes item price to discount price
+        if($isOnSale && $item->isOnSale == false){
+            $item->update([
+                "itemPrice" => (int)$price - (($discount * $price) / 100)
+            ]);
+        }
+        else if(!$isOnSale && $item->isOnSale){
+            $item->update([
+                "itemPrice" => $item->defaultItemPrice
+            ]);
+        }
+        else if(!$isOnSale && $item->isOnSale == false && ($price == $item->defaultItemPrice || $price != $item->defaultItemPrice)){
+            $item->update([
+                "defaultItemPrice" => $price,
+                "itemPrice" => $price
+            ]);
+        }
+    }
+
+    /**
+     * Changes item data
+     * @param integer $id
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changeItem(Request $request, int $id): JsonResponse
+    {
+        $item = Item::find($id);
+
+        // Checks if data is missing
+        if (!$request->filled('itemPrice', 'itemName', 'quantity', 'itemDescription', 'isOnSale', 'discount')) {
+            abort(403, "Some data is missing!");
+        }
+
+        /*
+         * If name of the item was changes it checks if directory with that name already exists,
+         */
+        if (!Storage::exists('/public/products/' . $request->input('itemName'))) {
+            Storage::move('/public/' . $item->itemImgDir, '/public/products/' . $request->input('itemName'));
+            Storage::move(
+                '/public/products/' . $request->input('itemName') . '/' . $item->itemImg,
+                '/public/products/' . $request->input('itemName') . '/picture-PI-' . $request->input('itemName') . '.jpg'
+            );
+        }
+
+        // Changes item price
+        $this->changeItemPrice(
+            $id,
+            $request->input('itemPrice'),
+            $request->input('isOnSale'),
+            $request->input('discount')
+        );
+
+        // Updates table
+        Item::where('id', $id)->update([
+            "itemName" => $request->input('itemName'),
+            "quantity" => $request->input('quantity'),
+            "itemImgDir" => "/products/" . $request->input('itemName'),
+            "itemImg" => "picture-PI-" . $request->input('itemName') . ".jpg",
+            "itemDescription" => $request->input('itemDescription'),
+            "isOnSale" => $request->input('isOnSale') == false ? 0 : 1,
+            "discount" => $request->input('discount'),
+
+            /*"defaultItemPrice" => $request->input('itemPrice') == $item->defaultItemPrice && $request->input('isOnSale') == false ?
+                $item->defaultItemPrice : $request->input('itemPrice'),
+
+            "itemPrice" => $request->input('isOnSale') == false ? $price :
+                (int)$request->input('itemPrice') - (($request->input('discount') * $request->input('itemPrice')) / 100)*/
+        ]);
+
+        // Sends response
+        return response()->json("Item was successfully updated");
+    }
+
+    /**
+     * Searches for items
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function searchForItems(Request $request): JsonResponse
+    {
+        return response()->json(
+            Item::where('itemName', 'LIKE', "%{$request->input('data')}%")->get()
+        );
+    }
+
+    /**
+     * Get all categories
+     * @return JsonResponse
+     */
     public function getCategories(): JsonResponse
     {
-        return response()->json(Item::select('Categories')->distinct()->get());
+        return response()->json(
+            Item::where(['delisted' => 0])->distinct('categories')->get('categories')
+        );
     }
+
     /**
-     * Function  that searches for items from user input
+     * Gets selected item by id
+     * @param int $id
+     * @return JsonResponse
      */
-    public function checkFavourites(Request $request)
+    public function getItem(int $id): JsonResponse
     {
-        $checkItems = [];
-        $favourites = $request->input('favourites');
+        $item = Item::findOrFail($id);
 
-        if ($favourites == null) {
-            return "empty";
-        }
-        for ($i = 0; $i < count($favourites); $i++) {
-
-            $item = Item::select('availableQuantity')->where('itemId', $favourites[$i]["itemId"])->get();
-            $checkIfItemExists = Item::where('itemId', $favourites[$i]["itemId"])->get();
-
-
-            if (count($checkIfItemExists) == 0) {
-                array_push($checkItems, $favourites[$i]["itemId"]);
-            } else {
-                if ($item[0]->availableQuantity == 0 || $item[0]->availableQuantity == null) {
-                    array_push($checkItems, $favourites[$i]["itemId"]);
-                }
-            }
-            return $checkItems;
-        }
+        return response()->json([
+            "item" => Item::find($id),
+            "images" => Storage::disk('public')->allFiles($item->itemImgDir)
+        ]);
     }
 
-    public function searchForItems(Request $request)
+    /**
+     * Gets all reviews for specific item
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getReviews(int $id): JsonResponse
     {
-        $data = $request->input('data');
-        $returnData = Item::where('itemName', 'like', '%' . $data . '%')->get();
-
-        return $returnData;
+        return response()->json(ItemReview::where('itemsId', $id)->with('user')->get());
     }
 
-    public function changeItem(Request $request)
+    /**
+     * Returns all items of given category and 10 per page
+     * @param int $page
+     * @param int $categoryId
+     * @return JsonResponse
+     */
+    public function getItemsPerCategoryPerPage(int $page, int $categoryId): JsonResponse
     {
-
-        $discount = $request->input('Discount');
-        $itemId = $request->input('itemId');
-        $itemName = $request->input('itemName');
-        $Quantity = $request->input('količina');
-        $itemPrice = $request->input('cena');
-        $Description = $request->input('Description');
-
-
-        //Validation
-        $rules = [
-            'cena' => 'required|numeric',
-            'količina' => 'required|numeric'
-        ];
-
-        $customMessage = [
-            'numeric' => "Napačna vrednsot pri :attribute"
-        ];
-
-        //Validates if provided items are correct type
-        $this->validate($request, $rules, $customMessage);
-        $change = null;
-        if ($discount != null) {
-            $change = Item::where('itemId', $itemId)
-                ->update([
-                    'itemName' => $itemName,
-                    'availableQuantity' => $Quantity,
-                    'itemPrice' => $itemPrice,
-                    'itemDescription' => $Description,
-                    'isOnSale' => 1,
-                    'discount' => $discount,
-                    'discountItemPrice' => ((100 - $discount) * $itemPrice) / 100
-                ]);
-        } else {
-            $change = Item::where('itemId', $itemId)
-                ->update([
-                    'itemName' => $itemName,
-                    'availableQuantity' => $Quantity,
-                    'itemPrice' => $itemPrice,
-                    'itemDescription' => $Description,
-                    'isOnSale' => 0,
-                    'discount' => 0
-                ]);
-        }
-
-        if ($change) {
-            return 1;
-        }
-        return 0;
+        return response()->json(
+            Item::where('category', $categoryId)->paginate(10)
+        );
     }
 
-    //Delists item from store
-    public function delistItem(Request $request)
+    /**
+     * Adds review to item
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function addReview(Request $request, int $id): JsonResponse
     {
-
-        if ($request->input('status') == "Remove") {
-            $item = Item::find($request->input('itemId'));
-            $item->delisted = 1;
-            $item->save();
-
-        } else {
-            $item = Item::find($request->input('itemId'));
-            $item->delisted = 0;
-            $item->save();
+        // Checks if all of the data is provided
+        if (!$request->filled(['rating', 'comment'])) {
+            abort(400, "Some of the data is missing!");
         }
+
+        // Checks if user already gave a review on the item
+        if (ItemReview::where('userId', Auth::id())->count() > 0) {
+            abort(400, "You already commented!");
+        }
+
+        // Inserts new review to database
+        ItemReview::create([
+            "userId" => Auth::id(),
+            "itemsId" => $id,
+            "rating" => $request->input('rating'),
+            "comment" => $request->input('comment')
+        ])->save();
+
+        // Calculates and update overall rating
+        $item = Item::find($id);
+        $itemReviewSum = ItemReview::where('itemsId', $id)->sum('rating');
+        $itemReviewCount = ItemReview::where('itemsId', $id)->count();
+        $newRating = ($itemReviewSum) / ($itemReviewCount);
+
+        $item->update(['OverallRating' => $newRating]);
+
+        return response()->json("New rating added!");
     }
 
-    public function deleteItem(Request $request)
+    /**
+     * Get items for specific category
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getSpecificItems(Request $request): JsonResponse
     {
-        $id = $request->input('itemId');
-        $name = Item::select('itemName')->where('itemId', $id)->get();
-
-        //Get all files that are stored in that directory
-        $files = Storage::disk('public')->allFiles('products/' . $name[0]->itemName);
-
-        //Delete every one of them
-        for ($i = 0; $i < count($files); $i++) {
-            Storage::disk('public')->delete($files[$i]);
-        }
-
-        //After that delete folder
-        Storage::disk('public')->deleteDirectory('products/' . $name[0]->itemName);
-
-        //After folder was deleted delte item
-        $delete = Item::destroy($id);
-
-        //Delete all orders and item reviews where selected item is present
-        Order::where('itemId', $id)->delete();
-        itemReview::where('itemId', $id)->delete();
-
-        if ($delete) {
-            return 1;
-        }
-        return 0;
+        return response()->json(
+            Item::where('categories', $request->input('category'))->get()
+        );
     }
 
-    public function getImages($id)
+    /**
+     * Get all delisted items
+     * @return JsonResponse
+     */
+    public function delistedItems(): JsonResponse
     {
-        $name = Item::select('itemName')->where('itemId', $id)->get();
-        $dirName = $name[0]->itemName;
-        $files = Storage::disk('public')->files('products/' . $dirName);
-
-        return $files;
+        return response()->json(Item::where('delisted', 1)->get());
     }
 
-    public function addItem(Request $request)
+    /**
+     * Gets all listed items
+     * @return JsonResponse
+     */
+    public function listedItems(): JsonResponse
     {
-        $itemName = $request->input('itemName');
-        $itemPrice = $request->input('cena');
-        $Quantity = $request->input('kolicina');
-        $Dimension = $request->input('Dimensions');
-        $Categorie = $request->input('Categorie');
-        $Color = $request->input('Color');
-        $primaryImg = $request->input('itemImg');
-        $images = $request->file('images');
-        $Description = $request->input('Description');
-
-
-        //Validation
-        $rules = [
-            'cena' => 'required|numeric',
-            'kolicina' => 'required|numeric'
-        ];
-
-        $customMessage = [
-            'numeric' => "Napačna vrednsot pri :attribute"
-        ];
-
-        //Validates if provided items are correct type
-        $this->validate($request, $rules, $customMessage);
-
-
-        if (Item::where('itemName', $itemName)->count() == 1) {
-            return "Izdelek že obstaja!";
-        } else {
-            $path = public_path('storage\products/' . $itemName);
-
-            mkdir($path, 0777, true);
-
-
-            foreach ($images as $image) {
-                if ($image->getClientOriginalName() == $primaryImg) {
-                    $image->storeAs('public/products/' . $itemName, $primaryImg);
-                } else {
-                    $image->store('public/products/' . $itemName);
-                }
-            }
-
-
-        };
-
-
-        $item = new Item;
-
-        $item->itemName = $itemName;
-        $item->itemPrice = $itemPrice;
-        $item->availableQuantity = $Quantity;
-        $item->itemImg = $primaryImg;
-        $item->itemImgDir = $itemName;
-        $item->dimensions = $Dimension;
-        $item->categorie = $Categorie;
-        $item->colors = $Color;
-        $item->itemDescription = $Description;
-
-        $checkInsert = $item->save();
-
-        if ($checkInsert) {
-            return 1;
-        }
-        return 0;
+        return response()->json(Item::where('delisted', 0)->get());
     }
 
-    public function addReview(Request $request)
+    /**
+     * Change item status (delisted, listed)
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function changeStatus(int $id): JsonResponse
     {
-        $Comment = $request->input('Comment');
-        $Rating = $request->input('Rating');
-        $productId = $request->input('productId');
-        $name = $request->input('Name');
-        $surname = $request->input('Surname');
-        $email = $request->input('Email');
-        $date = date("Y-m-d H:i:s");
+        $item = Item::find($id);
+        $item->update(['delisted' => !$item->delisted]);
 
-        $checkIfUserAlreadyPosted = itemReview::where('Email', $email)->count();
-
-        if ($checkIfUserAlreadyPosted > 0) {
-            return "User Already posted";
-        }
-
-        $addItemReview = new itemReview();
-
-        $addItemReview->itemId = $productId;
-        $addItemReview->Name = $name;
-        $addItemReview->Surname = $surname;
-        $addItemReview->comment = $Comment;
-        $addItemReview->postTime = $date;
-        $addItemReview->Email = $email;
-        $addItemReview->rating = $Rating;
-
-
-        if ($addItemReview->save()) {
-            $newOverAllRating = 0;
-            $getItemReviews = itemReview::select('rating')->where('itemId', $productId)->get();
-
-            for ($i = 0; $i < count($getItemReviews); $i++) {
-                $newOverAllRating += $getItemReviews[$i]->rating;
-            }
-            $newOverAllRating /= count($getItemReviews);
-            $item = Item::where('itemId', $productId)
-                ->update(['overAllrating' => $newOverAllRating]);
-
-            return 1;
-        }
-        return 2;
+        return response()->json([
+            "message" => "Item was successfully changed!"
+        ]);
     }
-
 }

@@ -1,65 +1,82 @@
 import api from '../../services/api.js'
-import migration from '../../../../migration.json'
 
 export default{
     state: ()=>({
-        user: null,
+        spinner: false,
+        user: [],
 
-        //Place
-        houseNumberAndStreet: '',
-        Postcode: '',
-        Region: ''
+        // Guest data
+        guest: [],
+        orderCredentials:{
+            Name: null,
+            Surname: null,
+            Email: null,
+            Telephone: null,
+            houseNumberAndStreet: null,
+            postcode: null,
+            region: null
+        },
+        // Add Credentials in cart
+        deliver:{
+            houseNumberAndStreet: null,
+            postcode: null,
+            region: null
+        }
+
     }),
     mutations:{
         SET_USER_DATA(state, payload){
             state.user = payload
         },
-        LOGOUT_USER(state){
-            state.Name = null
-            state.Surname = null
-            state.Email = null
-            state.Phone = null
-            state.userId = null
-            state.LoginStatus = false
-            state.isAuth = false
-            state.isNewCustomer = false
-            state.check = false
-
-            localStorage.removeItem('authToken')
-            localStorage.removeItem('cartStorage')
-            localStorage.removeItem('orderHistory')
-
-            window.location.href=migration[0].redirectURL
-
+        SET_USER_DATA_LOGOUT(state, payload){
+            state.user = payload
         },
-        STORE_USER_ORDER_HISTORY(state){
-            axios.post(migration[0].redirectURL+'api/user/orders/history', {userId: state.userId})
-            .then((results)=>{
-                localStorage.setItem('orderHistory', JSON.stringify(results.data))
-                state.orderHistory = JSON.parse(localStorage.getItem('orderHistory'))
-            })
-        },
+        SET_GUEST_DATA(state, payload){
+            state.guest = payload
+        }
     },
     actions:{
         getUser({commit}){
            api.getUsersData().then((response)=>{
                if(response.data.check){
-                   commit('SET_USER_DATA', response.data.user)
+                   commit('SET_USER_DATA_LOGOUT', response.data.user)
                }
            })
         },
 
-
         logout({commit}){
             // Clears token and cart
-            localStorage.clear()
-            commit('SET_USER_DATA', null)
+            let cookie = localStorage.getItem('vue-cookie-accept-decline-myPanel1');
+            localStorage.clear();
+            localStorage.setItem('vue-cookie-accept-decline-myPanel1', cookie);
+            commit('SET_USER_DATA', [])
+            document.location.href = "/";
         },
-        getUserOrderHistory({commit}, payload){
-            commit('STORE_USER_ORDER_HISTORY')
+        getUserOrderHistory({commit}){
+            api.getUserOrderHistory()
+                .then((response)=>{
+                    console.log(response)
+                })
         },
-    },
-    getters:{
 
+        // Adds item to cart
+        addToCart({commit}, product) {
+            api.addToCart(product.id)
+                .then((response) => {
+                    console.log(response)
+                })
+        },
+
+        setGuest({commit}){
+            if(localStorage.getItem('guest') !== null){
+                commit('SET_GUEST_DATA', JSON.parse(localStorage.getItem('guest')))
+            }
+        }
+    },
+    getters: {
+        Name: (state) =>{
+            return state.user.Name
+        }
     }
+
 }

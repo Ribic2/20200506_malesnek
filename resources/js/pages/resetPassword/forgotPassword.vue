@@ -1,57 +1,71 @@
 <template>
-    <v-container>
-        <v-card
+
+    <v-card
         class="mx-auto mt-12"
         width="500"
-        height="500"
         :elevation="$vuetify.breakpoint.smAndDown ? 0 : 5"
-        >
-            <v-card-title>Spremeni geslo</v-card-title>
-                <div class = "ma-2">
+    >
+        <v-card-title>Spremeni geslo</v-card-title>
 
-                    <v-text-field 
-                    type="email" 
-                    placeholder="e-naslov" 
-                    v-model="email"
-                    required
-                    prepend-icon="mdi-email"
-                    ></v-text-field>
+        <v-card-text>
+            <v-text-field
+                type="email"
+                placeholder="e-naslov"
+                v-model="email"
+                :prepend-icon="mdiEmail"
+                required
+            ></v-text-field>
 
-                    <v-btn
-                    @click="requestResetPassword"
-                    width="100%"
-                    class="mt-1"
-                    rounded
-                    color="#6C3FB8"
-                    dark
-                    >Spremeni geslo</v-btn>
+            <v-btn
+                @click="requestResetPassword"
+                block
+                rounded
+                color="#6C3FB8"
+                dark
+            >Spremeni geslo
+            </v-btn>
 
-                </div>
-        </v-card>
-    </v-container>
+            <v-alert
+                :type="has_error ? 'error' : 'success'"
+                v-if="message"
+                class="mt-3"
+                rounded
+            >
+                {{ message }}
+            </v-alert>
+        </v-card-text>
+    </v-card>
+
 </template>
 
 <script>
-import Axios from 'axios';
+import api from "../../services/api";
+import {mdiEmail} from '@mdi/js'
+
 export default {
     data() {
-      return {
-        email: null,
-        has_error: false
-      }
+        return {
+            email: null,
+            has_error: null,
+            message: null,
+            mdiEmail
+        }
     },
     methods: {
-        requestResetPassword() {
-            Axios.post("/api/reset-password", {email: this.email}).then(result => {
-                this.response = result.data;
-                console.log(result.data);
-            }, error => {
-                console.error(error);
-            });
+        async requestResetPassword() {
+            this.$store.state.user.spinner = true
+            await api.requestResetPassword({email: this.email})
+                .then((response) => {
+                    this.has_error = false
+                    this.message = response.data.message
+                    this.$store.state.user.spinner = false
+                })
+                .catch((err)=>{
+                    this.has_error = true
+                    this.message = err.response.data.message
+                    this.$store.state.user.spinner = false
+                })
         }
     }
 }
 </script>
-
-<style scoped>
-</style>

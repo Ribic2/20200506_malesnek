@@ -1,216 +1,39 @@
 <template>
     <v-container>
         <v-card
-        elevation="0"
-        width="500"
+            elevation="0"
+            width="500"
         >
-            <v-form>
-                <!--If user is logged in -->
-                <v-row v-if="this.$store.state.user.LoginStatus">
-                    <v-col>
-                        <v-text-field
-                        label="Ime"
-                        :value="this.$store.state.user.Name ? this.$store.state.user.Name : ''"
-                        :model="this.$store.state.user.Name ? '' : name"
-                        :disabled="this.$store.state.user.Name ? true : false"
-                        >
-                        </v-text-field>
-                    </v-col>
-                    <v-col>
-                        <v-text-field
-                        label="Priimek"
-                        :value="this.$store.state.user.Surname ? this.$store.state.user.Surname : ''"
-                        :model="this.$store.state.user.Surname ? '' : surname"
-                        :disabled="this.$store.state.user.Surname ? true : false"
-                        >
-                        </v-text-field>
-                    </v-col>
-                </v-row>
+            <v-card-title>Podatki o dostavi</v-card-title>
 
-                <!--If user is not logged in-->
-                <v-row v-else>
-                    <v-col>
-                        <v-text-field
-                        label="Ime"
-                        v-model="name"
-                        >
-                        </v-text-field>
-                    </v-col>
-                    <v-col>
-                        <v-text-field
-                        label="Priimek"
-                        v-model="surname"
-                        >
-                        </v-text-field>
-                    </v-col>
-                </v-row>
+            <v-card-actions>
+                <!-- Check if user is guest -->
+                <guest v-if="user.length === 0 || !user.isAuth"></guest>
 
+                <!-- if user is authenticated -->
+                <user v-else></user>
+            </v-card-actions>
 
-                <v-row>
-                    <!-- If user is registerd -->
-                    <v-col v-if="this.$store.state.user.Email">
-                        <v-text-field
-                        label="email"
-                        :value="this.$store.state.user.Email"
-                        disabled
-                        >
-                        </v-text-field>
-                    </v-col>
-
-
-                    <!-- If user is not registerd nor is guest -->
-                    <v-col v-else>
-                        <v-text-field
-                        label="email"
-                        v-model="email"
-                        >
-                        </v-text-field>
-                    </v-col>
-                </v-row>
-
-
-                <v-row>
-                    <v-col>
-                        <v-text-field
-                        v-if="this.$store.state.user.Phone"
-                        :value="this.$store.state.user.Phone"
-                        :model="this.$store.state.user.Phone"
-                        disabled
-                        >
-                        </v-text-field>
-                        <v-text-field
-                        label="Tel. šteilka"
-                        v-model="telephonNumber"
-                        maxLength="9"
-                        v-else
-                        >
-
-                        </v-text-field>
-                    </v-col>
-
-                    <v-col>
-                        <v-text-field
-                        label="Kraj"
-                        v-model="region"
-                        >
-
-
-                        </v-text-field>
-                    </v-col>
-                </v-row>
-
-
-                <v-row>
-                    <v-col>
-                        <v-text-field
-                        label="Hišna številka in ulica"
-                        v-model="houseNumberAndStreet"
-                        >
-
-                        </v-text-field>
-                    </v-col>
-                    <v-col>
-                        <v-text-field
-                        label="Poštna številka"
-                        v-model="postcode"
-                        maxLength="4"
-                        >
-                        </v-text-field>
-                    </v-col>
-                </v-row>
-
-                <v-card-actions>
-                    <v-btn
-                    @click="register"
-                    color="primary"
-                    >Oddaj podatke</v-btn>
-                </v-card-actions>
-            </v-form>
-
-            <v-alert type="error" v-if="error != ''">
-                {{error}}
-            </v-alert>
-
+            <v-card-text class="text-center">
+                Ali ste že registrirani? <a class="blue--text" @click="$router.push('/login')">Prijavite se</a>
+            </v-card-text>
         </v-card>
     </v-container>
 </template>
 
 <script>
-import Axios from 'axios'
-import migration from '../../../../migration.json'
-import store from '../../store/index'
+import guest from './register/guest'
+import user from './register/user'
+
 export default {
-    data(){
-        return{
-            migraiton: migration,
-            name: '',
-            surname: '',
-            email: '',
-            telephonNumber: '',
-            houseNumberAndStreet: '',
-            postcode: '',
-            region: '',
-            error: ''
-        }
+    components: {
+        user,
+        guest
     },
-    methods:{
-        register(){
-            var credentials = {
-                name: this.$store.state.user.Name ? this.$store.state.user.Name : this.name,
-                surname: this.$store.state.user.Surname ? this.$store.state.user.Surname : this.surname,
-                email: this.$store.state.user.Email ? this.$store.state.user.Email : this.email,
-                region: this.region,
-                phone: this.$store.state.user.Phone ? this.$store.state.user.Phone : this.telephonNumber,
-                houseNumberAndStreet: this.houseNumberAndStreet,
-                postcode: this.postcode,
-                isAlreadyRegisterd: this.$store.state.user.LoginStatus ? 1 : 0
-
-            }
-
-
-            Axios.post('api/user/register/cart', credentials)
-            .then((results)=>{
-                //Checks if user registerd as guest
-                if(results.data.guest){
-                    localStorage.setItem('guest', JSON.stringify(results.data.user))
-                }
-                if(results.data.response == "Ok"){
-
-                    this.$store.dispatch('checkLocalStorageCart')
-
-                    if(this.$router.currentRoute.path != "/kosarica"){
-                        window.location.href = migration[0].redirectURL
-                    }
-                    else{
-                        window.location.href = migration[0].redirectURL+"kosarica"
-                    }
-
-                }
-            })
-            .catch((error)=>{
-                this.error = error.response.data.errors.postcode[0]
-            })
-        },
-        /**
-        * Checks if
-        */
-        checkIfGuest(){
-            if(localStorage.getItem('guest')){
-                let data = JSON.parse(localStorage.getItem('guest'))
-
-                this.name = data.Name
-                this.surname = data.Surname
-                this.email = data.Email
-                this.telephonNumber = data.Phone
-                this.postcode = data.PostCode
-                this.region = data.Region
-                this.houseNumberAndStreet = data.houseNumberAndStreet
-
-            }
+    computed:{
+        user(){
+            return this.$store.state.user.user
         }
-    },
-    mounted(){
-        this.checkIfGuest()
     }
 }
 </script>

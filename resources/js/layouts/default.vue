@@ -17,11 +17,10 @@
                     <v-divider></v-divider>
                 </v-list-item-content>
             </v-list-item>
-
             <v-list
                 dense
                 nav
-                v-if="this.$store.state.user.user == null"
+                v-if="this.user.length === 0"
             >
                 <v-list-item
                     v-for="link in userLinks" :key="link.label"
@@ -39,7 +38,7 @@
                     </v-btn>
                 </v-list-item>
             </v-list>
-            <!--If user is registerd-->
+            <!--If user is registered-->
             <v-list
                 dense
                 nav
@@ -79,7 +78,7 @@
                         rounded
                         dark
                         width="100%"
-                        to="/user/profile"
+                        to="/profile"
                         color="#6C3FB8"
                     >Ogled profila
                     </v-btn>
@@ -95,7 +94,7 @@
         >
             <v-app-bar-nav-icon>
                 <v-img
-                    @click="this.$router.push('/')"
+                    @click="$route.name !== '/' ? $router.push('/') : null"
                     src="/storage/store/FullColor_1280x1024_300dpi.jpg"
                     width="2"
                     height="48"
@@ -105,22 +104,21 @@
             <v-toolbar-title>
                 <v-btn
                     depressed
-                    @click="this.$router.push('/')"
+                    @click="$router.push('/')"
                     color="#6C3FB8"
-                    width="95"
+                    width="auto"
                     :ripple="false"
                 >Uniq Cards
                 </v-btn>
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
-
             <v-btn
                 class="mr-1"
                 icon
                 @click.stop="drawer = !drawer"
             >
-                <v-icon>mdi-account-circle</v-icon>
+                <v-icon>{{ accountIcon }}</v-icon>
             </v-btn>
 
             <v-btn
@@ -132,7 +130,7 @@
                     :value="this.$store.state.cart.cart == null ? '' : this.$store.state.cart.cart.length"
                     overlap
                 >
-                    <v-icon>mdi-cart</v-icon>
+                    <v-icon>{{ cartIcon }}</v-icon>
                 </v-badge>
             </v-btn>
             <template v-slot:extension>
@@ -144,7 +142,8 @@
 
 
         <v-main>
-            <v-container>
+            <SpinnerOverlay></SpinnerOverlay>
+            <v-container id="mainContainer">
                 <router-view></router-view>
             </v-container>
         </v-main>
@@ -153,31 +152,38 @@
             color="#6C3FB8"
             padless
         >
-            <v-row
-                justify="center"
-                color="#6C3FB8"
-                no-gutters
-            >
-                <v-btn
-                    v-for="link in links"
-                    :key="link.label"
-                    color="white"
-                    text
-                    rounded
-                    class="my-2"
-                    :to="link.url"
-                >
-                    {{ link.label }}
-                </v-btn>
-
-                <v-col
-                    color="#6C3FB8"
-                    class="lighten-2 py-4 text-center white--text"
-                    cols="12"
-                >
-                    {{ new Date().getFullYear() }} <strong>Uniq Cards</strong>
-                </v-col>
-            </v-row>
+            <v-container>
+                <v-row>
+                    <v-col
+                        cols="12"
+                        xl="12"
+                        lg="12"
+                    >
+                        <router-link
+                            to="/splosni-pogoji"
+                            class="text--white"
+                        >
+                            Splošni pogoji
+                        </router-link>
+                    </v-col>
+                </v-row>
+                <v-row v-for="(text, index) in legal" :key="index">
+                    <v-col
+                        cols="6"
+                        xl="2"
+                        lg="2"
+                        class="white--text">
+                        {{ text.label }}
+                    </v-col>
+                    <v-col
+                        cols="6"
+                        xl="2"
+                        lg="2"
+                        class="white--text">
+                        {{ text.value }}
+                    </v-col>
+                </v-row>
+            </v-container>
         </v-footer>
 
         <VueCookieAcceptDecline
@@ -186,30 +192,18 @@
             :debug="false"
             :position="'bottom-left'"
             :type="'floating'"
-            :disableDecline="false"
+            :disableDecline="true"
             :transitionName="'slideFromBottom'"
             :showPostponeButton="false">
 
-
-            <!-- Optional -->
-            <div slot="postponeContent">
-                &times;
-            </div>
-
             <!-- Optional -->
             <div slot="message">
-                We use cookies to ensure you get the best experience on our website. <a
-                href="https://cookiesandyou.com/" target="_blank">Learn More...</a>
-            </div>
-
-            <!-- Optional -->
-            <div slot="declineContent">
-                OPT OUT
+                Ta spletna stran uporablja piškotke.
             </div>
 
             <!-- Optional -->
             <div slot="acceptContent">
-                GOT IT!
+                V redu
             </div>
         </VueCookieAcceptDecline>
     </v-app>
@@ -219,9 +213,13 @@
 
 import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
 import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
+import api from "../services/api";
+import {mdiAccountCircle, mdiCart} from '@mdi/js'
+import SpinnerOverlay from "../components/spinnerOverlay";
 
 export default {
     components: {
+        SpinnerOverlay,
         VueCookieAcceptDecline
     },
     data() {
@@ -237,39 +235,79 @@ export default {
                 {label: 'Registracija', icon: 'mdi-account-edit', url: '/register'}
             ],
             drawer: false,
+            accountIcon: mdiAccountCircle,
+            cartIcon: mdiCart,
+            legal: [
+                {label: "Trgovina", value: process.env.MIX_TRGOVINA},
+                {label: "Splošne informacije", value: process.env.MIX_TRGOVINA},
+                {label: "Tehnične informacije", value: process.env.MIX_TRGOVINA},
+                {label: "Sedež podjetja", value:process.env.MIX_TRGOVINA},
+                {label: "Naslov", value: process.env.MIX_TRGOVINA},
+                {label: "Proizvodnja", value: process.env.MIX_TRGOVINA},
+                {label: "Davčna št.", value: process.env.MIX_TRGOVINA},
+                {label: "Matična št.", value:process.env.MIX_TRGOVINA},
+                {label: "TRR", value: process.env.MIX_TRGOVINA}
+            ]
         }
     },
     methods: {
         authUser() {
             return this.$store.dispatch('getUser')
         },
+        getCart() {
+            return this.$store.dispatch('getCart')
+        },
+        getFavourites() {
+            return this.$store.dispatch('getFavourites')
+        },
         logout() {
             return this.$store.dispatch('logout')
         },
-        /*
-        refreshCart() {
-            return this.$store.dispatch('checkLocalStorageCart')
+
+        getFavouritesGuest() {
+            return this.$store.dispatch('getFavoritesGuest')
         },
-        cookieClickedAccept() {
-            this.cookieStatus = 'accept'
+
+        getCartGuest() {
+            return this.$store.dispatch('getCartGuest')
         },
-        cookieClickedDecline() {
-            this.cookieStatus = 'decline'
+
+        setGuest(){
+          return this.$store.dispatch('setGuest')
         },
-        getFavourites() {
-            if (localStorage.getItem('authToken')) {
-                return this.$store.dispatch('resetFavouritesRegisterdUser')
-            }
+
+        callDependOnUser() {
+            api.getUsersData()
+                .then((response) => {
+                    this.getFavourites()
+                    this.getCart()
+                    this.$store.commit('SET_USER_DATA', response.data.user)
+                })
+                .catch(() => {
+                    this.getFavouritesGuest()
+                    this.getCartGuest()
+                    this.setGuest()
+                })
         },
-        getUserHistory() {
-            return this.$store.dispatch('getUserOrderHistory')
-        },*/
     },
-    mounted() {
-        this.authUser()
-        //this.refreshCart(),
-        //this.getUserHistory(),
-        //this.getFavourites()
+    beforeCreate() {
+        api.getUsersData()
+            .then((response) => {
+                this.getFavourites()
+                this.getCart()
+                this.$store.commit('SET_USER_DATA', response.data.user)
+            })
+            .catch((err) => {
+                this.getFavouritesGuest()
+                this.getCartGuest()
+                this.setGuest()
+            })
+    },
+
+    computed: {
+        user() {
+            return this.$store.state.user.user
+        }
     }
 }
 </script>
@@ -277,5 +315,8 @@ export default {
 <style scoped>
 #logo {
     border-radius: 500px;
+}
+#mainContainer{
+    min-height: 86vh;
 }
 </style>

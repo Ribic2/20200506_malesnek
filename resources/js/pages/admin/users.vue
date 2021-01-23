@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-row>
             <v-col
                 cols="12"
@@ -74,8 +74,6 @@
 </template>
 
 <script>
-import Axios from 'axios'
-import store from '../../store/index'
 import api from "../../services/api";
 
 export default {

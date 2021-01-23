@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -16,7 +20,7 @@ class AuthController extends Controller
      * Checks if user is authenticated
      * @return JsonResponse
      */
-    function getUserData()
+    function getUserData(): JsonResponse
     {
         return response()->json([
             "user" => Auth::user(),
@@ -26,6 +30,9 @@ class AuthController extends Controller
 
     /**
      * Changes users basic data
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     * @throws ValidationException
      */
     public function changeUserBasics(Request $request)
     {
@@ -155,7 +162,19 @@ class AuthController extends Controller
             $User->assignRole('admin');
             return response()->json("Admin role dodeljen uporabniku!");
         }
+    }
 
+    /**
+     * Checks if user is admin or not
+     * @param Request $request
+     * @return bool
+     */
+    public function checkIfAdmin(Request $request): bool
+    {
+        if(Auth::user()->hasRole('admin')){
+            return true;
+        }
+        return false;
     }
 
 

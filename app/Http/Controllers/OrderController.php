@@ -2,181 +2,315 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
+use App\Http\Resources\OrderUiidResource;
 use App\Item;
-use App\Order;
-use App\OrderIdStore;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\mail\orderConfirmed;
-use App\User;
-use App\Mail\confirmPacket;
+use App\Mail\orderConfirmed;
+use App\Mail\orderDelayed;
 use App\Mail\orderDenied;
-use Stripe\Exception\CardException;
-use App\Http\Resources\orderResource;
-Use Cartalyst\Stripe\Stripe;
-use Cartalyst\Stripe\Charge;
+use App\Mail\orderReceived;
+use App\Order;
+use App\OrderUiid;
+use App\User;
+use PDF;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+// Paypal
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+
 
 class OrderController extends Controller
 {
+    protected PayPalHttpClient $client;
+    public bool $isGuest;
+    public string $price;
 
-    public $outOfStockItems = [];
-    public $checkIfOutofStock = [];
+    public function __construct()
+    {
+        $clientId = env('PAYPAL_SANDBOX_CLIENT_ID');
+        $clientSecret = env('PAYPAL_SANDBOX_CLIENT_SECRET');
+
+        $env = new SandboxEnvironment($clientId, $clientSecret);
+        $client = new PayPalHttpClient($env);
+        $this->client = $client;
+    }
+
     /**
-     * Checks if provided item is avaiable is in stock
+     * Function will calculate full price of an order for logged in user and return it
+     * @param int $id
+     * @return string
      */
-    public function checksIfItemsIsAvaiable($itemId, $quantity){
+    public function fullPriceOfAnOrder(int $id): string
+    {
+        $price = 0;
 
-        $checkStock = Item::select('availableQuantity')->where('itemId', $itemId)->get();
-
-        if($checkStock[0]->availableQuantity == 0 || $checkStock[0]->availableQuantity - $quantity < 0){
-            array_push($this->outOfStockItems, $itemId);
-            return false;
+        // It gets items prices and quantity,
+        // and calculates them and adds them to price variable,
+        // that is returned at the end
+        $items = Cart::where('userId', $id)->with('price')->get();
+        foreach ($items as $item) {
+            $price += $item->price->itemPrice * $item->quantity;
         }
-        return true;
+        return strval($price);
+    }
 
+    /**
+     * Function will calculate full price of an order for guest and return it
+     * @param $items
+     * @return string
+     */
+    public function fullPriceOfAnOrderGuest($items): string
+    {
+        $fullPrice = 0;
+        foreach ($items as $item) {
+            $fullPrice += $item['items']['itemPrice'] * $item['quantity'];
+        }
+        return strval($fullPrice);
+    }
+
+    /**
+     * Creates an order for PayPal
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createOrder(Request $request): JsonResponse
+    {
+        $token = $request->get('token');
+        $user = User::where(['token' => $token])->first();
+
+        $this->isGuest = $user->isGuest ? true : false;
+
+        if ($this->isGuest) {
+            $this->price = $this->fullPriceOfAnOrderGuest($request->input('cart'));
+        } else {
+            $this->price = $this->fullPriceOfAnOrder($user->id);
+        }
+
+        $request = new OrdersCreateRequest();
+
+        $request->prefer('return=representation');
+        $request->body = [
+            "intent" => "CAPTURE",
+            "purchase_units" => [[
+                "amount" => [
+                    "value" => $this->price,
+                    "currency_code" => "EUR"
+                ]
+            ]],
+            "application_context" => [
+                "cancel_url" => "https://example.com/cancel",
+                "return_url" => "https://example.com/return"
+            ]
+        ];
+
+        return response()->json(
+            $this->client->execute($request),
+        );
+    }
+
+    /**
+     * Creates invoice pdf and returns it
+     * @param string $UUID
+     * @return mixed
+     */
+    public function createPDF(string $UUID)
+    {
+        #                67f742b7-4515-4a96-9adc-24aa4515c395
+        // I don't know why it wont work, I know it ugly but is works
+        $order = Order::where('UUID', $UUID)->with('items')->get();
+        $user = OrderUiid::where('UUID', $UUID)->with('user')->first();
+        return PDF::loadView('mails.orderSendPDF',  ["items" => $order, "user" => $user]);
+        #return $pdf->loadView('mails.orderSendPDF', ["items" => $order, "user" => $user]);
     }
     /**
-     * Save recived order
+     * Adds order to database
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function reciveOrder(Request $request){
+    public function executePayment(Request $request): JsonResponse
+    {
+        (string)$token = $request->input('token');
+        (string)$UUID = Str::uuid();
 
-        $userId = $request->input('userId');
-        $quantity = $request->input('quantity');
-        $fullPrice = $request->input('fullPrice');
-        $orders = $request->input('products');
-        $uiid = (string) Str::orderedUuid();
+        $token = $request->get('token');
+        $user = User::where(['token' => $token])->first();
 
-        for($i = 0; $i < count($orders); $i++){
-            $this->checksIfItemsIsAvaiable($orders[$i], $quantity[$i]);
-        }
+        // Sets is user is guest
+        $this->isGuest = $user->isGuest ? true : false;
 
-        if(count($this->outOfStockItems) == 0){
+        // Creates order UUID
+        OrderUiid::create([
+            "UUID" => $UUID,
+            "userId" => $user->id,
+            'typeOfPayment' => $request->input('typeOfPayment'),
+            'status' => 'not-reviewed',
+            'paymentStatus' => $request->input('typeOfPayment') == 'prepaid'
+        ])->save();
 
-
-            $orderIds = new OrderIdStore();
-            $orderIds->orderId = $uiid;
-            $orderIds->user_Id = $userId;
-            $orderIds->ordered_time = date("Y-m-d H:i:s");
-            $orderIds->yearOfDelivery = date('Y');
-            $orderIds->monthOfDelivery = date('m');
-            $orderIds->deliveryStatus = 0;
-            $orderIds->save();
-
-            for($x = 0; $x < count($orders); $x++){
-
-                $changeQuantiy = Item::select('availableQuantity')->where('itemId', $orders[$x])->get();
-
-                $newQuantity = $changeQuantiy[0]->availableQuantity - $quantity[$x];
-
-                Item::where('itemId', $orders[$x])->update(['availableQuantity' => $newQuantity]);
-
-                $order = new Order();
-
-                $order->userId = $userId;
-                $order->itemId = $orders[$x];
-                $order->Quantity = $quantity[$x];
-                $order->orderId = $uiid;
-
-                $order->save();
+        // Loop through items in cart and add them to order table
+        if (!$this->isGuest) {
+            $items = Cart::where('userId', $user->id)->with('price')->get();
+            foreach ($items as $item) {
+                Order::create([
+                    'UUID' => $UUID,
+                    'itemId' => $item->itemId,
+                    'quantity' => $item->quantity,
+                ]);
             }
 
-            if($request->input('typeOfPayment') == 'home'){
-
-                return 1;
+            // Subtract from item quantity
+            foreach ($items as $item) {
+                Item::find($item->itemId)->decrement('quantity', $item->quantity);
             }
-            //Stripe setup
-            try {
-                $stripe = new \Stripe\StripeClient('sk_test_imllcXKzgyeOqz5wbc4OAhXp00OFK9yIwp');
 
-                $stripe->charges->create([
-                    'amount' => $fullPrice*100,
-                    'currency' => 'eur',
-                    'source' => $request->input('stripeToken'),
+            // Deletes cart of a user after order was sent
+            Cart::where('userId', $user->id)->delete();
+        } else {
+            // Loops through cart (request)
+            $items = $request->get('cart');
+            // Gets itemId and quantity and stores it to database
+            foreach ($items as $item) {
+
+                // Checks if item was found or not
+                if(Item::find($item["items"]["id"]) == null){
+                    abort(403, "Item in cart was not found");
+                }
+
+                Order::create([
+                    'UUID' => $UUID,
+                    'itemId' => $item["items"]["id"],
+                    'quantity' => $item["quantity"]
                 ]);
 
-                $email = User::select('email')->where('user_id', $userId)->get();
-                Mail::to($email[0]->email)->send(new orderConfirmed($orders, $quantity, $fullPrice, $userId));
-
-                return redirect('/checkout');
-            }
-            catch (CardException $e) {
-                return back()->withErrors('Error! ' . $e->getMessage());
-            }
-
-        }
-
-        return response()->json(['itemsOutOfStock'=> $this->outOfStockItems]);
-    }
-    /**
-     * Confirm order status
-     */
-    public function confirmOrder(Request $request){
-        $id =  $request->input('confirmation');
-
-
-        $idUser = Order::select('userId')->where('OrderId', $id)->get();
-
-        $name = User::select('Name')->where('user_id', $idUser[0]->userId)->get();
-        $email = User::select('email')->where('user_id', $idUser[0]->userId)->get();
-
-        $changeOrderStatus = OrderIdStore::where('OrderId', $id)
-        ->update(['deliveryStatus' => 1]);
-
-        if($changeOrderStatus){
-            Mail::to($email[0]->email)->send(new confirmPacket($name[0]->Name));
-            return 1;
-        }
-        return 0;
-    }
-    /**
-     * Order denied
-     */
-    public function orderDenied(Request $request){
-        $id = $request->input('id');
-        $idUser = Order::select('userId')->where('OrderId', $id)->get();
-
-        OrderIdStore::where('OrderId', $id)->delete();
-        Order::where('orderId', $id)->delete();
-
-        $email = User::select('email')->where('user_id', $idUser[0]->userId)->get();
-
-        Mail::to($email[0]->email)->send(new orderDenied());
-        return 1;
-
-    }
-
-
-    /**
-     * Check if all items are aviable
-     */
-    public function checkCartItems(Request $request){
-        $cart = $request->input('cart');
-
-        for($i = 0; $i < count($cart); $i++){
-
-
-            $item = Item::select('availableQuantity')->where('itemId', $cart[$i]["product"]["itemId"])->get();
-            $checkIfItemExists = Item::where('itemId' ,$cart[$i]["product"]["itemId"])->get();
-
-
-            if(count($checkIfItemExists) == 0){
-                array_push($this->checkIfOutofStock, $cart[$i]["product"]["itemId"]);
-            }
-            else{
-                if($item[0]->availableQuantity == 0 || $item[0]->availableQuantity == null){
-                    array_push($this->checkIfOutofStock, $cart[$i]["product"]["itemId"]);
-                }
+                // Then decrements the value
+                Item::find($item["items"]["id"])->decrement('quantity', $item["items"]["quantity"]);
             }
         }
 
-        return $this->checkIfOutofStock;
+        Mail::to($user->email)->send(new orderReceived(
+            $user->Name,
+            $user->Surname,
+            $this->createPDF($UUID)
+        ));
+
+        return response()->json([
+            "message" => "Order was sent!",
+        ]);
     }
 
-    //Get user order history
-    public function getAllUsersOrder(Request $request){
-        $user_id = $request->input("userId");
+    /**
+     * Returns all orders, items assign to it and user
+     * @return JsonResponse
+     */
+    public function getOrders(): JsonResponse
+    {
+        return response()->json(
+            OrderUiidResource::collection(OrderUiid::all())
+        );
+    }
 
-        return orderResource::collection(OrderIdStore::all()->unique()->keyBy('OrderId'))->where('user_id', 1);
+    /**
+     * return all complete orders
+     * @return JsonResponse
+     */
+    public function complete(): JsonResponse
+    {
+        return response()->json(
+            OrderUiidResource::collection(OrderUiid::where(['status' => 'confirmed'])->get())
+        );
+    }
+
+    /**
+     * Returns all order that are not complete
+     * @return JsonResponse
+     */
+    public function notComplete(): JsonResponse
+    {
+        return response()->json(
+            OrderUiidResource::collection(OrderUiid::where(['status' => 'not-reviewed'])->get())
+        );
+    }
+
+    /**
+     * Gets latest orders
+     * @return JsonResponse
+     */
+    public function latestOrders(): JsonResponse
+    {
+        return response()->json(
+            OrderUiidResource::collection(OrderUiid::all()->sortDesc())
+        );
+    }
+
+    /**
+     * Gets oldest orders
+     * @return JsonResponse
+     */
+    public function oldestOrders(): JsonResponse
+    {
+        return response()->json(
+            OrderUiidResource::collection(OrderUiid::all()->sortBy(['Created_at']))
+        );
+    }
+
+    /**
+     * Confirms order
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function confirmOrder(int $id): JsonResponse
+    {
+        // Finds correct order and updates it
+        $order = OrderUiid::find($id);
+        $order->update([
+            "status" => "confirmed"
+        ]);
+
+        // Finds user
+        $user = User::find($order->userId);
+
+        // Sends email to client after confirmation
+        Mail::to($user->email)->send(new orderConfirmed(
+            $user->Name,
+            $user->Surname,
+            $user->houseNumberAndStreet,
+            $user->Postcode
+        ));
+
+        // Returns response
+        return response()->json([
+            "message" => "Order confirmed"
+        ]);
+    }
+
+    /**
+     * Deny order
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function denyOrder(int $id): JsonResponse
+    {
+        $order = OrderUiid::find($id);
+
+        $order->update([
+            "status" => "denied"
+        ]);
+
+        Mail::to(User::find($order->userId)->email)->send(new orderDenied());
+
+        return response()->json([
+            "message" => "Order denied!"
+        ]);
+    }
+
+    public function delayOrder(int $id): JsonResponse
+    {
+        $order = OrderUiid::find($id);
+        Mail::to(User::find($order->userId)->email)->send(new orderDelayed());
     }
 }

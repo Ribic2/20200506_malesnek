@@ -1,107 +1,60 @@
 <template>
     <v-container>
-        <v-overlay :value="overlay">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-        </v-overlay>
-        <v-row v-if="(this.$store.state.favourites.favouriteItem == null || this.$store.state.favourites.favouriteItem.length == 0) && overlay == false">
-            <empty
-            text="Nimate dodanih nobenih izdelkov!"
-            icon="mdi-star"
-            ></empty>
-        </v-row>
 
-        <v-row>
+        <empty v-if="favourites.length === 0" errorText="Nimate nobenega priljubljenega izdelka!"></empty>
+
+        <v-row v-else>
             <v-col
-            v-for="product in this.$store.state.favourites.favouriteItem" v-bind:key="product.id"
-            cols="12"
-            xl="3"
-            lg="6"
-            md="6"
+                v-for="product in favourites" v-bind:key="product.id"
+                cols="12"
+                xl="3"
+                lg="6"
+                md="6"
             >
-
-                <item v-bind:product="product"></item>
+                <item v-bind:product="product.items"></item>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
-import item from '../pages/index/item.vue'
-import store from '../store/index'
-import Axios from 'axios'
-import empty from '../components/empty.vue'
+import item from './index/Item.vue'
+import empty from '../pages/errors/empty'
+
 export default {
-    components:{
+    components: {
         empty,
-        item
+        item,
     },
-    data(){
-        return{
+    data() {
+        return {
             overlay: false
         }
     },
-    methods:{
-        resetFavouritesData(){
-                if(localStorage.getItem('favouritesStorage') == null){
-                    localStorage.setItem('favouritesStorage', "[]")
-                }
-                else{
-                    if(!localStorage.getItem('authToken')){
-                        this.overlay = true
-                        var data = JSON.parse(localStorage.getItem('favouritesStorage'))
-                        Axios.post('/api/check/favourites', {favourites: JSON.parse(localStorage.getItem('favouritesStorage'))})
-                        .then((results)=>{
-                            if(data == null && results == null){
-                                this.overlay = false
-                            }
-                            else{
-
-                                for(let i = 0; i < results.data.length; i++){
-                                    for(let x = 0; x < data.length; x++){
-                                        if(data[x].itemId == results.data[i]){
-                                            data.splice(x,1)
-                                        }
-                                    }
-                                }
-
-                                localStorage.setItem('favouritesStorage', JSON.stringify(data))
-                                this.$store.state.favourites.favouriteItem = data
-                                this.overlay = false
-                            }
-                        })
-                        this.overlay = false
-                    }
-                }
+    methods: {
+        getFavourites() {
+            // Check if user is registered or not
+            if (this.$store.state.user.user.length === 0) {
+                this.$store.dispatch('getFavoritesGuest')
+            } else {
+                this.$store.dispatch('getFavourites')
+            }
         },
-        deletFromFavourites(e){
-            this.$store.dispatch('deleteFromFavouritesArray', e)
+    },
+    computed: {
+        favourites() {
+            return this.$store.state.favourites.favourites
         }
     },
-    mounted(){
-        this.resetFavouritesData()
+    mounted() {
+        this.getFavourites()
     }
 
 }
 </script>
 
-<style>
-    #emptyFavourites{
-        width: 100%;
-        margin: auto;
-        position: absolute;
-        top: 28%;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
-    #starIcon{
-        position: relative;
-        vertical-align: middle;
-        height: 100%;
-        width: 100%;
-    }
-    #starHolder{
-        width: 5%;
-        margin: 0 auto;
+<style scoped>
+    .container{
+        min-height: 80vh;
     }
 </style>

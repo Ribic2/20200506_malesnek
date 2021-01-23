@@ -3,58 +3,50 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\User;
 
 class orderConfirmed extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public string $name;
+    public string $surname;
+    public string $houseNumberAndStreet;
+    public string $postcode;
+
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param string $name
+     * @param string $surname
+
+     * @param string $houseNumberAndStreet
+     * @param string $postcode
      */
-
-    public $orders;
-    public $quantity;
-    public $fullPrice;
-    public $userId;
-
-    public function __construct($orders, $quantity, $fullPrice, $userId)
+    public function __construct(string $name, string $surname, string $houseNumberAndStreet, string $postcode)
     {
-        $this->orders = $orders;
-        $this->quantity = $quantity;
-        $this->fullPrice = $fullPrice;
-        $this->userId = $userId;
+        $this->surname = $surname;
+        $this->name = $name;
+        $this->houseNumberAndStreet = $houseNumberAndStreet;
+        $this->postcode = $postcode;
     }
-    public function getUserData($id){
 
-        $user = User::select('Name')->where('user_id', $id)->get();
-        return $user[0]->Name;
-    }
-    public function getEmail($id){
-        $email = User::select('email')->where('user_id', $id)->get();
-        return $email[0]->email;
-    }
     /**
      * Build the message.
      *
      * @return $this
      */
-    public function build()
+    public function build(): orderConfirmed
     {
         return $this->from('mail@example.com', 'Mailtrap')
             ->subject('Naročilo je bilo prejeto.')
-            ->markdown('mails.orderWasRecived')
+            ->markdown('mails.orderSend')
             ->with([
-                'Order' => $this->orders,
-                'quantity' => $this->quantity,
-                'FullPrice' => $this->fullPrice,
-                'UserId' => $this->getUserData($this->userId),
-                'email' => $this->getEmail($this->userId)
-        ]);
+                "Name" => $this->name,
+                "Surname" => $this->surname,
+                "houseNumberAndStreet" => $this->houseNumberAndStreet,
+                "Postcode" => $this->postcode
+            ]);
     }
 }

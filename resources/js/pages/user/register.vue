@@ -17,56 +17,49 @@
             <v-text-field
                 label="Ime"
                 v-model="name"
-                prepend-icon="mdi-account-circle"
+                :prepend-icon="mdiAccountCircle"
             ></v-text-field>
 
             <v-text-field
                 label="Priimek"
                 v-model="surname"
-                prepend-icon="mdi-smart-card"
+                :prepend-icon="mdiSmartCard"
             ></v-text-field>
 
             <v-text-field
                 label="E-naslov"
                 v-model="email"
-                prepend-icon="mdi-email"
-            ></v-text-field>
-
-            <v-text-field
-                label="Geslo"
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                :append-icon="showPassword ? 'mdi-eye': 'mdi-eye-off'"
-                @click:append="showPassword = !showPassword"
-                minLength="6"
-                prepend-icon="mdi-lock"
+                :prepend-icon="mdiEmail"
             ></v-text-field>
 
             <v-text-field
                 label="Telefonska številka"
                 maxLength="9"
                 v-model="phone"
-                prepend-icon="mdi-phone"
+                :prepend-icon="mdiPhone"
             ></v-text-field>
+
+            <v-checkbox
+                v-model="agree"
+                label="Strinjam se s pogoji uporabe"
+            >
+            </v-checkbox>
 
             <v-card-actions>
                 <v-btn
                     width="100%"
                     rounded
                     color="#6C3FB8"
-                    dark
+                    :disabled="!agree"
+                    :dark="agree"
                     @click="registerAction"
                 >Registriraj se
                 </v-btn>
-
             </v-card-actions>
         </v-form>
-
-
-        <v-alert type="error" v-if="response != ''">
+        <v-alert type="error" v-if="response !== null">
             {{response}}
         </v-alert>
-
       </v-card-text>
     </v-card>
 
@@ -79,42 +72,41 @@
 
 <script>
 
-import api from "../../services/api";
+import api from "../../services/api"
+import {mdiLock, mdiEmail, mdiAccountCircle, mdiPhone, mdiSmartCard} from '@mdi/js'
 
 export default {
     data(){
         return{
             //Credentials
-            password: '',
             email: '',
             phone: '',
             name: '',
             surname: '',
-            response: '',
+            response: null,
             //Other variables
-            showPassword: false,
             overlay: false,
+            agree: false,
+            // icons
+            mdiLock,
+            mdiEmail,
+            mdiAccountCircle,
+            mdiPhone,
+            mdiSmartCard
         }
     },
     methods:{
         registerAction(){
             let data = {
-                password: this.password,
                 email: this.email,
                 phone: this.phone,
                 name: this.name,
                 surname: this.surname,
             }
-
             api.register(data)
             .then((response)=>{
-                console.log(response)
+                this.response = response.data
             })
-
-
-
-
-
         }
     }
 

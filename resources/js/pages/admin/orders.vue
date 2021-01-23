@@ -1,101 +1,78 @@
 <template>
-    <v-container>
+    <v-container fluid>
 
-         <v-app-bar>
+        <v-app-bar>
             <v-toolbar-title>Naročila</v-toolbar-title>
             <v-spacer></v-spacer>
-                <v-btn-toggle>
-                    <v-btn
-                    @click="filterLatest()"
-                    >
-                        <v-icon>mdi-filter-variant-plus</v-icon>
-                    </v-btn>
-                    <v-btn
-                    @click="filterOldest()"
-                    >
-                        <v-icon>mdi-filter-variant-minus</v-icon>
-                    </v-btn>
-                    <v-btn
-                    @click="filterCompleted()"
-                    >
-                        <v-icon>mdi-check</v-icon>
-                    </v-btn>
-                    <v-btn
-                    @click="filterFinished()"
-                    >
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-btn
-                    @click="getAllItems()"
-                    >
-                        <v-icon>mdi-all-inclusive</v-icon>
-                    </v-btn>
-                </v-btn-toggle>
+            <v-btn-toggle>
+                <v-btn v-for="(button, index) in Buttons" :key="index" @click="button.function()">
+                    <v-icon>{{ button.icon }}</v-icon>
+                </v-btn>
+            </v-btn-toggle>
         </v-app-bar>
 
-        <v-row>
+        <v-row v-if="data.length === 0">
+            <empty error-text="Ni nobenih naročil!"></empty>
+        </v-row>
+
+        <v-row v-else>
             <v-col
-            cols="12"
-            lg="4"
-            md="6"
-            sm="12"
-            v-for="order in getData()"
-            v-bind:key="order.idOrders"
+                v-for="(items, index) in data"
+                :key="index"
+                cols="12"
+                xl="4"
+                lg="4"
+                md="6"
             >
                 <v-card
-
-                height="500"
+                    min-height="500px"
                 >
-                    <v-responsive :aspect-ratio="4/3">
-                        <v-card-title
-                        class="title"
-                        >
-                        {{ order.OrderId}}
-                        </v-card-title>
-                        <v-card-text>
-                            <p>Datum narocila: {{ order.Created_at }}</p>
-                            <p>Ime in priimek: {{ order.User[0].Name }} {{ order.User[0].Surname}}</p>
-                            <p>Naslov: {{ order.User[0].Region }}<br> {{ order.User[0].houseNumberAndStreet }} <br>{{ order.User[0].Postcode }}</p>
-                        </v-card-text>
+                   <v-card-title>{{ items.UUID }}</v-card-title>
+                  <v-card-text>
+                        <span class="font-weight-bold">Ime in priimek: </span>
+                        {{ items.user.Name}}
+                        {{ items.user.Surname }}
+                    </v-card-text>
 
-                        <v-simple-table
-                        height="200"
-                        >
-                            <thead>
-                                <tr>
-                                    <th>Ime izdelka</th>
-                                    <th>Količina</th>
-                                    <th>Vsota</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in order.Items" :key="item.itemId">
-                                    <td>
-                                        {{ item.item[0].itemName}}
-                                    </td>
-                                    <td>
-                                        {{ item.quantity }}
-                                    </td>
-                                    <td>
-                                        {{ parseFloat(item.item[0].itemPrice * item.quantity).toFixed(2) }} &euro;
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </v-simple-table>
+                    <v-card-text>
+                        <span class="font-weight-bold">Email: </span> {{ items.user.email }}
+                    </v-card-text>
 
-                        <v-card-actions v-if="!order.DeliveryStatus">
-                            <v-btn
-                            @click="confirmOrder(order.OrderId)"
-                            >Potrditev</v-btn>
+                    <v-card-text>
+                        <span class="font-weight-bold">Telefon: </span> {{ items.user.Telephone }}
+                    </v-card-text>
+                    <v-card-text><span class="font-weight-bold">Naslov:</span>
+                        {{ items.user.houseNumberAndStreet }} {{ items.user.Postcode }}
+                    </v-card-text>
 
-                            <v-btn
-                            @click="orderDenied(order.OrderId)">
-                            Zavrni</v-btn>
-                        </v-card-actions>
-                        <v-card-text v-else>
-                            <p>Naročilo je bilo potrjeno.</p>
-                        </v-card-text>
-                    </v-responsive>
+                    <!-- Items data -->
+                    <v-simple-table>
+                        <thead>
+                        <tr>
+                            <th>Id izdelka</th>
+                            <th>Ime izdelka</th>
+                            <th>Cena izdelka</th>
+                            <th>Količina naročila</th>
+                            <th>Celotna cena</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr v-for="(item, index) in items.items" :key="index">
+                            <td>{{ item.item.id }}</td>
+                            <td>{{ item.item.itemName }}</td>
+                            <td>{{ item.item.itemPrice }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.quantity * item.item.itemPrice }}</td>
+                        </tr>
+                        </tbody>
+                    </v-simple-table>
+
+                    <v-card-actions>
+                        <v-btn @click="confirmOrder(items.id)">Potrdi</v-btn>
+                        <v-btn @click="denyOrder(items.id)">Zavrni</v-btn>
+                        <v-btn @click="delayOrder(items.id)">Zamik v dostavi</v-btn>
+                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -104,44 +81,80 @@
 
 <script>
 import api from '../../services/api'
-import Axios from 'axios'
+import empty from "../errors/empty";
+import {mdiFilterVariantPlus, mdiFilterVariantMinus, mdiCheck, mdiClose, mdiAllInclusive} from '@mdi/js'
 
 export default {
-    methods:{
-        getAllItems(){
-           return this.$store.dispatch('getOrders')
-        },
-        getData(){
-            return this.$store.state.admin.orders;
-        },
-        filterFinished(){
-            return this.$store.dispatch('filterFinished')
-        },
-        filterCompleted(){
-            return this.$store.dispatch('filterComplete')
-        },
-        filterOldest(){
-            return this.$store.dispatch('filterOldest')
-        },
-        filterLatest(){
-            return this.$store.dispatch('filterLatest')
-        },
-        confirmOrder(e){
-            Axios.post('/api/Order/confirm', {confirmation: e})
-            .then((results)=>{
-                this.filterFinished()
-            })
-        },
-        orderDenied(e){
-            Axios.post('/api/Order/denied', {id: e})
-            .then((results)=>{
-                this.filterFinished()
-            })
-        }
-
+    components:{
+      empty
     },
-    mounted(){
-        this.getAllItems()
+    data() {
+        return {
+            data: [],
+            Buttons: [
+                {icon: mdiFilterVariantPlus, function: () => this.latest()},
+                {icon: mdiFilterVariantMinus, function: () => this.oldest()},
+                {icon: mdiCheck, function: () => this.complete()},
+                {icon: mdiClose, function: () => this.notComplete()},
+                {icon: mdiAllInclusive, function: () => this.getOrders()},
+            ]
+        }
+    },
+    methods: {
+        /**
+         * Gets all orders
+         */
+        getOrders() {
+            api.getOrders()
+                .then((response) => {
+                    this.data = response.data
+                })
+        },
+        confirmOrder(id) {
+            api.complete(id)
+            .then(()=>{
+                this.complete()
+            })
+        },
+        denyOrder(id) {
+            api.deny(id)
+            .then(()=>{
+                this.complete()
+            })
+        },
+
+        delayOrder(id){
+            api.delay(id)
+        },
+
+        // Filter
+        latest() {
+            api.latestOrders()
+                .then((response) => {
+                    this.data = response.data
+                })
+        },
+        oldest() {
+            api.oldestOrders()
+                .then((response) => {
+                    this.data = response.data
+                })
+        },
+        complete() {
+            api.completeOrders()
+                .then((response) => {
+                    this.data = response.data
+                })
+        },
+        notComplete() {
+            api.notCompleteOrders()
+                .then((response) => {
+                    this.data = response.data
+                })
+        },
+    },
+    mounted() {
+        this.getOrders()
     }
 }
 </script>

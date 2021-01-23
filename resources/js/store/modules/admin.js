@@ -4,7 +4,15 @@ import Axios from 'axios'
 export default{
     state: ()=>({
         items: [],
-        orders: []
+        orders: [],
+
+        // Dialogs for items
+        addItemDialog: false,
+        addItemText: null,
+        responseAddItem: false,
+
+        // Change item
+        changeItem_Dialog: false,
     }),
     mutations:{
         GET_ITEMS(state, payload){
@@ -12,87 +20,23 @@ export default{
         },
         GET_ORDERS(state, payload){
             state.orders = payload
+        },
+
+        CHANGE_ITEM_DIALOG(state, payload){
+            state.changeItem_Dialog = payload
         }
     },
     actions:{
-        getItemsForAdmin({commit}){
-            api.getItemsForAdmin()
-            .then((results)=>{
-                commit('GET_ITEMS', results.data.data)
-            })
+        // New module
+        changeItemDialog({commit}, payload){
+            commit('CHANGE_ITEM_DIALOG', payload)
         },
-        getOrders({commit}){
-            api.getAllOrders()
-            .then((results)=>{
-                commit('GET_ORDERS', results.data.data)
-            })
-
-        },
-        //Filter for orders
-        filterAll({commit}){
-            api.getAllOrders()
-            .then((results)=>{
-                commit('GET_ORDERS', results.data)
-            })
-
-        },
-        filterFinished({commit}){
-            api.filterFinished()
-            .then((results)=>{
-                commit('GET_ORDERS', results.data)
-            })
-        },
-        filterComplete({commit}){
-            api.filterComplete()
-            .then((results)=>{
-                commit('GET_ORDERS', results.data)
-            })
-        },
-        filterOldest({commit}){
-            api.filterOldest()
-            .then((results)=>{
-                console.log(results.data)
-                commit('GET_ORDERS', results.data)
-            })
-        },
-        filterLatest({commit}){
-            api.filterLatest()
-            .then((results)=>{
-                console.log(results.data)
-                commit('GET_ORDERS', results.data)
-            })
-        },
-        //Search for items
-        searchItems({commit}, payload){
-            api.searchItem(payload)
-            .then((results)=>{
-                commit('GET_ITEMS', results.data)
-            })
-        },
-
-        //Get all unlisted items
-        allUnlisted({commit}){
-            api.getUnlistedItems()
-            .then((results)=>{
-                commit('GET_ITEMS', results.data.data)
-            })
-        },
-
-        //Get all items
-        getAllItems({commit}){
-            api.getItemsForAdmin()
-            .then((results)=>{
-                commit('GET_ITEMS', results.data.data)
-            })
-        },
-        //Get all listed items
-        allListed({commit}){
-            api.getDelistedItems()
-            .then((results)=>{
-                commit('GET_ITEMS', results.data.data)
-            })
+        getItems({commit}){
+            api.getItems()
+                .then((response)=>{
+                    commit('GET_ITEMS', response.data)
+                })
         }
-
     },
     getters:{
 

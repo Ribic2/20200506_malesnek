@@ -11,13 +11,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id = "app">
+<div id="app">
 
-    </div>
+</div>
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://unpkg.com/vue-paypal-checkout@2.0.0/dist/vue-paypal-checkout.min.js"></script>
-    <!--<script src="https://js.stripe.com/v3/"></script>-->
+<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AdM7mP7H6PXAfX0PL8xEVN4FqmByJMtlPAiigT2hBceluf_AoZilSI6RtwZXifXHStK72dYo87M_HM8i&currency=EUR"></script>
 
 </body>
 </html>

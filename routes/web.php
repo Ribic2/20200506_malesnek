@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Mail\orderConfirmed;
+#use PDF;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +13,8 @@ use App\Mail\orderConfirmed;
 */
 
 
+Route::get('send-email-pdf', 'OrderController@createPDF');
 
-Route::get('/email', function(){
-    return new orderConfirmed("Test", "Test", "Test", 1);
-});
 Route::get('/{any}', function(){
     return view('app');
 })->where('any', '.*');

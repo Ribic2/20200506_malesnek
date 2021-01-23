@@ -31,14 +31,16 @@
 </template>
 
 <script>
+
+import { mdiCardBulletedOutline, mdiOrderNumericAscending, mdiAccount, mdiContacts} from '@mdi/js'
 export default {
     data() {
         return {
             buttons: [
-                {id: 1, icon: 'mdi-card-bulleted-outline', link: '/admin'},
-                {id: 2, icon: 'mdi-order-numeric-ascending', link: '/admin/orders'},
-                {id: 3, icon: 'mdi-account', link: '/admin/users'},
-                {id: 4, icon: 'mdi-contacts', link: '/admin/contacts'}
+                {id: 1, icon: mdiCardBulletedOutline, link: '/admin'},
+                {id: 2, icon: mdiOrderNumericAscending , link: '/admin/orders'},
+                {id: 3, icon: mdiAccount, link: '/admin/users'},
+                {id: 4, icon: mdiContacts, link: '/admin/contacts'}
             ]
         }
     }

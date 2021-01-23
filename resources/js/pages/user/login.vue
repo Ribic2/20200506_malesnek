@@ -15,16 +15,16 @@
                     <v-text-field
                         label="E-naslov"
                         v-model="email"
-                        prepend-icon="mdi-email"
+                        :prepend-icon="mdiEmail"
                     ></v-text-field>
 
                     <v-text-field
                         label="Geslo"
                         v-model="password"
                         :type="showPassword ? 'text' : 'password'"
-                        :append-icon="showPassword ? 'mdi-eye': 'mdi-eye-off'"
+                        :append-icon="showPassword ? this.mdiEye: this.mdiEyeOff"
                         @click:append="showPassword = !showPassword"
-                        prepend-icon="mdi-lock"
+                        :prepend-icon="this.mdiLock"
                     ></v-text-field>
 
                     <v-card-actions>
@@ -61,8 +61,8 @@
 </template>
 
 <script>
-import router from "../../routes/router";
 import api from "../../services/api";
+import {mdiLock, mdiEye, mdiEyeOff, mdiEmail} from '@mdi/js'
 
 export default {
     data() {
@@ -70,19 +70,26 @@ export default {
             showPassword: false,
             email: '',
             password: '',
-            response: null
+            response: null,
+            mdiLock, mdiEye, mdiEyeOff, mdiEmail
         }
     },
     methods: {
-        login() {
-            api.login(this.email, this.password)
-            .then((response)=>{
-                localStorage.setItem('authToken', response.data.access_token)
-                router.push('/')
-            })
-            .catch((err)=>{
-                this.response = err.response.data
-            })
+        async login() {
+            this.$store.state.user.spinner = true
+            await api.login(this.email, this.password)
+                .then((response) => {
+                    // Stores token to local storage and stores users data to vuex state
+                    localStorage.setItem('authToken', response.data.access_token)
+                    this.$store.commit('SET_USER_DATA', response.data.user)
+                }).then(() => {
+                    this.$store.state.user.spinner = false
+                    document.location.href = "/";
+                 })
+                .catch((err) => {
+                    this.$store.state.user.spinner = false
+                    this.response = err.response.data
+                })
 
         },
     },

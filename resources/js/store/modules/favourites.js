@@ -1,96 +1,72 @@
 import api from '../../services/api.js'
 
-export default{
-    state: ()=>({
-        favouriteItem: []
+export default {
+    state: () => ({
+        favourites: []
     }),
-    mutations:{
-        RESET_FAVOURITES_REGISTERD_USER(state, payload){
-            if(payload != "ok"){
-
-
-                for(let i = 0; i < payload.length; i++){
-
-                    state.favouriteItem.push(payload[i][0])
-                }
-                localStorage.setItem('favouritesStorage', JSON.stringify(state.favouriteItem))
-            }
-
-        },
-        //Adds new item to favourites
-        ADD_TO_FAVOURITES(state, payload){
-
-            if(localStorage.getItem('authToken')){
-                api.addToFavourites({itemId: payload.itemId})
-                .then((results)=>{
-
-                    if(results.data == true){
-                        console.log(payload)
-                        state.favouriteItem.push(payload)
-                    }
-                    else{
-                        for(var i = 0; i < state.favouriteItem.length; i++){
-                            if(state.favouriteItem[i].itemId == payload.itemId){
-                                state.favouriteItem.splice(i, 1)
-                                localStorage.setItem('favouritesStorage', JSON.stringify(state.favouriteItem))
-                                return false;
-                            }
-                        }
-                    }
-                })
-            }
-            else{
-                if(state.favouriteItem == null || state.favouriteItem.length == 0){
-                    state.favouriteItem = new Array
-                    state.favouriteItem.push(payload)
-
-                    localStorage.setItem('favouritesStorage', JSON.stringify(state.favouriteItem))
-                }
-                else{
-                    for(let i = 0; i < state.favouriteItem.length; i++){
-                        if(state.favouriteItem[i].itemId == payload.itemId){
-                            state.favouriteItem.splice(i, 1)
-                            localStorage.setItem('favouritesStorage', JSON.stringify(state.favouriteItem))
-                            return false;
-                        }
-                    }
-                    state.favouriteItem.push(payload)
-
-                    localStorage.setItem('favouritesStorage', JSON.stringify(state.favouriteItem))
-                }
-            }
+    mutations: {
+        RESET_FAVOURITES(state, payload) {
+            state.favourites = payload
         },
 
-        DELETE_FROM_FAVOURITES(state, payload){
-            var foundItemIndex = null
-            for(var i = 0; i < state.favouriteItem.length; i++){
-
-                if(state.favouriteItem[i].itemId == payload.itemId){
-                    foundItemIndex = i
+        ADD_TO_FAVOURITES(state, payload) { // Checks if item is already in cart
+            for(let i = 0; i < state.favourites.length; i++){
+                if(state.favourites[i].id === payload.id){
+                    // If item was found in the state, it removes it from state
+                    // and then stores new state to localstorage
+                    // and at the end it returns false so function stops
+                    state.favourites.splice(i, 1)
+                    localStorage.setItem('favourites', JSON.stringify(state.favourites))
+                    return false;
                 }
             }
-           state.favouriteItem.splice(foundItemIndex, 1)
-           localStorage.setItem('favouritesStorage', JSON.stringify(state.cart))
-        }
+            if (state.favourites.length === 0) {
+                state.favourites.push(payload)
+            }
+            else if(state.favourites.indexOf(payload.items) === -1){
+                state.favourites.push(payload)
+            }
+            localStorage.setItem('favourites', JSON.stringify(state.favourites))
+        },
     },
-    actions:{
+    actions: {
         //Calls mutation that pushes new item to favourites
-        addToFavourites({commit}, payload){
+        addToFavourites({commit, dispatch}, payload) {
+            api.addToFavourites(payload)
+                .then(() => {
+                   dispatch('getFavourites')
+                })
+        },
+
+        addToFavouritesGuest({commit}, payload) {
             commit('ADD_TO_FAVOURITES', payload)
         },
 
-        deleteFromFavouritesArray({commit}, payload){
-            commit('DELETE_FROM_FAVOURITES', payload)
+        /**
+         * Gets all favourites for logged in user
+         * @param commit
+         */
+        getFavourites({commit}) {
+            api.getAllFavourites()
+                .then((response) => {
+                    commit('RESET_FAVOURITES', response.data)
+                })
         },
 
-        resetFavouritesRegisterdUser({commit}){
-            api.getAllFavourites()
-            .then((results)=>{
-                if(results.data != null){
-                    console.log(results.data)
-                    commit('RESET_FAVOURITES_REGISTERD_USER', results.data)
-                }
-            })
+        /**
+         * Gets all favourites for guest user
+         * @param commit
+         */
+        getFavoritesGuest({commit}) {
+            if (localStorage.getItem('favourites') === null) {
+                localStorage.setItem('favourites', "[]")
+            }
+            commit('RESET_FAVOURITES', JSON.parse(localStorage.getItem('favourites')))
         }
     },
+    getters:{
+        setFavourites: (state) => (id) =>{
+            return state.favourites.find(item => item.itemsId === id)
+        }
+    }
 }

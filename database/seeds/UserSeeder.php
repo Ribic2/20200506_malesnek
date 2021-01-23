@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -28,8 +29,7 @@ class UserSeeder extends Seeder
                 'isGuest'=> false,
                 'isAuth' => true,
                 'isNewCustomer' => true,
-                'overallSpending' => 0,
-                'points' => 0
+                'token' => Hash::make(Str::random(40))
             ],
             [
                 'Name' => 'Maks',
@@ -44,8 +44,7 @@ class UserSeeder extends Seeder
                 'isGuest'=> false,
                 'isAuth' => true,
                 'isNewCustomer' => false,
-                'overallSpending' => 0,
-                'points' => 0
+                'token' => Hash::make(Str::random(40))
             ]
         ]);
     }

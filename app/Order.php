@@ -2,13 +2,28 @@
 
 namespace App;
 
-use App\Item;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    public function item(){
-        return $this->hasMany(Item::class, 'itemId', 'itemId');
+    protected $fillable = [
+        'UUID',
+        'userId',
+        'itemId',
+        'quantity',
+        'paymentStatus',
+        'typeOfPayment',
+        'status'
+    ];
+
+    public function items(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Item::class, 'id', 'itemId');
     }
+    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'userId');
+    }
+
 
 }

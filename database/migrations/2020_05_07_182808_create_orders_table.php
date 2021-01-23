@@ -14,11 +14,11 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id('id');
-            $table->foreignId('usersId')->references('id')->on('users');
-            $table->foreignId('itemsId')->references('id')->on('items')->onDelete('cascade');
-            $table->string('orderId');
-            $table->integer('Quantity');
+            $table->id();
+            $table->uuid('UUID');
+            $table->foreignId('itemId')->references('id')->on('items');
+            $table->integer('quantity');
+            $table->timestamps();
         });
     }
 

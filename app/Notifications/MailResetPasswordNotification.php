@@ -13,8 +13,7 @@ class MailResetPasswordNotification extends ResetPassword{
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
+     * @param $token
      */
     public function __construct($token)
     {
@@ -27,7 +26,7 @@ class MailResetPasswordNotification extends ResetPassword{
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -36,7 +35,7 @@ class MailResetPasswordNotification extends ResetPassword{
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {

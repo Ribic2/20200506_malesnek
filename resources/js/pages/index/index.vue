@@ -10,53 +10,53 @@
                 <v-card-actions>
                     <v-card-title>Trgovina</v-card-title>
                     <v-btn
-                        v-if="getCategories.length != 0"
+                        v-if="categories.length !== 0"
                         icon
                         @click="show = !show"
                     >
-                        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                        <v-icon>{{ show ? filterEnabled : filterDisabled }}</v-icon>
                     </v-btn>
                 </v-card-actions>
-                <v-expand-transition v-if="getCategories.length != 0">
-                    <div v-show="show" id="filter">
+                <v-expand-transition v-if="categories.length > 0">
+                    <div v-show="show">
 
-                        <div id="filterButtonHolder">
+                        <div>
                             <v-btn
                                 rounded
                                 color="#6C3FB8"
                                 elevation="0"
                                 class="ma-2"
-                                @click="getAllProducts()"
+                                @click="selectAllItemsCategory"
                             >
                                 Vsi izdelki
                             </v-btn>
                             <v-btn
                                 rounded
                                 class="ma-2"
-                                v-for="category in getCategories" v-bind:key="category.Categorie"
+                                v-for="(category, index) in categories" v-bind:key="index"
                                 color="#6C3FB8"
                                 elevation="0"
-                                @click="getCategorySpecificItems(category.Categorie)"
+                                @click="selectSelectedItems(category.categories)"
                             >
-                                {{ category.Categorie }}
+                                {{ category.categories }}
                             </v-btn>
                         </div>
                     </div>
                 </v-expand-transition>
-            </v-card
-            >
+            </v-card>
             <v-row>
 
                 <v-col
-                    v-for="product in getData"
-                    :key="product.itemName"
-                    cols="12"
+                    v-for="item in items"
+                    :key="item.id"
                     xl="3"
-                    lg="6"
+                    lg="4"
                     md="6"
+                    sm="12"
+                    cols="12"
                 >
                     <item
-                        v-bind:product="product"
+                        v-bind:product="item"
                     ></item>
                 </v-col>
             </v-row>
@@ -65,7 +65,9 @@
 </template>
 
 <script>
-import item from '../index/item.vue'
+import item from './Item.vue'
+import api from "../../services/api";
+import {mdiChevronUp, mdiChevronDown} from '@mdi/js'
 
 export default {
     components: {
@@ -74,69 +76,69 @@ export default {
     data() {
         return {
             show: false,
-            currentlySelectedItemId: null,
+            categories: [],
+            selectedItem: null,
+
+            filterEnabled: mdiChevronDown,
+            filterDisabled: mdiChevronUp
         }
     },
     methods: {
         /**
-         * Calls function in Vuex storage that adds
-         * new products to products array
-         * ONLY ADDS products of 1st page!
+         *  Gets all categories
          */
-        addData() {
-            if (this.$store.state.products.products.length == 0) {
-                return this.$store.dispatch('getDataPerPage', 1)
-            }
-            return false;
-        },
-        //When user scrolls to the bottom of the page api is called
-        onScroll(e) {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-
-                if (this.$store.state.products.stopApiCalls == false) {
-                    return this.$store.dispatch('getDataPerPage', this.$store.state.products.counter)
-                }
-            }
-        },
-        getCategoriesApi() {
-            this.$store.dispatch('getCategories')
-        },
-        getCategorySpecificItems(e) {
-            return this.$store.dispatch('filterItemsByCategory', e)
-        },
-        /**
-         * Gets all products from 1st page
-         */
-        getAllProducts() {
-            return this.$store.dispatch('getDataPerPage', 1)
-        }
-    },
-    computed: {
-        getData() {
-            return this.$store.state.products.products
-        },
         getCategories() {
-            return this.$store.state.products.categories
-        }
+            api.getCategories()
+            .then((response)=>{
+                this.categories = response.data
+            })
+        },
 
+        /**
+         *  Calls all items when page is loaded or vuex state is empty
+         */
+        selectAllItems(){
+            if(this.items.length === 0){
+                api.getItemsCustomer()
+                    .then((response)=>{
+                        this.$store.dispatch('addToItems', response.data)
+                    })
+            }
+        },
+
+        /**
+         * Method is used for calling all items, it set on a button
+         */
+        selectAllItemsCategory(){
+            api.getItemsCustomer()
+                .then((response)=>{
+                    this.$store.dispatch('addToItems', response.data)
+                })
+        },
+
+        selectSelectedItems(category){
+
+            let data = {
+                category: category
+            }
+           api.getSpecificItems(data)
+            .then((response)=>{
+                this.$store.dispatch('addToItems', response.data)
+            })
+        },
+
+        /**
+         * Selects specific items from specific category
+         */
+    },
+    computed:{
+        items(){
+            return this.$store.state.products.items
+        }
     },
     mounted() {
-        this.addData(),
-            this.getCategoriesApi()
+        this.getCategories(),
+            this.selectAllItems()
     }
 }
 </script>
-
-<style scoped>
-.card-actions {
-    position: absolute;
-    padding-top: 10px;
-    bottom: 0;
-}
-
-.productImage {
-    position: relative;
-    bottom: 15px;
-}
-</style>
-

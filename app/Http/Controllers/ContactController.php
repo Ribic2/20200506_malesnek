@@ -14,7 +14,7 @@ class ContactController extends Controller
      */
     public function getContacts(): JsonResponse
     {
-        return response()->json(Contact::latest());
+        return response()->json(Contact::latest()->get());
     }
 
     /**
@@ -23,7 +23,7 @@ class ContactController extends Controller
      */
     public function getOldestContacts(): JsonResponse
     {
-        return Contact::oldest()->get();
+        return response()->json(Contact::oldest()->get());
     }
 
     /**

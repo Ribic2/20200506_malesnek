@@ -13,15 +13,13 @@ export default{
         getContacts({commit}){
             api.getContacts()
             .then((response)=>{
-                console.log(response)
-                //commit('GET_CONTACTS', results.data)
+                commit('GET_CONTACTS', response.data)
             })
         },
         getOldestContacts({commit}){
             api.getOldestContacts()
             .then((response)=>{
-                console.log(response)
-                //commit('GET_CONTACTS', results.data)
+                commit('GET_CONTACTS', response.data)
             })
         },
     },

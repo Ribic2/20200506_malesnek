@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favourite extends Model
 {
-    protected $table = "user_favourites";
+    protected $fillable = [
+        "usersId", "itemsId"
+    ];
+
+    // Selects multiple items
+    public function items()
+    {
+        return $this->hasOne(Item::class, 'id', 'itemsId');
+    }
 }

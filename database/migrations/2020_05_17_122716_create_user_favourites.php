@@ -17,7 +17,7 @@ class CreateUserFavourites extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('usersId')->references('id')->on('users');
-            $table->foreignId('itemsId')->references('Id')->on('items');
+            $table->foreignId('itemsId')->references('id')->on('items');
         });
     }
 
